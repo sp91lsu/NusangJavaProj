@@ -1,6 +1,8 @@
 package data_p.product_p;
 
-public class ProductData {
+import java.io.Serializable;
+
+public class ProductData implements Serializable{
 
 	public String id;
 	public String name;

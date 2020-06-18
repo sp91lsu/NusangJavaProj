@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
+import client_p.packet_p.syn_p.CsVerifySyn;
 import data_p.user_p.UserData;
 import dbOracle_p.*;
 import packetBase_p.EResult;
@@ -27,9 +28,9 @@ class MethLoginSyn implements ServerPacketMethod {
 		QueryObject qo = new QueryObject();
 		String idOrPhone = recPacket.isID == true ? "id" : "phone";
 
-		qo.findQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
+		qo.setFindQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
 
-		ResultSet rs = DBProccess.getInstance().findData(qo.query);
+		ResultSet rs = DBProccess.getInstance().findData(qo);
 
 		ScLoginAck ack = null;
 
@@ -76,5 +77,28 @@ class MethSignUpSyn implements ServerPacketMethod {
 			e.printStackTrace();
 		}
 		client.sendPacket(ack);
+	}
+}
+
+class MethVerifySyn implements ServerPacketMethod {
+
+	public void receive(PacketClient client, PacketBase packet) {
+		CsVerifySyn recPacket = (CsVerifySyn) packet;
+
+		QueryObject qo = new QueryObject();
+		qo.setFindQuery(ETable.ACCOUNT, "uuid", "uuid = " + recPacket.uuid);
+		ResultSet rs = DBProccess.getInstance().findData(qo);
+
+		try {
+			if (rs.next()) {
+
+				System.out.println(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		recPacket.product;
+//		recPacket.uuid
 	}
 }

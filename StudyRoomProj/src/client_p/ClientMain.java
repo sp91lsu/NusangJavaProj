@@ -47,12 +47,12 @@ class MyServer extends Thread {
 
 			System.out.println("서버접속 성공");
 			System.out.println("listener Thread Start");
-			UserData userdata = new UserData("fdas", "이승환", "tmdghks", "4521", "940928", "010-2495-7784", "fdjifel");
+			UserData userdata = new UserData("871d5ded-3306-4a9c-bf61-d98ce1aa73d7", "이승환", "tmdghks", "4521", "940928", "010-2495-7784", "fdjifel");
 
-			CsSignUpSyn signupSyn = new CsSignUpSyn("이승환", "tmdghks", "4521", "010-2495-7784", "940928", "fdjifel");
-//			ProductData data = new ProductData("1000", "개인석일반", 1500);
-//			CsVerifySyn packet = new CsVerifySyn(data, userdata.uuid);
-			MyServer.getInstance().sendPacket(signupSyn);
+			//CsSignUpSyn signupSyn = new CsSignUpSyn("이승환", "tmdghks", "4521", "010-2495-7784", "940928", "fdjifel");
+			ProductData data = new ProductData("1000", "개인석일반", 1500);
+			CsVerifySyn packet = new CsVerifySyn(data, userdata.uuid);
+			MyServer.getInstance().sendPacket(packet);
 
 		} catch (Exception e) {
 			e.printStackTrace();
