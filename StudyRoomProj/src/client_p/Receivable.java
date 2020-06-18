@@ -38,7 +38,7 @@ class ReceiveVerifyAck implements Receivable {
 	@Override
 	public void receive(PacketBase packet) {
 
-		ScVerifyAck ack = (ScVerifyAck) packet;
+		ScBuyAck ack = (ScBuyAck) packet;
 		
 	}
 }

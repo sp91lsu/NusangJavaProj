@@ -7,9 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
-import client_p.packet_p.syn_p.CsVerifySyn;
+import client_p.packet_p.syn_p.CsBuySyn;
 import data_p.user_p.UserData;
 import dbOracle_p.*;
 import packetBase_p.EResult;
@@ -80,10 +81,20 @@ class MethSignUpSyn implements ServerPacketMethod {
 	}
 }
 
+class MethChatConnectSyn implements ServerPacketMethod {
+
+	@Override
+	public void receive(PacketClient client, PacketBase packet) {
+		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
+
+		
+	}
+}
+
 class MethVerifySyn implements ServerPacketMethod {
 
 	public void receive(PacketClient client, PacketBase packet) {
-		CsVerifySyn recPacket = (CsVerifySyn) packet;
+		CsBuySyn recPacket = (CsBuySyn) packet;
 
 		QueryObject qo = new QueryObject();
 		qo.setFindQuery(ETable.ACCOUNT, "uuid", "uuid = " + recPacket.uuid);

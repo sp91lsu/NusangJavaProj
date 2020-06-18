@@ -16,7 +16,7 @@ public class PacketMap {
 		map.put(CsSignUpSyn.class, new MethSignUpSyn()); // 회원가입
 		map.put(CsChatConnectSyn.class, new MethSignUpSyn()); //채팅연결 요청 
 		map.put(CsChatSyn.class, new MethSignUpSyn()); //채팅 
-		map.put(CsVerifySyn.class, new MethSignUpSyn()); //결제 
+		map.put(CsBuySyn.class, new MethSignUpSyn()); //결제 
 	}
 
 	void receivePacket(PacketClient pClient, PacketBase packet) {

@@ -5,16 +5,18 @@ import java.util.ArrayList;
 import data_p.ExcelReader;
 import data_p.product_p.room_p.RoomProduct;
 
-public class ProductManager {
+public class DataManager {
 
 	ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	String key = "";
 
-	ProductManager() {
+	DataManager() {
 		RoomSetting();
+		keySetting();
 	}
 
 	public static void main(String[] args) {
-		ProductManager pm = new ProductManager();
+		DataManager pm = new DataManager();
 	}
 
 	void RoomSetting() {
@@ -28,12 +30,21 @@ public class ProductManager {
 		for (int i = 0; i < idList.size(); i++) {
 
 			RoomProduct roomProduct = new RoomProduct(idList.get(i), nameList.get(i),
-					Integer.parseInt(priceList.get(i)),Integer.parseInt(pNumList.get(i)));
+					Integer.parseInt(priceList.get(i)), Integer.parseInt(pNumList.get(i)));
 
 			System.out.println(roomProduct);
 			roomList.add(roomProduct);
 		}
-
 	}
 
+	void keySetting() {
+		ExcelReader roomReader = new ExcelReader();
+		roomReader.read("ManagerKeyData.xlsx");
+
+		ArrayList<String> keyList = roomReader.getList("key");
+		for (int i = 0; i < keyList.size(); i++) {
+			key = keyList.get(i);
+			System.out.println(key);
+		}
+	}
 }

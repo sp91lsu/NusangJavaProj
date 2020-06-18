@@ -18,8 +18,6 @@ public class ServerMain {
 
 	public static void main(String[] args) {
 		MyServer.getInstance().startThread();
-		
-
 	}
 }
 
@@ -103,7 +101,7 @@ class PacketClient extends Thread {
 	// 클라이언트 리스트 돌려서 함수 실행
 	public void run() {
 
-		while (true) {
+		while (socket.isConnected() && !socket.isClosed()) {
 
 			try {
 				sleep(10);
@@ -116,6 +114,9 @@ class PacketClient extends Thread {
 			} finally {
 			}
 		}
+
+		MyServer.getInstance().clientList.remove(this);
+		close();
 	}
 
 	void sendPacket(PacketBase packet) {
@@ -128,6 +129,17 @@ class PacketClient extends Thread {
 			e.printStackTrace();
 		} finally {
 
+		}
+	}
+
+	public void close() {
+		if (!socket.isClosed()) {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
