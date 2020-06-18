@@ -2,7 +2,9 @@ package data_p.product_p;
 
 import java.io.Serializable;
 
-public class ProductData implements Serializable{
+import data_p.PacketData;
+
+public class ProductData extends PacketData{
 
 	public String id;
 	public String name;
