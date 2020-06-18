@@ -43,22 +43,15 @@ public class DBProccess {
 		return null;
 	}
 
-	public boolean haveData(ETable table, String... data) {
+	public boolean haveData(ETable table, String... data) throws SQLException {
 
 		String query = selectFromWhere(table, data);
 		boolean have = false;
 
-		try {
-			reset();
-			have = stmt.execute(query);
-			System.out.println(" 데이터가 들어있니 " + have);
-			close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("findTableData is null");
+		reset();
+		have = stmt.executeQuery(query).next();
+		System.out.println(" 데이터가 들어있니 " + have);
+		close();
 		return have;
 	}
 

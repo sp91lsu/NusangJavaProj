@@ -105,13 +105,13 @@ class PacketClient extends Thread {
 		while (true) {
 
 			try {
-				sleep(1000);
+				sleep(10);
 				if (is.available() > 0) {
 					System.out.println("데이터 들어옴");
 					pMap.receivePacket(this, (PacketBase) dis.readObject());
 				}
 			} catch (Exception e) {
-				System.out.println("서버에서 패킷 받는 도중 오류 " + e);
+				System.out.println("클라이언트에서 패킷 받는 도중 오류 " + e);
 			} finally {
 			}
 		}

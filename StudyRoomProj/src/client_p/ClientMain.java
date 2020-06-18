@@ -44,10 +44,11 @@ class MyServer extends Thread {
 			packetProccess.start();
 
 			sleep(3000);
-
-			new TestThread().start();
 			System.out.println("서버접속 성공");
 			System.out.println("listener Thread Start");
+			CsSignUpSyn packet = new CsSignUpSyn("이승환", "tmdghks", "4521", "940928", "010-2495-7784", "fdjifel");
+			MyServer.getInstance().sendPacket(packet);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,20 +56,6 @@ class MyServer extends Thread {
 
 	void sendPacket(PacketBase packet) {
 		packetProccess.sendPacket(packet);
-	}
-}
-
-class TestThread extends Thread {
-	@Override
-	public void run() {
-		try {
-			sleep(1000);
-			UserData userdata = new UserData("이승환", "tmdghks", "4521", "940928", "010-2495-7784", "fdjifel");
-			CsSignUpSyn packet = new CsSignUpSyn(userdata);
-			MyServer.getInstance().sendPacket(packet);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 }
 
@@ -102,7 +89,7 @@ class PacketProccess extends Thread {
 
 			while (!socket.isClosed() && socket.isConnected()) {
 
-				sleep(1000);
+				sleep(10);
 				if (is.available() > 0) {
 					pMap.receivePacket(this, (PacketBase) ois.readObject());
 				}

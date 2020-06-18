@@ -50,30 +50,33 @@ class MethLoginSyn implements ServerPacketMethod {
 class MethSignUpSyn implements ServerPacketMethod {
 
 	public void action(PacketClient client, PacketBase packet) {
+
+		ScSignInUpAck ack = null;
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
-			UserData userData = recPacket.userData;
-
-			String calum = "name,id,pw,birth,phone,ctype";
+			UserData userData = new UserData(recPacket.name, recPacket.id, recPacket.pw, recPacket.phone,
+					recPacket.birth, recPacket.cType);
 
 			String ctype = userData.cType;
 
-			boolean res = DBProccess.getInstance().haveData(ETable.MANAGERKEY, "key", "key = '" + userData.cType + "'");
-
-			if (res) {
+			if (DBProccess.getInstance().haveData(ETable.MANAGERKEY, "key", "key = '" + userData.cType + "'")) {
 				ctype = EClientType.MANAGER.name();
 			}
 			DBProccess.getInstance().close();
+
+			String calum = "name,id,pw,birth,phone,ctype";
 			String values;
 			values = DBProccess.valueStr(userData.name, userData.id, userData.pw, userData.birth, userData.phone,
 					ctype);
 			DBProccess.getInstance().insertData(ETable.ACCOUNT, calum, values);
+
+			ack = new ScSignInUpAck(client.uuid, EResult.SUCCESS);
+
 		} catch (Exception e) {
+			ack = new ScSignInUpAck(client.uuid, EResult.NOT_FOUND_DATA);
 			e.printStackTrace();
 		}
 
-		ScSignInUpAck ack = new ScSignInUpAck(client.uuid, EResult.SUCCESS);
 		client.sendPacket(ack);
-
 	}
 }
