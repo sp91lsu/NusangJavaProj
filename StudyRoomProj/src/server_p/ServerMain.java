@@ -21,7 +21,7 @@ public class ServerMain {
 }
 
 class MyServer {
-	
+
 	// myserver ´Â ½Ì±ÛÅæ
 	private static MyServer instance;
 
@@ -119,8 +119,6 @@ class PacketClient extends Thread {
 
 	void sendPacket(PacketBase packet) {
 		try {
-//			System.out.println(socket.isConnected());
-//			System.out.println(socket.isClosed());
 			System.out.println("SERVER SEND: " + packet.getClass());
 			dos.writeObject(packet);
 			dos.flush();

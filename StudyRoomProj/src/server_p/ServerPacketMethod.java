@@ -4,6 +4,7 @@ import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignInUpAck;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
+import data_p.user_p.UserData;
 import dbOracle_p.*;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
@@ -51,21 +52,20 @@ class MethSignUpSyn implements ServerPacketMethod {
 	public void action(PacketClient client, PacketBase packet) {
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
+			UserData userData = recPacket.userData;
 
 			String calum = "name,id,pw,birth,phone,ctype";
 
-			String ctype = recPacket.cType;
+			String ctype = userData.cType;
 
-			boolean res = DBProccess.getInstance().haveData(ETable.MANAGERKEY, "key",
-					"key = '" + recPacket.cType + "'");
+			boolean res = DBProccess.getInstance().haveData(ETable.MANAGERKEY, "key", "key = '" + userData.cType + "'");
 
 			if (res) {
 				ctype = EClientType.MANAGER.name();
 			}
 			DBProccess.getInstance().close();
 			String values;
-
-			values = DBProccess.valueStr(recPacket.name, recPacket.id, recPacket.pw, recPacket.birth, recPacket.phone,
+			values = DBProccess.valueStr(userData.name, userData.id, userData.pw, userData.birth, userData.phone,
 					ctype);
 			DBProccess.getInstance().insertData(ETable.ACCOUNT, calum, values);
 		} catch (Exception e) {

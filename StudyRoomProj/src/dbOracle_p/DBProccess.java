@@ -51,6 +51,7 @@ public class DBProccess {
 		try {
 			reset();
 			have = stmt.execute(query);
+			System.out.println(" 데이터가 들어있니 " + have);
 			close();
 
 		} catch (Exception e) {
