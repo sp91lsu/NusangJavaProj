@@ -29,7 +29,5 @@ class ReceiveSignUpAck implements Receivable {
 
 		ScSignInUpAck ack = (ScSignInUpAck) packet;
 		
-		System.out.println(ack.eResult);
-		System.out.println("회원가입 완료!");
 	}
 }

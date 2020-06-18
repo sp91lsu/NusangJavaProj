@@ -8,11 +8,11 @@ import packetBase_p.PacketBase;
 public class CsVerifySyn extends PacketBase {
 
 	public ProductData product;
-	public UserData userData;
+	public String uuid;
 
-	public CsVerifySyn(ProductData product, UserData userData) {
+	public CsVerifySyn(ProductData product, String uuid) {
 		super();
 		this.product = product;
-		this.userData = userData;
+		this.uuid = uuid;
 	}
 }

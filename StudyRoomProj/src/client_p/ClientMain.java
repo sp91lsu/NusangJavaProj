@@ -8,7 +8,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import client_p.packet_p.syn_p.CsLoginSyn;
+import client_p.packet_p.syn_p.*;
+import data_p.product_p.ProductData;
+import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
 import packetBase_p.ResultPacketBase;
 
@@ -45,8 +47,12 @@ class MyServer extends Thread {
 
 			System.out.println("서버접속 성공");
 			System.out.println("listener Thread Start");
-			CsLoginSyn packet = new CsLoginSyn("tmdghks", "4521", true);
-			MyServer.getInstance().sendPacket(packet);
+			UserData userdata = new UserData("fdas", "이승환", "tmdghks", "4521", "940928", "010-2495-7784", "fdjifel");
+
+			CsSignUpSyn signupSyn = new CsSignUpSyn("이승환", "tmdghks", "4521", "010-2495-7784", "940928", "fdjifel");
+//			ProductData data = new ProductData("1000", "개인석일반", 1500);
+//			CsVerifySyn packet = new CsVerifySyn(data, userdata.uuid);
+			MyServer.getInstance().sendPacket(signupSyn);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -57,22 +57,15 @@ class MethSignUpSyn implements ServerPacketMethod {
 		ScSignInUpAck ack = null;
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
+
+			System.out.println();
 			UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id, recPacket.pw,
 					recPacket.phone, recPacket.birth, recPacket.cType);
 
-			String ctype = userData.cType;
-
 			QueryObject qo = new QueryObject();
-			qo.findQuery(ETable.MANAGERKEY, "key", "key = '" + userData.cType + "'");
-			ResultSet rs = DBProccess.getInstance().findData(qo.query);
-
-			if (rs.next()) {
-				ctype = EClientType.MANAGER.name();
-			}
-			DBProccess.getInstance().close();
 
 			qo.createQuery("uuid,name,id,pw,birth,phone,ctype", userData.uuid, userData.name, userData.id, userData.pw,
-					userData.birth, userData.phone, ctype);
+					userData.birth, userData.phone, userData.cType);
 
 			DBProccess.getInstance().insertData(ETable.ACCOUNT, qo);
 
@@ -82,7 +75,6 @@ class MethSignUpSyn implements ServerPacketMethod {
 			ack = new ScSignInUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
 			e.printStackTrace();
 		}
-
 		client.sendPacket(ack);
 	}
 }

@@ -17,6 +17,7 @@ public class UserData extends PacketData {
 	//
 	public UserData(String uuid, String name, String id, String pw, String phone, String birth, String cType) {
 		super();
+		this.uuid = uuid;
 		this.name = name;
 		this.id = id;
 		this.pw = pw;
