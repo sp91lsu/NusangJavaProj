@@ -38,7 +38,7 @@ class MyServer extends Thread {
 		System.out.println("서버접속 시도");
 
 		try {
-			socket = new Socket("127.0.0.1", 7777);
+			socket = new Socket("192.168.100.36", 7777);
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 
