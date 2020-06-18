@@ -1,13 +1,13 @@
 package data_p.product_p.room_p;
 
-
 import data_p.product_p.ProductData;
 
 public class RoomProduct extends ProductData {
 
 	public boolean isEmpty;
+	public int personNum;
 
-	public RoomProduct(String id, String name, long price) {
+	public RoomProduct(String id, String name, long price, int personNum) {
 		super(id, name, price);
 	}
 
