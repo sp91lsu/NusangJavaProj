@@ -1,27 +1,21 @@
 package data_p.product_p;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import data_p.ExcelReader;
-import data_p.product_p.room_p.PrivateRoomProduct;
-import data_p.product_p.room_p.PublicRoomProduct;
 import data_p.product_p.room_p.RoomProduct;
-import dbOracle_p.DBProccess;
-import dbOracle_p.ETable;
-import dbOracle_p.QueryObject;
 
 public class ProductManager {
 
 	ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 
 	ProductManager() {
-
+		ProductManager pm = new ProductManager();
+		pm.RoomSetting();
 	}
 
 	public static void main(String[] args) {
 		ProductManager pm = new ProductManager();
-		pm.RoomSetting();
 	}
 
 	void RoomSetting() {
