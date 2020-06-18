@@ -8,9 +8,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import client_p.packet_p.syn_p.CsSignUpSyn;
-import data_p.user_p.UserData;
+import client_p.packet_p.syn_p.CsLoginSyn;
 import packetBase_p.PacketBase;
+import packetBase_p.ResultPacketBase;
 
 public class ClientMain {
 
@@ -39,14 +39,13 @@ class MyServer extends Thread {
 		System.out.println("서버접속 시도");
 
 		try {
-			socket = new Socket("192.168.100.36", 7777);
+			socket = new Socket("192.168.0.249", 7777);
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 
-			sleep(3000);
 			System.out.println("서버접속 성공");
 			System.out.println("listener Thread Start");
-			CsSignUpSyn packet = new CsSignUpSyn("이승환", "tmdghks", "4521", "940928", "010-2495-7784", "fdjifel");
+			CsLoginSyn packet = new CsLoginSyn("tmdghks", "4521", true);
 			MyServer.getInstance().sendPacket(packet);
 
 		} catch (Exception e) {
@@ -91,7 +90,7 @@ class PacketProccess extends Thread {
 
 				sleep(10);
 				if (is.available() > 0) {
-					pMap.receivePacket(this, (PacketBase) ois.readObject());
+					pMap.receivePacket(this, (ResultPacketBase) ois.readObject());
 				}
 			}
 		} catch (Exception e) {

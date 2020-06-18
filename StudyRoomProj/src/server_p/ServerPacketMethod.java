@@ -2,6 +2,11 @@ package server_p;
 
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignInUpAck;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
+
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.user_p.UserData;
@@ -11,69 +16,70 @@ import packetBase_p.PacketBase;
 
 public interface ServerPacketMethod {
 
-	void action(PacketClient client, PacketBase packet);
+	void receive(PacketClient client, PacketBase packet);
 }
-
-//class MethLogOutSyn implements PacketMethod {
-//
-//	@Override
-//	public void action(PacketClient client, PacketBase packet) {
-//		CsLoginSyn recPacket = (CsLoginSyn) packet;
-//
-//		System.out.println("rcPacket");
-//	}
-//}
 
 class MethLoginSyn implements ServerPacketMethod {
 
-	public void action(PacketClient client, PacketBase packet) {
+	public void receive(PacketClient client, PacketBase packet) {
 		CsLoginSyn recPacket = (CsLoginSyn) packet;
 
-		// 데이터 베이스 체크
+		QueryObject qo = new QueryObject();
+		String idOrPhone = recPacket.isID == true ? "id" : "phone";
+
+		qo.findQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
+
+		ResultSet rs = DBProccess.getInstance().findData(qo.query);
+
 		ScLoginAck ack = null;
-		if (true) {
-			ack = new ScLoginAck(client.uuid, EResult.SUCCESS);
-		} else {
-			ack = new ScLoginAck(client.uuid, EResult.NOT_FOUND_DATA);
+
+		try {
+			if (rs.next()) {
+				UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
+						rs.getString("phone"), rs.getString("birth"));
+				rs.close();
+				ack = new ScLoginAck(EResult.SUCCESS, userdata);
+			} else {
+				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
-		System.out.println("CsLoginSyn");
-		System.out.println("id" + recPacket.id);
-		System.out.println("pw" + recPacket.pw);
-		System.out.println("isID" + recPacket.isID);
 		client.sendPacket(ack);
-		// client.sendPacket(recPacket);
-
 	}
 }
 
 class MethSignUpSyn implements ServerPacketMethod {
 
-	public void action(PacketClient client, PacketBase packet) {
+	public void receive(PacketClient client, PacketBase packet) {
 
 		ScSignInUpAck ack = null;
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
-			UserData userData = new UserData(recPacket.name, recPacket.id, recPacket.pw, recPacket.phone,
-					recPacket.birth, recPacket.cType);
+			UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id, recPacket.pw,
+					recPacket.phone, recPacket.birth, recPacket.cType);
 
 			String ctype = userData.cType;
 
-			if (DBProccess.getInstance().haveData(ETable.MANAGERKEY, "key", "key = '" + userData.cType + "'")) {
+			QueryObject qo = new QueryObject();
+			qo.findQuery(ETable.MANAGERKEY, "key", "key = '" + userData.cType + "'");
+			ResultSet rs = DBProccess.getInstance().findData(qo.query);
+
+			if (rs.next()) {
 				ctype = EClientType.MANAGER.name();
 			}
 			DBProccess.getInstance().close();
 
-			String calum = "name,id,pw,birth,phone,ctype";
-			String values;
-			values = DBProccess.valueStr(userData.name, userData.id, userData.pw, userData.birth, userData.phone,
-					ctype);
-			DBProccess.getInstance().insertData(ETable.ACCOUNT, calum, values);
+			qo.createQuery("uuid,name,id,pw,birth,phone,ctype", userData.uuid, userData.name, userData.id, userData.pw,
+					userData.birth, userData.phone, ctype);
 
-			ack = new ScSignInUpAck(client.uuid, EResult.SUCCESS);
+			DBProccess.getInstance().insertData(ETable.ACCOUNT, qo);
+
+			ack = new ScSignInUpAck(EResult.SUCCESS, userData.name);
 
 		} catch (Exception e) {
-			ack = new ScSignInUpAck(client.uuid, EResult.NOT_FOUND_DATA);
+			ack = new ScSignInUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
 			e.printStackTrace();
 		}
 

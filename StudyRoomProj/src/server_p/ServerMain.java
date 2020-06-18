@@ -62,7 +62,7 @@ class MyServer {
 
 					System.out.println(client.getInetAddress() + "Á¢¼Ó");
 
-					PacketClient pClient = new PacketClient(client, UUID.randomUUID());
+					PacketClient pClient = new PacketClient(client);
 
 					pClient.start();
 					clientList.add(pClient);
@@ -76,7 +76,6 @@ class MyServer {
 
 class PacketClient extends Thread {
 
-	UUID uuid;
 	PacketMap pMap = new PacketMap();
 	InputStream is;
 	ObjectInputStream dis;
@@ -84,9 +83,8 @@ class PacketClient extends Thread {
 	ObjectOutputStream dos;
 	Socket socket;
 
-	PacketClient(Socket socket, UUID uuid) {
+	PacketClient(Socket socket) {
 
-		this.uuid = uuid;
 		this.socket = socket;
 		try {
 			is = socket.getInputStream();

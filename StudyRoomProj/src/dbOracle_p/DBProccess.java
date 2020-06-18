@@ -28,9 +28,7 @@ public class DBProccess {
 	DBProccess() {
 	}
 
-	public ResultSet findData(ETable table, String... data) {
-
-		String query = selectFromWhere(table, data);
+	public ResultSet findData(String query) {
 
 		try {
 			reset();
@@ -43,54 +41,16 @@ public class DBProccess {
 		return null;
 	}
 
-	public boolean haveData(ETable table, String... data) throws SQLException {
-
-		String query = selectFromWhere(table, data);
-		boolean have = false;
-
-		reset();
-		have = stmt.executeQuery(query).next();
-		System.out.println(" 데이터가 들어있니 " + have);
-		close();
-		return have;
-	}
-
-	public void insertData(ETable table, String key, String values) {
+	public void insertData(ETable table, QueryObject qo) {
 		try {
 			reset();
-			String data = "insert into " + table.name() + "(" + key + ") values " + "(" + values + ")";
+			String data = "insert into " + table.name() + "(" + qo.calum + ") values " + "(" + qo.query + ")";
 			System.out.println(data);
 			ResultSet rs = stmt.executeQuery(data);
 			close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	String selectFromWhere(ETable table, String... data) {
-		String query = "select " + data[0] + " from " + table.name();
-		if (data.length == 2) {
-			query += " where " + data[1];
-		}
-		return query;
-	}
-
-	public static String valueStr(Object... valueArr) {
-		String valueStr = "";
-
-		for (int i = 0; i < valueArr.length; i++) {
-
-			if (valueArr[i].getClass() == String.class) {
-				valueStr += "'" + valueArr[i].toString() + "'";
-			} else {
-				valueStr += valueArr[i].toString();
-			}
-			if (i < valueArr.length - 1) {
-				valueStr += ",";
-			}
-		}
-
-		return valueStr;
 	}
 
 	void reset() {

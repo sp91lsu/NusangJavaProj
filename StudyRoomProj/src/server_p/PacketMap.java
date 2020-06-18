@@ -17,13 +17,12 @@ public class PacketMap {
 		map.put(CsChatConnectSyn.class, new MethSignUpSyn()); //채팅연결 요청 
 		map.put(CsChatSyn.class, new MethSignUpSyn()); //채팅 
 		map.put(CsVerifySyn.class, new MethSignUpSyn()); //결제 
-		
 	}
 
 	void receivePacket(PacketClient pClient, PacketBase packet) {
 
 		System.out.println("SERVER RECEIVE :" + packet.getClass());
-		map.get(packet.getClass()).action(pClient, packet);
+		map.get(packet.getClass()).receive(pClient, packet);
 	}
 
 }

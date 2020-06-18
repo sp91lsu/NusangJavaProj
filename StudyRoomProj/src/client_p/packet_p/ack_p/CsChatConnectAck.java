@@ -7,8 +7,8 @@ import packetBase_p.ResultPacketBase;
 
 public class CsChatConnectAck extends ResultPacketBase {
 
-	public CsChatConnectAck(UUID clientUUID, EResult eResult) {
-		super(clientUUID, eResult);
+	public CsChatConnectAck(EResult eResult) {
+		super(eResult);
 	}
 
 }

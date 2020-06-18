@@ -5,4 +5,5 @@ import packetBase_p.PacketBase;
 //¿¹¾à
 public class CsReservationSyn extends PacketBase {
 
+	
 }

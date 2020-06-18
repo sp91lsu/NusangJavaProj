@@ -5,5 +5,4 @@ import java.util.UUID;
 
 public class PacketBase implements Serializable {
 
-	UUID clientUUID;
 }

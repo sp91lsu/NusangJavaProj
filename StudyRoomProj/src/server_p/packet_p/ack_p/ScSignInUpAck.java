@@ -7,10 +7,11 @@ import packetBase_p.ResultPacketBase;
 
 public class ScSignInUpAck extends ResultPacketBase {
 
-	public ScSignInUpAck(UUID clientUUID, EResult eResult) {
-		super(clientUUID, eResult);
+	String name;
+
+	public ScSignInUpAck(EResult eResult, String name) {
+		super(eResult);
+		this.name = name;
 	}
 
-	
-	
 }
