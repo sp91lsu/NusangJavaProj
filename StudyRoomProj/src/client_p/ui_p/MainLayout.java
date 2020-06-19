@@ -11,40 +11,29 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class MainLayout extends JFrame {
+import sun.net.www.content.image.jpeg;
 
-	private JPanel mainPane;
+public class MainLayout extends JPanel {
+
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainLayout frame = new MainLayout();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 900, 1000);
+		frame.add(new MainLayout());
+		frame.setVisible(true);
 	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public MainLayout() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 1000);
-		mainPane = new JPanel();
-		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(mainPane);
-		mainPane.setLayout(null);
+		System.out.println("m");
+		setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(82, 168, 725, 430);
-		mainPane.add(panel);
+		add(panel);
 		panel.setLayout(new GridLayout(3,3,5,5));
 		
 		JButton button_1 = new JButton("°³ÀÎ¼® ÀÌ¿ë");
@@ -87,7 +76,7 @@ public class MainLayout extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 35));
 		lblNewLabel.setBounds(261, 10, 396, 107);
-		mainPane.add(lblNewLabel);
+		add(lblNewLabel);
 	}
 
 }
