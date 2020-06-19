@@ -44,7 +44,7 @@ class ReceiveLoginAck implements Receivable {
 			
 			CsBuyRoomSyn roomPacket = new CsBuyRoomSyn(rp, DataManager.getInstance().userData.uuid);
 
-			MyServer.getInstance().sendPacket(roomPacket);
+			ClientNet.getInstance().sendPacket(roomPacket);
 		}
 	}
 }
