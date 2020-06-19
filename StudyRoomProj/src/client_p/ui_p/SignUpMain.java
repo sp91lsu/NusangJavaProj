@@ -1,47 +1,41 @@
 package client_p.ui_p;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.util.Stack;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+
+import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
-import javax.swing.DropMode;
+import javax.swing.JPasswordField;
 
-public class LoginMain extends JPanel{
+public class SignUpMain extends JFrame {
 
 	private JPanel mainPane;
-	private JTextField idTextF;
-	private JTextField currentTextField;
+	private JTextField nameTextField;
+	private JTextField idTextField;
+	private JTextField phoneNumTextField;
 	private JPasswordField passwordField;
-	private final JPanel keybordPane = new JPanel();
-	JButton btn;
-	String text = "";
+	private JPasswordField passwordField_1;
+	private JButton btn;
+	String text="";
+	private JTextField currentTextField;
 	
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginMain frame = new LoginMain();
+					SignUpMain frame = new SignUpMain();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +43,7 @@ public class LoginMain extends JPanel{
 			}
 		});
 	}
-
+	
 	class MyAdapter extends MouseAdapter		// 마우스로 id or pw TextField 클릭시 적용
 	{
 		@Override
@@ -60,61 +54,90 @@ public class LoginMain extends JPanel{
 			currentTextField = (JTextField) e.getSource();
 		}
 	}
-	
-	public LoginMain() {
 
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	public SignUpMain() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 1000);
 		mainPane = new JPanel();
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//setContentPane(mainPane);
+		setContentPane(mainPane);
 		mainPane.setLayout(null);
-
-		JLabel idLabel = new JLabel("ID");
-		idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 26));
-		idLabel.setBounds(251, 156, 51, 55);
-		mainPane.add(idLabel);
-
-		idTextF = new JTextField();
-		idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
-		idTextF.setToolTipText("");
-		idTextF.setFont(new Font("맑은 고딕", Font.ITALIC, 14));
-		idTextF.setBounds(323, 156, 328, 55);
-		idTextF.addMouseListener(new MyAdapter());
-		mainPane.add(idTextF);
-		idTextF.setColumns(10);
-		JLabel lblPw = new JLabel("PW");
-		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 26));
-		lblPw.setBounds(251, 236, 51, 54);
-		mainPane.add(lblPw);
-
-		passwordField = new JPasswordField();
-		passwordField.setBounds(323, 236, 328, 54);
-		passwordField.addMouseListener(new MyAdapter());
-		mainPane.add(passwordField);
-	
-
-		JButton logInBtn = new JButton("로그인");
-		logInBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		logInBtn.setBounds(323, 321, 120, 45);
-		mainPane.add(logInBtn);
-		//logInBtn.addActionListener(l);
-		JButton signUpBt = new JButton("회원가입");
-		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		signUpBt.setBounds(508, 321, 120, 45);
-		mainPane.add(signUpBt);
-
-		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778\uCC3D");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
-		lblNewLabel.setBounds(251, 21, 469, 110);
-		mainPane.add(lblNewLabel);
-		keybordPane.setBounds(12, 413, 860, 300);
-		mainPane.add(keybordPane);
-
-		///////////////////////////////////키보드///////////////////////
 		
-		// Individual keyboard rows
+		JLabel titleLabel = new JLabel("회원가입창");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(268, 10, 380, 75);
+		mainPane.add(titleLabel);
+		
+		JLabel idL = new JLabel("아이디");
+		idL.setBounds(280, 155, 77, 42);
+		mainPane.add(idL);
+		
+		JLabel nameL = new JLabel("영문이름");
+		nameL.setBounds(280, 103, 77, 42);
+		mainPane.add(nameL);
+		
+		JLabel pwL = new JLabel("비밀번호");
+		pwL.setBounds(278, 196, 77, 42);
+		mainPane.add(pwL);
+		
+		JLabel pwChkL = new JLabel("비밀번호확인");
+		pwChkL.setBounds(280, 248, 89, 42);
+		mainPane.add(pwChkL);
+		
+		JLabel phonNumL = new JLabel("휴대폰 번호");
+		phonNumL.setBounds(280, 300, 77, 42);
+		mainPane.add(phonNumL);
+		
+		nameTextField = new JTextField();
+		nameTextField.setBounds(381, 112, 191, 33);
+		mainPane.add(nameTextField);
+		nameTextField.setColumns(10);
+		nameTextField.addMouseListener(new MyAdapter());
+		
+		idTextField = new JTextField();
+		idTextField.setColumns(10);
+		idTextField.setBounds(381, 159, 191, 33);
+		mainPane.add(idTextField);
+		idTextField.addMouseListener(new MyAdapter());
+		
+		phoneNumTextField = new JTextField();
+		phoneNumTextField.setColumns(10);
+		phoneNumTextField.setBounds(383, 309, 191, 33);
+		mainPane.add(phoneNumTextField);
+		phoneNumTextField.addMouseListener(new MyAdapter());
+		
+		JButton signUpBtn = new JButton("회원가입");
+		signUpBtn.setBounds(296, 368, 140, 42);
+		mainPane.add(signUpBtn);
+		
+		JButton cancelBtn = new JButton("취소");
+		cancelBtn.setBounds(494, 368, 140, 42);
+		mainPane.add(cancelBtn);
+		
+		JButton phoneNumChkBtn = new JButton("인증하기");
+		phoneNumChkBtn.setBounds(584, 309, 105, 33);
+		mainPane.add(phoneNumChkBtn);
+		
+		JButton idChkBtn = new JButton("중복확인");
+		idChkBtn.setBounds(584, 159, 105, 33);
+		mainPane.add(idChkBtn);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(381, 210, 191, 33);
+		mainPane.add(passwordField);
+		passwordField.addMouseListener(new MyAdapter());
+		
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(381, 257, 191, 33);
+		mainPane.add(passwordField_1);
+		passwordField_1.addMouseListener(new MyAdapter());
+		
+		JPanel keybordPane = new JPanel();
+		keybordPane.setBounds(12, 431, 860, 300);
+		mainPane.add(keybordPane);
+		
+		
 		String firstRow[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",  "BackSpace" };
 		String secondRow[] = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" };
 		String thirdRow[] = {  "blank","A", "S", "D", "F", "G", "H", "J", "K", "L" };
@@ -127,7 +150,7 @@ public class LoginMain extends JPanel{
 		JButton second[];
 		JButton third[];
 		JButton fourth[];
-//		JButton fifth[];
+		JButton fifth[];
 
 		JPanel jpNorth = new JPanel();
 		JPanel jpCenter = new JPanel();
@@ -152,14 +175,6 @@ public class LoginMain extends JPanel{
 
 		keybordPane.add(jpKeyboard);
 		
-	}
-
-	class LoginActionListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-		}
 	}
 	
 	void addKeys(JPanel parent, int row, String[] keys, JButton[] buttons) {
@@ -189,27 +204,26 @@ public class LoginMain extends JPanel{
 			}
 		}		
 	}
-
-		class BtnAct implements ActionListener{		//버튼 액션에 대한 이너클래스
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JButton keyPoint = (JButton)e.getSource();
-				if(keyPoint.getText() !="BackSpace") {
-					text += keyPoint.getText();
-				}
-				else if(keyPoint.getText()=="BackSpace")
-					textBack();
-			
-				currentTextField.setText(text);	
-			}
-			
-			void textBack()
-			{
-				if(text.length() > 0)
-				text =  text.substring(0,text.length()-1);
-			}
-		}
-			
+	
+	class BtnAct implements ActionListener{		//버튼 액션에 대한 이너클래스
 		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton keyPoint = (JButton)e.getSource();
+			if(keyPoint.getText() !="BackSpace") {
+				text += keyPoint.getText();
+			}
+			else if(keyPoint.getText()=="BackSpace")
+				textBack();
+		
+			currentTextField.setText(text);	
+		}
+		
+		void textBack()
+		{
+			if(text.length() > 0)
+			text =  text.substring(0,text.length()-1);
+		}
+	}
+
 }
