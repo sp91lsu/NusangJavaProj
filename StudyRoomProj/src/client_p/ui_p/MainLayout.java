@@ -1,29 +1,23 @@
 package client_p.ui_p;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-
-import sun.net.www.content.image.jpeg;
 
 public class MainLayout extends JPanel {
 
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 900, 1000);
-		frame.add(new MainLayout());
+		frame.getContentPane().add(new MainLayout());
 		frame.setVisible(true);
 	}
 	
@@ -37,10 +31,18 @@ public class MainLayout extends JPanel {
 		panel.setLayout(new GridLayout(3,3,5,5));
 		
 		JButton button_1 = new JButton("°³ÀÎ¼® ÀÌ¿ë");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("Seating_Arrangement");
+			}});
 		button_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		panel.add(button_1);
 		
 		JButton button_2 = new JButton("´ÜÃ¼·ë ÀÌ¿ë");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("Seating_Arrangement");
+			}});
 		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		panel.add(button_2);
 		
