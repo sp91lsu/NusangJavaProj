@@ -16,25 +16,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class Seating_Arrangement extends JFrame {
-	private JPanel contentPane;
+public class Seating_Arrangement extends JPanel {
 	static JLabel north_west;
 	
 	public static void main(String[] args) {
 		Seating_Arrangement frame = new Seating_Arrangement();
+		frame.setBounds(500, 30, 900, 1000);
+		frame.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setLayout(new BorderLayout(0, 0));
 	}
 
 	public Seating_Arrangement() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 30, 900, 1000);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// 상단 패널
 		JPanel panel_north = new JPanel();
-		contentPane.add(panel_north, BorderLayout.NORTH);
+		add(panel_north, BorderLayout.NORTH);
 		panel_north.setLayout(new BorderLayout(0, 0));
 
 		this.north_west = new JLabel("2020-06-18  21:24");// 날자,시간
@@ -102,7 +99,7 @@ public class Seating_Arrangement extends JFrame {
 
 		// 중앙패널
 		JPanel panel_center = new JPanel();
-		contentPane.add(panel_center, BorderLayout.CENTER);
+		add(panel_center, BorderLayout.CENTER);
 		panel_center.setLayout(null);
 
 		// 여기서부터 룸 버튼
