@@ -36,6 +36,7 @@ public class DataManager {
 		ArrayList<String> nameList = roomReader.getList("Name");
 		ArrayList<String> priceList = roomReader.getList("Price");
 		ArrayList<String> pNumList = roomReader.getList("PersonNum");
+		
 		for (int i = 0; i < idList.size(); i++) {
 
 			RoomProduct roomProduct = new RoomProduct(idList.get(i), nameList.get(i),

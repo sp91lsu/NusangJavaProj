@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsChatConnectSyn;
+import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsBuySyn;
@@ -18,12 +19,12 @@ import packetBase_p.PacketBase;
 
 public interface ServerPacketMethod {
 
-	void receive(PacketClient client, PacketBase packet);
+	void receive(SocketClient client, PacketBase packet);
 }
 
 class MethLoginSyn implements ServerPacketMethod {
 
-	public void receive(PacketClient client, PacketBase packet) {
+	public void receive(SocketClient client, PacketBase packet) {
 		CsLoginSyn recPacket = (CsLoginSyn) packet;
 
 		QueryObject qo = new QueryObject();
@@ -54,7 +55,7 @@ class MethLoginSyn implements ServerPacketMethod {
 
 class MethSignUpSyn implements ServerPacketMethod {
 
-	public void receive(PacketClient client, PacketBase packet) {
+	public void receive(SocketClient client, PacketBase packet) {
 
 		ScSignInUpAck ack = null;
 		try {
@@ -84,16 +85,15 @@ class MethSignUpSyn implements ServerPacketMethod {
 class MethChatConnectSyn implements ServerPacketMethod {
 
 	@Override
-	public void receive(PacketClient client, PacketBase packet) {
+	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-		
 	}
 }
 
 class MethVerifySyn implements ServerPacketMethod {
 
-	public void receive(PacketClient client, PacketBase packet) {
+	public void receive(SocketClient client, PacketBase packet) {
 		CsBuySyn recPacket = (CsBuySyn) packet;
 
 		QueryObject qo = new QueryObject();
@@ -111,5 +111,26 @@ class MethVerifySyn implements ServerPacketMethod {
 		}
 //		recPacket.product;
 //		recPacket.uuid
+	}
+}
+
+//클라이언트로부터 채팅 데이터 전송 
+class MethChatSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		CsChatSyn recPacket = (CsChatSyn) packet;
+
+		SocketClient findClient = MyServer.getInstance().findClient(recPacket.address);
+
+		if (findClient != null) {
+			if (findClient.doChatting) {
+				findClient.sendPacket(recPacket);
+			} else {
+				
+				client.sendPacket(recPacket);
+			}
+		} else {
+
+		}
 	}
 }

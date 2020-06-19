@@ -7,7 +7,5 @@ public class ScChatConnectAck extends ResultPacketBase {
 
 	public ScChatConnectAck(EResult eResult) {
 		super(eResult);
-		// TODO Auto-generated constructor stub
 	}
-
 }
