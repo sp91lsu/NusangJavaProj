@@ -13,8 +13,9 @@ public class PacketMap {
 
 		map.put(ScLoginAck.class, new ReceiveLoginAck()); // 로그인 응답
 		map.put(ScSignInUpAck.class, new ReceiveSignUpAck()); // 회원가입
-
-		map.put(ScChatConnectAck.class, new ReceiveSignUpAck()); // 채팅 연결 요청에 대한 응답
+		map.put(ScBuyAck.class, new ReceiveVerifyAck()); // 회원가입
+		map.put(ScChatConnectAck.class, new ReceiveChatConnectAck()); // 채팅 연결 요청에 대한 응답
+		
 	}
 
 	void receivePacket(PacketProccess pClient, ResultPacketBase packet) {

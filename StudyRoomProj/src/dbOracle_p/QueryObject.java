@@ -22,7 +22,7 @@ public class QueryObject {
 		}
 	}
 
-	public String findQuery(ETable table, String... data) {
+	public String setFindQuery(ETable table, String... data) {
 		query = "select " + data[0] + " from " + table.name();
 		if (data.length == 2) {
 			query += " where " + data[1];

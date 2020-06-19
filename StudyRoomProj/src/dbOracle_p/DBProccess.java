@@ -28,11 +28,11 @@ public class DBProccess {
 	DBProccess() {
 	}
 
-	public ResultSet findData(String query) {
+	public ResultSet findData(QueryObject qo) {
 
 		try {
 			reset();
-			ResultSet rs = stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(qo.query);
 			return rs;
 		} catch (Exception e) {
 			e.printStackTrace();

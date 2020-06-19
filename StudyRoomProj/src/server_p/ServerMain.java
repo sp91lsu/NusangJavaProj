@@ -5,12 +5,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
-
 import packetBase_p.*;
 
 public class ServerMain {
@@ -35,7 +34,7 @@ class MyServer {
 
 	// 클라이언트 리스트
 
-	ArrayList<PacketClient> clientList = new ArrayList<PacketClient>();
+	ArrayList<SocketClient> clientList = new ArrayList<SocketClient>();
 
 	// 클라이언트 리스트 돌려서 패킷 받아서 처리하는 클래스
 	// 클라이언트 접속 연결 받는 클래스
@@ -62,7 +61,7 @@ class MyServer {
 
 					System.out.println(client.getInetAddress() + "접속");
 
-					PacketClient pClient = new PacketClient(client);
+					SocketClient pClient = new SocketClient(client);
 
 					pClient.start();
 					clientList.add(pClient);
@@ -72,9 +71,32 @@ class MyServer {
 			}
 		}
 	}
+
+	public synchronized SocketClient findClient(InetAddress address) {
+		for (SocketClient packetClient : clientList) {
+
+			if (packetClient.socket.getInetAddress() == address) {
+				return packetClient;
+			}
+		}
+		return null;
+	}
+
+	// 전체알림
+	public synchronized void broadCast(PacketBase packet) {
+		for (SocketClient socketClient : clientList) {
+			socketClient.sendPacket(packet);
+		}
+	}
+
+	// p2p 알림 (채팅 기능) 
+	public synchronized void broadCastP2P(SocketClient client1, SocketClient client2, PacketBase packet) {
+		client1.sendPacket(packet);
+		client2.sendPacket(packet);
+	}
 }
 
-class PacketClient extends Thread {
+class SocketClient extends Thread {
 
 	PacketMap pMap = new PacketMap();
 	InputStream is;
@@ -83,7 +105,9 @@ class PacketClient extends Thread {
 	ObjectOutputStream dos;
 	Socket socket;
 
-	PacketClient(Socket socket) {
+	public boolean doChatting = false;
+
+	SocketClient(Socket socket) {
 
 		this.socket = socket;
 		try {
@@ -100,7 +124,7 @@ class PacketClient extends Thread {
 	// 클라이언트 리스트 돌려서 함수 실행
 	public void run() {
 
-		while (true) {
+		while (socket.isConnected() && !socket.isClosed()) {
 
 			try {
 				sleep(10);
@@ -113,6 +137,9 @@ class PacketClient extends Thread {
 			} finally {
 			}
 		}
+
+		MyServer.getInstance().clientList.remove(this);
+		close();
 	}
 
 	void sendPacket(PacketBase packet) {
@@ -127,4 +154,16 @@ class PacketClient extends Thread {
 
 		}
 	}
+
+	public void close() {
+		if (!socket.isClosed()) {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
