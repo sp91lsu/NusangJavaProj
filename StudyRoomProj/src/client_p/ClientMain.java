@@ -50,11 +50,10 @@ class MyServer extends Thread {
 			UserData userdata = new UserData("871d5ded-3306-4a9c-bf61-d98ce1aa73d7", "이승환", "tmdghks", "4521", "940928",
 					"010-2495-7784", "fdjifel");
 
-			// CsSignUpSyn signupSyn = new CsSignUpSyn("이승환", "tmdghks", "4521",
-			// "010-2495-7784", "940928", "fdjifel");
+			CsSignUpSyn signupSyn = new CsSignUpSyn("이승환", "tmdghks", "4521", "010-2495-7784", "940928", "rb4rt6u6gujh8a6f1e564as84se6vsdafflad4g68as8ah64se86g4h86adf4gf8se6t4g86dvs4r86eg48af6ser48we6gf8s6e4f86asd4g86as");
 			ProductData data = new ProductData("1000", "개인석일반", 1500);
 			CsBuySyn packet = new CsBuySyn(data, userdata.uuid);
-			MyServer.getInstance().sendPacket(packet);
+			MyServer.getInstance().sendPacket(signupSyn);
 
 		} catch (Exception e) {
 			e.printStackTrace();

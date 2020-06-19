@@ -7,6 +7,15 @@ import data_p.product_p.room_p.RoomProduct;
 
 public class DataManager {
 
+	private static DataManager instance;
+
+	public static DataManager getInstance() {
+		if (instance == null) {
+			instance = new DataManager();
+		}
+		return instance;
+	}
+
 	ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 	String key = "";
 
