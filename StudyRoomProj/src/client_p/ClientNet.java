@@ -12,7 +12,7 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import packetBase_p.PacketBase;
 import packetBase_p.ResultPacketBase;
 
-class ClientNet extends Thread {
+public class ClientNet extends Thread {
 
 	private static ClientNet instance;
 
@@ -33,7 +33,7 @@ class ClientNet extends Thread {
 		System.out.println("서버접속 시도");
 
 		try {
-			socket = new Socket("127.0.0.1", 7777);
+			socket = new Socket("192.168.0.249", 7777);
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 
@@ -54,7 +54,7 @@ class ClientNet extends Thread {
 		}
 	}
 
-	void sendPacket(PacketBase packet) {
+	public void sendPacket(PacketBase packet) {
 		packetProccess.sendPacket(packet);
 	}
 }
