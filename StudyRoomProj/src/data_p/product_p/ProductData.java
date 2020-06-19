@@ -19,7 +19,7 @@ public class ProductData extends PacketData {
 
 	@Override
 	public String toString() {
-		return "ProductData [id=" + id + ", name=" + name + ", price=" + price + "]";
+		return  this.getClass().getSimpleName() + " [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 
 }

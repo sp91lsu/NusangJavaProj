@@ -34,13 +34,13 @@ public class DataManager {
 	}
 
 	void RoomSetting() {
-		ExcelReader roomReader = new ExcelReader();
-		roomReader.read("RoomData.xlsx");
+		ExcelReader reader = new ExcelReader();
+		reader.read("RoomData.xlsx");
 
-		ArrayList<String> idList = roomReader.getList("ID");
-		ArrayList<String> nameList = roomReader.getList("Name");
-		ArrayList<String> priceList = roomReader.getList("Price");
-		ArrayList<String> pNumList = roomReader.getList("PersonNum");
+		ArrayList<String> idList = reader.getList("ID");
+		ArrayList<String> nameList = reader.getList("Name");
+		ArrayList<String> priceList = reader.getList("Price");
+		ArrayList<String> pNumList = reader.getList("PersonNum");
 
 		for (int i = 0; i < idList.size(); i++) {
 
@@ -53,13 +53,13 @@ public class DataManager {
 	}
 
 	void TimeDataSetting() {
-		ExcelReader roomReader = new ExcelReader();
-		roomReader.read("TimeTable.xlsx");
+		ExcelReader reader = new ExcelReader();
+		reader.read("TimeTable.xlsx");
 
-		ArrayList<String> idList = roomReader.getList("id");
-		ArrayList<String> startList = roomReader.getList("start");
-		ArrayList<String> endList = roomReader.getList("end");
-		ArrayList<String> priceList = roomReader.getList("price");
+		ArrayList<String> idList = reader.getList("id");
+		ArrayList<String> startList = reader.getList("start");
+		ArrayList<String> endList = reader.getList("end");
+		ArrayList<String> priceList = reader.getList("price");
 
 		for (int i = 0; i < idList.size(); i++) {
 
