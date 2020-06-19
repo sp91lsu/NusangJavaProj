@@ -1,6 +1,7 @@
 package client_p;
 
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import client_p.ui_p.BaseFrame;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
@@ -24,31 +25,6 @@ class ReceiveSignUpAck implements Receivable {
 	}
 }
 
-//로그인 응답 
-class ReceiveLoginAck implements Receivable {
-	@Override
-	public void receive(PacketBase packet) {
-
-		ScLoginAck ack = (ScLoginAck) packet;
-		if (ack.eResult == EResult.SUCCESS) {
-
-			RoomProduct rp = DataManager.getInstance().roomList.get(0);
-
-			System.out.println("------------------------------" + ack.userdata.uuid);
-
-			DataManager.getInstance().userData = ack.userdata;
-
-			rp.setDate(2020, 10, 1, DataManager.getInstance().timeList);
-
-		
-			
-			CsBuyRoomSyn roomPacket = new CsBuyRoomSyn(rp, DataManager.getInstance().userData.uuid);
-
-			ClientNet.getInstance().sendPacket(roomPacket);
-		}
-	}
-}
-
 //결제
 class ReceiveVerifyAck implements Receivable {
 	@Override
@@ -65,5 +41,28 @@ class ReceiveChatConnectAck implements Receivable {
 
 		ScChatConnectAck ack = (ScChatConnectAck) packet;
 
+	}
+}
+
+//로그인 응답
+class ReceiveLoginAck implements Receivable {
+	@Override
+	public void receive(PacketBase packet) {
+
+		ScLoginAck ack = (ScLoginAck) packet;
+		if (ack.eResult == EResult.SUCCESS) {
+
+			BaseFrame.getInstance().view("MainLayout");
+
+//				DataManager.getInstance().userData = ack.userdata;
+//
+//				rp.setDate(2020, 10, 1, DataManager.getInstance().timeList);
+//
+//				CsBuyRoomSyn roomPacket = new CsBuyRoomSyn(rp, DataManager.getInstance().userData.uuid);
+//
+//				ClientNet.getInstance().sendPacket(roomPacket);
+		} else if (ack.eResult == EResult.NOT_FOUND_DATA) {
+
+		}
 	}
 }
