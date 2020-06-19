@@ -21,7 +21,7 @@ class ReceiveSignUpAck implements Receivable {
 	public void receive(PacketBase packet) {
 
 		ScSignInUpAck ack = (ScSignInUpAck) packet;
-
+		
 	}
 }
 
@@ -44,25 +44,4 @@ class ReceiveChatConnectAck implements Receivable {
 	}
 }
 
-//로그인 응답
-class ReceiveLoginAck implements Receivable {
-	@Override
-	public void receive(PacketBase packet) {
 
-		ScLoginAck ack = (ScLoginAck) packet;
-		if (ack.eResult == EResult.SUCCESS) {
-
-			BaseFrame.getInstance().view("MainLayout");
-
-//				DataManager.getInstance().userData = ack.userdata;
-//
-//				rp.setDate(2020, 10, 1, DataManager.getInstance().timeList);
-//
-//				CsBuyRoomSyn roomPacket = new CsBuyRoomSyn(rp, DataManager.getInstance().userData.uuid);
-//
-//				ClientNet.getInstance().sendPacket(roomPacket);
-		} else if (ack.eResult == EResult.NOT_FOUND_DATA) {
-
-		}
-	}
-}

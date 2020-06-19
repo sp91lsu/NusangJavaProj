@@ -4,4 +4,11 @@ import packetBase_p.PacketBase;
 
 public class CsMoveSeatSyn extends PacketBase {
 
+	String id;
+	
+	
+	CsMoveSeatSyn()
+	{
+		
+	}
 }
