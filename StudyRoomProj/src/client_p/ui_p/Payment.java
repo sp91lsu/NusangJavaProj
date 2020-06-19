@@ -3,6 +3,9 @@ package client_p.ui_p;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
 
@@ -13,10 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.awt.event.ActionEvent;
 
 public class Payment extends JFrame 
 {
@@ -28,7 +27,6 @@ public class Payment extends JFrame
 	{
 		setBounds(650, 200, 600, 700);
 		MainPane = new JPanel();
-		MainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(MainPane);
 		MainPane.setLayout(null);
 		
@@ -47,7 +45,7 @@ public class Payment extends JFrame
 		JLabel useInfo = new JLabel("<html>이름: 홍길동<br>"
 				+ "선택좌석:  "+ name+"<br>" + 
 				"입실시간:"+current_day+"(16:00)<br>"
-				+ "퇴실예정:  2020-06-16(18:00)<br><br>" + 
+				+ "퇴실예정:"+current_day+"(18:00)<br><br>" + 
 				"*예약은 1시간 단위로 가능합니다.<html>"				
 				);
 		useInfo.setBackground(new Color(240, 240, 240));
