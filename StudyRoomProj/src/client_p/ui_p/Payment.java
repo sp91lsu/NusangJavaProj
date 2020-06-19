@@ -3,6 +3,7 @@ package client_p.ui_p;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -14,11 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class Payment extends JFrame 
 {
 	private JPanel MainPane;
+	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+	String current_day=date.format((Calendar.getInstance().getTime()));
 	
 	public Payment(String name)
 	{
@@ -42,7 +46,7 @@ public class Payment extends JFrame
 		
 		JLabel useInfo = new JLabel("<html>이름: 홍길동<br>"
 				+ "선택좌석:  "+ name+"<br>" + 
-				"입실시간:  2020-06-16(16:00)<br>"
+				"입실시간:"+current_day+"(16:00)<br>"
 				+ "퇴실예정:  2020-06-16(18:00)<br><br>" + 
 				"*예약은 1시간 단위로 가능합니다.<html>"				
 				);

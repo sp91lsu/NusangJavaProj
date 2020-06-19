@@ -16,15 +16,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class seating_arrangement extends JFrame {
+public class Seating_Arrangement extends JFrame {
 	private JPanel contentPane;
 	static JLabel north_west;
 	
 	public static void main(String[] args) {
-		seating_arrangement frame = new seating_arrangement();
+		Seating_Arrangement frame = new Seating_Arrangement();
 	}
 
-	public seating_arrangement() {
+	public Seating_Arrangement() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 30, 900, 1000);
 		contentPane = new JPanel();

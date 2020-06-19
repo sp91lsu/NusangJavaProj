@@ -7,8 +7,8 @@ import javax.swing.JLabel;
 class SetNowTime extends Thread 
 {
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
-	seating_arrangement sa;
 	JLabel lb;
+	String current_day;
 
 	public SetNowTime(JLabel lb) {
 		this.lb = lb;
