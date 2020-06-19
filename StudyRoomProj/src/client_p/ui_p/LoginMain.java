@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import oracle.jrockit.jfr.JFR;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -28,7 +31,6 @@ import javax.swing.DropMode;
 
 public class LoginMain extends JPanel{
 
-	private JPanel mainPane;
 	private JTextField idTextF;
 	private JTextField currentTextField;
 	private JPasswordField passwordField;
@@ -41,7 +43,10 @@ public class LoginMain extends JPanel{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginMain frame = new LoginMain();
+					JFrame frame = new JFrame();
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.setBounds(100, 100, 900, 1000);
+					frame.add(new LoginMain());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,17 +68,13 @@ public class LoginMain extends JPanel{
 	
 	public LoginMain() {
 
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 1000);
-		mainPane = new JPanel();
-		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//setContentPane(mainPane);
-		mainPane.setLayout(null);
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(null);
 
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 26));
 		idLabel.setBounds(251, 156, 51, 55);
-		mainPane.add(idLabel);
+		add(idLabel);
 
 		idTextF = new JTextField();
 		idTextF.setText(" or ÇÚµåÆù¹øÈ£ ÀÔ·Â( '-' ¾øÀÌ ÀÔ·Â)");
@@ -81,36 +82,41 @@ public class LoginMain extends JPanel{
 		idTextF.setFont(new Font("¸¼Àº °íµñ", Font.ITALIC, 14));
 		idTextF.setBounds(323, 156, 328, 55);
 		idTextF.addMouseListener(new MyAdapter());
-		mainPane.add(idTextF);
+		add(idTextF);
 		idTextF.setColumns(10);
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 26));
 		lblPw.setBounds(251, 236, 51, 54);
-		mainPane.add(lblPw);
+		add(lblPw);
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(323, 236, 328, 54);
 		passwordField.addMouseListener(new MyAdapter());
-		mainPane.add(passwordField);
+		add(passwordField);
 	
 
 		JButton logInBtn = new JButton("·Î±×ÀÎ");
 		logInBtn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		logInBtn.setBounds(323, 321, 120, 45);
-		mainPane.add(logInBtn);
-		//logInBtn.addActionListener(l);
+		add(logInBtn);
+		logInBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("MainLayout");
+			}
+		});
 		JButton signUpBt = new JButton("È¸¿ø°¡ÀÔ");
 		signUpBt.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
-		mainPane.add(signUpBt);
+		add(signUpBt);
 
 		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778\uCC3D");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 40));
 		lblNewLabel.setBounds(251, 21, 469, 110);
-		mainPane.add(lblNewLabel);
+		add(lblNewLabel);
 		keybordPane.setBounds(12, 413, 860, 300);
-		mainPane.add(keybordPane);
+		add(keybordPane);
 
 		///////////////////////////////////Å°º¸µå///////////////////////
 		
