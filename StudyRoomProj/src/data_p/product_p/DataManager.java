@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import data_p.ExcelReader;
 import data_p.product_p.room_p.RoomProduct;
+import data_p.user_p.UserData;
 
 public class DataManager {
 
@@ -16,9 +17,11 @@ public class DataManager {
 		return instance;
 	}
 
-	ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
-	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
-	String key = "";
+	public UserData userData = null;
+	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	public ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+
+	String managerKey = "";
 
 	DataManager() {
 		RoomSetting();
@@ -60,13 +63,13 @@ public class DataManager {
 
 		for (int i = 0; i < idList.size(); i++) {
 
-			System.out.println(idList.get(i));
-			System.out.println(startList.get(i));
-			System.out.println(endList.get(i));
-			System.out.println(priceList.get(i));
+//			System.out.println(idList.get(i));
+//			System.out.println(startList.get(i));
+//			System.out.println(endList.get(i));
+//			System.out.println(priceList.get(i));
 			TimeData data = new TimeData(Integer.parseInt(idList.get(i)), Integer.parseInt(startList.get(i)),
 					Integer.parseInt(endList.get(i)), Long.parseLong(priceList.get(i)));
-			
+
 			timeList.add(data);
 		}
 	}
@@ -77,8 +80,8 @@ public class DataManager {
 
 		ArrayList<String> keyList = roomReader.getList("key");
 		for (int i = 0; i < keyList.size(); i++) {
-			key = keyList.get(i);
-			System.out.println(key);
+			managerKey = keyList.get(i);
+			//System.out.println(managerKey);
 		}
 	}
 }

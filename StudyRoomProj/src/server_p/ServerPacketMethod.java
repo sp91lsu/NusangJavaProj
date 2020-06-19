@@ -1,17 +1,23 @@
 package server_p;
 
+import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignInUpAck;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
-import client_p.packet_p.syn_p.CsBuySyn;
+import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import data_p.product_p.TimeData;
+import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import dbOracle_p.*;
 import packetBase_p.EResult;
@@ -32,12 +38,25 @@ class MethLoginSyn implements ServerPacketMethod {
 
 		qo.setFindQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
 
-		ResultSet rs = DBProccess.getInstance().findData(qo);
+		ResultSet rs = null;
+		try {
+			rs = DBProcess.getInstance().findData(qo);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		ScLoginAck ack = null;
 
 		try {
 			if (rs.next()) {
+
+//				System.out.println("UserData !!!!!!!!!!!!!!!!!!!");
+//				System.out.println(rs.getString("uuid"));
+//				System.out.println(rs.getString("name"));
+//				System.out.println(rs.getString("id"));
+//				System.out.println(rs.getString("phone"));
+//				System.out.println(rs.getString("birth"));
 				UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
 						rs.getString("phone"), rs.getString("birth"));
 				rs.close();
@@ -70,7 +89,7 @@ class MethSignUpSyn implements ServerPacketMethod {
 			qo.createQuery("uuid,name,id,pw,birth,phone,ctype", userData.uuid, userData.name, userData.id, userData.pw,
 					userData.birth, userData.phone, userData.cType);
 
-			DBProccess.getInstance().insertData(ETable.ACCOUNT, qo);
+			DBProcess.getInstance().insertData(ETable.ACCOUNT, qo);
 
 			ack = new ScSignInUpAck(EResult.SUCCESS, userData.name);
 
@@ -94,11 +113,17 @@ class MethChatConnectSyn implements ServerPacketMethod {
 class MethVerifySyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
-		CsBuySyn recPacket = (CsBuySyn) packet;
+		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
 
 		QueryObject qo = new QueryObject();
 		qo.setFindQuery(ETable.ACCOUNT, "uuid", "uuid = " + recPacket.uuid);
-		ResultSet rs = DBProccess.getInstance().findData(qo);
+		ResultSet rs = null;
+		try {
+			rs = DBProcess.getInstance().findData(qo);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			if (rs.next()) {
@@ -126,11 +151,59 @@ class MethChatSyn implements ServerPacketMethod {
 			if (findClient.doChatting) {
 				findClient.sendPacket(recPacket);
 			} else {
-				
+
 				client.sendPacket(recPacket);
 			}
 		} else {
 
 		}
+	}
+}
+
+class MethBuyRoomSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
+
+		System.out.println("들어온 상품 정보 ");
+		System.out.println(recPacket.uuid);
+		System.out.println(recPacket.RoomProduct.id);
+		System.out.println(recPacket.RoomProduct.name);
+		System.out.println(recPacket.RoomProduct.price);
+		for (TimeData timedata : recPacket.RoomProduct.timeList) {
+			System.out.println(timedata.toString());
+		}
+
+		RoomProduct rp = recPacket.RoomProduct;
+
+		ScBuyRoomAck ack = null;
+		// 타임별로 룸 구매
+		for (TimeData timeData : rp.timeList) {
+
+			rp.calendar.set(Calendar.HOUR, timeData.start);
+
+			Date date = rp.calendar.getTime(); // 갤린더의 시간
+
+			Timestamp ts = new Timestamp(date.getTime());
+
+			System.out.println(ts);
+
+			QueryObject qo = new QueryObject();
+			qo.createQuery("UUID,PRODUCTID,PRICE,STARTDATE,ENDDATE", recPacket.uuid, rp.id, rp.price + timeData.price,
+					ts.toString(), ts.toString());
+
+			try {
+				DBProcess.getInstance().insertData(ETable.INVENTORY, qo);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+				return;
+			}
+		}
+
+		ack = new ScBuyRoomAck(EResult.SUCCESS);
+		client.sendPacket(ack);
+
 	}
 }

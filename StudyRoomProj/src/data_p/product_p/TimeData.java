@@ -17,6 +17,10 @@ public class TimeData extends PacketBase {
 		this.start = start;
 		this.price = price;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "TimeData [id=" + id + ", start=" + start + ", end=" + end + ", price=" + price + "]";
+	}
 	
 }

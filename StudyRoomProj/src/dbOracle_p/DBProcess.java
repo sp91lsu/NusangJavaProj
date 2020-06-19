@@ -6,18 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DBProccess {
+public class DBProcess {
 
-	private static DBProccess instance;
+	private static DBProcess instance;
 
-	public static DBProccess getInstance() {
+	public static DBProcess getInstance() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if (instance == null) {
-			instance = new DBProccess();
+			instance = new DBProcess();
 		}
 		return instance;
 	}
@@ -25,30 +25,45 @@ public class DBProccess {
 	Connection con;
 	Statement stmt;
 
-	DBProccess() {
-	}
-
-	public ResultSet findData(QueryObject qo) {
-
+	DBProcess() {
 		try {
-			reset();
-			ResultSet rs = stmt.executeQuery(qo.query);
-			return rs;
-		} catch (Exception e) {
+			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
+			stmt = con.createStatement();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("findTableData is null");
-		return null;
+
+		updateData();
 	}
 
-	public void insertData(ETable table, QueryObject qo) {
+	public static void main(String[] args) {
+		new DBProcess().updateData();
+	}
+
+	public ResultSet findData(QueryObject qo) throws SQLException {
+
+		reset();
+		ResultSet rs = stmt.executeQuery(qo.query);
+		return rs;
+	}
+
+	public void insertData(ETable table, QueryObject qo) throws SQLException {
+		reset();
+		String data = "insert into " + table.name() + "(" + qo.calum + ") values " + "(" + qo.query + ")";
+		System.out.println(data);
+		ResultSet rs = stmt.executeQuery(data);
+		close();
+	}
+
+	public void updateData() {
+		String query = "insert into stud (id,name,kor,eng,mat,birth,reg) values "
+				+ "('iii','ÀÌÁ¤¹Î',67,76,89,'1989-06-02',sysdate)";
+
 		try {
-			reset();
-			String data = "insert into " + table.name() + "(" + qo.calum + ") values " + "(" + qo.query + ")";
-			System.out.println(data);
-			ResultSet rs = stmt.executeQuery(data);
-			close();
+			int cnt = stmt.executeUpdate(query);
+			System.out.println("½ÇÇà °¹¼ö" + cnt);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

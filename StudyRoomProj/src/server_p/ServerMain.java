@@ -89,7 +89,7 @@ class MyServer {
 		}
 	}
 
-	// p2p 알림 (채팅 기능) 
+	// p2p 알림 (채팅 기능)
 	public synchronized void broadCastP2P(SocketClient client1, SocketClient client2, PacketBase packet) {
 		client1.sendPacket(packet);
 		client2.sendPacket(packet);
@@ -133,11 +133,13 @@ class SocketClient extends Thread {
 					pMap.receivePacket(this, (PacketBase) dis.readObject());
 				}
 			} catch (Exception e) {
-				System.out.println("클라이언트에서 패킷 받는 도중 오류 " + e);
+				System.out.println("클라이언트에서 패킷 받는 도중 오류 ");
+				e.printStackTrace();
 			} finally {
 			}
 		}
 
+		System.out.println(socket.getInetAddress() + "종료");
 		MyServer.getInstance().clientList.remove(this);
 		close();
 	}
