@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import data_p.product_p.ProductData;
+import data_p.product_p.TimeData;
 
-//1시간짜리 자리 상품 
+//룸 하나의 여러개의 시간 상품 
 public class RoomProduct extends ProductData {
-
+	
 	public int personNum;
-	public ArrayList<Calendar> reservationList = new ArrayList<Calendar>();
+	public Calendar calendar;
+	public ArrayList<TimeData> timeList;
 
 	public RoomProduct(String id, String name, long price, int personNum) {
 		super(id, name, price);
 	}
 
-	public void setReservationList(ArrayList<Calendar> reservationList) {
-		this.reservationList = reservationList;
+	//날짜 입력 
+	public void setDate(int year, int month, int date, ArrayList<TimeData> timeList) {
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.DATE, date);
 	}
 }

@@ -11,9 +11,11 @@ import packetBase_p.PacketBase;
 public class CsReservationSyn extends PacketBase {
 
 	public ArrayList<RoomProduct> roomList;
+
 	public String uuid;
 
 	public CsReservationSyn(String uuid, ArrayList<RoomProduct> roomList) {
+
 		this.uuid = uuid;
 		this.roomList = roomList;
 	}

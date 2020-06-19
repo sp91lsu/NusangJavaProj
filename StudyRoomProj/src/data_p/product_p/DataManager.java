@@ -17,11 +17,13 @@ public class DataManager {
 	}
 
 	ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 	String key = "";
 
 	DataManager() {
 		RoomSetting();
 		keySetting();
+		TimeDataSetting();
 	}
 
 	public static void main(String[] args) {
@@ -36,7 +38,7 @@ public class DataManager {
 		ArrayList<String> nameList = roomReader.getList("Name");
 		ArrayList<String> priceList = roomReader.getList("Price");
 		ArrayList<String> pNumList = roomReader.getList("PersonNum");
-		
+
 		for (int i = 0; i < idList.size(); i++) {
 
 			RoomProduct roomProduct = new RoomProduct(idList.get(i), nameList.get(i),
@@ -44,6 +46,28 @@ public class DataManager {
 
 			System.out.println(roomProduct);
 			roomList.add(roomProduct);
+		}
+	}
+
+	void TimeDataSetting() {
+		ExcelReader roomReader = new ExcelReader();
+		roomReader.read("TimeTable.xlsx");
+
+		ArrayList<String> idList = roomReader.getList("id");
+		ArrayList<String> startList = roomReader.getList("start");
+		ArrayList<String> endList = roomReader.getList("end");
+		ArrayList<String> priceList = roomReader.getList("price");
+
+		for (int i = 0; i < idList.size(); i++) {
+
+			System.out.println(idList.get(i));
+			System.out.println(startList.get(i));
+			System.out.println(endList.get(i));
+			System.out.println(priceList.get(i));
+			TimeData data = new TimeData(Integer.parseInt(idList.get(i)), Integer.parseInt(startList.get(i)),
+					Integer.parseInt(endList.get(i)), Long.parseLong(priceList.get(i)));
+			
+			timeList.add(data);
 		}
 	}
 
