@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.poi.ss.formula.functions.Roman;
+
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
@@ -112,41 +114,23 @@ public class Seating_Arrangement extends JPanel {
 
 		// 여기서부터 룸 버튼
 		JButton roomBtn1 = new JButton("샤워실");
-		roomBtn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				//BaseFrame.getInstance().paymentKKK = new Payment(roomBtn1.getText());
-				BaseFrame.getInstance().paymentKKK.setVisible(true);
-				CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
-				ClientNet.getInstance().sendPacket(packet);
-				
-			}
-		});
+		roomBtn1.addActionListener(new BtnAct(roomBtn1));
 		roomBtn1.setBounds(0, 0, 300, 180);
 		panel_center.add(roomBtn1);
 
 		JButton roomBtn2 = new JButton("8인실");
-		roomBtn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn2.getText());
-			}
-		});
+		roomBtn2.addActionListener(new BtnAct(roomBtn2));
 		roomBtn2.setBounds(300, 0, 250, 180);
 		panel_center.add(roomBtn2);
 
 		JButton roomBtn3 = new JButton("6인실-1");
-		roomBtn3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn3.getText());
-			}
-		});
+		roomBtn3.addActionListener(new BtnAct(roomBtn3));
 		roomBtn3.setBounds(550, 0, 160, 180);
 		panel_center.add(roomBtn3);
 
 		JButton roomBtn4 = new JButton("6인실-2");
 		roomBtn4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn4.setBounds(710, 0, 160, 180);
@@ -155,7 +139,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn5 = new JButton("4인실-1");
 		roomBtn5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn5.setBounds(710, 220, 160, 150);
@@ -164,7 +147,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn6 = new JButton("4인실-2");
 		roomBtn6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn6.setBounds(710, 370, 160, 150);
@@ -173,7 +155,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn7 = new JButton("2인실-1");
 		roomBtn7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn7.setBounds(710, 520, 160, 100);
@@ -182,7 +163,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn8 = new JButton("2인실-2");
 		roomBtn8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn8.setBounds(710, 620, 160, 100);
@@ -191,7 +171,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn9 = new JButton("2인실-3");
 		roomBtn9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn9.setBounds(710, 720, 160, 100);
@@ -200,7 +179,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn10 = new JButton("노래방");
 		roomBtn10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn10.setBounds(0, 180, 160, 240);
@@ -209,7 +187,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn11 = new JButton("취식");
 		roomBtn11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn11.setBounds(0, 420, 160, 240);
@@ -231,8 +208,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_1 = new JButton("M1");
 		btnM_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("매너존 " + btnM_1.getText());
-				// Payment.getInstance().setName(btnM_1.getText());
 			}
 		});
 		btnM_1.setBounds(0, 0, 100, 90);
@@ -241,7 +216,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_2 = new JButton("M2");
 		btnM_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("매너존 " + btnM_2.getText());
 			}
 		});
 		btnM_2.setBounds(100, 0, 100, 90);
@@ -250,7 +224,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_3 = new JButton("M3");
 		btnM_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("매너존 " + btnM_3.getText());
 			}
 		});
 		btnM_3.setBounds(0, 160, 100, 90);
@@ -259,7 +232,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_4 = new JButton("M4");
 		btnM_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("매너존 " + btnM_4.getText());
 			}
 		});
 		btnM_4.setBounds(100, 160, 100, 90);
@@ -268,7 +240,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_5 = new JButton("M5");
 		btnM_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("매너존 " + btnM_5.getText());
 			}
 		});
 		btnM_5.setBounds(200, 160, 100, 90);
@@ -288,7 +259,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_1 = new JButton("1");
 		btnN_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("일반실 " + btnN_1.getText());
 			}
 		});
 		btnN_1.setBounds(0, 0, 100, 90);
@@ -297,7 +267,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_2 = new JButton("2");
 		btnN_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("일반실 " + btnN_2.getText());
 			}
 		});
 		btnN_2.setBounds(100, 0, 100, 90);
@@ -306,7 +275,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_3 = new JButton("3");
 		btnN_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("일반실 " + btnN_3.getText());
 			}
 		});
 		btnN_3.setBounds(200, 0, 100, 90);
@@ -315,7 +283,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_4 = new JButton("4");
 		btnN_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("일반실 " + btnN_4.getText());
 			}
 		});
 		btnN_4.setBounds(0, 160, 100, 90);
@@ -324,7 +291,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_5 = new JButton("5");
 		btnN_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("일반실 " + btnN_5.getText());
 			}
 		});
 		btnN_5.setBounds(100, 160, 100, 90);
@@ -333,7 +299,6 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_6 = new JButton("6");
 		btnN_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Payment pm = new Payment("일반실 " + btnN_6.getText());
 			}
 		});
 		btnN_6.setBounds(200, 160, 100, 90);
@@ -366,4 +331,24 @@ public class Seating_Arrangement extends JPanel {
 		now_time.start();
 		setVisible(true);
 	}
+}
+
+class BtnAct implements ActionListener{
+
+	JButton bt;
+	
+	
+	public BtnAct(JButton bt) {
+		this.bt = bt;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
+		ClientNet.getInstance().sendPacket(packet);
+		BaseFrame.getInstance().paymentKKK.name_Payment = bt.getText();
+		BaseFrame.getInstance().paymentKKK.setVisible(true);
+		
+	}
+	
 }
