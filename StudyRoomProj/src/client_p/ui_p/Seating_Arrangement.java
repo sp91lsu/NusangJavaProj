@@ -14,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.poi.ss.formula.functions.Roman;
-
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
@@ -34,7 +32,6 @@ public class Seating_Arrangement extends JPanel {
 		frame.add(new Seating_Arrangement());
 		frame.setVisible(true);
 	}
-
 	
 
 	public Seating_Arrangement() {
@@ -55,10 +52,8 @@ public class Seating_Arrangement extends JPanel {
 		panel_north.add(north_east, BorderLayout.EAST);
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// 뒤로가기 이벤트
 				BaseFrame.getInstance().view("MainLayout");
-			}
-		});
+			}});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
@@ -132,66 +127,42 @@ public class Seating_Arrangement extends JPanel {
 		panel_center.add(roomBtn3);
 
 		JButton roomBtn4 = new JButton("6인실-2");
-		roomBtn4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn4.addActionListener(new BtnAct(roomBtn4));
 		roomBtn4.setBounds(710, 0, 160, 180);
 		panel_center.add(roomBtn4);
 
 		JButton roomBtn5 = new JButton("4인실-1");
-		roomBtn5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn5.addActionListener(new BtnAct(roomBtn5));
 		roomBtn5.setBounds(710, 220, 160, 150);
 		panel_center.add(roomBtn5);
 
 		JButton roomBtn6 = new JButton("4인실-2");
-		roomBtn6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn6.addActionListener(new BtnAct(roomBtn6));
 		roomBtn6.setBounds(710, 370, 160, 150);
 		panel_center.add(roomBtn6);
 
 		JButton roomBtn7 = new JButton("2인실-1");
-		roomBtn7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn7.addActionListener(new BtnAct(roomBtn7));
 		roomBtn7.setBounds(710, 520, 160, 100);
 		panel_center.add(roomBtn7);
 
 		JButton roomBtn8 = new JButton("2인실-2");
-		roomBtn8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn8.addActionListener(new BtnAct(roomBtn8));
 		roomBtn8.setBounds(710, 620, 160, 100);
 		panel_center.add(roomBtn8);
 
 		JButton roomBtn9 = new JButton("2인실-3");
-		roomBtn9.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn9.addActionListener(new BtnAct(roomBtn9));
 		roomBtn9.setBounds(710, 720, 160, 100);
 		panel_center.add(roomBtn9);
 
 		JButton roomBtn10 = new JButton("노래방");
-		roomBtn10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn10.addActionListener(new BtnAct(roomBtn10));
 		roomBtn10.setBounds(0, 180, 160, 240);
 		panel_center.add(roomBtn10);
 
 		JButton roomBtn11 = new JButton("취식");
-		roomBtn11.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		roomBtn11.addActionListener(new BtnAct(roomBtn11));
 		roomBtn11.setBounds(0, 420, 160, 240);
 		panel_center.add(roomBtn11);
 
@@ -209,42 +180,27 @@ public class Seating_Arrangement extends JPanel {
 		mannerzone_panel.add(label_manner);
 
 		JButton btnM_1 = new JButton("M1");
-		btnM_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnM_1.addActionListener(new BtnAct(btnM_1));
 		btnM_1.setBounds(0, 0, 100, 90);
 		mannerzone_panel.add(btnM_1);
 
 		JButton btnM_2 = new JButton("M2");
-		btnM_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnM_2.addActionListener(new BtnAct(btnM_2));
 		btnM_2.setBounds(100, 0, 100, 90);
 		mannerzone_panel.add(btnM_2);
 
 		JButton btnM_3 = new JButton("M3");
-		btnM_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnM_3.addActionListener(new BtnAct(btnM_3));
 		btnM_3.setBounds(0, 160, 100, 90);
 		mannerzone_panel.add(btnM_3);
 
 		JButton btnM_4 = new JButton("M4");
-		btnM_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnM_4.addActionListener(new BtnAct(btnM_4));
 		btnM_4.setBounds(100, 160, 100, 90);
 		mannerzone_panel.add(btnM_4);
 
 		JButton btnM_5 = new JButton("M5");
-		btnM_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnM_5.addActionListener(new BtnAct(btnM_5));
 		btnM_5.setBounds(200, 160, 100, 90);
 		mannerzone_panel.add(btnM_5);
 		// 일반석 패널
@@ -260,50 +216,32 @@ public class Seating_Arrangement extends JPanel {
 		normalzone_panel.add(label_normal);
 
 		JButton btnN_1 = new JButton("1");
-		btnN_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnN_1.addActionListener(new BtnAct(btnN_1));
 		btnN_1.setBounds(0, 0, 100, 90);
 		normalzone_panel.add(btnN_1);
 
 		JButton btnN_2 = new JButton("2");
-		btnN_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnN_2.addActionListener(new BtnAct(btnN_2));
 		btnN_2.setBounds(100, 0, 100, 90);
 		normalzone_panel.add(btnN_2);
 
 		JButton btnN_3 = new JButton("3");
-		btnN_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnN_3.addActionListener(new BtnAct(btnN_3));
 		btnN_3.setBounds(200, 0, 100, 90);
 		normalzone_panel.add(btnN_3);
 
 		JButton btnN_4 = new JButton("4");
-		btnN_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnN_4.addActionListener(new BtnAct(btnN_4));
 		btnN_4.setBounds(0, 160, 100, 90);
 		normalzone_panel.add(btnN_4);
 
 		JButton btnN_5 = new JButton("5");
-		btnN_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnN_5.addActionListener(new BtnAct(btnN_5));
 		btnN_5.setBounds(100, 160, 100, 90);
 		normalzone_panel.add(btnN_5);
 
 		JButton btnN_6 = new JButton("6");
-		btnN_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnN_6.addActionListener(new BtnAct(btnN_6));
 		btnN_6.setBounds(200, 160, 100, 90);
 		normalzone_panel.add(btnN_6);
 
@@ -347,7 +285,7 @@ class BtnAct implements ActionListener {
 	void searchRProd(JButton jb) {
 		for (RoomProduct roomData : DataManager.getInstance().roomList) {
 			if (roomData.name.equals(jb.getText())) {
-				BaseFrame.getInstance().roomProductKKK = roomData;
+//				BaseFrame.getInstance().roomProductKKK = roomData;
 			}
 		}
 	}
@@ -356,7 +294,7 @@ class BtnAct implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
 		ClientNet.getInstance().sendPacket(packet);
-		BaseFrame.getInstance().paymentKKK.name_Payment = bt.getText();
+//		BaseFrame.getInstance().paymentKKK.name_Payment = bt.getText();
 		searchRProd(bt);
 		BaseFrame.getInstance().paymentKKK.setVisible(true);
 		

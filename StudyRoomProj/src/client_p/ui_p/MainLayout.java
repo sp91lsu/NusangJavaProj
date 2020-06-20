@@ -48,6 +48,10 @@ public class MainLayout extends JPanel {
 		
 		JButton button_3 = new JButton("»ç¹°ÇÔ ´ë¿©");
 		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("LockerMain");
+			}});
 		panel.add(button_3);
 		
 		JButton button_4 = new JButton("1:1 °í°´¹®ÀÇ");
@@ -84,5 +88,4 @@ public class MainLayout extends JPanel {
 		lblNewLabel.setBounds(261, 10, 396, 107);
 		add(lblNewLabel);
 	}
-
 }
