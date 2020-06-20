@@ -35,7 +35,10 @@ public class Seating_Arrangement extends JPanel {
 		frame.setVisible(true);
 	}
 
+	
+
 	public Seating_Arrangement() {
+
 		setLayout(new BorderLayout(0, 0));
 
 		// 상단 패널
@@ -333,22 +336,30 @@ public class Seating_Arrangement extends JPanel {
 	}
 }
 
-class BtnAct implements ActionListener{
+class BtnAct implements ActionListener {
 
 	JButton bt;
-	
-	
+
 	public BtnAct(JButton bt) {
 		this.bt = bt;
 	}
 
+	void searchRProd(JButton jb) {
+		for (RoomProduct roomData : DataManager.getInstance().roomList) {
+			if (roomData.name.equals(jb.getText())) {
+				BaseFrame.getInstance().roomProductKKK = roomData;
+			}
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
 		ClientNet.getInstance().sendPacket(packet);
 		BaseFrame.getInstance().paymentKKK.name_Payment = bt.getText();
+		searchRProd(bt);
 		BaseFrame.getInstance().paymentKKK.setVisible(true);
 		
 	}
-	
+
 }
