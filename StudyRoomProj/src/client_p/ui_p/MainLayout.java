@@ -67,7 +67,7 @@ public class MainLayout extends JPanel {
 		button_6.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pay = new Payment(name);
+				Payment pay = new Payment();
 			}});
 		panel.add(button_6);
 		
