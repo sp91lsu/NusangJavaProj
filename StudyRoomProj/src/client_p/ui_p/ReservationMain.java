@@ -1,39 +1,25 @@
 package client_p.ui_p;
 
-import java.awt.BorderLayout;
 import java.awt.Button;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import client_p.Receivable;
-import client_p.packet_p.broadCast.ScRoomInfoCast;
-import client_p.ui_p.ReservationMain.MyCheckBox;
-import data_p.product_p.DataManager;
-import data_p.product_p.TimeData;
-import data_p.product_p.room_p.RoomProduct;
-import packetBase_p.PacketBase;
-
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
 import java.awt.Color;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.FlowLayout;
-import javax.swing.JCheckBox;
-import java.awt.GridLayout;
-import javax.swing.JComboBox;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.SwingConstants;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
-import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import data_p.product_p.TimeData;
+import data_p.product_p.room_p.RoomProduct;
 
 public class ReservationMain extends JPanel {
 
