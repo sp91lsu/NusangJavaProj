@@ -9,7 +9,7 @@ public class TimeData extends PacketBase {
 	public int id;
 	public long price;
 	public int value;
-
+	public int date;
 	public TimeData(int id, int value, long price) {
 		super();
 		this.id = id;

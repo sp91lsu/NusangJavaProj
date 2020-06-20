@@ -182,7 +182,7 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		// 타임별로 룸 구매
 		for (TimeData timeData : rp.timeList) {
 
-			rp.calendar.set(Calendar.HOUR, timeData.start);
+			rp.calendar.set(Calendar.HOUR, timeData.value);
 
 			Date date = rp.calendar.getTime(); // 갤린더의 시간
 

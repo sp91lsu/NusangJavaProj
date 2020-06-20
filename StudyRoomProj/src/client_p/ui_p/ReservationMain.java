@@ -1,4 +1,5 @@
 package client_p.ui_p;
+
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.EventQueue;
@@ -6,6 +7,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import client_p.Receivable;
+import client_p.ui_p.ReservationMain.MyCheckBox;
+import data_p.product_p.DataManager;
+import data_p.product_p.TimeData;
+import data_p.product_p.room_p.RoomProduct;
+import packetBase_p.PacketBase;
+
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -25,12 +34,25 @@ import java.util.Calendar;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
-public class ReservationMain extends JPanel {
+public class ReservationMain extends JPanel implements Receivable {
 
+	public String roomName;
+	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 	private final JPanel mapPane = new JPanel();
 	ArrayList<Button> btnList = new ArrayList<Button>();
-	int setMonth =5;
+	int setMonth = 5;
 	boolean calViewChk = true;
+	ArrayList<MyCheckBox> timeChoiceList = new ArrayList<MyCheckBox>();
+
+	class MyCheckBox {
+		JCheckBox box;
+		int value;
+
+		MyCheckBox(String text, int value) {
+			this.box = new JCheckBox();
+			this.value = value;
+		}
+	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,7 +71,9 @@ public class ReservationMain extends JPanel {
 	}
 
 	public ReservationMain() {
-		
+
+		setVisible(false);
+
 		setBackground(new Color(240, 240, 240));
 		setForeground(Color.CYAN);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,15 +115,11 @@ public class ReservationMain extends JPanel {
 		calPaneMain.setBounds(0, 82, 283, 142);
 		calPaneMain.setLayout(new GridLayout(6, 7));
 		calendarPane.add(calPaneMain);
-		
+
 		JLabel dayLabel = new JLabel("     일         월         화         수         목         금         토");
 		dayLabel.setBounds(0, 43, 283, 39);
 		calendarPane.add(dayLabel);
 
-		
-		
-
-		
 //		JPanel calPaneMain2 = new JPanel();
 //		calPaneMain2.setBounds(0, 57, 283, 167);
 //		calPaneMain2.setLayout(new GridLayout(6, 7));
@@ -116,77 +136,31 @@ public class ReservationMain extends JPanel {
 		timeInfoPane.add(timeChkPane);
 		timeChkPane.setLayout(new GridLayout(4, 6));
 
-			JCheckBox timeChkBox_01 = new JCheckBox("01:00");
-			timeChkPane.add(timeChkBox_01);
-	
-			JCheckBox timeChkBox_02 = new JCheckBox("02:00");
-			timeChkPane.add(timeChkBox_02);
-	
-			JCheckBox timeChkBox_03 = new JCheckBox("03:00");
-			timeChkPane.add(timeChkBox_03);
-	
-			JCheckBox timeChkBox_04 = new JCheckBox("04:00");
-			timeChkPane.add(timeChkBox_04);
-	
-			JCheckBox timeChkBox_05 = new JCheckBox("05:00");
-			timeChkPane.add(timeChkBox_05);
-	
-			JCheckBox timeChkBox_06 = new JCheckBox("06:00");
-			timeChkPane.add(timeChkBox_06);
-	
-			JCheckBox timeChkBox_07 = new JCheckBox("07:00");
-			timeChkPane.add(timeChkBox_07);
-	
-			JCheckBox timeChkBox_08 = new JCheckBox("08:00");
-			timeChkPane.add(timeChkBox_08);
-	
-			JCheckBox timeChkBox_09 = new JCheckBox("09:00");
-			timeChkPane.add(timeChkBox_09);
-	
-			JCheckBox timeChkBox_10 = new JCheckBox("10:00");
-			timeChkPane.add(timeChkBox_10);
-	
-			JCheckBox timeChkBox_11 = new JCheckBox("11:00");
-			timeChkPane.add(timeChkBox_11);
-	
-			JCheckBox timeChkBox_12 = new JCheckBox("12:00");
-			timeChkPane.add(timeChkBox_12);
-	
-			JCheckBox timeChkBox_13 = new JCheckBox("13:00");
-			timeChkPane.add(timeChkBox_13);
-	
-			JCheckBox timeChkBox_14 = new JCheckBox("14:00");
-			timeChkPane.add(timeChkBox_14);
-	
-			JCheckBox timeChkBox_15 = new JCheckBox("15:00");
-			timeChkPane.add(timeChkBox_15);
-	
-			JCheckBox timeChkBox_16 = new JCheckBox("16:00");
-			timeChkPane.add(timeChkBox_16);
-	
-			JCheckBox timeChkBox_17 = new JCheckBox("17:00");
-			timeChkPane.add(timeChkBox_17);
-	
-			JCheckBox timeChkBox_18 = new JCheckBox("18:00");
-			timeChkPane.add(timeChkBox_18);
-	
-			JCheckBox timeChkBox_19 = new JCheckBox("19:00");
-			timeChkPane.add(timeChkBox_19);
-	
-			JCheckBox timeChkBox_20 = new JCheckBox("20:00");
-			timeChkPane.add(timeChkBox_20);
-	
-			JCheckBox timeChkBox_21 = new JCheckBox("21:00");
-			timeChkPane.add(timeChkBox_21);
-	
-			JCheckBox timeChkBox_22 = new JCheckBox("22:00");
-			timeChkPane.add(timeChkBox_22);
-	
-			JCheckBox timeChkBox_23 = new JCheckBox("23:00");
-			timeChkPane.add(timeChkBox_23);
-	
-			JCheckBox timeChkBox_24 = new JCheckBox("24:00");
-			timeChkPane.add(timeChkBox_24);
+		//////// 시간 선택 버튼/////////
+		for (int i = 1; i < 25; i++) {
+			if (i < 10) {
+				timeChoiceList.add((MyCheckBox) timeChkPane.add(new MyCheckBox("0" + i + ":00", i)));
+			} else
+				timeChoiceList.add((MyCheckBox) timeChkPane.add(new MyCheckBox(i + ":00", i)));
+		}
+
+		for (MyCheckBox tc : timeChoiceList) {
+			System.out.println(tc.box.getText());
+			tc.box.setEnabled(false);
+
+		}
+
+//		for (JCheckBox tcl : timeChoiceList) {
+//			for (RoomProduct rL : DataManager.getInstance().roomList) {
+//				for (TimeData td : rL.timeList) {
+//					if(tcl.getText() td.value)) {
+//						tcl.setEnabled(false);
+//					}
+//				}
+//			}
+//			
+//		}
+//
 
 		JPanel infoPane = new JPanel();
 		infoPane.setBounds(12, 151, 343, 63);
@@ -245,11 +219,7 @@ public class ReservationMain extends JPanel {
 
 		///////////////// 달력입력///////////////////////////////////
 
-
-
-		
-
-		setMonth = 5;
+		setMonth = 6;
 
 		Calendar today = Calendar.getInstance();
 		today.set(Calendar.MONTH, setMonth - 1);
@@ -266,18 +236,17 @@ public class ReservationMain extends JPanel {
 		}
 
 		int last = today.getActualMaximum(Calendar.DATE);
-		
+
 		for (int i = 2 - first; i < 44 - first; i++) {
-			String dateN = i+"";
-			if(i<1)
+			String dateN = i + "";
+			if (i < 1)
 				dateN = "";
-			else if(last < i)
+			else if (last < i)
 				dateN = "";
 
 			calPaneMain.add(new Button(dateN));
 		}
 	}
-
 
 	class MonthChoiceAct implements ActionListener {
 
@@ -289,5 +258,21 @@ public class ReservationMain extends JPanel {
 
 		}
 	}
-}
 
+	public void show(String roomName) {
+		setVisible(true);
+
+		this.roomName = roomName;
+
+		for (RoomProduct info : BaseFrame.getInstance().roomInfoList) {
+			if (info.name == roomName) {
+				roomList.add(info);
+			}
+		}
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+
+	}
+}

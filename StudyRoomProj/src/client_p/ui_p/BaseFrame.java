@@ -4,13 +4,17 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import client_p.Receivable;
+import client_p.packet_p.broadCast.ScRoomInfoCast;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
+import packetBase_p.PacketBase;
 
-public class BaseFrame extends JFrame {
+public class BaseFrame extends JFrame implements Receivable {
 
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
-
+	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	private static BaseFrame instance;
 
 	public static BaseFrame getInstance() {
@@ -44,7 +48,7 @@ public class BaseFrame extends JFrame {
 		addToBaseFrame(new MainLayout());
 		addToBaseFrame(new Seating_Arrangement());
 		addToBaseFrame(new LockerMain());
-
+		addToBaseFrame(new ReservationMain());
 		setBackground(Color.GRAY);
 //		setLayout(null);
 		setBounds(100, 100, 900, 1000);
@@ -86,4 +90,12 @@ public class BaseFrame extends JFrame {
 //		}
 	}
 
+	@Override
+	public void receive(PacketBase packet) {
+		ScRoomInfoCast roomInfoAck = (ScRoomInfoCast) packet;
+		roomInfoList = roomInfoAck.roomInfoList;
+
+	}
+
+	
 }

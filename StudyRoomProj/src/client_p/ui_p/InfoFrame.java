@@ -11,6 +11,10 @@ import javax.swing.SwingConstants;
 
 public class InfoFrame extends JFrame{
 
+	String id = "star";
+	String nDayUsingTime = "02:00";
+	String totUsingTime = "14:00";
+	
 	public static void main(String[] args) {
 		InfoFrame frame = new InfoFrame();
 	}
@@ -26,8 +30,8 @@ public class InfoFrame extends JFrame{
 		mainLabel.setBounds(33, 15, 407, 103);
 		getContentPane().add(mainLabel);
 		
-		JLabel contentLabel = new JLabel("<html>이용자 ID : ryu5986<br><br>당일 이용 시간 : HH:mm<br><br>"
-				+ "누적 이용 시간 : HH:mm<html>");
+		JLabel contentLabel = new JLabel("<html>이용자 ID : "+id+"<br><br>당일 이용 시간 : "
+		+nDayUsingTime+"<br><br>"+ "누적 이용 시간 : "+totUsingTime+"<html>");
 		contentLabel.setFont(new Font("맑은 고딕", Font.BOLD, 28));
 		contentLabel.setBounds(33, 135, 407, 199);
 		getContentPane().add(contentLabel);
