@@ -268,6 +268,7 @@ public class SignUpMain extends JFrame implements Receivable{
 		
 		passwordField.getText().trim();
 		check_passwordField.getText().trim();
+		
 		if((check_passwordField.getText().toString().trim().length()>0)) {
 			try {
 				if(passwordField.getText().equals(check_passwordField.getText())) {

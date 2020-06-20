@@ -4,13 +4,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import client_p.ClientNet;
+import client_p.Receivable;
+import client_p.packet_p.syn_p.CsExitSyn;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScExitAck;
 
-public class ExitFrame extends JFrame{
+public class ExitFrame extends JFrame implements Receivable{
 
 	public ExitFrame() {
 		setBounds(100, 100, 450, 400);
@@ -29,7 +34,10 @@ public class ExitFrame extends JFrame{
 		okButton.setBounds(38, 227, 162, 70);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				CsExitSyn packet = new CsExitSyn(BaseFrame.getInstance().userDataKKK.uuid);
+				ClientNet.getInstance().sendPacket(packet);
+				dispose();
+				
 			}});
 		getContentPane().add(okButton);
 		
@@ -42,5 +50,15 @@ public class ExitFrame extends JFrame{
 			}});
 		getContentPane().add(cancleButton);
 		setVisible(true);
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+		ScExitAck resPacket = (ScExitAck) packet;
+		if(resPacket.eResult == EResult.SUCCESS) {
+			BaseFrame.getInstance().view("MainLayout");
+		}else if(resPacket.eResult == EResult.FAIL) {
+			System.out.println("Επ½Η ½ΗΖΠ");
+		}
 	}
 }
