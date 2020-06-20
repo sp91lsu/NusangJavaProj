@@ -270,27 +270,27 @@ public class SignUpMain extends JFrame implements Receivable,ActionListener{
 		
 		passwordField.getText().trim();
 		check_passwordField.getText().trim();
-//		
-//	if(bbb.getText().equals("회원가입")) {
-//		if(textList.) {
-//			JDialog jdd = new JDialog();
-//			jdd.setBounds(50, 50, 100, 100);
-//			jdd.setLayout(new GridLayout(2, 1));
-//			JLabel jll = new JLabel("정보를 입력하세요");
-//			JButton jbb = new JButton("확인");
-//			jdd.add(jll);
-//			jdd.add(jbb);
-//			jbb.addActionListener(new ActionListener() {
-//				
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					jdd.setVisible(false);
-//					
-//				}
-//			});
-//			jdd.setVisible(true);
-//		}
-//	}
+		
+	if(bbb.getText().equals("회원가입")) {
+		
+		if(textList.toString().trim().length()==0 || pTextList.toString().trim().length()==0 ) {
+			JDialog jdd = new JDialog();
+			jdd.setBounds(50, 50, 100, 100);
+			jdd.setLayout(new GridLayout(2, 1));
+			JLabel jll = new JLabel("정보를 입력하세요");
+			JButton jbb = new JButton("확인");
+			jdd.add(jll);
+			jdd.add(jbb);
+			jbb.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					jdd.setVisible(false);
+					
+				}});
+			jdd.setVisible(true);
+		}
+	}
 			if((check_passwordField.getText().toString().trim().length()>0)) {
 				try {
 					if(passwordField.getText().equals(check_passwordField.getText())) {
