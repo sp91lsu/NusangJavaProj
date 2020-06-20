@@ -15,7 +15,7 @@ import oracle.jrockit.jfr.JFR;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
-import server_p.packet_p.ack_p.ScSignInUpAck;
+import server_p.packet_p.ack_p.ScSignUpAck;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -118,7 +118,13 @@ public class LoginMain extends JPanel implements Receivable {
 		JButton signUpBt = new JButton("È¸¿ø°¡ÀÔ");
 		signUpBt.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
-		
+		signUpBt.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().signUpFrame.setVisible(true);
+			}
+		});
 		add(signUpBt);
 
 		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778\uCC3D");

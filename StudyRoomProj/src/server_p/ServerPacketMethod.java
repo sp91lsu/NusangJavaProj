@@ -3,7 +3,7 @@ package server_p;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
-import server_p.packet_p.ack_p.ScSignInUpAck;
+import server_p.packet_p.ack_p.ScSignUpAck;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,7 +78,7 @@ class MethSignUpSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
 
-		ScSignInUpAck ack = null;
+		ScSignUpAck ack = null;
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
 
@@ -93,10 +93,10 @@ class MethSignUpSyn implements ServerPacketMethod {
 
 			DBProcess.getInstance().insertData(ETable.ACCOUNT, qo);
 
-			ack = new ScSignInUpAck(EResult.SUCCESS, userData.name);
+			ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
 
 		} catch (Exception e) {
-			ack = new ScSignInUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
+			ack = new ScSignUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
 			e.printStackTrace();
 		}
 		client.sendPacket(ack);

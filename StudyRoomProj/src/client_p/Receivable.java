@@ -15,16 +15,6 @@ public interface Receivable {
 	void receive(PacketBase packet);
 }
 
-//회원가입 
-class ReceiveSignUpAck implements Receivable {
-	@Override
-	public void receive(PacketBase packet) {
-
-		ScSignInUpAck ack = (ScSignInUpAck) packet;
-
-	}
-}
-
 //결제
 class ReceiveVerifyAck implements Receivable {
 	@Override
@@ -40,20 +30,6 @@ class ReceiveChatConnectAck implements Receivable {
 	public void receive(PacketBase packet) {
 
 		ScChatConnectAck ack = (ScChatConnectAck) packet;
-
-	}
-}
-
-class ReceiveLoginAck implements Receivable {
-	@Override
-	public void receive(PacketBase packet) {
-
-		ScLoginAck ack = (ScLoginAck) packet;
-
-		if (ack.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().view("MainLayout");
-
-		}
 
 	}
 }

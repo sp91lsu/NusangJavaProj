@@ -17,8 +17,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 
-
-
 public class BaseFrame extends JFrame {
 
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
@@ -32,11 +30,11 @@ public class BaseFrame extends JFrame {
 
 		return instance;
 	}
-	
-	UserData userDataKKK = null;
-    public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
-    public Payment paymentKKK = new Payment("kk");
 
+	UserData userDataKKK = null;
+	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	public Payment paymentKKK = new Payment("kk");
+	public SignUpMain signUpFrame = new SignUpMain();
 //	Container jjj;
 //	JPanel loginMain = new LoginMain();
 //	JPanel mainLayout = new MainLayout();
