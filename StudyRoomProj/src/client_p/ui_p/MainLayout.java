@@ -72,6 +72,10 @@ public class MainLayout extends JPanel {
 		
 		JButton button_9 = new JButton("Åð½Ç");
 		button_9.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		button_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExitFrame exitframe = new ExitFrame();
+			}});
 		panel.add(button_9);
 		
 		JLabel lblNewLabel = new JLabel("·Î±×ÀÎ ÈÄ È­¸é");

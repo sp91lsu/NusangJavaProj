@@ -50,10 +50,8 @@ public class Seating_Arrangement extends JPanel {
 		panel_north.add(north_east, BorderLayout.EAST);
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// 뒤로가기 이벤트
 				BaseFrame.getInstance().view("MainLayout");
-			}
-		});
+			}});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
@@ -120,8 +118,7 @@ public class Seating_Arrangement extends JPanel {
 				CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
 				ClientNet.getInstance().sendPacket(packet);
 				
-			}
-		});
+			}});
 		roomBtn1.setBounds(0, 0, 300, 180);
 		panel_center.add(roomBtn1);
 
@@ -129,8 +126,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn2.getText());
-			}
-		});
+			}});
 		roomBtn2.setBounds(300, 0, 250, 180);
 		panel_center.add(roomBtn2);
 
@@ -138,8 +134,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn3.getText());
-			}
-		});
+			}});
 		roomBtn3.setBounds(550, 0, 160, 180);
 		panel_center.add(roomBtn3);
 
@@ -147,8 +142,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn4.setBounds(710, 0, 160, 180);
 		panel_center.add(roomBtn4);
 
@@ -156,8 +150,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn5.setBounds(710, 220, 160, 150);
 		panel_center.add(roomBtn5);
 
@@ -165,8 +158,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn6.setBounds(710, 370, 160, 150);
 		panel_center.add(roomBtn6);
 
@@ -174,8 +166,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn7.setBounds(710, 520, 160, 100);
 		panel_center.add(roomBtn7);
 
@@ -183,8 +174,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn8.setBounds(710, 620, 160, 100);
 		panel_center.add(roomBtn8);
 
@@ -192,8 +182,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn9.setBounds(710, 720, 160, 100);
 		panel_center.add(roomBtn9);
 
@@ -201,8 +190,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn10.setBounds(0, 180, 160, 240);
 		panel_center.add(roomBtn10);
 
@@ -210,8 +198,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Payment.getInstance().setName(roomBtn1.getText());
-			}
-		});
+			}});
 		roomBtn11.setBounds(0, 420, 160, 240);
 		panel_center.add(roomBtn11);
 
@@ -233,8 +220,7 @@ public class Seating_Arrangement extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("매너존 " + btnM_1.getText());
 				// Payment.getInstance().setName(btnM_1.getText());
-			}
-		});
+			}});
 		btnM_1.setBounds(0, 0, 100, 90);
 		mannerzone_panel.add(btnM_1);
 
@@ -242,8 +228,7 @@ public class Seating_Arrangement extends JPanel {
 		btnM_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("매너존 " + btnM_2.getText());
-			}
-		});
+			}});
 		btnM_2.setBounds(100, 0, 100, 90);
 		mannerzone_panel.add(btnM_2);
 
@@ -251,8 +236,7 @@ public class Seating_Arrangement extends JPanel {
 		btnM_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("매너존 " + btnM_3.getText());
-			}
-		});
+			}});
 		btnM_3.setBounds(0, 160, 100, 90);
 		mannerzone_panel.add(btnM_3);
 
@@ -260,8 +244,7 @@ public class Seating_Arrangement extends JPanel {
 		btnM_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("매너존 " + btnM_4.getText());
-			}
-		});
+			}});
 		btnM_4.setBounds(100, 160, 100, 90);
 		mannerzone_panel.add(btnM_4);
 
@@ -269,8 +252,7 @@ public class Seating_Arrangement extends JPanel {
 		btnM_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("매너존 " + btnM_5.getText());
-			}
-		});
+			}});
 		btnM_5.setBounds(200, 160, 100, 90);
 		mannerzone_panel.add(btnM_5);
 		// 일반석 패널
@@ -289,8 +271,7 @@ public class Seating_Arrangement extends JPanel {
 		btnN_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("일반실 " + btnN_1.getText());
-			}
-		});
+			}});
 		btnN_1.setBounds(0, 0, 100, 90);
 		normalzone_panel.add(btnN_1);
 
@@ -298,8 +279,7 @@ public class Seating_Arrangement extends JPanel {
 		btnN_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("일반실 " + btnN_2.getText());
-			}
-		});
+			}});
 		btnN_2.setBounds(100, 0, 100, 90);
 		normalzone_panel.add(btnN_2);
 
@@ -307,8 +287,7 @@ public class Seating_Arrangement extends JPanel {
 		btnN_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("일반실 " + btnN_3.getText());
-			}
-		});
+			}});
 		btnN_3.setBounds(200, 0, 100, 90);
 		normalzone_panel.add(btnN_3);
 
@@ -316,8 +295,7 @@ public class Seating_Arrangement extends JPanel {
 		btnN_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("일반실 " + btnN_4.getText());
-			}
-		});
+			}});
 		btnN_4.setBounds(0, 160, 100, 90);
 		normalzone_panel.add(btnN_4);
 
@@ -325,8 +303,7 @@ public class Seating_Arrangement extends JPanel {
 		btnN_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("일반실 " + btnN_5.getText());
-			}
-		});
+			}});
 		btnN_5.setBounds(100, 160, 100, 90);
 		normalzone_panel.add(btnN_5);
 
@@ -334,8 +311,7 @@ public class Seating_Arrangement extends JPanel {
 		btnN_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				Payment pm = new Payment("일반실 " + btnN_6.getText());
-			}
-		});
+			}});
 		btnN_6.setBounds(200, 160, 100, 90);
 		normalzone_panel.add(btnN_6);
 
