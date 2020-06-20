@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 public class MainLayout extends JPanel {
 
+	private String name;
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,14 +65,26 @@ public class MainLayout extends JPanel {
 		
 		JButton button_6 = new JButton("ÁÂ¼® ¿¬Àå");
 		button_6.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Payment pay = new Payment(name);
+			}});
 		panel.add(button_6);
 		
 		JButton button_7 = new JButton("ÀÜ¿© ½Ã°£");
 		button_7.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TimeFrame time = new TimeFrame();
+			}});
 		panel.add(button_7);
 		
 		JButton button_8 = new JButton("³» ÀÌ¿ëÁ¤º¸");
 		button_8.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		button_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InfoFrame info = new InfoFrame();
+			}});
 		panel.add(button_8);
 		
 		JButton button_9 = new JButton("Åð½Ç");

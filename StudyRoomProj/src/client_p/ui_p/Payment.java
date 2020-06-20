@@ -160,8 +160,7 @@ public class Payment extends JFrame implements Receivable {
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-			}
-		});
+			}});
 		payButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
 		payButton.setBounds(356, 30, 179, 60);
 		payPane.add(payButton);
