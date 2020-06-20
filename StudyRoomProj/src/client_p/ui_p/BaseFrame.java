@@ -1,21 +1,11 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.sun.javafx.event.EventQueue;
-
-import client_p.PacketMap;
-import client_p.Receivable;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
-import packetBase_p.PacketBase;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
 
 public class BaseFrame extends JFrame {
 
@@ -53,6 +43,7 @@ public class BaseFrame extends JFrame {
 		addToBaseFrame(new LoginMain());
 		addToBaseFrame(new MainLayout());
 		addToBaseFrame(new Seating_Arrangement());
+		addToBaseFrame(new LockerMain());
 
 		setBackground(Color.GRAY);
 //		setLayout(null);

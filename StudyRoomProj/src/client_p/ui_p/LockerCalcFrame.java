@@ -11,10 +11,6 @@ import javax.swing.SwingConstants;
 
 public class LockerCalcFrame extends JFrame
 {
-	public static void main(String[] args) {
-		LockerCalcFrame window = new LockerCalcFrame();
-	}
-
 	public LockerCalcFrame() {
 		setBounds(100, 100, 450, 350);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,8 +29,8 @@ public class LockerCalcFrame extends JFrame
 		getContentPane().add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JButton jb = (JButton)e.getSource();
-				setVisible(false);
+				//결제하면 기능을  추가. 일단은 창을 닫는다
+				dispose();
 			}});
 		
 		JButton button = new JButton("취소");
@@ -43,8 +39,7 @@ public class LockerCalcFrame extends JFrame
 		getContentPane().add(button);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JButton jb = (JButton)e.getSource();
-				setVisible(false);
+				dispose();
 			}});
 		
 		setVisible(true);

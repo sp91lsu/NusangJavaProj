@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 
 public class LockerMain extends JPanel implements ActionListener {
 
+	ArrayList<JButton> list = new ArrayList<JButton>();
+	
 //	public static void main(String[] args) {
 //		JFrame frame = new JFrame();
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,8 +23,6 @@ public class LockerMain extends JPanel implements ActionListener {
 //		frame.getContentPane().add(new LockerMain());
 //		frame.setVisible(true);
 //	}
-	
-	ArrayList<JButton> list = new ArrayList<JButton>();
 	
 	public LockerMain() {
 		setLayout(null);
@@ -105,7 +105,7 @@ public class LockerMain extends JPanel implements ActionListener {
 			infoPanel.add(pwSetting);
 			pwSetting.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					LockerPWFrame lp = new LockerPWFrame();
 				}});
 			
 			JButton cancelButton = new JButton("√Îº“");
@@ -113,7 +113,7 @@ public class LockerMain extends JPanel implements ActionListener {
 			infoPanel.add(cancelButton);
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setVisible(false);
+					BaseFrame.getInstance().view("MainLayout");
 				}});
 		
 		for (JButton jbt : list) {

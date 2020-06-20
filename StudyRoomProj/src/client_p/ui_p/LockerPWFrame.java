@@ -1,55 +1,27 @@
 package client_p.ui_p;
 
-import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JPasswordField;
-import javax.swing.JToggleButton;
-import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
-import java.awt.Font;
 
 public class LockerPWFrame implements ActionListener{
 
 	private JFrame frame;
 	private JPasswordField passwordField;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LockerPWFrame window = new LockerPWFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		LockerPWFrame window = new LockerPWFrame();
+//	}
 
-	/**
-	 * Create the application.
-	 */
 	public LockerPWFrame() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		passwordField = new JPasswordField();
@@ -129,6 +101,8 @@ public class LockerPWFrame implements ActionListener{
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(28, 0, 421, 49);
 		frame.getContentPane().add(lblNewLabel);
+		
+		frame.setVisible(true);
 	}
 	String text = "";
 
@@ -149,11 +123,11 @@ public class LockerPWFrame implements ActionListener{
 		}
 		
 		if(keyPoint.getText().equals("확인")) {
-			
+			LockerCalcFrame lc = new LockerCalcFrame();
 		}
 		
 		if (keyPoint.getText().equals("취소")) {
-			frame.setVisible(false);
+			frame.dispose();
 		}
 	}
       
@@ -162,8 +136,4 @@ public class LockerPWFrame implements ActionListener{
          if(text.length() > 0)
          text =  text.substring(0,text.length()-1);
       }
-
-		
-	
-	
 }
