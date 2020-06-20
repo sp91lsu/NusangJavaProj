@@ -10,9 +10,18 @@ public class TimeData extends PacketBase {
 	public long price;
 	public int value;
 	public int date;
+
 	public TimeData(int id, int value, long price) {
 		super();
 		this.id = id;
+		this.value = value;
+		this.price = price;
+	}
+
+	public TimeData(int id, int date, int value, long price) {
+		super();
+		this.id = id;
+		this.date = date;
 		this.value = value;
 		this.price = price;
 	}
