@@ -1,6 +1,7 @@
 package server_p;
 
 import server_p.packet_p.ack_p.ScBuyRoomAck;
+import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignInUpAck;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
@@ -36,7 +38,7 @@ class MethLoginSyn implements ServerPacketMethod {
 		QueryObject qo = new QueryObject();
 		String idOrPhone = recPacket.isID == true ? "id" : "phone";
 
-		qo.setFindQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
+		qo.findQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
 
 		ResultSet rs = null;
 		try {
@@ -116,7 +118,7 @@ class MethVerifySyn implements ServerPacketMethod {
 		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
 
 		QueryObject qo = new QueryObject();
-		qo.setFindQuery(ETable.ACCOUNT, "uuid", "uuid = " + recPacket.uuid);
+		qo.findQuery(ETable.ACCOUNT, "uuid", "uuid = " + recPacket.uuid);
 		ResultSet rs = null;
 		try {
 			rs = DBProcess.getInstance().findData(qo);
@@ -204,6 +206,34 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 
 		ack = new ScBuyRoomAck(EResult.SUCCESS);
 		client.sendPacket(ack);
-
 	}
+
+}
+
+class MethDuplicateIDSyn implements ServerPacketMethod {
+
+	@Override
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsDuplicateIDSyn resPacket = (CsDuplicateIDSyn) packet;
+
+		ScDuplicateIDAck ack;
+
+		QueryObject qo = new QueryObject();
+		qo.findQuery(ETable.ACCOUNT, "id", "id = " + resPacket.id);
+
+		try {
+			ResultSet res = DBProcess.getInstance().findData(qo);
+
+			if (res.next()) {
+				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
+			} else {
+				ack = new ScDuplicateIDAck(EResult.SUCCESS);
+			}
+		} catch (SQLException e) {
+			ack = new ScDuplicateIDAck(EResult.FAIL);
+			e.printStackTrace();
+		}
+	}
+
 }

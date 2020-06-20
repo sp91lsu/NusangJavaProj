@@ -118,6 +118,10 @@ public class LoginMain extends JPanel implements Receivable{
 		JButton signUpBt = new JButton("È¸¿ø°¡ÀÔ");
 		signUpBt.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
+		signUpBt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SignUpMain frame = new SignUpMain();
+			}});
 		add(signUpBt);
 
 		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778\uCC3D");

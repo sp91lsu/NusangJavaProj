@@ -11,9 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 public class ExitFrame extends JFrame{
-	public static void main(String[] args) {
-		ExitFrame frame = new ExitFrame();
-	}
 
 	public ExitFrame() {
 		setBounds(100, 100, 450, 400);

@@ -6,6 +6,7 @@ public class QueryObject {
 	public String query = "";
 
 	public void createQuery(String calum, Object... valueArr) {
+	
 		this.calum = calum;
 
 		for (int i = 0; i < valueArr.length; i++) {
@@ -22,7 +23,7 @@ public class QueryObject {
 		}
 	}
 
-	public String setFindQuery(ETable table, String... data) {
+	public String findQuery(ETable table, String... data) {
 		query = "select " + data[0] + " from " + table.name();
 		if (data.length == 2) {
 			query += " where " + data[1];

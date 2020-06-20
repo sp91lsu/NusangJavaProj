@@ -1,6 +1,5 @@
 package client_p.ui_p;
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -8,16 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class SignUpMain extends JFrame {
 
@@ -26,41 +22,18 @@ public class SignUpMain extends JFrame {
 	private JTextField idTextField;
 	private JTextField phoneNumTextField;
 	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
+	private JPasswordField check_passwordField;
 	private JButton btn;
-	String text="";
 	private JTextField currentTextField;
+	String text="";
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SignUpMain frame = new SignUpMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	class MyAdapter extends MouseAdapter		// 마우스로 id or pw TextField 클릭시 적용
-	{
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			
-		if(	currentTextField != (JTextField) e.getSource())
-			text = "";
-			currentTextField = (JTextField) e.getSource();
-		}
-	}
-
-
+//	public static void main(String[] args) {
+//		SignUpMain frame = new SignUpMain();
+//	}
+//	
 	public SignUpMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 1000);
 		mainPane = new JPanel();
-		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(mainPane);
 		mainPane.setLayout(null);
 		
@@ -128,10 +101,10 @@ public class SignUpMain extends JFrame {
 		mainPane.add(passwordField);
 		passwordField.addMouseListener(new MyAdapter());
 		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(381, 257, 191, 33);
-		mainPane.add(passwordField_1);
-		passwordField_1.addMouseListener(new MyAdapter());
+		check_passwordField = new JPasswordField();
+		check_passwordField.setBounds(381, 257, 191, 33);
+		mainPane.add(check_passwordField);
+		check_passwordField.addMouseListener(new MyAdapter());
 		
 		JPanel keybordPane = new JPanel();
 		keybordPane.setBounds(12, 431, 860, 300);
@@ -175,8 +148,19 @@ public class SignUpMain extends JFrame {
 
 		keybordPane.add(jpKeyboard);
 		
+		setVisible(true);
 	}
 	
+	class MyAdapter extends MouseAdapter		// 마우스로 id or pw TextField 클릭시 적용
+	{
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+		if(	currentTextField != (JTextField) e.getSource())
+			text = "";
+			currentTextField = (JTextField) e.getSource();
+		}
+	}
 	void addKeys(JPanel parent, int row, String[] keys, JButton[] buttons) {
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -195,7 +179,23 @@ public class SignUpMain extends JFrame {
 			} else {
 				//System.out.println("Add " + key);
 				btn = new JButton(key);
-				btn.addActionListener(new BtnAct());
+				btn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton keyPoint = (JButton)e.getSource();
+						if(keyPoint.getText() !="BackSpace") {
+							text += keyPoint.getText();
+						}
+						else if(keyPoint.getText()=="BackSpace")
+							textBack();
+					
+						currentTextField.setText(text);
+					}
+					void textBack()
+					{
+						if(text.length() > 0)
+						text =  text.substring(0,text.length()-1);
+					}
+					});
 				buttons[index] = btn;
 				parent.add(btn, gbc);
 				gbc.gridx += gap + 1;
@@ -204,26 +204,4 @@ public class SignUpMain extends JFrame {
 			}
 		}		
 	}
-	
-	class BtnAct implements ActionListener{		//버튼 액션에 대한 이너클래스
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton keyPoint = (JButton)e.getSource();
-			if(keyPoint.getText() !="BackSpace") {
-				text += keyPoint.getText();
-			}
-			else if(keyPoint.getText()=="BackSpace")
-				textBack();
-		
-			currentTextField.setText(text);	
-		}
-		
-		void textBack()
-		{
-			if(text.length() > 0)
-			text =  text.substring(0,text.length()-1);
-		}
-	}
-
 }
