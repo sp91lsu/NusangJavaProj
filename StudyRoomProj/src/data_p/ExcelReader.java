@@ -46,7 +46,7 @@ public class ExcelReader {
 			workbook = new XSSFWorkbook(inputStream);
 			// sheet수 취득
 			int sheetCn = workbook.getNumberOfSheets();
-			System.out.println("sheet수 : " + sheetCn);
+			//System.out.println("sheet수 : " + sheetCn);
 			for (int cn = 0; cn < sheetCn; cn++) {
 				// System.out.println("취득하는 sheet 이름 : " + workbook.getSheetName(cn));
 				// System.out.println(workbook.getSheetName(cn) + " sheet 데이터 취득 시작");
@@ -117,16 +117,16 @@ public class ExcelReader {
 
 								cnt++;
 
-								System.out.print(value + "\t");
+								//System.out.print(value + "\t");
 
 							} else {
 
-								System.out.print("[null]\t");
+								//System.out.print("[null]\t");
 
 							}
 
 						} // for(c) 문
-						System.out.print("\n");
+						//System.out.print("\n");
 					}
 				} // for(r) 문
 			}

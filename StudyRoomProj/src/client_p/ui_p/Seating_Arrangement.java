@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,10 +14,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client_p.ClientNet;
+import client_p.packet_p.syn_p.CsSignUpSyn;
+import data_p.product_p.DataManager;
+import data_p.product_p.TimeData;
+import data_p.product_p.room_p.RoomProduct;
+
 public class Seating_Arrangement extends JPanel {
-	private JPanel contentPane;
 	static JLabel north_west;
-	
+
+	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +51,7 @@ public class Seating_Arrangement extends JPanel {
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 뒤로가기 이벤트
+				BaseFrame.getInstance().view("MainLayout");
 			}
 		});
 
@@ -52,7 +61,7 @@ public class Seating_Arrangement extends JPanel {
 
 		JPanel north_center_center = new JPanel();
 		north_center.add(north_center_center, BorderLayout.CENTER);
-//		      north_center_center.setLayout(new GridLayout(1, 0, 0, 0));
+//            north_center_center.setLayout(new GridLayout(1, 0, 0, 0));
 
 		JPanel panel_5 = new JPanel();
 		north_center_center.add(panel_5);
@@ -105,7 +114,12 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn1 = new JButton("샤워실");
 		roomBtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Payment pm = new Payment(roomBtn1.getText());
+
+				//BaseFrame.getInstance().paymentKKK = new Payment(roomBtn1.getText());
+				BaseFrame.getInstance().paymentKKK.setVisible(true);
+				CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
+				ClientNet.getInstance().sendPacket(packet);
+				
 			}
 		});
 		roomBtn1.setBounds(0, 0, 300, 180);
@@ -114,7 +128,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn2 = new JButton("8인실");
 		roomBtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn2.getText());
+				// Payment.getInstance().setName(roomBtn2.getText());
 			}
 		});
 		roomBtn2.setBounds(300, 0, 250, 180);
@@ -123,7 +137,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn3 = new JButton("6인실-1");
 		roomBtn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn3.getText());
+				// Payment.getInstance().setName(roomBtn3.getText());
 			}
 		});
 		roomBtn3.setBounds(550, 0, 160, 180);
@@ -132,7 +146,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn4 = new JButton("6인실-2");
 		roomBtn4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn4.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn4.setBounds(710, 0, 160, 180);
@@ -141,7 +155,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn5 = new JButton("4인실-1");
 		roomBtn5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn5.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn5.setBounds(710, 220, 160, 150);
@@ -150,7 +164,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn6 = new JButton("4인실-2");
 		roomBtn6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn6.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn6.setBounds(710, 370, 160, 150);
@@ -159,7 +173,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn7 = new JButton("2인실-1");
 		roomBtn7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn7.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn7.setBounds(710, 520, 160, 100);
@@ -168,7 +182,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn8 = new JButton("2인실-2");
 		roomBtn8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn8.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn8.setBounds(710, 620, 160, 100);
@@ -177,7 +191,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn9 = new JButton("2인실-3");
 		roomBtn9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn9.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn9.setBounds(710, 720, 160, 100);
@@ -186,7 +200,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn10 = new JButton("노래방");
 		roomBtn10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn10.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn10.setBounds(0, 180, 160, 240);
@@ -195,7 +209,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton roomBtn11 = new JButton("취식");
 		roomBtn11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment(roomBtn11.getText());
+				// Payment.getInstance().setName(roomBtn1.getText());
 			}
 		});
 		roomBtn11.setBounds(0, 420, 160, 240);
@@ -217,7 +231,8 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_1 = new JButton("M1");
 		btnM_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("매너존 " + btnM_1.getText());
+//				Payment pm = new Payment("매너존 " + btnM_1.getText());
+				// Payment.getInstance().setName(btnM_1.getText());
 			}
 		});
 		btnM_1.setBounds(0, 0, 100, 90);
@@ -226,7 +241,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_2 = new JButton("M2");
 		btnM_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("매너존 " + btnM_2.getText());
+//				Payment pm = new Payment("매너존 " + btnM_2.getText());
 			}
 		});
 		btnM_2.setBounds(100, 0, 100, 90);
@@ -235,7 +250,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_3 = new JButton("M3");
 		btnM_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("매너존 " + btnM_3.getText());
+//				Payment pm = new Payment("매너존 " + btnM_3.getText());
 			}
 		});
 		btnM_3.setBounds(0, 160, 100, 90);
@@ -244,7 +259,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_4 = new JButton("M4");
 		btnM_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("매너존 " + btnM_4.getText());
+//				Payment pm = new Payment("매너존 " + btnM_4.getText());
 			}
 		});
 		btnM_4.setBounds(100, 160, 100, 90);
@@ -253,7 +268,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnM_5 = new JButton("M5");
 		btnM_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("매너존 " + btnM_5.getText());
+//				Payment pm = new Payment("매너존 " + btnM_5.getText());
 			}
 		});
 		btnM_5.setBounds(200, 160, 100, 90);
@@ -273,7 +288,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_1 = new JButton("1");
 		btnN_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("일반실 " + btnN_1.getText());
+//				Payment pm = new Payment("일반실 " + btnN_1.getText());
 			}
 		});
 		btnN_1.setBounds(0, 0, 100, 90);
@@ -282,7 +297,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_2 = new JButton("2");
 		btnN_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("일반실 " + btnN_2.getText());
+//				Payment pm = new Payment("일반실 " + btnN_2.getText());
 			}
 		});
 		btnN_2.setBounds(100, 0, 100, 90);
@@ -291,7 +306,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_3 = new JButton("3");
 		btnN_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("일반실 " + btnN_3.getText());
+//				Payment pm = new Payment("일반실 " + btnN_3.getText());
 			}
 		});
 		btnN_3.setBounds(200, 0, 100, 90);
@@ -300,7 +315,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_4 = new JButton("4");
 		btnN_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("일반실 " + btnN_4.getText());
+//				Payment pm = new Payment("일반실 " + btnN_4.getText());
 			}
 		});
 		btnN_4.setBounds(0, 160, 100, 90);
@@ -309,7 +324,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_5 = new JButton("5");
 		btnN_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("일반실 " + btnN_5.getText());
+//				Payment pm = new Payment("일반실 " + btnN_5.getText());
 			}
 		});
 		btnN_5.setBounds(100, 160, 100, 90);
@@ -318,7 +333,7 @@ public class Seating_Arrangement extends JPanel {
 		JButton btnN_6 = new JButton("6");
 		btnN_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Payment pm = new Payment("일반실 " + btnN_6.getText());
+//				Payment pm = new Payment("일반실 " + btnN_6.getText());
 			}
 		});
 		btnN_6.setBounds(200, 160, 100, 90);
@@ -346,7 +361,7 @@ public class Seating_Arrangement extends JPanel {
 		lblNewLabel.setBounds(0, 60, 32, 79);
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 20));
 		locker.add(lblNewLabel);
-		
+
 		SetNowTime now_time = new SetNowTime(north_west);
 		now_time.start();
 		setVisible(true);

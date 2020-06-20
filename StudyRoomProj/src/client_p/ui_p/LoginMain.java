@@ -7,7 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import client_p.ClientNet;
+import client_p.PacketMap;
+import client_p.Receivable;
+import client_p.packet_p.syn_p.CsLoginSyn;
 import oracle.jrockit.jfr.JFR;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScLoginAck;
+import server_p.packet_p.ack_p.ScSignInUpAck;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -29,7 +37,7 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.DropMode;
 
-public class LoginMain extends JPanel{
+public class LoginMain extends JPanel implements Receivable{
 
 	private JTextField idTextF;
 	private JTextField currentTextField;
@@ -37,7 +45,6 @@ public class LoginMain extends JPanel{
 	private final JPanel keybordPane = new JPanel();
 	JButton btn;
 	String text = "";
-	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -55,18 +62,20 @@ public class LoginMain extends JPanel{
 		});
 	}
 
-	class MyAdapter extends MouseAdapter		// 마우스로 id or pw TextField 클릭시 적용
+	class MyAdapter extends MouseAdapter // 마우스로 id or pw TextField 클릭시 적용
 	{
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
-		if(	currentTextField != (JTextField) e.getSource())
-			text = "";
+
+			if (currentTextField != (JTextField) e.getSource())
+				text = "";
 			currentTextField = (JTextField) e.getSource();
 		}
 	}
-	
+
 	public LoginMain() {
+		                                //서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결 
+//		PacketMap.getInstance().map.put(ScLoginAck.class, new ReceiveLoginAck());
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -93,7 +102,6 @@ public class LoginMain extends JPanel{
 		passwordField.setBounds(323, 236, 328, 54);
 		passwordField.addMouseListener(new MyAdapter());
 		add(passwordField);
-	
 
 		JButton logInBtn = new JButton("로그인");
 		logInBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -102,7 +110,9 @@ public class LoginMain extends JPanel{
 		logInBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("MainLayout");
+
+				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
+				ClientNet.getInstance().sendPacket(packet);
 			}
 		});
 		JButton signUpBt = new JButton("회원가입");
@@ -118,13 +128,13 @@ public class LoginMain extends JPanel{
 		keybordPane.setBounds(12, 413, 860, 300);
 		add(keybordPane);
 
-		///////////////////////////////////키보드///////////////////////
-		
+		/////////////////////////////////// 키보드///////////////////////
+
 		// Individual keyboard rows
-		String firstRow[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",  "BackSpace" };
+		String firstRow[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "BackSpace" };
 		String secondRow[] = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" };
-		String thirdRow[] = {  "blank","A", "S", "D", "F", "G", "H", "J", "K", "L" };
-		String fourthRow[] = { "blank","blank","Z", "X", "C", "V", "B", "N", "M" };
+		String thirdRow[] = { "blank", "A", "S", "D", "F", "G", "H", "J", "K", "L" };
+		String fourthRow[] = { "blank", "blank", "Z", "X", "C", "V", "B", "N", "M" };
 //		String fifthRow[] = { "blank", "blank", "fill", "fill", "fill", "fill", "fill", "fill", "fill", "fill", "", "<",
 //				"v", ">" };
 
@@ -157,17 +167,16 @@ public class LoginMain extends JPanel{
 //		addKeys(jpKeyboard, 4, fifthRow, fifth);
 
 		keybordPane.add(jpKeyboard);
-		
+
 	}
 
-	class LoginActionListener implements ActionListener
-	{
+	class LoginActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 		}
 	}
-	
+
 	void addKeys(JPanel parent, int row, String[] keys, JButton[] buttons) {
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -184,7 +193,7 @@ public class LoginMain extends JPanel{
 				gbc.gridwidth++;
 				gap++;
 			} else {
-				//System.out.println("Add " + key);
+				// System.out.println("Add " + key);
 				btn = new JButton(key);
 				btn.addActionListener(new BtnAct());
 				buttons[index] = btn;
@@ -193,29 +202,38 @@ public class LoginMain extends JPanel{
 				gbc.gridwidth = 1;
 				gap = 0;
 			}
-		}		
+		}
 	}
 
-		class BtnAct implements ActionListener{		//버튼 액션에 대한 이너클래스
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JButton keyPoint = (JButton)e.getSource();
-				if(keyPoint.getText() !="BackSpace") {
-					text += keyPoint.getText();
-				}
-				else if(keyPoint.getText()=="BackSpace")
-					textBack();
-			
-				currentTextField.setText(text);	
-			}
-			
-			void textBack()
-			{
-				if(text.length() > 0)
-				text =  text.substring(0,text.length()-1);
+	class BtnAct implements ActionListener { // 버튼 액션에 대한 이너클래스
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton keyPoint = (JButton) e.getSource();
+			if (keyPoint.getText() != "BackSpace") {
+				text += keyPoint.getText();
+			} else if (keyPoint.getText() == "BackSpace")
+				textBack();
+
+			currentTextField.setText(text);
+		}
+
+		void textBack() {
+			if (text.length() > 0) {
+				text = text.substring(0, text.length() - 1);
 			}
 		}
-			
-		
+	}
+	@Override
+	public void receive(PacketBase packet) {
+
+		ScLoginAck ack = (ScLoginAck) packet;
+
+		if (ack.eResult == EResult.SUCCESS) {
+			BaseFrame.getInstance().view("MainLayout");
+		}
+
+	}
+	
 }
+

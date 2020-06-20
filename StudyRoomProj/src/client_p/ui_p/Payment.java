@@ -17,11 +17,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Payment extends JFrame 
+import client_p.Receivable;
+import packetBase_p.PacketBase;
+
+public class Payment extends JFrame implements Receivable
 {
 	private JPanel MainPane;
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 	String current_day=date.format((Calendar.getInstance().getTime()));
+	JCheckBox timeChkBox_01;
 	
 	public Payment(String name)
 	{
@@ -64,7 +68,8 @@ public class Payment extends JFrame
 			centerPane.add(timeChKPane);
 			timeChKPane.setLayout(new GridLayout(4, 6));
 			//시간 선택박스
-				JCheckBox timeChkBox_01 = new JCheckBox("01:00");
+//				JCheckBox 
+				timeChkBox_01 = new JCheckBox("01:00");
 				timeChKPane.add(timeChkBox_01);
 				
 				JCheckBox timeChkBox_02 = new JCheckBox("02:00");
@@ -170,5 +175,14 @@ public class Payment extends JFrame
 			payPane.add(priceLabel);
 			
 		setVisible(true);
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+		boolean ddd = false;
+		System.out.println("들어와땅");
+		//timeChkBox_01.setEnabled(b);
+		
+		
 	}
 }

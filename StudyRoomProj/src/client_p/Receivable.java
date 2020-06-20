@@ -21,7 +21,7 @@ class ReceiveSignUpAck implements Receivable {
 	public void receive(PacketBase packet) {
 
 		ScSignInUpAck ack = (ScSignInUpAck) packet;
-		
+
 	}
 }
 
@@ -44,4 +44,16 @@ class ReceiveChatConnectAck implements Receivable {
 	}
 }
 
+class ReceiveLoginAck implements Receivable {
+	@Override
+	public void receive(PacketBase packet) {
 
+		ScLoginAck ack = (ScLoginAck) packet;
+
+		if (ack.eResult == EResult.SUCCESS) {
+			BaseFrame.getInstance().view("MainLayout");
+
+		}
+
+	}
+}

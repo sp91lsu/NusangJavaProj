@@ -7,13 +7,21 @@ import javax.swing.JPanel;
 
 import com.sun.javafx.event.EventQueue;
 
+import client_p.PacketMap;
+import client_p.Receivable;
+import data_p.product_p.room_p.RoomProduct;
+import data_p.user_p.UserData;
+import packetBase_p.PacketBase;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 
+
+
 public class BaseFrame extends JFrame {
 
-	ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
+	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 
 	private static BaseFrame instance;
 
@@ -24,6 +32,10 @@ public class BaseFrame extends JFrame {
 
 		return instance;
 	}
+	
+	UserData userDataKKK = null;
+    public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+    public Payment paymentKKK = new Payment("kk");
 
 //	Container jjj;
 //	JPanel loginMain = new LoginMain();
@@ -39,7 +51,7 @@ public class BaseFrame extends JFrame {
 //		jjj = new JPanel();
 //		jjj.setLayout(new BorderLayout(0,0));
 //		jjj.setVisible(true);
-
+		paymentKKK.setVisible(false);
 		addToBaseFrame(new LoginMain());
 		addToBaseFrame(new MainLayout());
 		addToBaseFrame(new Seating_Arrangement());
