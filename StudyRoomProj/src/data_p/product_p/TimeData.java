@@ -7,20 +7,14 @@ import packetBase_p.PacketBase;
 public class TimeData extends PacketBase {
 
 	public int id;
-	public int start;
-	public int end;
 	public long price;
-	
-	public TimeData(int id, int start, int end, long price) {
+	public int value;
+
+	public TimeData(int id, int value, long price) {
 		super();
 		this.id = id;
-		this.start = start;
+		this.value = value;
 		this.price = price;
 	}
 
-	@Override
-	public String toString() {
-		return "TimeData [id=" + id + ", start=" + start + ", end=" + end + ", price=" + price + "]";
-	}
-	
 }

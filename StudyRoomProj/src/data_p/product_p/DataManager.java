@@ -57,8 +57,7 @@ public class DataManager {
 		reader.read("TimeTable.xlsx");
 
 		ArrayList<String> idList = reader.getList("id");
-		ArrayList<String> startList = reader.getList("start");
-		ArrayList<String> endList = reader.getList("end");
+		ArrayList<String> valueList = reader.getList("value");
 		ArrayList<String> priceList = reader.getList("price");
 
 		for (int i = 0; i < idList.size(); i++) {
@@ -67,8 +66,8 @@ public class DataManager {
 //			System.out.println(startList.get(i));
 //			System.out.println(endList.get(i));
 //			System.out.println(priceList.get(i));
-			TimeData data = new TimeData(Integer.parseInt(idList.get(i)), Integer.parseInt(startList.get(i)),
-					Integer.parseInt(endList.get(i)), Long.parseLong(priceList.get(i)));
+			TimeData data = new TimeData(Integer.parseInt(idList.get(i)), Integer.parseInt(valueList.get(i)),
+					Long.parseLong(priceList.get(i)));
 
 			timeList.add(data);
 		}
@@ -81,7 +80,7 @@ public class DataManager {
 		ArrayList<String> keyList = roomReader.getList("key");
 		for (int i = 0; i < keyList.size(); i++) {
 			managerKey = keyList.get(i);
-			//System.out.println(managerKey);
+			// System.out.println(managerKey);
 		}
 	}
 }
