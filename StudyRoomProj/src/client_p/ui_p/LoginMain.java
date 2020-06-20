@@ -37,7 +37,7 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.DropMode;
 
-public class LoginMain extends JPanel implements Receivable{
+public class LoginMain extends JPanel implements Receivable {
 
 	private JTextField idTextF;
 	private JTextField currentTextField;
@@ -74,7 +74,7 @@ public class LoginMain extends JPanel implements Receivable{
 	}
 
 	public LoginMain() {
-		                                //서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결 
+		// 서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결
 //		PacketMap.getInstance().map.put(ScLoginAck.class, new ReceiveLoginAck());
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -118,10 +118,7 @@ public class LoginMain extends JPanel implements Receivable{
 		JButton signUpBt = new JButton("회원가입");
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
-		signUpBt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SignUpMain frame = new SignUpMain();
-			}});
+		
 		add(signUpBt);
 
 		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778\uCC3D");
@@ -228,16 +225,17 @@ public class LoginMain extends JPanel implements Receivable{
 			}
 		}
 	}
+
 	@Override
 	public void receive(PacketBase packet) {
 
 		ScLoginAck ack = (ScLoginAck) packet;
 
 		if (ack.eResult == EResult.SUCCESS) {
+			BaseFrame.getInstance().userDataKKK = ack.userdata;
 			BaseFrame.getInstance().view("MainLayout");
 		}
 
 	}
-	
-}
 
+}
