@@ -42,7 +42,7 @@ public class InfoFrame extends JFrame{
 		okButton.setBounds(143, 364, 186, 65);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				dispose();
 			}});
 		getContentPane().add(okButton);
 		setVisible(true);

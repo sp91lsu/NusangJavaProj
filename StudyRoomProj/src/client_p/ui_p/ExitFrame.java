@@ -38,7 +38,7 @@ public class ExitFrame extends JFrame{
 		cancleButton.setBounds(228, 227, 162, 70);
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				dispose();
 			}});
 		getContentPane().add(cancleButton);
 		setVisible(true);

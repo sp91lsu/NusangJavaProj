@@ -48,7 +48,7 @@ public class TimeFrame extends JFrame{
 		getContentPane().add(titleLabel);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				dispose();
 			}});
 		
 		setVisible(true);
