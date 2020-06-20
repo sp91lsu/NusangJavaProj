@@ -2,7 +2,7 @@ package client_p.ui_p;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.TextField;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ import client_p.Receivable;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScLoginAck;
+
 import server_p.packet_p.ack_p.ScSignUpAck;
 
 public class SignUpMain extends JFrame implements Receivable,ActionListener{
@@ -35,6 +36,7 @@ public class SignUpMain extends JFrame implements Receivable,ActionListener{
 	private JPasswordField check_passwordField;
 	private JButton btn;
 	private JTextField currentTextField;
+	JDialog jd;
 	JLabel pwChk;
 	String text="";
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
@@ -103,10 +105,7 @@ public class SignUpMain extends JFrame implements Receivable,ActionListener{
 		JButton cancelBtn = new JButton("취소");
 		cancelBtn.setBounds(494, 368, 140, 42);
 		mainPane.add(cancelBtn);
-		
-		JButton phoneNumChkBtn = new JButton("인증하기");
-		phoneNumChkBtn.setBounds(584, 309, 105, 33);
-		mainPane.add(phoneNumChkBtn);
+		cancelBtn.addActionListener(this);
 		
 		JButton idChkBtn = new JButton("ID 중복확인");
 		idChkBtn.setBounds(584, 159, 105, 33);
@@ -233,35 +232,82 @@ public class SignUpMain extends JFrame implements Receivable,ActionListener{
 
 		
 		if (ack.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().view("MainLayout");
+			jd = new JDialog();
+			jd.setBounds(50, 50, 150, 150);
+			jd.setLayout(new GridLayout(2,1));
+			JLabel jl = new JLabel("회원가입 완료");
+			JButton jb = new JButton("확인");
+			jb.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton bbb = (JButton)e.getSource();
+					if(bbb.getText().equals("확인")) {
+						jd.setVisible(false);
+						setVisible(false);
+						
+					}
+					
+				}
+			});
+			
+			jd.add(jl);
+			jd.add(jb);
+			jd.setVisible(true);
+			
 		}
 		
 		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		
+		JButton bbb = (JButton)e.getSource();
+		if(bbb.getText().equals("취소")) {
+			dispose();
+		}
+		 
 		CsSignUpSyn packet =new CsSignUpSyn(nameTextField.getText(), idTextField.getText(), passwordField.getText(), check_passwordField.getText(), " ", "");
 		
 		passwordField.getText().trim();
 		check_passwordField.getText().trim();
-			if((check_passwordField.getText().toString().trim() != "")) {
+//		
+//	if(bbb.getText().equals("회원가입")) {
+//		if(textList.) {
+//			JDialog jdd = new JDialog();
+//			jdd.setBounds(50, 50, 100, 100);
+//			jdd.setLayout(new GridLayout(2, 1));
+//			JLabel jll = new JLabel("정보를 입력하세요");
+//			JButton jbb = new JButton("확인");
+//			jdd.add(jll);
+//			jdd.add(jbb);
+//			jbb.addActionListener(new ActionListener() {
+//				
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					jdd.setVisible(false);
+//					
+//				}
+//			});
+//			jdd.setVisible(true);
+//		}
+//	}
+			if((check_passwordField.getText().toString().trim().length()>0)) {
 				try {
 					if(passwordField.getText().equals(check_passwordField.getText())) {
 						pwChk.setText("입력한 비밀번호와 일치합니다.");
+						
+						ClientNet.getInstance().sendPacket(packet);
 					}else {
 						pwChk.setText("입력한 비밀번호와 동일하게 입력하세요");
+						
 					}
 					
 				} catch (Exception e2) {
 					
 				}
 			}
-		if(!textList.toString().equals(null) && !pTextList.toString().equals(null)) {
 			
-			ClientNet.getInstance().sendPacket(packet);
-		}
+			
 		
 	}
 	
