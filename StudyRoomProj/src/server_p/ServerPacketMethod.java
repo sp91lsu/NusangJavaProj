@@ -20,6 +20,7 @@ import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
@@ -68,22 +69,36 @@ class MethLoginSyn implements ServerPacketMethod {
 							new TimeData(1, Calendar.getInstance().get(Calendar.DATE), new Random().nextInt(24), 0));
 				}
 
-				RoomProduct room = new RoomProduct("1000", "샤워실", 3000, 4);
-				room.setDate(2020, 6, timelist);
-				RoomProduct room23 = new RoomProduct("1001", "노래방", 3000, 4);
-				room23.setDate(2020, 6, timelist);
-				RoomProduct room2 = new RoomProduct("1000", "파티룸", 3000, 4);
-				room2.setDate(2020, 6, timelist);
-				RoomProduct room3 = new RoomProduct("1000", "2인실-1", 3000, 4);
-				room3.setDate(2020, 6, timelist);
-				RoomProduct room4 = new RoomProduct("1000", "2인실-2", 3000, 4);
-				room4.setDate(2020, 6, timelist);
+				QueryObject findInven = new QueryObject();
 
-				roomList.add(room);
-				roomList.add(room23);
-				roomList.add(room2);
-				roomList.add(room3);
-				roomList.add(room4);
+				findInven.findQuery(ETable.INVENTORY, "*");
+
+				ResultSet invenData = DBProcess.getInstance().findData(findInven);
+
+				while (invenData.next()) {
+
+					RoomProduct room = DataManager.getInstance().roomMap.get(invenData.getString("PRODUCTID")).clone();
+					
+					
+					//room.setDate( month, timeList);
+				}
+
+//				RoomProduct room = new RoomProduct("1000", "샤워실", 3000, 4);
+//				room.setDate(2020, 6, timelist);
+//				RoomProduct room23 = new RoomProduct("1001", "노래방", 3000, 4);
+//				room23.setDate(2020, 6, timelist);
+//				RoomProduct room2 = new RoomProduct("1000", "파티룸", 3000, 4);
+//				room2.setDate(2020, 6, timelist);
+//				RoomProduct room3 = new RoomProduct("1000", "2인실-1", 3000, 4);
+//				room3.setDate(2020, 6, timelist);
+//				RoomProduct room4 = new RoomProduct("1000", "2인실-2", 3000, 4);
+//				room4.setDate(2020, 6, timelist);
+//
+//				roomList.add(room);
+//				roomList.add(room23);
+//				roomList.add(room2);
+//				roomList.add(room3);
+//				roomList.add(room4);
 
 				ack = new ScLoginAck(EResult.SUCCESS, userdata, roomList);
 			} else {

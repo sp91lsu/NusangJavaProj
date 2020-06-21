@@ -1,6 +1,7 @@
 package data_p.product_p;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import data_p.ExcelReader;
 import data_p.product_p.room_p.RoomProduct;
@@ -18,7 +19,7 @@ public class DataManager {
 	}
 
 	public UserData userData = null;
-	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	public HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
 	public ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	String managerKey = "";
@@ -44,10 +45,10 @@ public class DataManager {
 
 		for (int i = 0; i < idList.size(); i++) {
 
-			RoomProduct roomProduct = new RoomProduct(idList.get(i), nameList.get(i),
+			RoomProduct roomProduct = new RoomProduct(Integer.parseInt(idList.get(i)), nameList.get(i),
 					Integer.parseInt(priceList.get(i)), Integer.parseInt(pNumList.get(i)));
 
-			roomList.add(roomProduct);
+			roomMap.put(roomProduct.id, roomProduct);
 		}
 	}
 

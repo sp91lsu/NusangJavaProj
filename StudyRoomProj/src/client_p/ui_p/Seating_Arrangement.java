@@ -283,7 +283,8 @@ class BtnAct implements ActionListener {
 	}
 
 	void searchRProd(JButton jb) {
-		for (RoomProduct roomData : DataManager.getInstance().roomList) {
+		
+		for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
 			if (roomData.name.equals(jb.getText())) {
 
 				System.out.println("roomData cfcccccccccc");

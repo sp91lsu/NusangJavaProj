@@ -6,11 +6,11 @@ import data_p.PacketData;
 
 public class ProductData extends PacketData {
 
-	public String id;
+	public Integer id;
 	public String name;
 	public long price;
 
-	public ProductData(String id, String name, long price) {
+	public ProductData(Integer id, String name, long price) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -19,7 +19,7 @@ public class ProductData extends PacketData {
 
 	@Override
 	public String toString() {
-		return  this.getClass().getSimpleName() + " [id=" + id + ", name=" + name + ", price=" + price + "]";
+		return this.getClass().getSimpleName() + " [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 
 }
