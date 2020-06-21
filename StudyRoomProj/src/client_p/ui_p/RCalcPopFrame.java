@@ -40,7 +40,7 @@ public class RCalcPopFrame extends JFrame{
 		jp.add(jlb);
 		jp.add(jb);
 		
-		setVisible(true);
+		setVisible(false);
 	}
 
 //	@Override

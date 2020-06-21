@@ -29,6 +29,8 @@ public class BaseFrame extends JFrame implements Receivable {
 	public Payment payment = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
+	public RCalcPopFrame rcalcpop = new RCalcPopFrame();
+	public RCalcFrame rcalc = new RCalcFrame();
 //	Container jjj;
 //	JPanel loginMain = new LoginMain();
 //	JPanel mainLayout = new MainLayout();
@@ -48,6 +50,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		addToBaseFrame(new MainLayout());
 		addToBaseFrame(new Seating_Arrangement());
 		addToBaseFrame(new LockerMain());
+		addToBaseFrame(new ReservationMain());
 		setBackground(Color.GRAY);
 //		setLayout(null);
 		setBounds(100, 100, 900, 1000);

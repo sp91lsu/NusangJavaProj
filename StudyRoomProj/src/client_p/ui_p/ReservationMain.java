@@ -159,11 +159,11 @@ public class ReservationMain extends JPanel {
 		timeInfoPane.add(infoPane);
 		infoPane.setLayout(null);
 
-		JLabel roomInfo = new JLabel("\uCDE8\uC2DD\uAC00\uB2A5\uBC29(5000\uC6D0)");
+		JLabel roomInfo = new JLabel("취식가능방(5000원)");
 		roomInfo.setBounds(0, 0, 158, 63);
 		infoPane.add(roomInfo);
 
-		JLabel timeInfo = new JLabel("\uC0AC\uC6A9\uC2DC\uAC04 09:00-11:00");
+		JLabel timeInfo = new JLabel("사용시간 09:00-11:00");
 		timeInfo.setBounds(170, 0, 173, 63);
 		infoPane.add(timeInfo);
 
@@ -172,11 +172,11 @@ public class ReservationMain extends JPanel {
 		choicePane.add(paymentPane);
 		paymentPane.setLayout(null);
 
-		JButton reservationButton = new JButton("\uC608\uC57D\uD558\uAE30");
+		JButton reservationButton = new JButton("예약하기");
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
-		});
+				BaseFrame.getInstance().view("RCalcFrame");
+			}});
 		reservationButton.setBounds(12, 182, 150, 32);
 		paymentPane.add(reservationButton);
 
@@ -186,11 +186,11 @@ public class ReservationMain extends JPanel {
 		totPriceLabel.setBounds(23, 126, 87, 32);
 		paymentPane.add(totPriceLabel);
 
-		JLabel reservationButton2 = new JLabel("\uC6D0");
+		JLabel reservationButton2 = new JLabel("원");
 		reservationButton2.setBounds(125, 128, 22, 32);
 		paymentPane.add(reservationButton2);
 
-		JLabel reservationButton3 = new JLabel("\uACB0\uC81C\uAE08\uC561");
+		JLabel reservationButton3 = new JLabel("결제금액");
 		reservationButton3.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		reservationButton3.setHorizontalAlignment(SwingConstants.CENTER);
 		reservationButton3.setBounds(23, 82, 124, 32);
@@ -205,7 +205,7 @@ public class ReservationMain extends JPanel {
 		personCntChoice.setBounds(52, 38, 50, 21);
 		paymentPane.add(personCntChoice);
 
-		JLabel personCntChoice2 = new JLabel("\uBA85");
+		JLabel personCntChoice2 = new JLabel("명");
 		personCntChoice2.setBounds(109, 33, 22, 30);
 		paymentPane.add(personCntChoice2);
 
@@ -238,7 +238,6 @@ public class ReservationMain extends JPanel {
 
 			calPaneMain.add(new Button(dateN));
 		}
-
 	}
 
 	class MonthChoiceAct implements ActionListener {
@@ -248,7 +247,6 @@ public class ReservationMain extends JPanel {
 			System.out.println("들어가니??");
 			setMonth++;
 			System.out.println(setMonth);
-
 		}
 	}
 
@@ -288,10 +286,7 @@ public class ReservationMain extends JPanel {
 						}
 					}
 				}
-
 			}
 		}
-
 	}
-
 }

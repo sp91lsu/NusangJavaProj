@@ -37,7 +37,7 @@ public class RCalcFrame extends JFrame{
 		JButton okButton = new JButton("예약 및 결제");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RCalcPopFrame pop = new RCalcPopFrame();
+				BaseFrame.getInstance().view("RCalcPopFrame");
 			}});
 		okButton.setBounds(60, 360, 173, 58);
 		getContentPane().add(okButton);
