@@ -27,13 +27,4 @@ public class RoomProduct extends ProductData {
 		this.timeList = timeList;
 	}
 
-	public RoomProduct clone() {
-		try {
-			return (RoomProduct) super.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

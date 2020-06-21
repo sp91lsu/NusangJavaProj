@@ -283,27 +283,25 @@ class BtnAct implements ActionListener {
 		this.bt = bt;
 	}
 
-	void searchRProd(JButton jb) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
 
 		for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
-			if (roomData.name.equals(jb.getText())) {
 
-				System.out.println("roomData cfcccccccccc");
+			if (roomData.name.equals(bt.getText())) {
+
+				// 페이지 여는 순간 현재 상품 복사
+				BaseFrame.getInstance().roomProduct = roomData;
+
 				if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
-					BaseFrame.getInstance().payment.openPage(roomData);
+					System.out.println("KIOSK");
+					BaseFrame.getInstance().payment.openPage();
 				} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+					System.out.println("MOBILE");
 					BaseFrame.getInstance().view("ReservationMain");
 				}
 			}
 		}
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		searchRProd(bt);
-		BaseFrame.getInstance().payment.setVisible(true);
 
 	}
 
