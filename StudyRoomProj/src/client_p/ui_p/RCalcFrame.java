@@ -35,7 +35,7 @@ public class RCalcFrame extends JFrame{
 		JButton okButton = new JButton("예약 및 결제");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("PaymentPopFrame");
+				BaseFrame.getInstance().paymentPop.setVisible(true);
 			}});
 		okButton.setBounds(60, 360, 173, 58);
 		getContentPane().add(okButton);
@@ -49,6 +49,6 @@ public class RCalcFrame extends JFrame{
 			}});
 		getContentPane().add(cancleButton);
 		
-		setVisible(true);
+		setVisible(false);
 	}
 }

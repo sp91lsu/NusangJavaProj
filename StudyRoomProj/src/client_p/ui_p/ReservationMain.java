@@ -26,7 +26,6 @@ import data_p.product_p.room_p.RoomProduct;
 
 public class ReservationMain extends JPanel {
 
-	RoomProduct roomProduct;
 	public String roomName;
 	private final JPanel mapPane = new JPanel();
 	int setMonth = 5;
@@ -64,9 +63,6 @@ public class ReservationMain extends JPanel {
 	}
 
 	public ReservationMain() {
-
-		roomProduct = BaseFrame.getInstance().roomProduct;
-		setVisible(false);
 
 		setBackground(new Color(240, 240, 240));
 		setForeground(Color.CYAN);
@@ -182,8 +178,8 @@ public class ReservationMain extends JPanel {
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
-				BaseFrame.getInstance().view("RCalcFrame");
+				BaseFrame.getInstance().roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
+				BaseFrame.getInstance().rcalc.setVisible(true);
 			}
 		});
 		reservationButton.setBounds(12, 182, 150, 32);

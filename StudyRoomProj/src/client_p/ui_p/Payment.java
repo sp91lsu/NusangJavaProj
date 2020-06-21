@@ -27,7 +27,6 @@ import packetBase_p.PacketBase;
 
 public class Payment extends JFrame {
 
-	public RoomProduct roomProduct;
 	private JPanel MainPane;
 	JLabel titelLabel;
 	JLabel useInfo;
@@ -116,7 +115,7 @@ public class Payment extends JFrame {
 		JButton payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
+				BaseFrame.getInstance().roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
 				BaseFrame.getInstance().paymentPop.setVisible(true);
 				;
 			}
@@ -165,8 +164,8 @@ public class Payment extends JFrame {
 
 			// 현제 페이지의 룸정보
 			System.out.println(roomInfo);
-			System.out.println(roomProduct);
-			if (roomInfo.name == roomProduct.name) {
+			System.out.println(BaseFrame.getInstance().roomProduct);
+			if (roomInfo.name == BaseFrame.getInstance().roomProduct.name) {
 				// 서버에서 받은 룸정보의 타임 체크
 				for (TimeData time : roomInfo.timeList) {
 					for (MyCheckBox myCheckBox : checkBoxList) {
@@ -182,13 +181,12 @@ public class Payment extends JFrame {
 		}
 	}
 
-	public void openPage(RoomProduct product) {
+	public void openPage() {
 		setVisible(true);
 		System.out.println("openPage");
-		System.out.println(product);
-		roomProduct = product;
-		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + roomProduct.name + "<br>" + "입실시간:" + current_day
-				+ "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>" + "*예약은 1시간 단위로 가능합니다.<html>");
+		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + BaseFrame.getInstance().roomProduct.name + "<br>"
+				+ "입실시간:" + current_day + "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>"
+				+ "*예약은 1시간 단위로 가능합니다.<html>");
 		updateRoomInfo();
 	}
 }

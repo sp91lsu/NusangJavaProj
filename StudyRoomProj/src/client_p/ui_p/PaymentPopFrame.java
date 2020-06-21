@@ -24,11 +24,8 @@ import server_p.packet_p.ack_p.ScExitAck;
 
 public class PaymentPopFrame extends JFrame implements Receivable {
 
-	RoomProduct roomProduct;
-
 	public PaymentPopFrame() {
 
-		roomProduct = BaseFrame.getInstance().roomProduct;
 		setBounds(50, 50, 150, 150);
 		setLayout(new GridLayout(2, 1));
 
@@ -39,8 +36,9 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 		jb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
-				for (TimeData data : roomProduct.timeList) {
+				CsBuyRoomSyn packet = new CsBuyRoomSyn(BaseFrame.getInstance().roomProduct,
+						BaseFrame.getInstance().userData.uuid);
+				for (TimeData data : BaseFrame.getInstance().roomProduct.timeList) {
 					Calendar calendar = Calendar.getInstance();
 					calendar.set(Calendar.DATE, data.date);
 					calendar.set(Calendar.HOUR, data.value);
