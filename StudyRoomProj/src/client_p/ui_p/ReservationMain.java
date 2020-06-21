@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
@@ -18,25 +19,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import client_p.ui_p.Payment.MyCheckBox;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 
 public class ReservationMain extends JPanel {
 
+	RoomProduct roomProduct;
 	public String roomName;
 	private final JPanel mapPane = new JPanel();
 	int setMonth = 5;
 	boolean calViewChk = true;
 	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 	ArrayList<Button> btnList = new ArrayList<Button>();
-	ArrayList<MyCheckBox> timeChoiceList = new ArrayList<MyCheckBox>();
+	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
+	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	class MyCheckBox {
 		JCheckBox box;
 		int value;
 
-		MyCheckBox(String text, int value) {
-			this.box = new JCheckBox(text);
+		public MyCheckBox(JCheckBox box, int value) {
+			super();
+			this.box = box;
 			this.value = value;
 		}
 	}
@@ -59,6 +65,7 @@ public class ReservationMain extends JPanel {
 
 	public ReservationMain() {
 
+		roomProduct = BaseFrame.getInstance().roomProduct;
 		setVisible(false);
 
 		setBackground(new Color(240, 240, 240));
@@ -124,16 +131,15 @@ public class ReservationMain extends JPanel {
 		timeChkPane.setLayout(new GridLayout(4, 6));
 
 		//////// 시간 선택 버튼/////////
-		for (int i = 1; i < 25; i++) {
-			if (i < 10) {
-				MyCheckBox myc = new MyCheckBox("0" + i + ":00", i);
-				timeChkPane.add(myc.box);
-				timeChoiceList.add(myc);
-			} else {
-				MyCheckBox myc = new MyCheckBox(i + ":00", i);
-				timeChkPane.add(myc.box);
-				timeChoiceList.add(myc);
-			}
+		for (int i = 0; i < 24; i++) {
+
+			DecimalFormat format = new DecimalFormat("00:00");
+			int text = i + 1;
+			int realtime = i - 11;
+			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text)), realtime);
+			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
+			checkBoxList.add(myBox1);
+			timeChkPane.add(myBox1.box);
 		}
 
 //		for (MyCheckBox tc : timeChoiceList) {
@@ -175,8 +181,11 @@ public class ReservationMain extends JPanel {
 		JButton reservationButton = new JButton("예약하기");
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
 				BaseFrame.getInstance().view("RCalcFrame");
-			}});
+			}
+		});
 		reservationButton.setBounds(12, 182, 150, 32);
 		paymentPane.add(reservationButton);
 
@@ -268,13 +277,13 @@ public class ReservationMain extends JPanel {
 	public void buttonShow(int date) {
 		setVisible(true);
 
-		for (MyCheckBox time24Data : timeChoiceList) {
+		for (MyCheckBox time24Data : checkBoxList) {
 			time24Data.box.setEnabled(true);
 		}
 
 		// 6월 3일에 4시
 		// 24개의 체크박스 타임 데이터
-		for (MyCheckBox time24Data : timeChoiceList) {
+		for (MyCheckBox time24Data : checkBoxList) {
 
 			// 서버에서 받은 룸의 시간예약데이터
 			for (RoomProduct roomData : roomList) {
@@ -286,6 +295,29 @@ public class ReservationMain extends JPanel {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	class AddTimeActionListener implements ActionListener {
+
+		int value;
+
+		AddTimeActionListener(int value) {
+			this.value = value;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JCheckBox box = (JCheckBox) e.getSource();
+
+			TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE), value, 0);
+			if (box.isSelected()) {
+				System.out.println("타임 추가하기");
+				timeList.add(time);
+			} else {
+				System.out.println("타임 제거하기");
+				timeList.remove(time);
 			}
 		}
 	}

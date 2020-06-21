@@ -27,6 +27,8 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 	RoomProduct roomProduct;
 
 	public PaymentPopFrame() {
+
+		roomProduct = BaseFrame.getInstance().roomProduct;
 		setBounds(50, 50, 150, 150);
 		setLayout(new GridLayout(2, 1));
 
@@ -39,48 +41,43 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
 				for (TimeData data : roomProduct.timeList) {
-					Calendar calendar= Calendar.getInstance();
-					calendar.set(Calendar.DATE,  data.date);
-					calendar.set(Calendar.HOUR,  data.value);
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(Calendar.DATE, data.date);
+					calendar.set(Calendar.HOUR, data.value);
 					System.out.println(calendar.getTime());
 				}
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
-			}});
+			}
+		});
 		add(jb);
 
 		setVisible(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void openPage(RoomProduct roomProduct) {
-		this.roomProduct = roomProduct;
-		setVisible(true);
-	}
-
 	@Override
 	public void receive(PacketBase packet) {
-		ScBuyRoomAck ack = (ScBuyRoomAck)packet;
+		ScBuyRoomAck ack = (ScBuyRoomAck) packet;
 		JDialog jd = new JDialog();
-		jd.setLayout(new GridLayout(2,1));
-		jd.setBounds(50,50,150,150);
+		jd.setLayout(new GridLayout(2, 1));
+		jd.setBounds(50, 50, 150, 150);
 		JLabel jl = new JLabel("");
 		JButton jb = new JButton("확인");
-		
-		if(ack.eResult==EResult.SUCCESS)
-		{
+
+		if (ack.eResult == EResult.SUCCESS) {
 			jl.setText("결제완료");
 			BaseFrame.getInstance().view("LoginMain");
 			BaseFrame.getInstance().payment.dispose();
-		}
-		else
+		} else
 			jl.setText("결제실패");
-		
+
 		jb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}});
+			}
+		});
 		jd.add(jl);
 		jd.add(jb);
 	}

@@ -46,8 +46,7 @@ public class RCalcFrame extends JFrame{
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-			}
-		});
+			}});
 		getContentPane().add(cancleButton);
 		
 		setVisible(true);

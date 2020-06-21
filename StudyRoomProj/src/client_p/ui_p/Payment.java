@@ -25,7 +25,7 @@ import data_p.product_p.room_p.RoomProduct;
 import javafx.scene.control.CheckBox;
 import packetBase_p.PacketBase;
 
-public class Payment extends JFrame{
+public class Payment extends JFrame {
 
 	public RoomProduct roomProduct;
 	private JPanel MainPane;
@@ -88,7 +88,7 @@ public class Payment extends JFrame{
 
 			DecimalFormat format = new DecimalFormat("00:00");
 			int text = i + 1;
-			int realtime=i-11;
+			int realtime = i - 11;
 			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text)), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
@@ -116,8 +116,9 @@ public class Payment extends JFrame{
 		JButton payButton = new JButton("°á          Á¦");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				roomProduct.setDate( Calendar.getInstance().get(Calendar.DATE), timeList);
-				BaseFrame.getInstance().paymentPop.openPage(roomProduct);
+				roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
+				BaseFrame.getInstance().paymentPop.setVisible(true);
+				;
 			}
 		});
 		payButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
@@ -155,6 +156,7 @@ public class Payment extends JFrame{
 			}
 		}
 	}
+
 	boolean ddd = false;
 
 	public void updateRoomInfo() {
