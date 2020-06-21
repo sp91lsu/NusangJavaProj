@@ -32,7 +32,6 @@ public class Seating_Arrangement extends JPanel {
 		frame.add(new Seating_Arrangement());
 		frame.setVisible(true);
 	}
-	
 
 	public Seating_Arrangement() {
 
@@ -53,7 +52,8 @@ public class Seating_Arrangement extends JPanel {
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("MainLayout");
-			}});
+			}
+		});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
@@ -285,11 +285,13 @@ class BtnAct implements ActionListener {
 	void searchRProd(JButton jb) {
 		for (RoomProduct roomData : DataManager.getInstance().roomList) {
 			if (roomData.name.equals(jb.getText())) {
+
+				BaseFrame.getInstance().paymentKKK.openPage(jb.getText());
 //				BaseFrame.getInstance().roomProductKKK = roomData;
 			}
 		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
@@ -297,7 +299,7 @@ class BtnAct implements ActionListener {
 //		BaseFrame.getInstance().paymentKKK.name_Payment = bt.getText();
 		searchRProd(bt);
 		BaseFrame.getInstance().paymentKKK.setVisible(true);
-		
+
 	}
 
 }

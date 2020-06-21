@@ -11,7 +11,7 @@ public class RoomProduct extends ProductData {
 
 	public int personNum;
 	public Calendar calendar;
-	
+
 	public ArrayList<TimeData> timeList;
 
 	public RoomProduct(String id, String name, long price, int personNum) {
@@ -19,7 +19,7 @@ public class RoomProduct extends ProductData {
 	}
 
 	// 날짜 입력
-	public void setDate(int year, int month, int date, ArrayList<TimeData> timeList) {
+	public void setDate(int year, int month, ArrayList<TimeData> timeList) {
 		calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH, month);

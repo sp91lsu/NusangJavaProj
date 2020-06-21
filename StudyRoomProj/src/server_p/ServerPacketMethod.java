@@ -8,8 +8,10 @@ import server_p.packet_p.ack_p.ScSignUpAck;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsChatConnectSyn;
@@ -53,18 +55,39 @@ class MethLoginSyn implements ServerPacketMethod {
 		try {
 			if (rs.next()) {
 
-//				System.out.println("UserData !!!!!!!!!!!!!!!!!!!");
-//				System.out.println(rs.getString("uuid"));
-//				System.out.println(rs.getString("name"));
-//				System.out.println(rs.getString("id"));
-//				System.out.println(rs.getString("phone"));
-//				System.out.println(rs.getString("birth"));
 				UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
 						rs.getString("phone"), rs.getString("birth"));
 				rs.close();
-				ack = new ScLoginAck(EResult.SUCCESS, userdata);
+
+				ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+
+				ArrayList<TimeData> timelist = new ArrayList<TimeData>();
+
+				for (int i = 0; i < 20; i++) {
+					timelist.add(
+							new TimeData(1, Calendar.getInstance().get(Calendar.DATE), new Random().nextInt(24), 0));
+				}
+
+				RoomProduct room = new RoomProduct("1000", "샤워실", 3000, 4);
+				room.setDate(2020, 6, timelist);
+				RoomProduct room23 = new RoomProduct("1001", "노래방", 3000, 4);
+				room23.setDate(2020, 6, timelist);
+				RoomProduct room2 = new RoomProduct("1000", "파티룸", 3000, 4);
+				room2.setDate(2020, 6, timelist);
+				RoomProduct room3 = new RoomProduct("1000", "2인실-1", 3000, 4);
+				room3.setDate(2020, 6, timelist);
+				RoomProduct room4 = new RoomProduct("1000", "2인실-2", 3000, 4);
+				room4.setDate(2020, 6, timelist);
+
+				roomList.add(room);
+				roomList.add(room23);
+				roomList.add(room2);
+				roomList.add(room3);
+				roomList.add(room4);
+
+				ack = new ScLoginAck(EResult.SUCCESS, userdata, roomList);
 			} else {
-				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null);
+				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

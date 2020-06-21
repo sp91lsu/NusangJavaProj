@@ -6,10 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client_p.Receivable;
-import client_p.packet_p.broadCast.ScRoomInfoCast;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
+import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class BaseFrame extends JFrame implements Receivable {
 
@@ -26,7 +26,6 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	UserData userDataKKK = null;
-	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 	public Payment paymentKKK = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 //	Container jjj;
@@ -91,9 +90,17 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		ScRoomInfoCast roomInfoAck = (ScRoomInfoCast) packet;
-		roomInfoList = roomInfoAck.roomInfoList;
+
+		ScRoomInfoBroadCast roomInfoAck = (ScRoomInfoBroadCast) packet;
+		updateInfo(roomInfoAck.roomList);
+		// 예약페이지
+		// 당일결제페이지
 	}
 
-	
+	public void updateInfo(ArrayList<RoomProduct> roomList) {
+
+		roomInfoList = roomList;
+		paymentKKK.updateRoomInfo();
+	}
+
 }

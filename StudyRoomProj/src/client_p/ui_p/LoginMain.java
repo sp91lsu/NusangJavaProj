@@ -119,7 +119,7 @@ public class LoginMain extends JPanel implements Receivable {
 		signUpBt.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
 		signUpBt.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
@@ -239,6 +239,7 @@ public class LoginMain extends JPanel implements Receivable {
 
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().userDataKKK = ack.userdata;
+			BaseFrame.getInstance().updateInfo(ack.roomList);
 			BaseFrame.getInstance().view("MainLayout");
 		}
 
