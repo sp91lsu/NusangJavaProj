@@ -87,9 +87,9 @@ public class Payment extends JFrame implements Receivable {
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:00");
-			int value = i + 1;
-
-			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(value)), value);
+			int text = i + 1;
+			int realtime=i-11;
+			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text)), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
 			timeChKPane.add(myBox1.box);
@@ -116,6 +116,7 @@ public class Payment extends JFrame implements Receivable {
 		JButton payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				roomProduct.setDate(2020, Calendar.getInstance().get(Calendar.DATE), timeList);
 				BaseFrame.getInstance().paymentPop.openPage(roomProduct);
 			}
 		});
@@ -162,6 +163,8 @@ public class Payment extends JFrame implements Receivable {
 		for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
 
 			// 현제 페이지의 룸정보
+			System.out.println(roomInfo);
+			System.out.println(roomProduct);
 			if (roomInfo.name == roomProduct.name) {
 
 				// 서버에서 받은 룸정보의 타임 체크
@@ -182,6 +185,8 @@ public class Payment extends JFrame implements Receivable {
 
 	public void openPage(RoomProduct product) {
 		setVisible(true);
+		System.out.println("openPage");
+		System.out.println(product);
 		roomProduct = product;
 		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + roomProduct.name + "<br>" + "입실시간:" + current_day
 				+ "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>" + "*예약은 1시간 단위로 가능합니다.<html>");

@@ -239,7 +239,8 @@ public class LoginMain extends JPanel implements Receivable {
 
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().userDataKKK = ack.userdata;
-			BaseFrame.getInstance().updateInfo(ack.roomList);
+			BaseFrame.getInstance().roomInfoList = ack.roomList;
+			// BaseFrame.getInstance().updateInfo(ack.roomList);
 			BaseFrame.getInstance().view("MainLayout");
 		}
 	}

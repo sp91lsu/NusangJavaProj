@@ -295,9 +295,7 @@ class BtnAct implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		CsSignUpSyn packet = new CsSignUpSyn("", "", "", "", "", "");
-		ClientNet.getInstance().sendPacket(packet);
-//		BaseFrame.getInstance().paymentKKK.name_Payment = bt.getText();
+	
 		searchRProd(bt);
 		BaseFrame.getInstance().paymentKKK.setVisible(true);
 
