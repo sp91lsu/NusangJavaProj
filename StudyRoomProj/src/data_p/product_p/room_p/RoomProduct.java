@@ -12,7 +12,7 @@ public class RoomProduct extends ProductData {
 	public Integer personNum;
 	public Calendar calendar;
 
-	public ArrayList<TimeData> timeList;
+	public ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	public RoomProduct(int id, String name, long price, int personNum) {
 		super(id, name, price);

@@ -69,36 +69,41 @@ class MethLoginSyn implements ServerPacketMethod {
 							new TimeData(1, Calendar.getInstance().get(Calendar.DATE), new Random().nextInt(24), 0));
 				}
 
-				QueryObject findInven = new QueryObject();
-
-				findInven.findQuery(ETable.INVENTORY, "*");
-
-				ResultSet invenData = DBProcess.getInstance().findData(findInven);
-
-				while (invenData.next()) {
-
-					RoomProduct room = DataManager.getInstance().roomMap.get(invenData.getString("PRODUCTID")).clone();
-					
-					
-					//room.setDate( month, timeList);
-				}
-
-//				RoomProduct room = new RoomProduct("1000", "샤워실", 3000, 4);
-//				room.setDate(2020, 6, timelist);
-//				RoomProduct room23 = new RoomProduct("1001", "노래방", 3000, 4);
-//				room23.setDate(2020, 6, timelist);
-//				RoomProduct room2 = new RoomProduct("1000", "파티룸", 3000, 4);
-//				room2.setDate(2020, 6, timelist);
-//				RoomProduct room3 = new RoomProduct("1000", "2인실-1", 3000, 4);
-//				room3.setDate(2020, 6, timelist);
-//				RoomProduct room4 = new RoomProduct("1000", "2인실-2", 3000, 4);
-//				room4.setDate(2020, 6, timelist);
+//				QueryObject findInven = new QueryObject();
 //
-//				roomList.add(room);
-//				roomList.add(room23);
-//				roomList.add(room2);
-//				roomList.add(room3);
-//				roomList.add(room4);
+//				findInven.findQuery(ETable.INVENTORY, "*");
+//
+//				ResultSet invenData = DBProcess.getInstance().findData(findInven);
+//
+//				ArrayList<RoomProduct> productList = new ArrayList<RoomProduct>();
+//
+//				while (invenData.next()) {
+//
+//					int id = Integer.parseInt(invenData.getString("PRODUCTID"));
+//					RoomProduct room = DataManager.getInstance().roomMap.get(id);
+//
+//					Timestamp time = invenData.getTimestamp("STARTDATE");
+//
+//					// room.setDate(time.getMonth(), timeList);
+//					// room.setDate( month, timeList);
+//				}
+
+				RoomProduct room = new RoomProduct(1000, "샤워실", 3000, 4);
+				room.setDate(6, timelist);
+				RoomProduct room23 = new RoomProduct(1000, "노래방", 3000, 4);
+				room23.setDate(6, timelist);
+				RoomProduct room2 = new RoomProduct(1000, "파티룸", 3000, 4);
+				room2.setDate(6, timelist);
+				RoomProduct room3 = new RoomProduct(1000, "2인실-1", 3000, 4);
+				room3.setDate(6, timelist);
+				RoomProduct room4 = new RoomProduct(1000, "2인실-2", 3000, 4);
+				room4.setDate(6, timelist);
+
+				roomList.add(room);
+				roomList.add(room23);
+				roomList.add(room2);
+				roomList.add(room3);
+				roomList.add(room4);
 
 				ack = new ScLoginAck(EResult.SUCCESS, userdata, roomList);
 			} else {
@@ -217,14 +222,14 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		RoomProduct rp = recPacket.RoomProduct;
 
 		ScBuyRoomAck ack = null;
+
 		// 타임별로 룸 구매
 		for (TimeData timeData : rp.timeList) {
 
 			rp.calendar.set(Calendar.HOUR, timeData.value);
+			rp.calendar.set(Calendar.MINUTE, 0);
 
-			Date date = rp.calendar.getTime(); // 갤린더의 시간
-
-			Timestamp ts = new Timestamp(date.getTime());
+			Timestamp ts = new Timestamp(rp.calendar.getTimeInMillis());
 
 			System.out.println(ts);
 
