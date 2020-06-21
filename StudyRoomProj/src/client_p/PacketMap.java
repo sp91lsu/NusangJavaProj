@@ -14,9 +14,7 @@ public class PacketMap {
 
 	public static PacketMap getInstance() {
 		if (instance == null) {
-
 			instance = new PacketMap();
-
 		}
 
 		return instance;
@@ -32,11 +30,9 @@ public class PacketMap {
 	}
 
 	void receivePacket(PacketProccess pClient, ResultPacketBase packet) {
-
 		System.out.println("CLIENT RECEIVE : " + packet.getClass());
 		System.out.println("RESULT : " + packet.eResult + "\n");
-		System.out.println(BaseFrame.getInstance().paymentKKK);
+		System.out.println(BaseFrame.getInstance().payment);
 		map.get(packet.getClass()).receive(packet);
 	}
-
 }

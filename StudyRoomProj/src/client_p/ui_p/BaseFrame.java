@@ -25,8 +25,8 @@ public class BaseFrame extends JFrame implements Receivable {
 		return instance;
 	}
 
-	UserData userDataKKK = null;
-	public Payment paymentKKK = new Payment();
+	UserData userData = null;
+	public Payment payment = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
 //	Container jjj;
@@ -43,7 +43,7 @@ public class BaseFrame extends JFrame implements Receivable {
 //		jjj = new JPanel();
 //		jjj.setLayout(new BorderLayout(0,0));
 //		jjj.setVisible(true);
-		paymentKKK.setVisible(false);
+		payment.setVisible(false);
 		addToBaseFrame(new LoginMain());
 		addToBaseFrame(new MainLayout());
 		addToBaseFrame(new Seating_Arrangement());
@@ -101,7 +101,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public void updateInfo(ArrayList<RoomProduct> roomList) {
 
 		roomInfoList = roomList;
-		paymentKKK.updateRoomInfo();
+		payment.updateRoomInfo();
 	}
 
 }

@@ -25,7 +25,7 @@ import data_p.product_p.room_p.RoomProduct;
 import javafx.scene.control.CheckBox;
 import packetBase_p.PacketBase;
 
-public class Payment extends JFrame implements Receivable {
+public class Payment extends JFrame{
 
 	private JPanel MainPane;
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,7 +155,6 @@ public class Payment extends JFrame implements Receivable {
 			}
 		}
 	}
-
 	boolean ddd = false;
 
 	public void updateRoomInfo() {
@@ -166,7 +165,6 @@ public class Payment extends JFrame implements Receivable {
 			System.out.println(roomInfo);
 			System.out.println(roomProduct);
 			if (roomInfo.name == roomProduct.name) {
-
 				// 서버에서 받은 룸정보의 타임 체크
 				for (TimeData time : roomInfo.timeList) {
 					for (MyCheckBox myCheckBox : checkBoxList) {
@@ -179,7 +177,6 @@ public class Payment extends JFrame implements Receivable {
 					}
 				}
 			}
-
 		}
 	}
 
@@ -191,14 +188,5 @@ public class Payment extends JFrame implements Receivable {
 		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + roomProduct.name + "<br>" + "입실시간:" + current_day
 				+ "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>" + "*예약은 1시간 단위로 가능합니다.<html>");
 		updateRoomInfo();
-	}
-
-	@Override
-	public void receive(PacketBase packet) {
-
-		System.out.println("들어와땅");
-		System.out.println(ddd);
-		titelLabel.setText("이이잉");
-
 	}
 }

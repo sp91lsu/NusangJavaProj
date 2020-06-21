@@ -37,7 +37,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 		jb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userDataKKK.uuid);
+				CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
 				for (TimeData data : roomProduct.timeList) {
 					Calendar calendar= Calendar.getInstance();
 					calendar.set(Calendar.DATE,  data.date);
@@ -71,7 +71,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 		{
 			jl.setText("결제완료");
 			BaseFrame.getInstance().view("LoginMain");
-			BaseFrame.getInstance().paymentKKK.dispose();
+			BaseFrame.getInstance().payment.dispose();
 		}
 		else
 			jl.setText("결제실패");

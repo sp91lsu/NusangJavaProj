@@ -238,7 +238,7 @@ public class LoginMain extends JPanel implements Receivable {
 		ScLoginAck ack = (ScLoginAck) packet;
 
 		if (ack.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().userDataKKK = ack.userdata;
+			BaseFrame.getInstance().userData = ack.userdata;
 			BaseFrame.getInstance().roomInfoList = ack.roomList;
 			// BaseFrame.getInstance().updateInfo(ack.roomList);
 			BaseFrame.getInstance().view("MainLayout");

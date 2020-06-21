@@ -34,7 +34,7 @@ public class ExitFrame extends JFrame implements Receivable{
 		okButton.setBounds(38, 227, 162, 70);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsExitSyn packet = new CsExitSyn(BaseFrame.getInstance().userDataKKK.uuid);
+				CsExitSyn packet = new CsExitSyn(BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
 				

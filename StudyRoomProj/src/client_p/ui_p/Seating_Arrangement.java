@@ -287,7 +287,7 @@ class BtnAct implements ActionListener {
 			if (roomData.name.equals(jb.getText())) {
 
 				System.out.println("roomData cfcccccccccc");
-				BaseFrame.getInstance().paymentKKK.openPage(roomData);
+				BaseFrame.getInstance().payment.openPage(roomData);
 //				BaseFrame.getInstance().roomProductKKK = roomData;
 			}
 		}
@@ -297,7 +297,7 @@ class BtnAct implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	
 		searchRProd(bt);
-		BaseFrame.getInstance().paymentKKK.setVisible(true);
+		BaseFrame.getInstance().payment.setVisible(true);
 
 	}
 
