@@ -2,7 +2,6 @@ package client_p.ui_p;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
 public class xxjPanel extends JPanel {
@@ -19,5 +18,4 @@ public class xxjPanel extends JPanel {
 		jPanelArrl.add(jp);
 		add(jp);
 	}
-
 }

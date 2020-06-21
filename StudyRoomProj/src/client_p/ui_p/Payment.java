@@ -27,12 +27,12 @@ import packetBase_p.PacketBase;
 
 public class Payment extends JFrame{
 
+	public RoomProduct roomProduct;
 	private JPanel MainPane;
+	JLabel titelLabel;
+	JLabel useInfo;
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 	String current_day = date.format((Calendar.getInstance().getTime()));
-	JLabel titelLabel;
-	public RoomProduct roomProduct;
-	JLabel useInfo;
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
@@ -116,7 +116,7 @@ public class Payment extends JFrame{
 		JButton payButton = new JButton("°á          Á¦");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				roomProduct.setDate(2020, Calendar.getInstance().get(Calendar.DATE), timeList);
+				roomProduct.setDate( Calendar.getInstance().get(Calendar.DATE), timeList);
 				BaseFrame.getInstance().paymentPop.openPage(roomProduct);
 			}
 		});

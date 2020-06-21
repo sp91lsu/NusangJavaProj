@@ -24,11 +24,11 @@ import data_p.product_p.room_p.RoomProduct;
 public class ReservationMain extends JPanel {
 
 	public String roomName;
-	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 	private final JPanel mapPane = new JPanel();
-	ArrayList<Button> btnList = new ArrayList<Button>();
 	int setMonth = 5;
 	boolean calViewChk = true;
+	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	ArrayList<Button> btnList = new ArrayList<Button>();
 	ArrayList<MyCheckBox> timeChoiceList = new ArrayList<MyCheckBox>();
 
 	class MyCheckBox {

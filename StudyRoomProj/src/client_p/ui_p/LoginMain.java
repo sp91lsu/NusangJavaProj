@@ -12,6 +12,7 @@ import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import oracle.jrockit.jfr.JFR;
+import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
@@ -43,6 +44,7 @@ public class LoginMain extends JPanel implements Receivable {
 	private JTextField currentTextField;
 	private JPasswordField passwordField;
 	private final JPanel keybordPane = new JPanel();
+
 	JButton btn;
 	String text = "";
 
@@ -174,7 +176,6 @@ public class LoginMain extends JPanel implements Receivable {
 //		addKeys(jpKeyboard, 4, fifthRow, fifth);
 
 		keybordPane.add(jpKeyboard);
-
 	}
 
 	class LoginActionListener implements ActionListener {
@@ -241,7 +242,13 @@ public class LoginMain extends JPanel implements Receivable {
 			BaseFrame.getInstance().userData = ack.userdata;
 			BaseFrame.getInstance().roomInfoList = ack.roomList;
 			// BaseFrame.getInstance().updateInfo(ack.roomList);
-			BaseFrame.getInstance().view("MainLayout");
+			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
+
+				BaseFrame.getInstance().view("MainLayout");
+			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+
+				BaseFrame.getInstance().view("Seating_Arrangement");
+			}
 		}
 	}
 }

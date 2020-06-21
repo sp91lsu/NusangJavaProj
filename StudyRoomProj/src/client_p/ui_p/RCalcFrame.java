@@ -3,12 +3,10 @@ package client_p.ui_p;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 
 public class RCalcFrame extends JFrame{
 	
@@ -37,7 +35,7 @@ public class RCalcFrame extends JFrame{
 		JButton okButton = new JButton("예약 및 결제");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("RCalcPopFrame");
+				BaseFrame.getInstance().view("PaymentPopFrame");
 			}});
 		okButton.setBounds(60, 360, 173, 58);
 		getContentPane().add(okButton);

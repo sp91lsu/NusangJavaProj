@@ -19,6 +19,7 @@ import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
+import packetBase_p.ELoginType;
 
 public class Seating_Arrangement extends JPanel {
 	static JLabel north_west;
@@ -283,20 +284,24 @@ class BtnAct implements ActionListener {
 	}
 
 	void searchRProd(JButton jb) {
-		
+
 		for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
 			if (roomData.name.equals(jb.getText())) {
 
 				System.out.println("roomData cfcccccccccc");
-				BaseFrame.getInstance().payment.openPage(roomData);
-//				BaseFrame.getInstance().roomProductKKK = roomData;
+				if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
+					BaseFrame.getInstance().payment.openPage(roomData);
+				} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+					BaseFrame.getInstance().view("ReservationMain");
+				}
 			}
 		}
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	
+
 		searchRProd(bt);
 		BaseFrame.getInstance().payment.setVisible(true);
 

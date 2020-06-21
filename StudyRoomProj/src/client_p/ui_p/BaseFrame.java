@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import client_p.Receivable;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
+import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
@@ -15,6 +16,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
+	public ELoginType loginType = ELoginType.KIOSK;
 	private static BaseFrame instance;
 
 	public static BaseFrame getInstance() {
@@ -29,7 +31,6 @@ public class BaseFrame extends JFrame implements Receivable {
 	public Payment payment = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
-	public RCalcPopFrame rcalcpop = new RCalcPopFrame();
 	public RCalcFrame rcalc = new RCalcFrame();
 //	Container jjj;
 //	JPanel loginMain = new LoginMain();
