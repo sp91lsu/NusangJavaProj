@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -43,7 +45,7 @@ public class SignUpMain extends JFrame implements Receivable{
 //	public static void main(String[] args) {
 //		SignUpMain frame = new SignUpMain();
 //	}
-//	
+	
 	public SignUpMain() {
 		setBounds(100, 100, 900, 1000);
 		JPanel mainPane = new JPanel();
@@ -155,7 +157,6 @@ public class SignUpMain extends JFrame implements Receivable{
 		JButton second[];
 		JButton third[];
 		JButton fourth[];
-		JButton fifth[];
 
 		JPanel jpNorth = new JPanel();
 		JPanel jpCenter = new JPanel();
@@ -244,18 +245,14 @@ public class SignUpMain extends JFrame implements Receivable{
 			JLabel jl = new JLabel("회원가입 완료");
 			JButton jb = new JButton("확인");
 			jb.addActionListener(new ActionListener() {
-				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JButton bbb = (JButton)e.getSource();
 					if(bbb.getText().equals("확인")) {
 						jd.setVisible(false);
 						setVisible(false);
-						
-					}
-					
-				}
-			});
+					}}});
+			
 			jd.add(jl);
 			jd.add(jb);
 			jd.setVisible(true);

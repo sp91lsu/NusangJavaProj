@@ -1,93 +1,60 @@
 package client_p.ui_p;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import client_p.ClientNet;
-import client_p.PacketMap;
-import client_p.Receivable;
-import client_p.packet_p.syn_p.CsLoginSyn;
-import oracle.jrockit.jfr.JFR;
-import packetBase_p.ELoginType;
-import packetBase_p.EResult;
-import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScLoginAck;
-import server_p.packet_p.ack_p.ScSignUpAck;
-
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.util.Stack;
 
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.DropMode;
+
+import client_p.ClientNet;
+import client_p.Receivable;
+import client_p.packet_p.syn_p.CsLoginSyn;
+import packetBase_p.ELoginType;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScLoginAck;
 
 public class LoginMain extends JPanel implements Receivable {
-
-	private JTextField idTextF;
+	
 	private JTextField currentTextField;
-	private JPasswordField passwordField;
-	private final JPanel keybordPane = new JPanel();
-
-	JButton btn;
 	String text = "";
 
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrame frame = new JFrame();
-					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					frame.setBounds(100, 100, 900, 1000);
-					frame.add(new LoginMain());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	class MyAdapter extends MouseAdapter // 마우스로 id or pw TextField 클릭시 적용
-	{
-		@Override
-		public void mouseClicked(MouseEvent e) {
-
-			if (currentTextField != (JTextField) e.getSource())
-				text = "";
-			currentTextField = (JTextField) e.getSource();
-		}
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 900, 1000);
+		frame.add(new LoginMain());
+		frame.setVisible(true);
 	}
 
 	public LoginMain() {
 		// 서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결
 //		PacketMap.getInstance().map.put(ScLoginAck.class, new ReceiveLoginAck());
-
-		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 
+		JLabel lblNewLabel = new JLabel("로그인창");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
+		lblNewLabel.setBounds(251, 21, 469, 110);
+		add(lblNewLabel);
+		
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 26));
 		idLabel.setBounds(251, 156, 51, 55);
 		add(idLabel);
 
-		idTextF = new JTextField();
+		JTextField idTextF = new JTextField();
 		idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
 		idTextF.setToolTipText("");
 		idTextF.setFont(new Font("맑은 고딕", Font.ITALIC, 14));
@@ -100,7 +67,7 @@ public class LoginMain extends JPanel implements Receivable {
 		lblPw.setBounds(251, 236, 51, 54);
 		add(lblPw);
 
-		passwordField = new JPasswordField();
+		JPasswordField passwordField = new JPasswordField();
 		passwordField.setBounds(323, 236, 328, 54);
 		passwordField.addMouseListener(new MyAdapter());
 		add(passwordField);
@@ -110,30 +77,21 @@ public class LoginMain extends JPanel implements Receivable {
 		logInBtn.setBounds(323, 321, 120, 45);
 		add(logInBtn);
 		logInBtn.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
 				ClientNet.getInstance().sendPacket(packet);
-			}
-		});
+			}});
+		
 		JButton signUpBt = new JButton("회원가입");
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
+		add(signUpBt);
 		signUpBt.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
-			}
-		});
-		add(signUpBt);
+			}});
 
-		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778\uCC3D");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
-		lblNewLabel.setBounds(251, 21, 469, 110);
-		add(lblNewLabel);
+		JPanel keybordPane = new JPanel();
 		keybordPane.setBounds(12, 413, 860, 300);
 		add(keybordPane);
 
@@ -144,15 +102,11 @@ public class LoginMain extends JPanel implements Receivable {
 		String secondRow[] = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" };
 		String thirdRow[] = { "blank", "A", "S", "D", "F", "G", "H", "J", "K", "L" };
 		String fourthRow[] = { "blank", "blank", "Z", "X", "C", "V", "B", "N", "M" };
-//		String fifthRow[] = { "blank", "blank", "fill", "fill", "fill", "fill", "fill", "fill", "fill", "fill", "", "<",
-//				"v", ">" };
 
-		// Jbuttons corresponding to each individual rows
 		JButton first[];
 		JButton second[];
 		JButton third[];
 		JButton fourth[];
-//		JButton fifth[];
 
 		JPanel jpNorth = new JPanel();
 		JPanel jpCenter = new JPanel();
@@ -167,21 +121,22 @@ public class LoginMain extends JPanel implements Receivable {
 		second = new JButton[secondRow.length];
 		third = new JButton[thirdRow.length];
 		fourth = new JButton[fourthRow.length];
-//		fifth = new JButton[fifthRow.length];
 
 		addKeys(jpKeyboard, 0, firstRow, first);
 		addKeys(jpKeyboard, 1, secondRow, second);
 		addKeys(jpKeyboard, 2, thirdRow, third);
 		addKeys(jpKeyboard, 3, fourthRow, fourth);
-//		addKeys(jpKeyboard, 4, fifthRow, fifth);
 
 		keybordPane.add(jpKeyboard);
 	}
-
-	class LoginActionListener implements ActionListener {
+	
+	class MyAdapter extends MouseAdapter // 마우스로 id or pw TextField 클릭시 적용
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-
+		public void mouseClicked(MouseEvent e) {
+			if (currentTextField != (JTextField) e.getSource())
+				text = "";
+			currentTextField = (JTextField) e.getSource();
 		}
 	}
 
@@ -202,7 +157,7 @@ public class LoginMain extends JPanel implements Receivable {
 				gap++;
 			} else {
 				// System.out.println("Add " + key);
-				btn = new JButton(key);
+				JButton btn = new JButton(key);
 				btn.addActionListener(new BtnAct());
 				buttons[index] = btn;
 				parent.add(btn, gbc);
