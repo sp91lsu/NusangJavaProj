@@ -286,7 +286,7 @@ class BtnAct implements ActionListener {
 		for (RoomProduct roomData : DataManager.getInstance().roomList) {
 			if (roomData.name.equals(jb.getText())) {
 
-				BaseFrame.getInstance().paymentKKK.openPage(jb.getText());
+				BaseFrame.getInstance().paymentKKK.openPage(roomData);
 //				BaseFrame.getInstance().roomProductKKK = roomData;
 			}
 		}

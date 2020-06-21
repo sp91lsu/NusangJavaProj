@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import javax.swing.SwingConstants;
 import client_p.Receivable;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
+import javafx.scene.control.CheckBox;
 import packetBase_p.PacketBase;
 
 public class Payment extends JFrame implements Receivable {
@@ -29,9 +31,10 @@ public class Payment extends JFrame implements Receivable {
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 	String current_day = date.format((Calendar.getInstance().getTime()));
 	JLabel titelLabel;
-	public String name_Payment;
+	public RoomProduct roomProduct;
 	JLabel useInfo;
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
+	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	class MyCheckBox {
 		JCheckBox box;
@@ -81,101 +84,16 @@ public class Payment extends JFrame implements Receivable {
 		// 시간 선택박스
 //				JCheckBox 
 
-		MyCheckBox myBox1 = new MyCheckBox(new JCheckBox("01:00"), 1);
-		checkBoxList.add(myBox1);
-		timeChKPane.add(myBox1.box);
+		for (int i = 0; i < 24; i++) {
 
-		MyCheckBox myBox2 = new MyCheckBox(new JCheckBox("02:00"), 2);
-		checkBoxList.add(myBox2);
-		timeChKPane.add(myBox2.box);
+			DecimalFormat format = new DecimalFormat("00:00");
+			int value = i + 1;
 
-		MyCheckBox myBox3 = new MyCheckBox(new JCheckBox("03:00"), 3);
-		checkBoxList.add(myBox3);
-		timeChKPane.add(myBox3.box);
-
-		MyCheckBox myBox4 = new MyCheckBox(new JCheckBox("04:00"), 4);
-		checkBoxList.add(myBox4);
-		timeChKPane.add(myBox4.box);
-
-		MyCheckBox myBox5 = new MyCheckBox(new JCheckBox("05:00"), 5);
-		checkBoxList.add(myBox5);
-		timeChKPane.add(myBox5.box);
-
-		MyCheckBox myBox6 = new MyCheckBox(new JCheckBox("06:00"), 6);
-		checkBoxList.add(myBox6);
-		timeChKPane.add(myBox6.box);
-
-		MyCheckBox myBox7 = new MyCheckBox(new JCheckBox("07:00"), 7);
-		checkBoxList.add(myBox7);
-		timeChKPane.add(myBox7.box);
-
-		MyCheckBox myBox8 = new MyCheckBox(new JCheckBox("08:00"), 8);
-		checkBoxList.add(myBox8);
-		timeChKPane.add(myBox8.box);
-
-		MyCheckBox myBox9 = new MyCheckBox(new JCheckBox("09:00"), 9);
-		checkBoxList.add(myBox9);
-		timeChKPane.add(myBox9.box);
-
-		MyCheckBox myBox10 = new MyCheckBox(new JCheckBox("10:00"), 10);
-		checkBoxList.add(myBox10);
-		timeChKPane.add(myBox10.box);
-
-		MyCheckBox myBox11 = new MyCheckBox(new JCheckBox("11:00"), 11);
-		checkBoxList.add(myBox11);
-		timeChKPane.add(myBox11.box);
-
-		MyCheckBox myBox12 = new MyCheckBox(new JCheckBox("12:00"), 12);
-		checkBoxList.add(myBox12);
-		timeChKPane.add(myBox12.box);
-
-		MyCheckBox myBox13 = new MyCheckBox(new JCheckBox("13:00"), 13);
-		checkBoxList.add(myBox13);
-		timeChKPane.add(myBox13.box);
-
-		MyCheckBox myBox14 = new MyCheckBox(new JCheckBox("14:00"), 14);
-		checkBoxList.add(myBox14);
-		timeChKPane.add(myBox14.box);
-
-		MyCheckBox myBox15 = new MyCheckBox(new JCheckBox("15:00"), 15);
-		checkBoxList.add(myBox15);
-		timeChKPane.add(myBox15.box);
-
-		MyCheckBox myBox16 = new MyCheckBox(new JCheckBox("16:00"), 16);
-		checkBoxList.add(myBox16);
-		timeChKPane.add(myBox16.box);
-
-		MyCheckBox myBox17 = new MyCheckBox(new JCheckBox("17:00"), 17);
-		checkBoxList.add(myBox17);
-		timeChKPane.add(myBox17.box);
-
-		MyCheckBox myBox18 = new MyCheckBox(new JCheckBox("18:00"), 18);
-		checkBoxList.add(myBox18);
-		timeChKPane.add(myBox18.box);
-
-		MyCheckBox myBox19 = new MyCheckBox(new JCheckBox("19:00"), 19);
-		checkBoxList.add(myBox19);
-		timeChKPane.add(myBox19.box);
-
-		MyCheckBox myBox20 = new MyCheckBox(new JCheckBox("20:00"), 20);
-		checkBoxList.add(myBox20);
-		timeChKPane.add(myBox20.box);
-
-		MyCheckBox myBox21 = new MyCheckBox(new JCheckBox("21:00"), 21);
-		checkBoxList.add(myBox21);
-		timeChKPane.add(myBox21.box);
-
-		MyCheckBox myBox22 = new MyCheckBox(new JCheckBox("22:00"), 22);
-		checkBoxList.add(myBox22);
-		timeChKPane.add(myBox22.box);
-
-		MyCheckBox myBox23 = new MyCheckBox(new JCheckBox("23:00"), 23);
-		checkBoxList.add(myBox23);
-		timeChKPane.add(myBox23.box);
-
-		MyCheckBox myBox24 = new MyCheckBox(new JCheckBox("24:00"), 24);
-		checkBoxList.add(myBox24);
-		timeChKPane.add(myBox24.box);
+			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(value)), value);
+			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
+			checkBoxList.add(myBox1);
+			timeChKPane.add(myBox1.box);
+		}
 
 		// 인원선택
 		Vector<Integer> personCnt = new Vector<Integer>();
@@ -198,7 +116,7 @@ public class Payment extends JFrame implements Receivable {
 		JButton payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PaymentPopFrame calcInfo = new PaymentPopFrame();
+				BaseFrame.getInstance().paymentPop.openPage(roomProduct);
 			}
 		});
 		payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -214,6 +132,29 @@ public class Payment extends JFrame implements Receivable {
 		setVisible(false);
 	}
 
+	class AddTimeActionListener implements ActionListener {
+
+		int value;
+
+		AddTimeActionListener(int value) {
+			this.value = value;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JCheckBox box = (JCheckBox) e.getSource();
+
+			TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE), value, 0);
+			if (box.isSelected()) {
+				System.out.println("타임 추가하기");
+				timeList.add(time);
+			} else {
+				System.out.println("타임 제거하기");
+				timeList.remove(time);
+			}
+		}
+	}
+
 	boolean ddd = false;
 
 	public void updateRoomInfo() {
@@ -221,7 +162,7 @@ public class Payment extends JFrame implements Receivable {
 		for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
 
 			// 현제 페이지의 룸정보
-			if (roomInfo.name == name_Payment) {
+			if (roomInfo.name == roomProduct.name) {
 
 				// 서버에서 받은 룸정보의 타임 체크
 				for (TimeData time : roomInfo.timeList) {
@@ -239,10 +180,10 @@ public class Payment extends JFrame implements Receivable {
 		}
 	}
 
-	public void openPage(String RoomName) {
+	public void openPage(RoomProduct product) {
 		setVisible(true);
-		name_Payment = RoomName;
-		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + name_Payment + "<br>" + "입실시간:" + current_day
+		roomProduct = product;
+		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + roomProduct.name + "<br>" + "입실시간:" + current_day
 				+ "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>" + "*예약은 1시간 단위로 가능합니다.<html>");
 		updateRoomInfo();
 	}

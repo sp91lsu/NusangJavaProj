@@ -14,5 +14,4 @@ public class ScBuyRoomAck extends ResultPacketBase {
 		super(eResult);
 		// TODO Auto-generated constructor stub
 	}
-
 }

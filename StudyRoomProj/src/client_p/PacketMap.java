@@ -26,7 +26,7 @@ public class PacketMap {
 		map = new HashMap<Class, Receivable>();
 		map.put(ScLoginAck.class, (Receivable) BaseFrame.getInstance().jPanelArrl.get(0)); // 로그인 응답
 		map.put(ScSignUpAck.class, (Receivable) BaseFrame.getInstance().signUpFrame); // 회원가입
-		map.put(ScBuyRoomAck.class, new ReceiveVerifyAck()); // 회원가입
+		map.put(ScBuyRoomAck.class, BaseFrame.getInstance().paymentPop);//결제	
 		map.put(ScChatConnectAck.class, new ReceiveChatConnectAck()); // 채팅 연결 요청에 대한 응답
 		map.put(ScRoomInfoBroadCast.class, (Receivable) BaseFrame.getInstance());
 	}

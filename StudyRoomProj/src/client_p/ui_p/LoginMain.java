@@ -242,7 +242,5 @@ public class LoginMain extends JPanel implements Receivable {
 			BaseFrame.getInstance().updateInfo(ack.roomList);
 			BaseFrame.getInstance().view("MainLayout");
 		}
-
 	}
-
 }

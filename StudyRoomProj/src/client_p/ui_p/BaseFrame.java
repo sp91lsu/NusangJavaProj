@@ -28,6 +28,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	UserData userDataKKK = null;
 	public Payment paymentKKK = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
+	public PaymentPopFrame paymentPop = new PaymentPopFrame();
 //	Container jjj;
 //	JPanel loginMain = new LoginMain();
 //	JPanel mainLayout = new MainLayout();

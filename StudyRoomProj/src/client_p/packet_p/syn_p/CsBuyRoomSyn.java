@@ -1,6 +1,5 @@
 package client_p.packet_p.syn_p;
 
-import data_p.product_p.ProductData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.PacketBase;
 
