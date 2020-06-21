@@ -47,7 +47,6 @@ public class DataManager {
 			RoomProduct roomProduct = new RoomProduct(idList.get(i), nameList.get(i),
 					Integer.parseInt(priceList.get(i)), Integer.parseInt(pNumList.get(i)));
 
-			System.out.println(roomProduct);
 			roomList.add(roomProduct);
 		}
 	}
@@ -62,10 +61,6 @@ public class DataManager {
 
 		for (int i = 0; i < idList.size(); i++) {
 
-//			System.out.println(idList.get(i));
-//			System.out.println(startList.get(i));
-//			System.out.println(endList.get(i));
-//			System.out.println(priceList.get(i));
 			TimeData data = new TimeData(Integer.parseInt(idList.get(i)), Integer.parseInt(valueList.get(i)),
 					Long.parseLong(priceList.get(i)));
 
