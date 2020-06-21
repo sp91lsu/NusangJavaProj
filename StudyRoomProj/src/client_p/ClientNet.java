@@ -33,7 +33,7 @@ public class ClientNet extends Thread {
 		System.out.println("서버접속 시도");
 
 		try {
-			socket = new Socket("172.20.10.9", 7777);
+			socket = new Socket("192.168.0.68", 7777);
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 
@@ -91,6 +91,7 @@ class PacketProccess extends Thread {
 
 				sleep(10);
 				if (is.available() > 0) {
+					
 					pMap.receivePacket(this, (ResultPacketBase) ois.readObject());
 				}
 			}

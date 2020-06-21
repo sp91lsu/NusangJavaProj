@@ -62,7 +62,7 @@ public class Payment extends JFrame implements Receivable {
 		titelLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		titelLabel.setBounds(131, 10, 269, 47);
 		infoPane.add(titelLabel);
-
+		useInfo = new JLabel();
 		useInfo.setBackground(new Color(240, 240, 240));
 		useInfo.setFont(new Font("±¼¸²", Font.PLAIN, 14));
 		useInfo.setBounds(12, 88, 536, 161);

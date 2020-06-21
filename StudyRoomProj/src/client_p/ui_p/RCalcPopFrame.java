@@ -10,6 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import client_p.Receivable;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+
 public class RCalcPopFrame extends JFrame{
 
 	public RCalcPopFrame() {
@@ -30,7 +34,7 @@ public class RCalcPopFrame extends JFrame{
 		jb.setBounds(90, 170, 100, 70);
 		jb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				dispose();
 			}});
 		
 		jp.add(jlb);
@@ -38,4 +42,15 @@ public class RCalcPopFrame extends JFrame{
 		
 		setVisible(true);
 	}
+
+//	@Override
+//	public void receive(PacketBase packet) {
+//		ScResCalcAck resPacket = (ScResCalcAck) packet;
+//		if(resPacket.eResult == EResult.SUCCESS) {
+//			BaseFrame.getInstance().view("MainLayout");
+//		}else if(resPacket.eResult == EResult.FAIL) {
+//			System.out.println("예약 및 결제 실패");
+//		}
+//		
+//	}
 }
