@@ -13,7 +13,7 @@ import data_p.user_p.UserData;
 public class RoomDao extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
-		String[] calumArr = { "ID", "PRICE", "STARTDATE", "UUID" };
+		String[] calumArr = { "ID", "PRICE", "STARTDATE", "UUID", "PERSONNUM" };
 
 		String calumQuery = getCalum(calumArr);
 		String calumNum = getCalumNum(calumArr.length);
@@ -28,7 +28,7 @@ public class RoomDao extends DBProcess {
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
 				stmt.setTimestamp(3, timeStamp);
 				stmt.setString(4, userUUID);
-
+				stmt.setInt(5, room.personNum);
 				rs = stmt.executeQuery();
 			}
 
@@ -57,10 +57,19 @@ public class RoomDao extends DBProcess {
 
 			Timestamp time = rs.getTimestamp("STARTDATE");
 
+			System.out.println(rs.getTimestamp("STARTDATE"));
+			System.out.println(rs.getInt("ID"));
+			System.out.println(rs.getInt("PERSONNUM"));
 			// ¿À´ÃÀÚ ·ë Á¤º¸
 			if (time.getDate() == Calendar.getInstance().get(Calendar.DATE)) {
+
+				
+				
 				RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
-				RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, roomModel.personNum);
+
+				System.out.println(roomModel);
+				
+				RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
 				Calendar cal = Calendar.getInstance();
 
 				cal.setTimeInMillis(time.getTime());

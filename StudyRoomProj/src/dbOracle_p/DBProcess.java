@@ -91,8 +91,7 @@ public class DBProcess {
 		return cQuery;
 	}
 
-	void reset(String query) {
-		System.out.println(query);
+	void reset() {
 		try {
 			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
 
