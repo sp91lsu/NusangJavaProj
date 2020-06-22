@@ -38,83 +38,31 @@ class MethLoginSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsLoginSyn recPacket = (CsLoginSyn) packet;
 
-		QueryObject qo = new QueryObject();
 		String idOrPhone = recPacket.isID == true ? "id" : "phone";
 
-		qo.findQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + recPacket.id + "' and pw = '" + recPacket.pw + "'");
+		AccountDao accountDao = new AccountDao();
 
-		ResultSet rs = null;
-		try {
-			rs = DBProcess.getInstance().findData(qo);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
+		UserData userData = null;
 		ScLoginAck ack = null;
-
 		try {
-			if (rs.next()) {
+			userData = accountDao.findUser(idOrPhone, recPacket.id, recPacket.pw);
 
-				UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-						rs.getString("phone"), rs.getString("birth"));
-				rs.close();
+			if (userData != null) {
 
-				ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+				RoomDao roomDao = new RoomDao();
 
-				ArrayList<TimeData> timelist = new ArrayList<TimeData>();
-
-				for (int i = 0; i < 20; i++) {
-					timelist.add(
-							new TimeData(1, Calendar.getInstance().get(Calendar.DATE), new Random().nextInt(24), 0));
-				}
-
-//				QueryObject findInven = new QueryObject();
-//
-//				findInven.findQuery(ETable.INVENTORY, "*");
-//
-//				ResultSet invenData = DBProcess.getInstance().findData(findInven);
-//
-//				ArrayList<RoomProduct> productList = new ArrayList<RoomProduct>();
-//
-//				while (invenData.next()) {
-//
-//					int id = Integer.parseInt(invenData.getString("PRODUCTID"));
-//					RoomProduct room = DataManager.getInstance().roomMap.get(id);
-//
-//					Timestamp time = invenData.getTimestamp("STARTDATE");
-//
-//					// room.setDate(time.getMonth(), timeList);
-//					// room.setDate( month, timeList);
-//				}
-
-				RoomProduct room = new RoomProduct(1000, "샤워실", 3000, 4);
-				room.setDate(6, timelist);
-				RoomProduct room23 = new RoomProduct(1000, "노래방", 3000, 4);
-				room23.setDate(6, timelist);
-				RoomProduct room2 = new RoomProduct(1000, "파티룸", 3000, 4);
-				room2.setDate(6, timelist);
-				RoomProduct room3 = new RoomProduct(1000, "2인실-1", 3000, 4);
-				room3.setDate(6, timelist);
-				RoomProduct room4 = new RoomProduct(1000, "2인실-2", 3000, 4);
-				room4.setDate(6, timelist);
-
-				roomList.add(room);
-				roomList.add(room23);
-				roomList.add(room2);
-				roomList.add(room3);
-				roomList.add(room4);
-
-				ack = new ScLoginAck(EResult.SUCCESS, userdata, roomList);
+				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getTodayRoomInfo());
 			} else {
 				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null);
+
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		client.sendPacket(ack);
 	}
+
 }
 
 class MethSignUpSyn implements ServerPacketMethod {
@@ -125,16 +73,12 @@ class MethSignUpSyn implements ServerPacketMethod {
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
 
-			System.out.println();
+			AccountDao accountDao = new AccountDao();
+
 			UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id, recPacket.pw,
 					recPacket.phone, recPacket.birth, recPacket.cType);
 
-			QueryObject qo = new QueryObject();
-
-			qo.createQuery("uuid,name,id,pw,birth,phone,ctype", userData.uuid, userData.name, userData.id, userData.pw,
-					userData.birth, userData.phone, userData.cType);
-
-			DBProcess.getInstance().insertData(ETable.ACCOUNT, qo);
+			accountDao.createAccount(userData);
 
 			ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
 
@@ -152,35 +96,6 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-	}
-}
-
-class MethVerifySyn implements ServerPacketMethod {
-
-	public void receive(SocketClient client, PacketBase packet) {
-		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
-
-		QueryObject qo = new QueryObject();
-		qo.findQuery(ETable.ACCOUNT, "uuid", "uuid = " + recPacket.uuid);
-		ResultSet rs = null;
-		try {
-			rs = DBProcess.getInstance().findData(qo);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		try {
-			if (rs.next()) {
-
-				System.out.println(rs.getString("name"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		recPacket.product;
-//		recPacket.uuid
 	}
 }
 
@@ -211,10 +126,11 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
 
 		System.out.println("들어온 상품 정보 ");
-		System.out.println(recPacket.uuid);
-		System.out.println(recPacket.RoomProduct.id);
-		System.out.println(recPacket.RoomProduct.name);
-		System.out.println(recPacket.RoomProduct.price);
+//		System.out.println(recPacket.uuid);
+//		System.out.println(recPacket.RoomProduct.id);
+//		System.out.println(recPacket.RoomProduct.name);
+//		System.out.println(recPacket.RoomProduct.price);
+
 		for (TimeData timedata : recPacket.RoomProduct.timeList) {
 			System.out.println(timedata.toString());
 		}
@@ -229,54 +145,52 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 			rp.calendar.set(Calendar.HOUR, timeData.value);
 			rp.calendar.set(Calendar.MINUTE, 0);
 
+			System.out.println(rp.calendar.getTime());
+
 			Timestamp ts = new Timestamp(rp.calendar.getTimeInMillis());
 
-			System.out.println(ts);
+			System.out.println(ts.getDate());
+			System.out.println(ts.getHours());
 
-			QueryObject qo = new QueryObject();
-			qo.createQuery("UUID,PRODUCTID,PRICE,STARTDATE,ENDDATE", recPacket.uuid, rp.id, rp.price + timeData.price,
-					ts.toString(), ts.toString());
+			RoomDao roomDao = new RoomDao();
 
-			try {
-				DBProcess.getInstance().insertData(ETable.INVENTORY, qo);
+			boolean isInsert = roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if (isInsert) {
+				ack = new ScBuyRoomAck(EResult.SUCCESS);
+			} else {
 				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
-				return;
 			}
 		}
 
-		ack = new ScBuyRoomAck(EResult.SUCCESS);
 		client.sendPacket(ack);
 	}
 
 }
 
-class MethDuplicateIDSyn implements ServerPacketMethod {
-
-	@Override
-	public void receive(SocketClient client, PacketBase packet) {
-
-		CsDuplicateIDSyn resPacket = (CsDuplicateIDSyn) packet;
-
-		ScDuplicateIDAck ack;
-
-		QueryObject qo = new QueryObject();
-		qo.findQuery(ETable.ACCOUNT, "id", "id = " + resPacket.id);
-
-		try {
-			ResultSet res = DBProcess.getInstance().findData(qo);
-
-			if (res.next()) {
-				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
-			} else {
-				ack = new ScDuplicateIDAck(EResult.SUCCESS);
-			}
-		} catch (SQLException e) {
-			ack = new ScDuplicateIDAck(EResult.FAIL);
-			e.printStackTrace();
-		}
-	}
-
-}
+//class MethDuplicateIDSyn implements ServerPacketMethod {
+//
+//	@Override
+//	public void receive(SocketClient client, PacketBase packet) {
+//
+//		CsDuplicateIDSyn resPacket = (CsDuplicateIDSyn) packet;
+//
+//		ScDuplicateIDAck ack;
+//
+//		qo.findQuery(ETable.ACCOUNT, "id", "id = " + resPacket.id);
+//
+//		try {
+//			ResultSet res = DBProcess.getInstance().findData(qo);
+//
+//			if (res.next()) {
+//				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
+//			} else {
+//				ack = new ScDuplicateIDAck(EResult.SUCCESS);
+//			}
+//		} catch (SQLException e) {
+//			ack = new ScDuplicateIDAck(EResult.FAIL);
+//			e.printStackTrace();
+//		}
+//	}
+//
+//}

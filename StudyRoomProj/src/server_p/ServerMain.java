@@ -127,16 +127,15 @@ class SocketClient extends Thread {
 		while (socket.isConnected() && !socket.isClosed()) {
 
 			try {
-				sleep(10);
 				if (is.available() > 0) {
 					System.out.println("데이터 들어옴");
 					pMap.receivePacket(this, (PacketBase) dis.readObject());
 				}
+				sleep(10);
 			} catch (Exception e) {
 				System.out.println("클라이언트에서 패킷 받는 도중 오류 ");
 				e.printStackTrace();
-			} finally {
-			}
+			} 
 		}
 
 		System.out.println(socket.getInetAddress() + "종료");

@@ -21,8 +21,14 @@ public class RoomProduct extends ProductData {
 	// 날짜 입력
 	public void setDate(int month, ArrayList<TimeData> timeList) {
 		calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR)-1);
+
+		System.out.println("현재시간" + calendar.getTime());
+		
+		System.out.println("넣을값" + month);
+		
+		calendar.set(Calendar.DATE, 1);
 		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.YEAR, 2020);
 		System.out.println(calendar.get(Calendar.YEAR));
 		System.out.println(calendar.get(Calendar.MONTH));
 		this.timeList = timeList;
