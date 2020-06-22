@@ -98,10 +98,12 @@ public class SignUpMain extends JFrame implements Receivable{
 				for (int i = 0; i < textList.size(); i++) {
 					if(textList.get(i).getText().equals("")){
 						SignUpPop pop = new SignUpPop();
+						return;
 					}}
 				for (int i = 0; i < pTextList.size(); i++) {
 					if(pTextList.get(i).getText().equals("")){
 						SignUpPop pop = new SignUpPop();
+						return;
 					}}
 				check();
 				}});
@@ -155,7 +157,6 @@ public class SignUpMain extends JFrame implements Receivable{
 			JLabel jl = new JLabel("회원가입 완료");
 			JButton jb = new JButton("확인");
 			jb.addActionListener(new ActionListener() {
-				@Override
 				public void actionPerformed(ActionEvent e) {
 					JButton bbb = (JButton)e.getSource();
 					if(bbb.getText().equals("확인")) {

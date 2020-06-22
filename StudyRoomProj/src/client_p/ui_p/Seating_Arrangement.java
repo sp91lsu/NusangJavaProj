@@ -20,8 +20,9 @@ import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 
 public class Seating_Arrangement extends JPanel {
+	
 	static JLabel north_west;
-
+	
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 	ArrayList<JButton> group = new ArrayList<JButton>(); 
 
@@ -52,8 +53,7 @@ public class Seating_Arrangement extends JPanel {
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("MainLayout");
-			}
-		});
+			}});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);

@@ -21,7 +21,6 @@ public class InfoFrame extends JFrame{
 
 	public InfoFrame() {
 		setBounds(100, 100, 500, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JLabel mainLabel = new JLabel("<html>잡아 스터디룸<br>이용 내역<html>");

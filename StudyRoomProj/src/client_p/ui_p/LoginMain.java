@@ -1,13 +1,8 @@
 package client_p.ui_p;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,9 +21,6 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
 
 public class LoginMain extends JPanel implements Receivable {
-	
-	private JTextField currentTextField;
-	String text = "";
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -61,6 +53,7 @@ public class LoginMain extends JPanel implements Receivable {
 		idTextF.setBounds(323, 156, 328, 55);
 		add(idTextF);
 		idTextF.setColumns(10);
+		
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 26));
 		lblPw.setBounds(251, 236, 51, 54);
@@ -78,6 +71,8 @@ public class LoginMain extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
 				ClientNet.getInstance().sendPacket(packet);
+				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
+				passwordField.setText("");
 			}});
 		
 		JButton signUpBt = new JButton("회원가입");

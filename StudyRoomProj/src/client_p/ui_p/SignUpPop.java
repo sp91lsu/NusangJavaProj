@@ -11,20 +11,20 @@ import javax.swing.JLabel;
 public class SignUpPop extends JFrame {
 
 	public SignUpPop() {
+		
 		JDialog jdd = new JDialog();
 		jdd.setBounds(50, 50, 100, 100);
 		jdd.setLayout(new GridLayout(2, 1));
+		
 		JLabel jll = new JLabel("정보를 입력하세요");
+		jdd.add(jll);
 		
 		JButton jbb = new JButton("확인");
-		jdd.add(jll);
 		jdd.add(jbb);
+		
 		jbb.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				jdd.dispose();
-				
 			}});
 		jdd.setVisible(true);
 	}
