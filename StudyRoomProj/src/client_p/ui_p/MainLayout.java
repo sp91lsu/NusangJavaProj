@@ -76,6 +76,8 @@ public class MainLayout extends JPanel implements Receivable{
 		button_5.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Seating_Arrangement sa = (Seating_Arrangement)BaseFrame.getInstance().jPanelArrl.get(2);
+				sa.seatChange();
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}});
 		panel.add(button_5);

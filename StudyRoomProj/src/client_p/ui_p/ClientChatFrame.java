@@ -11,15 +11,9 @@ import javax.swing.JPanel;
 
 public class ClientChatFrame extends JPanel{
 
-	String text = "";
-	TextArea textArea;
-	JFrame window;
-	
 	private final static String newline = "\n";
-	
-	public static void main(String[] args) {
-		new ClientChatFrame();
-	}
+	String text = "";
+	JFrame window;
 
 	public ClientChatFrame() {
 		window = new JFrame();
@@ -29,7 +23,7 @@ public class ClientChatFrame extends JPanel{
 		setLayout(null);
 		window.getContentPane().add(this);
 		
-		textArea = new TextArea();
+		TextArea textArea = new TextArea();
 		textArea.setBounds(0, 0, 900, 700);
 		add(textArea);
 		
@@ -66,7 +60,6 @@ public class ClientChatFrame extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				window.dispose();
 				BaseFrame.getInstance().view("MainLayout");
-				
 			}});
 		
 		setVisible(true);
