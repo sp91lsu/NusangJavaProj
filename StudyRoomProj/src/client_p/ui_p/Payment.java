@@ -156,7 +156,7 @@ public class Payment extends JFrame {
 
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
-				timeList.add(cal);
+				 timeList.add(cal);
 			} else {
 				System.out.println("타임 제거하기");
 				for (Calendar cal1 : timeList) {

@@ -1,13 +1,8 @@
 package client_p.ui_p;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -81,21 +76,18 @@ public class SignUpMain extends JFrame implements Receivable{
 		nameTextField.setBounds(381, 112, 191, 33);
 		mainPane.add(nameTextField);
 		nameTextField.setColumns(10);
-		nameTextField.addMouseListener(new MyAdapter());
 		textList.add(nameTextField);
 		
 		idTextField = new JTextField();
 		idTextField.setColumns(10);
 		idTextField.setBounds(381, 159, 191, 33);
 		mainPane.add(idTextField);
-		idTextField.addMouseListener(new MyAdapter());
 		textList.add(idTextField);
 		
 		phoneNumTextField = new JTextField();
 		phoneNumTextField.setColumns(10);
 		phoneNumTextField.setBounds(383, 309, 191, 33);
 		mainPane.add(phoneNumTextField);
-		phoneNumTextField.addMouseListener(new MyAdapter());
 		textList.add(phoneNumTextField);
 		
 		JButton signUpBtn = new JButton("회원가입");
@@ -133,13 +125,11 @@ public class SignUpMain extends JFrame implements Receivable{
 		passwordField = new JPasswordField();
 		passwordField.setBounds(381, 210, 191, 33);
 		mainPane.add(passwordField);
-		passwordField.addMouseListener(new MyAdapter());
 		pTextList.add(passwordField);
 		
 		check_passwordField = new JPasswordField();
 		check_passwordField.setBounds(381, 257, 191, 33);
 		mainPane.add(check_passwordField);
-		check_passwordField.addMouseListener(new MyAdapter());
 		pTextList.add(check_passwordField);
 		
 		JPanel keybordPane = new JPanel();
@@ -147,91 +137,11 @@ public class SignUpMain extends JFrame implements Receivable{
 		mainPane.add(keybordPane);
 		
 		
-		String firstRow[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",  "BackSpace" };
-		String secondRow[] = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" };
-		String thirdRow[] = {  "blank","A", "S", "D", "F", "G", "H", "J", "K", "L" };
-		String fourthRow[] = { "blank","blank","Z", "X", "C", "V", "B", "N", "M" };
-//				"v", ">" };
 
-		JButton first[];
-		JButton second[];
-		JButton third[];
-		JButton fourth[];
-
-		JPanel jpNorth = new JPanel();
-		JPanel jpCenter = new JPanel();
-		JPanel jpKeyboard = new JPanel(new GridBagLayout());
-		JPanel jpNote = new JPanel();
-		keybordPane.add(jpNorth, BorderLayout.NORTH);
-		keybordPane.add(jpNote);
-		keybordPane.add(jpCenter, BorderLayout.CENTER);
-		keybordPane.add(jpKeyboard, BorderLayout.SOUTH);
-
-		first = new JButton[firstRow.length];
-		second = new JButton[secondRow.length];
-		third = new JButton[thirdRow.length];
-		fourth = new JButton[fourthRow.length];
-
-		addKeys(jpKeyboard, 0, firstRow, first);
-		addKeys(jpKeyboard, 1, secondRow, second);
-		addKeys(jpKeyboard, 2, thirdRow, third);
-		addKeys(jpKeyboard, 3, fourthRow, fourth);
-
-		keybordPane.add(jpKeyboard);
-		
 		setVisible(false);
 	}
 	
-	class MyAdapter extends MouseAdapter		// 마우스로 id or pw TextField 클릭시 적용
-	{
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			
-		if(	currentTextField != (JTextField) e.getSource())
-			text = "";
-			currentTextField = (JTextField) e.getSource();
-		}
-	}
-	void addKeys(JPanel parent, int row, String[] keys, JButton[] buttons) {
 
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridy = row;
-		gbc.gridx = 0;
-		gbc.fill = GridBagConstraints.BOTH;
-
-		int gap = 0;
-		for (int index = 0; index < keys.length; index++) {
-			String key = keys[index];
-			if ("blank".equalsIgnoreCase(key)) {
-				gbc.gridx++;
-			} else if ("fill".equalsIgnoreCase(key)) {
-				gbc.gridwidth++;
-				gap++;
-			} else {
-				JButton btn = new JButton(key);
-				btn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JButton keyPoint = (JButton)e.getSource();
-						if(keyPoint.getText() !="BackSpace") {
-							text += keyPoint.getText();
-						}
-						else if(keyPoint.getText()=="BackSpace")
-							textBack();
-					
-						currentTextField.setText(text);
-					}
-					void textBack(){
-						if(text.length() > 0)
-						text =  text.substring(0,text.length()-1);
-					}});
-				buttons[index] = btn;
-				parent.add(btn, gbc);
-				gbc.gridx += gap + 1;
-				gbc.gridwidth = 1;
-				gap = 0;
-			}
-		}		
-	}
 	@Override
 	public void receive(PacketBase packet) {
 		
