@@ -19,11 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import client_p.Receivable;
-import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
-import javafx.scene.control.CheckBox;
-import packetBase_p.PacketBase;
 
 public class Payment extends JFrame {
 
@@ -179,7 +175,7 @@ public class Payment extends JFrame {
 			System.out.println(BaseFrame.getInstance().roomProduct);
 			if (roomInfo.name == BaseFrame.getInstance().roomProduct.name) {
 				// 서버에서 받은 룸정보의 타임 체크
-				// for (TimeData time : roomInfo.timeList) {
+//				 for (TimeData time : roomInfo.timeList) {
 //					for (MyCheckBox myCheckBox : checkBoxList) {
 //
 //						if (time.date == Calendar.getInstance().get(Calendar.DATE)) {
@@ -188,7 +184,7 @@ public class Payment extends JFrame {
 //							}
 //						}
 //					}
-				// }
+//				 }
 			}
 		}
 	}

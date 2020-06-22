@@ -35,7 +35,7 @@ public class Seating_Arrangement extends JPanel {
 	}
 
 	public Seating_Arrangement() {
-
+		
 		setLayout(new BorderLayout(0, 0));
 
 		// 상단 패널

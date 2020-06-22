@@ -64,15 +64,12 @@ public class MainLayout extends JPanel implements Receivable{
 		JButton button_4 = new JButton("1:1 고객문의");
 		button_4.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		button_4.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("ClientChatFrame");
 				CsChatConnectSyn packet = new CsChatConnectSyn();
 				ClientNet.getInstance().sendPacket(packet);
 				System.out.println("패킷이 다시 올때까지 기다려야 함");//다이얼로그 창 설정하기
-			}
-		});
+			}});
 		panel.add(button_4);
 		
 		JButton button_5 = new JButton("개인석 이동");

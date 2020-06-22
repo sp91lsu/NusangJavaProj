@@ -28,7 +28,6 @@ public class SignUpMain extends JFrame implements Receivable{
 	private JTextField phoneNumTextField;
 	private JPasswordField passwordField;
 	private JPasswordField check_passwordField;
-	private JTextField currentTextField;
 	
 	JDialog jd;
 	JLabel pwChk;
@@ -36,10 +35,6 @@ public class SignUpMain extends JFrame implements Receivable{
 	
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
-	
-//	public static void main(String[] args) {
-//		SignUpMain frame = new SignUpMain();
-//	}
 	
 	public SignUpMain() {
 		setBounds(100, 100, 900, 1000);
@@ -119,6 +114,10 @@ public class SignUpMain extends JFrame implements Receivable{
 		JButton idChkBtn = new JButton("ID 중복확인");
 		idChkBtn.setBounds(584, 159, 105, 33);
 		mainPane.add(idChkBtn);
+		idChkBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//중복체크 이벤트 추가할곳
+			}});
 		
 		pwChk = new JLabel("입력한 비밀번호와 동일 하게 입력 하세요");
 		pwChk.setBounds(584, 248, 300, 42);
@@ -137,8 +136,6 @@ public class SignUpMain extends JFrame implements Receivable{
 		JPanel keybordPane = new JPanel();
 		keybordPane.setBounds(12, 431, 860, 300);
 		mainPane.add(keybordPane);
-		
-		
 
 		setVisible(false);
 	}

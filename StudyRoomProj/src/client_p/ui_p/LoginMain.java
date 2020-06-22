@@ -22,6 +22,9 @@ import server_p.packet_p.ack_p.ScLoginAck;
 
 public class LoginMain extends JPanel implements Receivable {
 
+	private JTextField idTextF;
+	private JPasswordField passwordField;
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +49,7 @@ public class LoginMain extends JPanel implements Receivable {
 		idLabel.setBounds(251, 156, 51, 55);
 		add(idLabel);
 
-		JTextField idTextF = new JTextField();
+		idTextF = new JTextField();
 		idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
 		idTextF.setToolTipText("");
 		idTextF.setFont(new Font("맑은 고딕", Font.ITALIC, 14));
@@ -59,7 +62,7 @@ public class LoginMain extends JPanel implements Receivable {
 		lblPw.setBounds(251, 236, 51, 54);
 		add(lblPw);
 
-		JPasswordField passwordField = new JPasswordField();
+		passwordField = new JPasswordField();
 		passwordField.setBounds(323, 236, 328, 54);
 		add(passwordField);
 
@@ -71,8 +74,6 @@ public class LoginMain extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
 				ClientNet.getInstance().sendPacket(packet);
-				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
-				passwordField.setText("");
 			}});
 		
 		JButton signUpBt = new JButton("회원가입");
@@ -97,6 +98,8 @@ public class LoginMain extends JPanel implements Receivable {
 			// BaseFrame.getInstance().updateInfo(ack.roomList);
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
+				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
+				passwordField.setText("");
 				BaseFrame.getInstance().view("MainLayout");
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 
