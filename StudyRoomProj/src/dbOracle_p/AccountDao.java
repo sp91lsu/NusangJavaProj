@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
@@ -57,8 +58,10 @@ public class AccountDao extends DBProcess {
 
 	public ArrayList<RoomProduct> findUserRoom(String uuid) {
 		RoomDao roomDao = new RoomDao();
-
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+		// ∑Î ªÛ«∞ √£±‚
+
+		ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 		try {
 			ResultSet rs = roomDao.getRoomInfoRS("*", "UUID = '" + uuid + "'");
 
@@ -75,7 +78,12 @@ public class AccountDao extends DBProcess {
 						&& cal.get(Calendar.MONTH) >= current.get(Calendar.MONTH)
 						&& cal.get(Calendar.DATE) >= current.get(Calendar.DATE)) {
 
-					roomList.add(roomDao.copyRoom(rs));
+					RoomProduct room = null;
+					RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
+					room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
+					timeList.add(cal);
+					room.setDate(rs.getString("UUID"), timeList);
+					roomList.add(room);
 				}
 			}
 		} catch (Exception e) {

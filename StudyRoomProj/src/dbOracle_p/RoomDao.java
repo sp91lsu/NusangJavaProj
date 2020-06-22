@@ -61,35 +61,23 @@ public class RoomDao extends DBProcess {
 		System.out.println("·Î±×ÀÎ ½Ã ·ë µ¥ÀÌÅÍ");
 		while (rs.next()) {
 
-			RoomProduct room = copyRoom(rs);
-			roomList.add(room);
-		}
-
-		rs.close();
-		return roomList;
-	}
-
-	public RoomProduct copyRoom(ResultSet rs) throws SQLException {
-
-		RoomProduct room = null;
-		while (rs.next()) {
-
 			ArrayList<Calendar> timeList = new ArrayList<Calendar>();
+
 			Timestamp time = rs.getTimestamp("STARTDATE");
-
-			System.out.println(rs.getTimestamp("STARTDATE"));
-			System.out.println(rs.getInt("ID"));
-			// ¿À´ÃÀÚ ·ë Á¤º¸
-
+			RoomProduct room = null;
 			RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
-
 			room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
 			Calendar cal = Calendar.getInstance();
 
 			cal.setTimeInMillis(time.getTime());
 			timeList.add(cal);
 			room.setDate(rs.getString("UUID"), timeList);
+			roomList.add(room);
 		}
-		return room;
+
+		System.out.println("·ë ¸®½ºÆ® °¹¼ö" + roomList.size());
+		rs.close();
+		return roomList;
 	}
+
 }

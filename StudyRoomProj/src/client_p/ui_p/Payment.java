@@ -175,6 +175,11 @@ public class Payment extends JFrame {
 	}
 
 	public void resPossibleChk() {
+
+		for (MyCheckBox myCheckBox : checkBoxList) {
+			myCheckBox.box.setEnabled(true);
+		}
+
 		Calendar cal = Calendar.getInstance();
 		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(cal.get(Calendar.MONTH),
 				cal.get(Calendar.DATE));

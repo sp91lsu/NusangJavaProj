@@ -128,6 +128,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 		ArrayList<Integer> valueList = new ArrayList<Integer>();
 
+		System.out.println("서버에서 받은 룸정보 ");
 		// 서버에서 계속 갱신되는 정보 돌려서
 		for (RoomProduct roomInfo : roomInfoList) {
 
@@ -141,6 +142,7 @@ public class BaseFrame extends JFrame implements Receivable {
 						for (int i = 1; i <= 24; i++) {
 							if (!valueList.contains(i) && cal.get(Calendar.HOUR) == i) {
 
+								System.out.println(i + "시");
 								valueList.add(i);
 							}
 						}
