@@ -126,7 +126,7 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
 
 		System.out.println("들어온 상품 정보 ");
-
+		System.out.println(recPacket.RoomProduct.calendarList.size());
 		ScBuyRoomAck ack = null;
 
 		// 타임별로 룸 구매

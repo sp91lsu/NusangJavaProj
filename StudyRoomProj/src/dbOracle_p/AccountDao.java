@@ -38,8 +38,10 @@ public class AccountDao extends DBProcess {
 	public UserData findUser(String idOrPhone, String id, String pw) throws Exception {
 
 		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + id + "' and pw = '" + pw + "'");
+		stmt = con.prepareStatement(query);
+		
+		rs = stmt.executeQuery();
 
-		rs = stmt.executeQuery(query);
 		UserData userdata = null;
 		if (rs.next()) {
 			userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),

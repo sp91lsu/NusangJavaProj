@@ -35,17 +35,16 @@ public class DBProcess {
 //	}
 
 	void insertQuery(ETable table, String calum, String value) {
-		System.out.println("insert into " + table.name() + "(" + calum + ") values " + "(" + value + ")");
-		reset("insert into " + table.name() + "(" + calum + ") values " + "(" + value + ")");
+		query = "insert into " + table.name() + "(" + calum + ") values " + "(" + value + ")";
 	}
 
 	void findQuery(ETable table, String... data) {
+
 		query = "select " + data[0] + " from " + table.name();
 		if (data.length == 2) {
 			query += " where " + data[1];
 		}
 
-		reset(query);
 	}
 //	public void setQuery() throws SQLException {
 //		reset();
@@ -93,9 +92,10 @@ public class DBProcess {
 	}
 
 	void reset(String query) {
+		System.out.println(query);
 		try {
 			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
-			stmt = con.prepareStatement(query);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

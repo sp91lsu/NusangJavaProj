@@ -13,22 +13,23 @@ import data_p.user_p.UserData;
 public class RoomDao extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
-		String[] calumArr = { "UUID", "ID", "PRICE", "STARTDATE" };
+		String[] calumArr = { "ID", "PRICE", "STARTDATE", "UUID" };
 
 		String calumQuery = getCalum(calumArr);
 		String calumNum = getCalumNum(calumArr.length);
 
 		try {
+			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
+
 			for (Calendar cal : room.calendarList) {
-				stmt.setString(1, userUUID);
-				stmt.setInt(2, room.id);
-				stmt.setLong(3, room.price);
+				stmt = con.prepareStatement(query);
+				stmt.setInt(1, room.id);
+				stmt.setLong(2, room.price);
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
-				stmt.setTimestamp(4, timeStamp);
+				stmt.setTimestamp(3, timeStamp);
+				stmt.setString(4, userUUID);
 
-				insertQuery(ETable.ACCOUNT, calumQuery, calumNum);
-
-				rs = stmt.executeQuery(query);
+				rs = stmt.executeQuery();
 			}
 
 			close();
@@ -43,9 +44,11 @@ public class RoomDao extends DBProcess {
 
 	// 재고 모든 정보 불러오기
 	public ArrayList<RoomProduct> getTodayRoomInfo() throws Exception {
-		findQuery(ETable.INVENTORY, "*");
 
-		rs = stmt.executeQuery(query);
+		findQuery(ETable.INVENTORY, "*");
+		stmt = con.prepareStatement(query);
+
+		rs = stmt.executeQuery();
 
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 		ArrayList<Calendar> timeList = new ArrayList<Calendar>();
