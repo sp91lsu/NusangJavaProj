@@ -54,7 +54,9 @@ class MethLoginSyn implements ServerPacketMethod {
 
 				RoomDao roomDao = new RoomDao();
 
-				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getTodayRoomInfo());
+				userData.setMyRoom(accountDao.findUserRoom(userData.uuid));
+				
+				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getRoomInfo("*"));
 			} else {
 				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null);
 

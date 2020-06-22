@@ -19,7 +19,7 @@ public class ClientNet extends Thread {
 	public static ClientNet getInstance() {
 		if (instance == null) {
 			instance = new ClientNet();
-			
+
 		}
 		return instance;
 	}
@@ -33,7 +33,7 @@ public class ClientNet extends Thread {
 		System.out.println("서버접속 시도");
 
 		try {
-			socket = new Socket("192.168.0.11", 7777);
+			socket = new Socket("127.0.0.1", 7777);
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 
@@ -45,9 +45,9 @@ public class ClientNet extends Thread {
 //			
 //			CsSignUpSyn signupSyn = new CsSignUpSyn("이승환", "tmdghks", "4521", "010-2495-7784", "940928", "rb4rt6u6gujh8a6f1e564as84se6vsdafflad4g68as8ah64se86g4h86adf4gf8se6t4g86dvs4r86eg48af6ser48we6gf8s6e4f86asd4g86as");
 
-			//CsLoginSyn loginSyn = new CsLoginSyn("tmdghks", "4521", true);
-			
-			//sendPacket(loginSyn);
+			// CsLoginSyn loginSyn = new CsLoginSyn("tmdghks", "4521", true);
+
+			// sendPacket(loginSyn);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +90,7 @@ class PacketProccess extends Thread {
 
 				sleep(10);
 				if (is.available() > 0) {
-					
+
 					PacketMap.getInstance().receivePacket(this, (ResultPacketBase) ois.readObject());
 				}
 			}

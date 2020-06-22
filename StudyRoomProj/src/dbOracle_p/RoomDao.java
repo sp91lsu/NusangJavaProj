@@ -1,5 +1,6 @@
 package dbOracle_p;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -42,17 +43,35 @@ public class RoomDao extends DBProcess {
 		return true;
 	}
 
-	// 재고 모든 정보 불러오기
-	public ArrayList<RoomProduct> getTodayRoomInfo() throws Exception {
+	public ResultSet getRoomInfoRS(String... keys) throws SQLException {
 
-		findQuery(ETable.INVENTORY, "*");
+		findQuery(ETable.INVENTORY, keys);
 		stmt = con.prepareStatement(query);
 
-		rs = stmt.executeQuery();
+		return stmt.executeQuery();
+	}
+
+	// 재고 모든 정보 불러오기
+	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
+
+		rs = getRoomInfoRS(keys);
 
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 
 		System.out.println("로그인 시 룸 데이터");
+		while (rs.next()) {
+
+			RoomProduct room = copyRoom(rs);
+			roomList.add(room);
+		}
+
+		rs.close();
+		return roomList;
+	}
+
+	public RoomProduct copyRoom(ResultSet rs) throws SQLException {
+
+		RoomProduct room = null;
 		while (rs.next()) {
 
 			ArrayList<Calendar> timeList = new ArrayList<Calendar>();
@@ -64,18 +83,13 @@ public class RoomDao extends DBProcess {
 
 			RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
 
-			System.out.println(roomModel);
-
-			RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
+			room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
 			Calendar cal = Calendar.getInstance();
 
 			cal.setTimeInMillis(time.getTime());
 			timeList.add(cal);
-			room.setDate(timeList);
-			roomList.add(room);
+			room.setDate(rs.getString("UUID"), timeList);
 		}
-
-		rs.close();
-		return roomList;
+		return room;
 	}
 }

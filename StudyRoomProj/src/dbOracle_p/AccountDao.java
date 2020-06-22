@@ -1,7 +1,9 @@
 package dbOracle_p;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import data_p.product_p.TimeData;
@@ -37,9 +39,11 @@ public class AccountDao extends DBProcess {
 
 	public UserData findUser(String idOrPhone, String id, String pw) throws Exception {
 
-		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = '" + id + "' and pw = '" + pw + "'");
+		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ? and pw = ?");
 		stmt = con.prepareStatement(query);
-		
+
+		stmt.setString(1, id);
+		stmt.setString(2, pw);
 		rs = stmt.executeQuery();
 
 		UserData userdata = null;
@@ -49,5 +53,36 @@ public class AccountDao extends DBProcess {
 		}
 		rs.close();
 		return userdata;
+	}
+
+	public ArrayList<RoomProduct> findUserRoom(String uuid) {
+		RoomDao roomDao = new RoomDao();
+
+		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+		try {
+			ResultSet rs = roomDao.getRoomInfoRS("*", "UUID = '" + uuid + "'");
+
+			while (rs.next()) {
+				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
+
+				Calendar current = Calendar.getInstance();
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(timeStamp.getTime());
+
+				// 앞으로의 이용 정보 유저에게 줌
+				if (cal.get(Calendar.YEAR) >= current.get(Calendar.YEAR)
+						&& cal.get(Calendar.MONTH) >= current.get(Calendar.MONTH)
+						&& cal.get(Calendar.DATE) >= current.get(Calendar.DATE)) {
+
+					roomList.add(roomDao.copyRoom(rs));
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return roomList;
 	}
 }

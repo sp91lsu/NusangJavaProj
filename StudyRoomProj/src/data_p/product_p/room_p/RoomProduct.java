@@ -10,6 +10,7 @@ import data_p.product_p.TimeData;
 public class RoomProduct extends ProductData {
 
 	public Integer personNum;
+	public String userUUID;
 	public ArrayList<Calendar> calendarList = new ArrayList<Calendar>();;
 
 	public RoomProduct(int id, String name, long price, int personNum) {
@@ -17,7 +18,9 @@ public class RoomProduct extends ProductData {
 	}
 
 	// 날짜 입력
-	public void setDate(ArrayList<Calendar> calendarList) {
+	public void setDate(String uuid, ArrayList<Calendar> calendarList) {
+
+		userUUID = uuid;
 		for (Calendar cal : calendarList) {
 			System.out.println(cal.getTime());
 		}

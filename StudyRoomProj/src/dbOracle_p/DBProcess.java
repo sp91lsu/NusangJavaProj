@@ -44,7 +44,7 @@ public class DBProcess {
 		if (data.length == 2) {
 			query += " where " + data[1];
 		}
-
+		System.out.println(query);
 	}
 //	public void setQuery() throws SQLException {
 //		reset();

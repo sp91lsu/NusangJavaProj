@@ -202,7 +202,7 @@ public class ReservationMain extends JPanel {
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				BaseFrame.getInstance().roomProduct.setDate(timeList);
+				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				BaseFrame.getInstance().rcalc.setVisible(true);
 			}
 		});
@@ -283,7 +283,7 @@ public class ReservationMain extends JPanel {
 
 									if (time.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE)
 											&& time.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)) {
-					
+
 										if (time.get(Calendar.HOUR_OF_DAY) == myCheckBox.value) {
 											myCheckBox.box.setEnabled(false);
 										}
@@ -292,10 +292,10 @@ public class ReservationMain extends JPanel {
 							}
 						}
 					}
-					
+
 				}
 			});
-			
+
 		}
 	}
 
@@ -362,8 +362,8 @@ public class ReservationMain extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox box = (JCheckBox) e.getSource();
 
-			
-			//TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE), value, 0);
+			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
+			// value, 0);
 //			if (box.isSelected()) {
 //				System.out.println("타임 추가하기");
 //				timeList.add(time);

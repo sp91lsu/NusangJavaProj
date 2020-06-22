@@ -93,7 +93,6 @@ public class Payment extends JFrame {
 			timeChKPane.add(myBox1.box);
 		}
 
-
 		// 인원선택
 		Vector<Integer> personCnt = new Vector<Integer>();
 		for (int i = 0; i <= 10; i++) {
@@ -115,7 +114,7 @@ public class Payment extends JFrame {
 		JButton payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().roomProduct.setDate(timeList);
+				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				BaseFrame.getInstance().paymentPop.setVisible(true);
 				;
 			}
@@ -176,32 +175,19 @@ public class Payment extends JFrame {
 	}
 
 	public void resPossibleChk() {
-		for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
-			for (Calendar a : roomInfo.calendarList) {
-				System.out.println("리스트들어있니?>>>" + a);
-			}
+		Calendar cal = Calendar.getInstance();
+		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(cal.get(Calendar.MONTH),
+				cal.get(Calendar.DATE));
 
-			// 현제 페이지의 룸정보
-			System.out.println(roomInfo);
-//			System.out.println("내선택>>>>>"+roomInfo.name);
-//			System.out.println("받은정보>>"+BaseFrame.getInstance().roomProduct.name);
-			if (roomInfo.name.equals(BaseFrame.getInstance().roomProduct.name)) {
-//				 서버에서 받은 룸정보의 타임 체크
-				for (Calendar time : roomInfo.calendarList) {
-					for (MyCheckBox myCheckBox : checkBoxList) {
+		for (MyCheckBox myCheckBox : checkBoxList) {
 
-						if (time.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE)
-								&& time.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)) {
-		
-							if (time.get(Calendar.HOUR_OF_DAY) == myCheckBox.value) {
-								myCheckBox.box.setEnabled(false);
-							}
-						}
-					}
+			for (Integer i : checkList) {
+
+				if (myCheckBox.value == i) {
+					myCheckBox.box.setEnabled(false);
 				}
 			}
 		}
-
 	}
 
 	public void openPage() {

@@ -2,10 +2,13 @@ package client_p.ui_p;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client_p.Receivable;
+import client_p.ui_p.Payment.MyCheckBox;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import packetBase_p.ELoginType;
@@ -110,4 +113,40 @@ public class BaseFrame extends JFrame implements Receivable {
 		payment.updateRoomInfo();
 	}
 
+	// 현재 룸 정보 결제를 위해 시간 넣기
+	public void setCurrentRoomInfo(ArrayList<Calendar> calendarList) {
+		if (roomProduct != null) {
+			roomProduct.setDate(userData.uuid, calendarList);
+		} else {
+			System.out.println("현재 결제하려고하는 룸 정보가 null임");
+		}
+	}
+
+	
+	//예약이 이미 되어있는 int 값 리스트  (payment, reservationMain) 에서 사용하는 함수 
+	public ArrayList<Integer> getCheckList(int month, int date) {
+
+		ArrayList<Integer> valueList = new ArrayList<Integer>();
+
+		// 서버에서 계속 갱신되는 정보 돌려서
+		for (RoomProduct roomInfo : roomInfoList) {
+
+			// 현재 구매하려는 룸 정보와 같으면
+			if (roomInfo.name.equals(roomProduct.name)) {
+
+				// 그 룸정보의 캘린더를 구해서
+				for (Calendar cal : roomInfo.calendarList) {
+
+					if (cal.get(Calendar.MONTH) == month && cal.get(Calendar.DATE) == date)
+						for (int i = 1; i <= 24; i++) {
+							if (!valueList.contains(i) && cal.get(Calendar.HOUR) == i) {
+
+								valueList.add(i);
+							}
+						}
+				}
+			}
+		}
+		return valueList;
+	}
 }
