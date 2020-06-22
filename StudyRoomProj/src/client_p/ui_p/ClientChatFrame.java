@@ -19,7 +19,6 @@ public class ClientChatFrame extends JPanel{
 		window = new JFrame();
 		window.setBounds(100, 100, 900, 1000);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setVisible(true);
 		setLayout(null);
 		window.getContentPane().add(this);
 		
