@@ -11,7 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class MainLayout extends JPanel {
+import client_p.ClientNet;
+import client_p.Receivable;
+import client_p.packet_p.ack_p.CsChatConnectAck;
+import client_p.packet_p.syn_p.CsChatConnectSyn;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+
+public class MainLayout extends JPanel implements Receivable{
 	
 	private String name;
 	public static void main(String[] args) {
@@ -56,6 +63,16 @@ public class MainLayout extends JPanel {
 		
 		JButton button_4 = new JButton("1:1 고객문의");
 		button_4.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		button_4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("ClientChatFrame");
+				CsChatConnectSyn packet = new CsChatConnectSyn();
+				ClientNet.getInstance().sendPacket(packet);
+				System.out.println("패킷이 다시 올때까지 기다려야 함");//다이얼로그 창 설정하기
+			}
+		});
 		panel.add(button_4);
 		
 		JButton button_5 = new JButton("개인석 이동");
@@ -103,5 +120,17 @@ public class MainLayout extends JPanel {
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 35));
 		lblNewLabel.setBounds(261, 10, 396, 107);
 		add(lblNewLabel);
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+		CsChatConnectAck ack = (CsChatConnectAck)packet;
+		if(ack.eResult == EResult.SUCCESS) {
+			BaseFrame.getInstance().view("ClientChatFrame");
+		}else {
+			System.out.println("거절");
+		}
+		
+		
 	}
 }
