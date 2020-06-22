@@ -54,6 +54,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		addToBaseFrame(new Seating_Arrangement());
 		addToBaseFrame(new LockerMain());
 		addToBaseFrame(new ReservationMain());
+		addToBaseFrame(new ClientChatFrame());
 		setBackground(Color.GRAY);
 //		setLayout(null);
 		setBounds(100, 100, 900, 1000);
