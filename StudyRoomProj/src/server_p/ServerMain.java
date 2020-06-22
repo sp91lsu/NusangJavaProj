@@ -79,7 +79,7 @@ class MyServer {
 			System.out.println(packetClient.socket.getInetAddress().toString());
 			if (packetClient.socket.getInetAddress().toString().equals(address)) {
 				System.out.println("찾앗다!");
- 
+
 				return packetClient;
 			}
 		}
@@ -109,6 +109,7 @@ class SocketClient extends Thread {
 	ObjectOutputStream dos;
 	Socket socket;
 
+	boolean isChat = false;
 	public boolean doChatting = false;
 
 	SocketClient(Socket socket) {
@@ -138,7 +139,13 @@ class SocketClient extends Thread {
 				sleep(10);
 			} catch (Exception e) {
 				System.out.println("클라이언트에서 패킷 받는 도중 오류 ");
+				System.out.println(socket.getInetAddress() + "종료");
+				MyServer.getInstance().clientList.remove(this);
+				close();
 				e.printStackTrace();
+
+				return;
+
 			}
 		}
 

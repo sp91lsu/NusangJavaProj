@@ -101,8 +101,13 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		String managerIp = "/192.168.0.7";
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
-		if (sc != null) {
-			sc.sendPacket(resPacket);
+		ScChatConnectAck ack = null;
+		if (sc != null && !sc.isChat) {
+			ack = new ScChatConnectAck(EResult.SUCCESS);
+			sc.sendPacket(ack);
+		} else {
+			ack = new ScChatConnectAck(EResult.FAIL);
+			sc.sendPacket(ack);
 		}
 
 	}

@@ -19,7 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import client_p.Receivable;
+import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
+import javafx.scene.control.CheckBox;
+import packetBase_p.PacketBase;
 
 public class Payment extends JFrame {
 
@@ -54,7 +58,6 @@ public class Payment extends JFrame {
 		MainPane.add(infoPane);
 		infoPane.setLayout(null);
 
-//		JLabel 
 		titelLabel = new JLabel("결제창");
 		titelLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titelLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -83,12 +86,13 @@ public class Payment extends JFrame {
 
 			DecimalFormat format = new DecimalFormat("00:");
 			int text = i + 1;
-			int realtime = i - 11;
-			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(), realtime);
+			int realtime = i + 1;
+			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
 			timeChKPane.add(myBox1.box);
 		}
+
 
 		// 인원선택
 		Vector<Integer> personCnt = new Vector<Integer>();
@@ -145,17 +149,17 @@ public class Payment extends JFrame {
 
 			Calendar cal = Calendar.getInstance();
 
-			cal.set(Calendar.HOUR, value);
+			cal.set(Calendar.HOUR_OF_DAY, value);
 			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
 			// value, 0);
 
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
-				 timeList.add(cal);
+				timeList.add(cal);
 			} else {
 				System.out.println("타임 제거하기");
 				for (Calendar cal1 : timeList) {
-					if (cal1.get(Calendar.HOUR) == value) {
+					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
 						timeList.remove(cal1);
 					}
 				}
@@ -168,25 +172,36 @@ public class Payment extends JFrame {
 
 	public void updateRoomInfo() {
 		// 서버에서 받은 룸정보
+
+	}
+
+	public void resPossibleChk() {
 		for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
+			for (Calendar a : roomInfo.calendarList) {
+				System.out.println("리스트들어있니?>>>" + a);
+			}
 
 			// 현제 페이지의 룸정보
 			System.out.println(roomInfo);
-			System.out.println(BaseFrame.getInstance().roomProduct);
-			if (roomInfo.name == BaseFrame.getInstance().roomProduct.name) {
-				// 서버에서 받은 룸정보의 타임 체크
-//				 for (TimeData time : roomInfo.timeList) {
-//					for (MyCheckBox myCheckBox : checkBoxList) {
-//
-//						if (time.date == Calendar.getInstance().get(Calendar.DATE)) {
-//							if (time.value == myCheckBox.value) {
-//								myCheckBox.box.setEnabled(false);
-//							}
-//						}
-//					}
-//				 }
+//			System.out.println("내선택>>>>>"+roomInfo.name);
+//			System.out.println("받은정보>>"+BaseFrame.getInstance().roomProduct.name);
+			if (roomInfo.name.equals(BaseFrame.getInstance().roomProduct.name)) {
+//				 서버에서 받은 룸정보의 타임 체크
+				for (Calendar time : roomInfo.calendarList) {
+					for (MyCheckBox myCheckBox : checkBoxList) {
+
+						if (time.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE)
+								&& time.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)) {
+		
+							if (time.get(Calendar.HOUR_OF_DAY) == myCheckBox.value) {
+								myCheckBox.box.setEnabled(false);
+							}
+						}
+					}
+				}
 			}
 		}
+
 	}
 
 	public void openPage() {
