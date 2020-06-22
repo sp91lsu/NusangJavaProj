@@ -21,9 +21,9 @@ import packetBase_p.ELoginType;
 
 public class Seating_Arrangement extends JPanel {
 	static JLabel north_west;
-	
+
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
-	ArrayList<JButton> group = new ArrayList<JButton>(); 
+	ArrayList<JButton> group = new ArrayList<JButton>();
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -34,7 +34,7 @@ public class Seating_Arrangement extends JPanel {
 	}
 
 	public Seating_Arrangement() {
-		
+
 		setLayout(new BorderLayout(0, 0));
 
 		// 상단 패널
@@ -52,7 +52,8 @@ public class Seating_Arrangement extends JPanel {
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("MainLayout");
-			}});
+			}
+		});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
@@ -121,7 +122,7 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn2.setBounds(300, 0, 250, 180);
 		panel_center.add(roomBtn2);
 		group.add(roomBtn2);
-		
+
 		JButton roomBtn3 = new JButton("6인실-1");
 		roomBtn3.addActionListener(new BtnAct(roomBtn3));
 		roomBtn3.setBounds(550, 0, 160, 180);
@@ -213,7 +214,7 @@ public class Seating_Arrangement extends JPanel {
 		btnM_5.addActionListener(new BtnAct(btnM_5));
 		btnM_5.setBounds(200, 160, 100, 90);
 		mannerzone_panel.add(btnM_5);
-		
+
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
 		normalzone_panel.setBackground(Color.CYAN);
@@ -283,11 +284,10 @@ public class Seating_Arrangement extends JPanel {
 		now_time.start();
 		setVisible(true);
 	}
-	
-	public void seatChange()
-	{
+
+	public void seatChange() {
 		for (JButton button : group) {
-			System.out.print(button.getText()+",");
+			System.out.print(button.getText() + ",");
 			button.setEnabled(false);
 		}
 	}
@@ -318,6 +318,8 @@ class BtnAct implements ActionListener {
 					System.out.println("MOBILE");
 					BaseFrame.getInstance().view("ReservationMain");
 				}
+
+				BaseFrame.getInstance().payment.resPossibleChk();
 			}
 		}
 	}
