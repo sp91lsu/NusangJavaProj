@@ -33,7 +33,8 @@ public class ReservationMain extends JPanel {
 	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 	ArrayList<Button> btnList = new ArrayList<Button>();
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
-	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
+	ArrayList<MyJButton> dateList = new ArrayList<MyJButton>();
 
 	class MyCheckBox {
 		JCheckBox box;
@@ -41,9 +42,20 @@ public class ReservationMain extends JPanel {
 
 		public MyCheckBox(JCheckBox box, int value) {
 			super();
+
 			this.box = box;
 			this.value = value;
 		}
+	}
+
+	class MyJButton {
+		JButton dateBtn;
+
+		public MyJButton(JButton button) {
+			super();
+			this.dateBtn = button;
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -129,14 +141,26 @@ public class ReservationMain extends JPanel {
 		//////// 시간 선택 버튼/////////
 		for (int i = 0; i < 24; i++) {
 
-			DecimalFormat format = new DecimalFormat("00:00");
+			DecimalFormat format = new DecimalFormat("00:");
 			int text = i + 1;
 			int realtime = i - 11;
-			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text)), realtime);
+			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
 			timeChkPane.add(myBox1.box);
 		}
+
+//        for (int i = 1; i < 25; i++) {
+//            if (i < 10) {
+//                MyCheckBox myc = new MyCheckBox("0" + i + ":00", i);
+//                timeChkPane.add(myc.box);
+//                timeChoiceList.add(myc);
+//            } else {
+//                MyCheckBox myc = new MyCheckBox(i + ":00", i);
+//                timeChkPane.add(myc.box);
+//                timeChoiceList.add(myc);
+//            }
+//        }
 
 //		for (MyCheckBox tc : timeChoiceList) {
 //			System.out.println(tc.box.getText());
@@ -178,7 +202,7 @@ public class ReservationMain extends JPanel {
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				BaseFrame.getInstance().roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
+				BaseFrame.getInstance().roomProduct.setDate(timeList);
 				BaseFrame.getInstance().rcalc.setVisible(true);
 			}
 		});
@@ -228,9 +252,9 @@ public class ReservationMain extends JPanel {
 
 		// System.out.println(first);
 
-		for (int i = 1; i < first; i++) {
-			System.out.print("\t");
-		}
+//		for (int i = 1; i < first; i++) {
+//			System.out.print("\t");
+//		}
 
 		int last = today.getActualMaximum(Calendar.DATE);
 
@@ -241,7 +265,10 @@ public class ReservationMain extends JPanel {
 			else if (last < i)
 				dateN = "";
 
-			calPaneMain.add(new Button(dateN));
+			MyJButton datebtn = new MyJButton(new JButton(dateN));
+			dateList.add(datebtn);
+			calPaneMain.add(datebtn.dateBtn);
+			System.out.println(dateList);
 		}
 	}
 
@@ -267,6 +294,7 @@ public class ReservationMain extends JPanel {
 			if (info.name == roomName) {
 				roomList.add(info);
 			}
+
 		}
 	}
 
@@ -282,16 +310,16 @@ public class ReservationMain extends JPanel {
 		for (MyCheckBox time24Data : checkBoxList) {
 
 			// 서버에서 받은 룸의 시간예약데이터
-			for (RoomProduct roomData : roomList) {
-
-				for (TimeData ServerTimeData : roomData.timeList) {
-					if (date == ServerTimeData.date) {
-						if (time24Data.value == ServerTimeData.value) {
-							time24Data.box.setEnabled(false);
-						}
-					}
-				}
-			}
+//			for (RoomProduct roomData : roomList) {
+//
+//				for (TimeData ServerTimeData : roomData.timeList) {
+//					if (date == ServerTimeData.date) {
+//						if (time24Data.value == ServerTimeData.value) {
+//							time24Data.box.setEnabled(false);
+//						}
+//					}
+//				}
+//			}
 		}
 	}
 
@@ -307,14 +335,15 @@ public class ReservationMain extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox box = (JCheckBox) e.getSource();
 
-			TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE), value, 0);
-			if (box.isSelected()) {
-				System.out.println("타임 추가하기");
-				timeList.add(time);
-			} else {
-				System.out.println("타임 제거하기");
-				timeList.remove(time);
-			}
+			
+			//TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE), value, 0);
+//			if (box.isSelected()) {
+//				System.out.println("타임 추가하기");
+//				timeList.add(time);
+//			} else {
+//				System.out.println("타임 제거하기");
+//				timeList.remove(time);
+//			}
 		}
 	}
 }

@@ -33,7 +33,7 @@ public class Payment extends JFrame {
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 	String current_day = date.format((Calendar.getInstance().getTime()));
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
-	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 
 	class MyCheckBox {
 		JCheckBox box;
@@ -41,6 +41,7 @@ public class Payment extends JFrame {
 
 		public MyCheckBox(JCheckBox box, int value) {
 			super();
+			System.out.println(">>>>>" + box);
 			this.box = box;
 			this.value = value;
 		}
@@ -85,10 +86,10 @@ public class Payment extends JFrame {
 
 		for (int i = 0; i < 24; i++) {
 
-			DecimalFormat format = new DecimalFormat("00:00");
+			DecimalFormat format = new DecimalFormat("00:");
 			int text = i + 1;
 			int realtime = i - 11;
-			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text)), realtime);
+			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
 			timeChKPane.add(myBox1.box);
@@ -115,7 +116,7 @@ public class Payment extends JFrame {
 		JButton payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().roomProduct.setDate(Calendar.getInstance().get(Calendar.DATE), timeList);
+				BaseFrame.getInstance().roomProduct.setDate(timeList);
 				BaseFrame.getInstance().paymentPop.setVisible(true);
 				;
 			}
@@ -145,13 +146,25 @@ public class Payment extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox box = (JCheckBox) e.getSource();
 
-			TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE), value, 0);
+			System.out.println(value);
+
+			Calendar cal = Calendar.getInstance();
+
+			cal.set(Calendar.HOUR, value);
+			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
+			// value, 0);
+
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
-				timeList.add(time);
+				timeList.add(cal);
 			} else {
 				System.out.println("타임 제거하기");
-				timeList.remove(time);
+				for (Calendar cal1 : timeList) {
+					if (cal1.get(Calendar.HOUR) == value) {
+						timeList.remove(cal1);
+					}
+				}
+
 			}
 		}
 	}
@@ -167,16 +180,16 @@ public class Payment extends JFrame {
 			System.out.println(BaseFrame.getInstance().roomProduct);
 			if (roomInfo.name == BaseFrame.getInstance().roomProduct.name) {
 				// 서버에서 받은 룸정보의 타임 체크
-				for (TimeData time : roomInfo.timeList) {
-					for (MyCheckBox myCheckBox : checkBoxList) {
-
-						if (time.date == Calendar.getInstance().get(Calendar.DATE)) {
-							if (time.value == myCheckBox.value) {
-								myCheckBox.box.setEnabled(false);
-							}
-						}
-					}
-				}
+				// for (TimeData time : roomInfo.timeList) {
+//					for (MyCheckBox myCheckBox : checkBoxList) {
+//
+//						if (time.date == Calendar.getInstance().get(Calendar.DATE)) {
+//							if (time.value == myCheckBox.value) {
+//								myCheckBox.box.setEnabled(false);
+//							}
+//						}
+//					}
+				// }
 			}
 		}
 	}

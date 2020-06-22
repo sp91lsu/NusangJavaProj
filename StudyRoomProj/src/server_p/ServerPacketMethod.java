@@ -126,42 +126,22 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
 
 		System.out.println("들어온 상품 정보 ");
-//		System.out.println(recPacket.uuid);
-//		System.out.println(recPacket.RoomProduct.id);
-//		System.out.println(recPacket.RoomProduct.name);
-//		System.out.println(recPacket.RoomProduct.price);
-
-		for (TimeData timedata : recPacket.RoomProduct.timeList) {
-			System.out.println(timedata.toString());
-		}
-
-		RoomProduct rp = recPacket.RoomProduct;
 
 		ScBuyRoomAck ack = null;
 
 		// 타임별로 룸 구매
-		for (TimeData timeData : rp.timeList) {
+		for (Calendar cal : recPacket.RoomProduct.calendarList) {
 
-			rp.calendar.set(Calendar.HOUR, timeData.value);
-			rp.calendar.set(Calendar.MINUTE, 0);
-
-			System.out.println(rp.calendar.getTime());
-
-			Timestamp ts = new Timestamp(rp.calendar.getTimeInMillis());
-
-			System.out.println(ts.getDate());
-			System.out.println(ts.getHours());
+			Timestamp ts = new Timestamp(cal.getTimeInMillis());
 
 			RoomDao roomDao = new RoomDao();
 
-			boolean isInsert = roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
+			System.out.println(cal.getTime());
 
-			if (isInsert) {
-				ack = new ScBuyRoomAck(EResult.SUCCESS);
-			} else {
-				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
-			}
+			roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 		}
+
+		ack = new ScBuyRoomAck(EResult.SUCCESS);
 
 		client.sendPacket(ack);
 	}

@@ -38,11 +38,9 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsBuyRoomSyn packet = new CsBuyRoomSyn(BaseFrame.getInstance().roomProduct,
 						BaseFrame.getInstance().userData.uuid);
-				for (TimeData data : BaseFrame.getInstance().roomProduct.timeList) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.set(Calendar.DATE, data.date);
-					calendar.set(Calendar.HOUR, data.value);
-					System.out.println(calendar.getTime());
+				for (Calendar cal : BaseFrame.getInstance().roomProduct.calendarList) {
+
+					System.out.println(cal.getTime());
 				}
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();

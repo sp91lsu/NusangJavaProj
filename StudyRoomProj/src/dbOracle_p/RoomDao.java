@@ -19,11 +19,11 @@ public class RoomDao extends DBProcess {
 		String calumNum = getCalumNum(calumArr.length);
 
 		try {
-			for (TimeData time : room.timeList) {
+			for (Calendar cal : room.calendarList) {
 				stmt.setString(1, userUUID);
 				stmt.setInt(2, room.id);
 				stmt.setLong(3, room.price);
-				Timestamp timeStamp = new Timestamp(room.calendar.getTimeInMillis());
+				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
 				stmt.setTimestamp(4, timeStamp);
 
 				insertQuery(ETable.ACCOUNT, calumQuery, calumNum);
@@ -48,20 +48,21 @@ public class RoomDao extends DBProcess {
 		rs = stmt.executeQuery(query);
 
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
-		ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+		ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 
 		if (rs.next()) {
 
-			rs.getString("");
 			Timestamp time = rs.getTimestamp("STARTDATE");
 
 			// ¿À´ÃÀÚ ·ë Á¤º¸
 			if (time.getDate() == Calendar.getInstance().get(Calendar.DATE)) {
 				RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
 				RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, roomModel.personNum);
-				timeList.add(new TimeData(0, time.getHours(), 0));
-				room.setDate(time.getMonth(), timeList);
+				Calendar cal = Calendar.getInstance();
 
+				cal.setTimeInMillis(time.getTime());
+				timeList.add(cal);
+				room.setDate(timeList);
 				roomList.add(room);
 			}
 		}
