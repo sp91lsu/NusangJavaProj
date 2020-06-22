@@ -69,7 +69,6 @@ class PacketProccess extends Thread {
 
 	InputStream is;
 	ObjectInputStream ois;
-	PacketMap pMap = new PacketMap();
 
 	PacketProccess(Socket socket) {
 		try {
@@ -92,7 +91,7 @@ class PacketProccess extends Thread {
 				sleep(10);
 				if (is.available() > 0) {
 					
-					pMap.receivePacket(this, (ResultPacketBase) ois.readObject());
+					PacketMap.getInstance().receivePacket(this, (ResultPacketBase) ois.readObject());
 				}
 			}
 

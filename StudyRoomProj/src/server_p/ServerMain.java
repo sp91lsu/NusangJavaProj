@@ -138,14 +138,12 @@ class SocketClient extends Thread {
 				}
 				sleep(10);
 			} catch (Exception e) {
-				System.out.println("클라이언트에서 패킷 받는 도중 오류 ");
+				System.out.println("클라이언트에서 패킷 받는 도중 오류");
 				System.out.println(socket.getInetAddress() + "종료");
 				MyServer.getInstance().clientList.remove(this);
-				close();
+				close();				
 				e.printStackTrace();
-
 				return;
-
 			}
 		}
 
