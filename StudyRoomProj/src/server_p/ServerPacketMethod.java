@@ -1,10 +1,12 @@
 package server_p;
 
 import server_p.packet_p.ack_p.ScBuyRoomAck;
+import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 
+import java.net.InetAddress;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -25,6 +27,7 @@ import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import dbOracle_p.*;
+import jdk.nashorn.internal.runtime.FindProperty;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 
@@ -95,6 +98,12 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
+		String managerIp = "/192.168.0.7";
+		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+
+		if (sc != null) {
+			sc.sendPacket(resPacket);
+		}
 
 	}
 }
@@ -105,7 +114,7 @@ class MethChatSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatSyn recPacket = (CsChatSyn) packet;
 
-		SocketClient findClient = MyServer.getInstance().findClient(recPacket.address);
+		SocketClient findClient = MyServer.getInstance().findClient(recPacket.address.toString());
 
 		if (findClient != null) {
 			if (findClient.doChatting) {

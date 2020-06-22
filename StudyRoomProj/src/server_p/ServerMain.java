@@ -72,10 +72,14 @@ class MyServer {
 		}
 	}
 
-	public synchronized SocketClient findClient(InetAddress address) {
+	public synchronized SocketClient findClient(String address) {
 		for (SocketClient packetClient : clientList) {
 
-			if (packetClient.socket.getInetAddress() == address) {
+			System.out.println("관리자 아이피 찾기");
+			System.out.println(packetClient.socket.getInetAddress().toString());
+			if (packetClient.socket.getInetAddress().toString().equals(address)) {
+				System.out.println("찾앗다!");
+ 
 				return packetClient;
 			}
 		}
@@ -135,7 +139,7 @@ class SocketClient extends Thread {
 			} catch (Exception e) {
 				System.out.println("클라이언트에서 패킷 받는 도중 오류 ");
 				e.printStackTrace();
-			} 
+			}
 		}
 
 		System.out.println(socket.getInetAddress() + "종료");
