@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsLoginSyn;
+import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
@@ -24,7 +25,7 @@ public class LoginMain extends JPanel implements Receivable {
 
 	private JTextField idTextF;
 	private JPasswordField passwordField;
-	
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +44,7 @@ public class LoginMain extends JPanel implements Receivable {
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 40));
 		lblNewLabel.setBounds(251, 21, 469, 110);
 		add(lblNewLabel);
-		
+
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 26));
 		idLabel.setBounds(251, 156, 51, 55);
@@ -56,7 +57,7 @@ public class LoginMain extends JPanel implements Receivable {
 		idTextF.setBounds(323, 156, 328, 55);
 		add(idTextF);
 		idTextF.setColumns(10);
-		
+
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 26));
 		lblPw.setBounds(251, 236, 51, 54);
@@ -74,8 +75,9 @@ public class LoginMain extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
 				ClientNet.getInstance().sendPacket(packet);
-			}});
-		
+			}
+		});
+
 		JButton signUpBt = new JButton("È¸¿ø°¡ÀÔ");
 		signUpBt.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		signUpBt.setBounds(508, 321, 120, 45);
@@ -83,9 +85,9 @@ public class LoginMain extends JPanel implements Receivable {
 		signUpBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
-			}});
+			}
+		});
 	}
-
 
 	@Override
 	public void receive(PacketBase packet) {
@@ -94,6 +96,10 @@ public class LoginMain extends JPanel implements Receivable {
 
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().userData = ack.userdata;
+			System.out.println("³»°¡ ¿¹¾àÇÑ ³»¿ë");
+			for (RoomProduct room : BaseFrame.getInstance().userData.myReservationList) {
+				System.out.println(room);
+			}
 			BaseFrame.getInstance().roomInfoList = ack.roomList;
 			// BaseFrame.getInstance().updateInfo(ack.roomList);
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
@@ -106,5 +112,5 @@ public class LoginMain extends JPanel implements Receivable {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}
 		}
-	}	
+	}
 }
