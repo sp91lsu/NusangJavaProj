@@ -268,7 +268,7 @@ public class ReservationMain extends JPanel {
 			MyJButton datebtn = new MyJButton(new JButton(dateN));
 			dateList.add(datebtn);
 			calPaneMain.add(datebtn.dateBtn);
-			System.out.println(dateList);
+			
 		}
 	}
 
