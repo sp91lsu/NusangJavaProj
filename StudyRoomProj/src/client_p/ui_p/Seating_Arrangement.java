@@ -14,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import client_p.ClientNet;
-import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
@@ -25,6 +23,7 @@ public class Seating_Arrangement extends JPanel {
 	static JLabel north_west;
 
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+	ArrayList<JButton> group = new ArrayList<JButton>(); 
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -116,56 +115,67 @@ public class Seating_Arrangement extends JPanel {
 		roomBtn1.addActionListener(new BtnAct(roomBtn1));
 		roomBtn1.setBounds(0, 0, 300, 180);
 		panel_center.add(roomBtn1);
+		group.add(roomBtn1);
 
 		JButton roomBtn2 = new JButton("8인실");
 		roomBtn2.addActionListener(new BtnAct(roomBtn2));
 		roomBtn2.setBounds(300, 0, 250, 180);
 		panel_center.add(roomBtn2);
-
+		group.add(roomBtn2);
+		
 		JButton roomBtn3 = new JButton("6인실-1");
 		roomBtn3.addActionListener(new BtnAct(roomBtn3));
 		roomBtn3.setBounds(550, 0, 160, 180);
 		panel_center.add(roomBtn3);
+		group.add(roomBtn3);
 
 		JButton roomBtn4 = new JButton("6인실-2");
 		roomBtn4.addActionListener(new BtnAct(roomBtn4));
 		roomBtn4.setBounds(710, 0, 160, 180);
 		panel_center.add(roomBtn4);
+		group.add(roomBtn4);
 
 		JButton roomBtn5 = new JButton("4인실-1");
 		roomBtn5.addActionListener(new BtnAct(roomBtn5));
 		roomBtn5.setBounds(710, 220, 160, 150);
 		panel_center.add(roomBtn5);
+		group.add(roomBtn5);
 
 		JButton roomBtn6 = new JButton("4인실-2");
 		roomBtn6.addActionListener(new BtnAct(roomBtn6));
 		roomBtn6.setBounds(710, 370, 160, 150);
 		panel_center.add(roomBtn6);
+		group.add(roomBtn6);
 
 		JButton roomBtn7 = new JButton("2인실-1");
 		roomBtn7.addActionListener(new BtnAct(roomBtn7));
 		roomBtn7.setBounds(710, 520, 160, 100);
 		panel_center.add(roomBtn7);
+		group.add(roomBtn7);
 
 		JButton roomBtn8 = new JButton("2인실-2");
 		roomBtn8.addActionListener(new BtnAct(roomBtn8));
 		roomBtn8.setBounds(710, 620, 160, 100);
 		panel_center.add(roomBtn8);
+		group.add(roomBtn8);
 
 		JButton roomBtn9 = new JButton("2인실-3");
 		roomBtn9.addActionListener(new BtnAct(roomBtn9));
 		roomBtn9.setBounds(710, 720, 160, 100);
 		panel_center.add(roomBtn9);
+		group.add(roomBtn9);
 
 		JButton roomBtn10 = new JButton("노래방");
 		roomBtn10.addActionListener(new BtnAct(roomBtn10));
 		roomBtn10.setBounds(0, 180, 160, 240);
 		panel_center.add(roomBtn10);
+		group.add(roomBtn10);
 
 		JButton roomBtn11 = new JButton("취식");
 		roomBtn11.addActionListener(new BtnAct(roomBtn11));
 		roomBtn11.setBounds(0, 420, 160, 240);
 		panel_center.add(roomBtn11);
+		group.add(roomBtn11);
 
 		// 매너존 패널
 		JPanel mannerzone_panel = new JPanel();
@@ -204,6 +214,7 @@ public class Seating_Arrangement extends JPanel {
 		btnM_5.addActionListener(new BtnAct(btnM_5));
 		btnM_5.setBounds(200, 160, 100, 90);
 		mannerzone_panel.add(btnM_5);
+		
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
 		normalzone_panel.setBackground(Color.CYAN);
@@ -273,6 +284,14 @@ public class Seating_Arrangement extends JPanel {
 		now_time.start();
 		setVisible(true);
 	}
+	
+	public void seatChange()
+	{
+		for (JButton button : group) {
+			System.out.print(button.getText()+",");
+			button.setEnabled(false);
+		}
+	}
 }
 
 class BtnAct implements ActionListener {
@@ -302,7 +321,5 @@ class BtnAct implements ActionListener {
 				}
 			}
 		}
-
 	}
-
 }

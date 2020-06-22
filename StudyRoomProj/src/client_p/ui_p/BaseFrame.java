@@ -72,7 +72,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		for (JPanel jp : jPanelArrl) {
 //			System.out.println(jp.getClass().getSimpleName());
 			if ((jp.getClass().getSimpleName()).equals(jPanelName)) {
-				System.out.println("v");
 				getContentPane().add(jp);
 			}
 		}

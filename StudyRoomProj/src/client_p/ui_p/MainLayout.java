@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class MainLayout extends JPanel {
-
+	
 	private String name;
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -23,7 +23,6 @@ public class MainLayout extends JPanel {
 	}
 	
 	public MainLayout() {
-		System.out.println("m");
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -61,13 +60,17 @@ public class MainLayout extends JPanel {
 		
 		JButton button_5 = new JButton("∞≥¿ŒºÆ ¿Ãµø");
 		button_5.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 20));
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("Seating_Arrangement");
+			}});
 		panel.add(button_5);
 		
 		JButton button_6 = new JButton("¡¬ºÆ ø¨¿Â");
 		button_6.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 20));
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				///Payment pay = new Payment();
+				BaseFrame.getInstance().payment.openPage();
 			}});
 		panel.add(button_6);
 		

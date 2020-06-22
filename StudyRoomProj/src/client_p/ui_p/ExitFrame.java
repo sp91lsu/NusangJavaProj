@@ -37,7 +37,7 @@ public class ExitFrame extends JFrame implements Receivable{
 				CsExitSyn packet = new CsExitSyn(BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
-				
+				BaseFrame.getInstance().view("LoginMain");
 			}});
 		getContentPane().add(okButton);
 		

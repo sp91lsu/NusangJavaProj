@@ -41,7 +41,6 @@ public class Payment extends JFrame {
 
 		public MyCheckBox(JCheckBox box, int value) {
 			super();
-			System.out.println(">>>>>" + box);
 			this.box = box;
 			this.value = value;
 		}
