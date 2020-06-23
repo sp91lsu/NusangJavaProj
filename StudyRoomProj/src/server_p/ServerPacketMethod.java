@@ -5,6 +5,7 @@ import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
 import java.net.InetAddress;
@@ -148,6 +149,10 @@ class MethCsChatSyn implements ServerPacketMethod {
 		System.out.println(csChatSyn.cip);
 		System.out.println(csChatSyn.mip);
 		System.out.println(csChatSyn.text);
+
+		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text);
+
+		client.sendPacket(chatBroadCast);
 //		CsChatSyn recPacket = (CsChatSyn) packet;
 //
 //		SocketClient findClient = MyServer.getInstance().findClient(recPacket.address.toString());
