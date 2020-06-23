@@ -122,8 +122,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 	}
 
-	
-	//예약이 이미 되어있는 int 값 리스트  (payment, reservationMain) 에서 사용하는 함수 
+	// 예약이 이미 되어있는 int 값 리스트 (payment, reservationMain) 에서 사용하는 함수
 	public ArrayList<Integer> getCheckList(int month, int date) {
 
 		ArrayList<Integer> valueList = new ArrayList<Integer>();
@@ -150,5 +149,9 @@ public class BaseFrame extends JFrame implements Receivable {
 			}
 		}
 		return valueList;
+	}
+
+	public Seating_Arrangement getSeatingArrUI() {
+		return (Seating_Arrangement) jPanelArrl.get(2);
 	}
 }
