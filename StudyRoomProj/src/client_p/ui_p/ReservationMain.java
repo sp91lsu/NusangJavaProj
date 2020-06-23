@@ -23,19 +23,23 @@ import javax.swing.border.EmptyBorder;
 import client_p.ui_p.Payment.MyCheckBox;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 public class ReservationMain extends JPanel {
 
-	public String roomName;
 	private final JPanel mapPane = new JPanel();
-	int setMonth = 5;
+	int setMonth = 6;
+	int dateChk;
 	boolean calViewChk = true;
-	public ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	
 	ArrayList<Button> btnList = new ArrayList<Button>();
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	ArrayList<MyJButton> dateList = new ArrayList<MyJButton>();
-
+	JLabel timeInfo;
+	JLabel roomInfo = new JLabel();
+	
 	class MyCheckBox {
 		JCheckBox box;
 		int value;
@@ -59,19 +63,11 @@ public class ReservationMain extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrame frame = new JFrame();
-					frame.add(new ReservationMain());
-					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					frame.setBounds(10, 10, 900, 1000);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		JFrame frame = new JFrame();
+		frame.getContentPane().add(new ReservationMain());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(10, 10, 900, 1000);
+		frame.setVisible(true);
 	}
 
 	public ReservationMain() {
@@ -80,61 +76,63 @@ public class ReservationMain extends JPanel {
 		setForeground(Color.CYAN);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
-		mapPane.setBounds(12, 10, 860, 488);
+		mapPane.setBounds(12, 10, 860, 400);
 		add(mapPane);
 
 		JPanel choicePane = new JPanel();
-		choicePane.setBounds(12, 508, 860, 224);
+		choicePane.setBounds(12, 420, 860, 300);
 		add(choicePane);
 		choicePane.setLayout(null);
+		mapPane.setLayout(null);
+		
+		JButton backBtn = new JButton("뒤로가기");
+		backBtn.setBounds(750, 10, 90, 30);
+		mapPane.add(backBtn);
+		backBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().view("Seating_Arrangement");
+			}
+		});
 
 		JPanel calendarPane = new JPanel();
-		calendarPane.setBounds(0, 0, 283, 224);
-		choicePane.add(calendarPane);
+		calendarPane.setBounds(220, 29, 440, 340);
+		mapPane.add(calendarPane);
 		calendarPane.setLayout(null);
 		calendarPane.setLayout(null);
 
 		JPanel monthChoicePane = new JPanel();
-		monthChoicePane.setBounds(0, 1, 283, 46);
+		monthChoicePane.setBounds(0, 1, 432, 46);
 		calendarPane.add(monthChoicePane);
-		monthChoicePane.setLayout(null);
-
-		JLabel nowMonthL = new JLabel(setMonth + "");
-		nowMonthL.setHorizontalAlignment(SwingConstants.CENTER);
-		nowMonthL.setBounds(105, 0, 57, 46);
-		monthChoicePane.add(nowMonthL);
+		monthChoicePane.setLayout(new GridLayout(1,3));
 
 		JButton preMonthBtn = new JButton("이전달");
-		preMonthBtn.setBounds(5, 12, 97, 23);
 		monthChoicePane.add(preMonthBtn);
+		
+		JLabel nowMonthL = new JLabel(setMonth + "");
+		nowMonthL.setHorizontalAlignment(SwingConstants.CENTER);
+		monthChoicePane.add(nowMonthL);
 
 		JButton nextMonthBtn = new JButton("다음달");
-		nextMonthBtn.setBounds(174, 12, 97, 23);
 		monthChoicePane.add(nextMonthBtn);
 		nextMonthBtn.addActionListener(new MonthChoiceAct());
 
 		JPanel calPaneMain = new JPanel();
-		calPaneMain.setBounds(0, 82, 283, 142);
+		calPaneMain.setBounds(0, 82, 432, 217);
 		calPaneMain.setLayout(new GridLayout(6, 7));
 		calendarPane.add(calPaneMain);
 
-		JLabel dayLabel = new JLabel("     일         월         화         수         목         금         토");
-		dayLabel.setBounds(0, 43, 283, 39);
+		JLabel dayLabel = new JLabel("           일               월                화                수                목                금                토");
+		dayLabel.setBounds(0, 43, 432, 39);
 		calendarPane.add(dayLabel);
 
-//		JPanel calPaneMain2 = new JPanel();
-//		calPaneMain2.setBounds(0, 57, 283, 167);
-//		calPaneMain2.setLayout(new GridLayout(6, 7));
-//		calendarPane.add(calPaneMain2);
-//		calPaneMain2.setVisible(true);
-
 		JPanel timeInfoPane = new JPanel();
-		timeInfoPane.setBounds(295, 0, 367, 224);
+		timeInfoPane.setBounds(180, 0, 367, 224);
 		choicePane.add(timeInfoPane);
 		timeInfoPane.setLayout(null);
 
 		JPanel timeChkPane = new JPanel();
-		timeChkPane.setBounds(12, 10, 343, 131);
+		timeChkPane.setBounds(12, 10, 350, 140);
 		timeInfoPane.add(timeChkPane);
 		timeChkPane.setLayout(new GridLayout(4, 6));
 
@@ -143,58 +141,29 @@ public class ReservationMain extends JPanel {
 
 			DecimalFormat format = new DecimalFormat("00:");
 			int text = i + 1;
-			int realtime = i - 11;
+			int realtime = i + 1;
 			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
 			timeChkPane.add(myBox1.box);
 		}
 
-//        for (int i = 1; i < 25; i++) {
-//            if (i < 10) {
-//                MyCheckBox myc = new MyCheckBox("0" + i + ":00", i);
-//                timeChkPane.add(myc.box);
-//                timeChoiceList.add(myc);
-//            } else {
-//                MyCheckBox myc = new MyCheckBox(i + ":00", i);
-//                timeChkPane.add(myc.box);
-//                timeChoiceList.add(myc);
-//            }
-//        }
-
-//		for (MyCheckBox tc : timeChoiceList) {
-//			System.out.println(tc.box.getText());
-//			tc.box.setEnabled(false);
-//
-//		}
-
-//		for (JCheckBox tcl : timeChoiceList) {
-//			for (RoomProduct rL : DataManager.getInstance().roomList) {
-//				for (TimeData td : rL.timeList) {
-//					if(tcl.getText() td.value)) {
-//						tcl.setEnabled(false);
-//					}
-//				}
-//			}
-//			
-//		}
-//
-
 		JPanel infoPane = new JPanel();
 		infoPane.setBounds(12, 151, 343, 63);
 		timeInfoPane.add(infoPane);
 		infoPane.setLayout(null);
 
-		JLabel roomInfo = new JLabel("취식가능방(5000원)");
+		
+		
 		roomInfo.setBounds(0, 0, 158, 63);
 		infoPane.add(roomInfo);
 
-		JLabel timeInfo = new JLabel("사용시간 09:00-11:00");
+		timeInfo = new JLabel("사용시간 09:00-11:00");
 		timeInfo.setBounds(170, 0, 173, 63);
 		infoPane.add(timeInfo);
 
 		JPanel paymentPane = new JPanel();
-		paymentPane.setBounds(674, 0, 174, 224);
+		paymentPane.setBounds(580, 0, 174, 224);
 		choicePane.add(paymentPane);
 		paymentPane.setLayout(null);
 
@@ -237,8 +206,10 @@ public class ReservationMain extends JPanel {
 		JLabel personCntChoice2 = new JLabel("명");
 		personCntChoice2.setBounds(109, 33, 22, 30);
 		paymentPane.add(personCntChoice2);
+		
+	
 
-		///////////////// 달력입력///////////////////////////////////
+		///////////////// 달력버튼 생성///////////////////////////////////
 
 		setMonth = 6;
 
@@ -251,10 +222,7 @@ public class ReservationMain extends JPanel {
 		int first = today.get(Calendar.DAY_OF_WEEK);
 
 		// System.out.println(first);
-
-//		for (int i = 1; i < first; i++) {
-//			System.out.print("\t");
-//		}
+		//for (int i = 1; i < first; i++) {System.out.print("\t");}
 
 		int last = today.getActualMaximum(Calendar.DATE);
 
@@ -265,90 +233,75 @@ public class ReservationMain extends JPanel {
 			else if (last < i)
 				dateN = "";
 
+			//버튼에 예약날짜 비교 기능
 			MyJButton datebtn = new MyJButton(new JButton(dateN));
 			dateList.add(datebtn);
 			calPaneMain.add(datebtn.dateBtn);
+			for (MyJButton myBtn : dateList) {		//없는 date의 버튼 비활성화
+				if(myBtn.dateBtn.getText()==""){
+					myBtn.dateBtn.setEnabled(false);
+				}
+
+			}
 			datebtn.dateBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
-						// 현제 페이지의 룸정보
-						System.out.println(roomInfo);
-//						System.out.println("내선택>>>>>"+roomInfo.name);
-//						System.out.println("받은정보>>"+BaseFrame.getInstance().roomProduct.name);
-						if (roomInfo.name.equals(BaseFrame.getInstance().roomProduct.name)) {
-//							 서버에서 받은 룸정보의 타임 체크
-							for (Calendar time : roomInfo.calendarList) {
-								for (MyCheckBox myCheckBox : checkBoxList) {
-
-									if (time.get(Calendar.DATE) == Calendar.getInstance().get(Calendar.DATE)
-											&& time.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)) {
-
-										if (time.get(Calendar.HOUR_OF_DAY) == myCheckBox.value) {
-											myCheckBox.box.setEnabled(false);
-										}
-									}
-								}
-							}
-						}
-					}
-
+					
+					resPossibleChk(Integer.parseInt(datebtn.dateBtn.getText()));
+					dateChk = Integer.parseInt(datebtn.dateBtn.getText());
 				}
 			});
 
 		}
 	}
+	
+	public void resPossibleChk(int date) {
 
+		for (MyCheckBox myCheckBox : checkBoxList) {
+			myCheckBox.box.setSelected(false);
+			myCheckBox.box.setEnabled(true);
+		}
+
+		Calendar cal = Calendar.getInstance();
+		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(cal.get(Calendar.MONTH),
+				date);
+
+		for (MyCheckBox myCheckBox : checkBoxList) {
+
+			for (Integer i : checkList) {
+				
+				System.out.println(">>"+i);
+
+				if (myCheckBox.value == i) {
+					myCheckBox.box.setEnabled(false);
+				}
+			}
+		}
+	}
+
+	//달 변경하는 버튼 수정중
 	class MonthChoiceAct implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("들어가니??");
-			setMonth++;
+			if(setMonth>0) {
+				setMonth++;
+				if(setMonth == 12) {
+					setMonth = 1;
+				}
+			}
 			System.out.println(setMonth);
 		}
 	}
 
 	public void init(String name) {
 		setVisible(true);
-		roomName = name;
-		roomInfoUpdate();
+		roomInfo.setText(name);
+
+		
 	}
 
-	public void roomInfoUpdate() {
-		// 서버에 있는 데이터 가져옴
-		for (RoomProduct info : BaseFrame.getInstance().roomInfoList) {
-			if (info.name == roomName) {
-				roomList.add(info);
-			}
-
-		}
-	}
-
-	public void buttonShow(int date) {
-		setVisible(true);
-
-		for (MyCheckBox time24Data : checkBoxList) {
-			time24Data.box.setEnabled(true);
-		}
-
-		// 6월 3일에 4시
-		// 24개의 체크박스 타임 데이터
-		for (MyCheckBox time24Data : checkBoxList) {
-
-			// 서버에서 받은 룸의 시간예약데이터
-//			for (RoomProduct roomData : roomList) {
-//
-//				for (TimeData ServerTimeData : roomData.timeList) {
-//					if (date == ServerTimeData.date) {
-//						if (time24Data.value == ServerTimeData.value) {
-//							time24Data.box.setEnabled(false);
-//						}
-//					}
-//				}
-//			}
-		}
-	}
 
 	class AddTimeActionListener implements ActionListener {
 
@@ -360,17 +313,28 @@ public class ReservationMain extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+
 			JCheckBox box = (JCheckBox) e.getSource();
 
-			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
-			// value, 0);
-//			if (box.isSelected()) {
-//				System.out.println("타임 추가하기");
-//				timeList.add(time);
-//			} else {
-//				System.out.println("타임 제거하기");
-//				timeList.remove(time);
-//			}
+			System.out.println(value);
+			Calendar cal = Calendar.getInstance();
+			
+			cal.set(Calendar.DATE, dateChk);
+			cal.set(Calendar.HOUR_OF_DAY, value);
+
+			if (box.isSelected()) {
+				System.out.println("타임 추가하기");
+				timeList.add(cal);
+				
+			} else {
+				System.out.println("타임 제거하기");
+				for (Calendar cal1 : timeList) {
+					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
+						timeList.remove(cal1);
+					}
+				}
+
+			}
 		}
 	}
 }

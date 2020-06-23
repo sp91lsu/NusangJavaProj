@@ -68,6 +68,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 			BaseFrame.getInstance().view("LoginMain");
 			BaseFrame.getInstance().payment.dispose();
 			BaseFrame.getInstance().rcalc.dispose();
+			BaseFrame.getInstance().roomProduct.calendarList.clear();
 		} else
 			jl.setText("결제실패");
 

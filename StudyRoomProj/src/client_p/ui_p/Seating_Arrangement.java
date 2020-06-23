@@ -338,6 +338,7 @@ class BtnAct implements ActionListener {
 					} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 						System.out.println("MOBILE");
 						BaseFrame.getInstance().view("ReservationMain");
+						BaseFrame.getInstance().getReservationMain().init(roomData.name);
 					}
 					
 					BaseFrame.getInstance().payment.resPossibleChk();

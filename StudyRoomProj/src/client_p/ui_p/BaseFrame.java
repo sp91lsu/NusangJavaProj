@@ -24,7 +24,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
-	public ELoginType loginType = ELoginType.KIOSK;
+	public ELoginType loginType = ELoginType.MOBILE;
 	private static BaseFrame instance;
 
 	public static BaseFrame getInstance() {
@@ -170,4 +170,9 @@ public class BaseFrame extends JFrame implements Receivable {
 	public ClientChatFrame getClientChatFrame() {
 		return (ClientChatFrame) jPanelArrl.get(5);
 	}
+	
+	public ReservationMain getReservationMain() {
+		return (ReservationMain) jPanelArrl.get(4);
+	}
+	
 }
