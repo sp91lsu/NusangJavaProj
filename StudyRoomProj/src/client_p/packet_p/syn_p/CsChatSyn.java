@@ -8,11 +8,14 @@ import packetBase_p.PacketBase;
 public class CsChatSyn extends PacketBase {
 
 	public String text;
-	public InetAddress address;
+	public String cip;
+	public String mip;
 
-	CsChatSyn(String text, InetAddress address) {
+	public CsChatSyn(String text, String cip, String mip) {
+		super();
 		this.text = text;
-		this.address = address;
+		this.cip = cip;
+		this.mip = mip;
 	}
 
 }
