@@ -23,7 +23,8 @@ public class Seating_Arrangement extends JPanel {
 	static JLabel north_west;
 
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
-	ArrayList<JButton> group = new ArrayList<JButton>();
+	ArrayList<JButton> group = new ArrayList<JButton>();//단체석
+	ArrayList<JButton> solo = new ArrayList<JButton>();//개인석
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -52,8 +53,9 @@ public class Seating_Arrangement extends JPanel {
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("MainLayout");
-			}
-		});
+				BaseFrame.getInstance().getSeatingArrUI().group_state(true);
+				BaseFrame.getInstance().getSeatingArrUI().solo_state(true);
+			}});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
@@ -194,26 +196,31 @@ public class Seating_Arrangement extends JPanel {
 		btnM_1.addActionListener(new BtnAct(btnM_1));
 		btnM_1.setBounds(0, 0, 100, 90);
 		mannerzone_panel.add(btnM_1);
+		solo.add(btnM_1);
 
 		JButton btnM_2 = new JButton("M2");
 		btnM_2.addActionListener(new BtnAct(btnM_2));
 		btnM_2.setBounds(100, 0, 100, 90);
 		mannerzone_panel.add(btnM_2);
+		solo.add(btnM_2);
 
 		JButton btnM_3 = new JButton("M3");
 		btnM_3.addActionListener(new BtnAct(btnM_3));
 		btnM_3.setBounds(0, 160, 100, 90);
 		mannerzone_panel.add(btnM_3);
+		solo.add(btnM_3);
 
 		JButton btnM_4 = new JButton("M4");
 		btnM_4.addActionListener(new BtnAct(btnM_4));
 		btnM_4.setBounds(100, 160, 100, 90);
 		mannerzone_panel.add(btnM_4);
+		solo.add(btnM_4);
 
 		JButton btnM_5 = new JButton("M5");
 		btnM_5.addActionListener(new BtnAct(btnM_5));
 		btnM_5.setBounds(200, 160, 100, 90);
 		mannerzone_panel.add(btnM_5);
+		solo.add(btnM_5);
 
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
@@ -231,31 +238,37 @@ public class Seating_Arrangement extends JPanel {
 		btnN_1.addActionListener(new BtnAct(btnN_1));
 		btnN_1.setBounds(0, 0, 100, 90);
 		normalzone_panel.add(btnN_1);
+		solo.add(btnN_1);
 
 		JButton btnN_2 = new JButton("2");
 		btnN_2.addActionListener(new BtnAct(btnN_2));
 		btnN_2.setBounds(100, 0, 100, 90);
 		normalzone_panel.add(btnN_2);
+		solo.add(btnN_2);
 
 		JButton btnN_3 = new JButton("3");
 		btnN_3.addActionListener(new BtnAct(btnN_3));
 		btnN_3.setBounds(200, 0, 100, 90);
 		normalzone_panel.add(btnN_3);
+		solo.add(btnN_3);
 
 		JButton btnN_4 = new JButton("4");
 		btnN_4.addActionListener(new BtnAct(btnN_4));
 		btnN_4.setBounds(0, 160, 100, 90);
 		normalzone_panel.add(btnN_4);
+		solo.add(btnN_4);
 
 		JButton btnN_5 = new JButton("5");
 		btnN_5.addActionListener(new BtnAct(btnN_5));
 		btnN_5.setBounds(100, 160, 100, 90);
 		normalzone_panel.add(btnN_5);
+		solo.add(btnN_5);
 
 		JButton btnN_6 = new JButton("6");
 		btnN_6.addActionListener(new BtnAct(btnN_6));
 		btnN_6.setBounds(200, 160, 100, 90);
 		normalzone_panel.add(btnN_6);
+		solo.add(btnN_6);
 
 		// 휴게실
 		JPanel restzone_panel = new JPanel();
@@ -285,10 +298,14 @@ public class Seating_Arrangement extends JPanel {
 		setVisible(true);
 	}
 
-	public void seatChange() {
+	public void group_state(boolean state) {//그룹버튼 활성/비활성
 		for (JButton button : group) {
-			System.out.print(button.getText() + ",");
-			button.setEnabled(false);
+			button.setEnabled(state);
+		}
+	}
+	public void solo_state(boolean state) {//그룹버튼 활성/비활성
+		for (JButton button : solo) {
+			button.setEnabled(state);
 		}
 	}
 }

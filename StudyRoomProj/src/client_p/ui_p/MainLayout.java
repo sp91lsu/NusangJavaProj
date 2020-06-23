@@ -19,8 +19,7 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 
 public class MainLayout extends JPanel implements Receivable {
-	private String name;
-
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,87 +38,82 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.setLayout(new GridLayout(3, 3, 5, 5));
 
 		JButton button_1 = new JButton("°³ÀÎ¼® ÀÌ¿ë");
+		button_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_1);
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
-			}
-		});
-		button_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_1);
+				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
+			}});
 
 		JButton button_2 = new JButton("´ÜÃ¼·ë ÀÌ¿ë");
+		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_2);
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
-			}
-		});
-		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_2);
+				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
+			}});
 
 		JButton button_3 = new JButton("»ç¹°ÇÔ ´ë¿©");
 		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_3);
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("LockerMain");
-			}
-		});
-		panel.add(button_3);
+			}});
 
 		JButton button_4 = new JButton("1:1 °í°´¹®ÀÇ");
 		button_4.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_4);
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("ClientChatFrame");
 				CsChatConnectSyn packet = new CsChatConnectSyn();
 				ClientNet.getInstance().sendPacket(packet);
 				System.out.println("ÆÐÅ¶ÀÌ ´Ù½Ã ¿Ã¶§±îÁö ±â´Ù·Á¾ß ÇÔ");// ´ÙÀÌ¾ó·Î±× Ã¢ ¼³Á¤ÇÏ±â
-			}
-		});
-		panel.add(button_4);
-
+			}});
+		
 		JButton button_5 = new JButton("°³ÀÎ¼® ÀÌµ¿");
 		button_5.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_5);
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().getSeatingArrUI().seatChange();
+				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}});
-		panel.add(button_5);
 
 		JButton button_6 = new JButton("ÁÂ¼® ¿¬Àå");
 		button_6.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_6);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().payment.openPage();
 			}});
-		panel.add(button_6);
 
 		JButton button_7 = new JButton("ÀÜ¿© ½Ã°£");
 		button_7.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_7);
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TimeFrame time = new TimeFrame();
-			}
-		});
-		panel.add(button_7);
+			}});
 
 		JButton button_8 = new JButton("³» ÀÌ¿ëÁ¤º¸");
 		button_8.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_8);
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InfoFrame info = new InfoFrame();
-			}
-		});
-		panel.add(button_8);
+			}});
 
 		JButton button_9 = new JButton("Åð½Ç");
 		button_9.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		panel.add(button_9);
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ExitFrame exitframe = new ExitFrame();
-			}
-		});
-		panel.add(button_9);
+			}});
 
 		JLabel lblNewLabel = new JLabel("·Î±×ÀÎ ÈÄ È­¸é");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -136,6 +130,5 @@ public class MainLayout extends JPanel implements Receivable {
 		} else {
 			System.out.println("°ÅÀý");
 		}
-
 	}
 }
