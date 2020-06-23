@@ -18,10 +18,9 @@ public class PacketMap {
 		map.put(CsSignUpSyn.class, new MethSignUpSyn()); // 회원가입
 		map.put(CsChatConnectSyn.class, new MethChatConnectSyn()); // 채팅연결 요청
 
-		map.put(MsChatConnectAck.class, new MethMSChatConnectAck()); // 채팅연결 요청
-
+		map.put(MsChatConnectAck.class, new MethMSChatConnectAck()); 
+		map.put(MsChatConnectAck.class, new MethMSChatConnectAck()); 
 		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 결제
-		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 아이디 중복체크
 
 	}
 

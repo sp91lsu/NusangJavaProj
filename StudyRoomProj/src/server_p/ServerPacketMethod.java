@@ -103,7 +103,7 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-		String managerIp = "/192.168.1.99";
+		String managerIp = "/192.168.0.63";
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
@@ -139,9 +139,15 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 }
 
 //클라이언트로부터 채팅 데이터 전송 
-class MethChatSyn implements ServerPacketMethod {
+class MethCsChatSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
+
+		CsChatSyn csChatSyn = (CsChatSyn) packet;
+
+		System.out.println(csChatSyn.cip);
+		System.out.println(csChatSyn.mip);
+		System.out.println(csChatSyn.text);
 //		CsChatSyn recPacket = (CsChatSyn) packet;
 //
 //		SocketClient findClient = MyServer.getInstance().findClient(recPacket.address.toString());
