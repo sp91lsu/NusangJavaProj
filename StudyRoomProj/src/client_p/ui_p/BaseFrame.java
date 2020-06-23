@@ -17,6 +17,7 @@ import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class BaseFrame extends JFrame implements Receivable {
@@ -73,7 +74,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// ∞·¡¶
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
-		PacketMap.getInstance().map.put(Sc.class,  (Receivable) jPanelArrl.get(5));
+		PacketMap.getInstance().map.put(ScChatBroadCast.class,  (Receivable) jPanelArrl.get(5));
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -150,7 +151,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 					if (cal.get(Calendar.MONTH) == month && cal.get(Calendar.DATE) == date)
 						for (int i = 1; i <= 24; i++) {
-							if (!valueList.contains(i) && cal.get(Calendar.HOUR) == i) {
+							if (!valueList.contains(i) && cal.get(Calendar.HOUR_OF_DAY) == i) {
 
 								System.out.println(i + "Ω√");
 								valueList.add(i);
