@@ -3,7 +3,6 @@ package manager_p;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,13 +27,13 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
-import client_p.packet_p.syn_p.CsChatConnectSyn;
-import client_p.ui_p.BaseFrame;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.syn_p.SMChatConnectSyn;
+import server_p.packet_p.syn_p.ScChatSyn;
 
 public class managerWindow extends JFrame implements Receivable {
 	private JTable table;
@@ -47,14 +46,15 @@ public class managerWindow extends JFrame implements Receivable {
 	private JTextField textField;
 	public JTabbedPane tabbedPane;
 
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		managerWindow mww = new managerWindow();
-		PacketMap.getInstance().map.put(ScChatConnectAck.class, mww); // 채팅 연결 요청에 대한 응답
+		PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
 		ClientNet.getInstance().start();
-
+		
 	}
 
 	/**
@@ -442,14 +442,15 @@ public class managerWindow extends JFrame implements Receivable {
 		size1.setSize(900, 1000);// 객체의 사이즈를 지정
 		LockerMain lockerMain = new LockerMain();
 		lockerMain.setPreferredSize(size1);
-
-		JPanel panel_3 = new JPanel();
-		System.out.println(panel_3.getHeight());
-		tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
-		panel_3.setLayout(new BorderLayout(0, 0));
-
-		JPanel panel_18 = new JPanel();
-		panel_3.add(panel_18, BorderLayout.CENTER);
+		
+				JPanel panel_3 = new JPanel();
+				System.out.println(panel_3.getHeight());
+				tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
+				panel_3.setLayout(null);
+				
+				JPanel panel_18 = new JPanel();
+				panel_18.setBounds(40, 128, 550, 520);
+				panel_3.add(panel_18);
 
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
@@ -839,16 +840,16 @@ public class managerWindow extends JFrame implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		ScChatConnectAck sccAck = (ScChatConnectAck) packet;
+		SMChatConnectSyn sccAck = (SMChatConnectSyn) packet;
 		if (sccAck.eResult == EResult.SUCCESS) {
 			System.out.println("하앍");
-			ChatReqDialog dialog = new ChatReqDialog(this);
+			ChatReqDialog dialog = new ChatReqDialog(this,sccAck);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 
-		} else
-			System.out.println("연결 실패");
+			
 
+		}
 	}
 }
 
