@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
@@ -58,38 +59,44 @@ public class AccountDao extends DBProcess {
 
 	public ArrayList<RoomProduct> findUserRoom(String uuid) {
 		RoomDao roomDao = new RoomDao();
-		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
-		// 룸 상품 찾기
-
-		ArrayList<Calendar> timeList = new ArrayList<Calendar>();
+		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
 		try {
 			ResultSet rs = roomDao.getRoomInfoRS("*", "UUID = '" + uuid + "'");
 
 			while (rs.next()) {
+
+				int roomID = rs.getInt("ID");
+				
+				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
 				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
 
 				Calendar current = Calendar.getInstance();
-
 				Calendar cal = Calendar.getInstance();
 				cal.setTimeInMillis(timeStamp.getTime());
 
 				// 앞으로의 이용 정보 유저에게 줌
-				if (cal.get(Calendar.YEAR) >= current.get(Calendar.YEAR)
-						&& cal.get(Calendar.MONTH) >= current.get(Calendar.MONTH)
-						&& cal.get(Calendar.DATE) >= current.get(Calendar.DATE)) {
+				if (cal.getTimeInMillis() >= current.getTimeInMillis()) {
+					// 룸 정보가 없으면
+					if (!roomMap.containsKey(roomID)) {
 
-					RoomProduct room = null;
-					RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
-					room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
-					timeList.add(cal);
-					room.setDate(rs.getString("UUID"), timeList);
-					roomList.add(room);
+						RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price,
+								roomModel.personNum);
+						roomMap.put(room.id, room);
+						roomMap.get(roomID).userUUID = rs.getString("UUID");
+						System.out.println(room.name);
+					}
+
+					roomMap.get(roomID).calendarList.add(cal);
 				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+
+		roomList.addAll(roomMap.values());
 
 		return roomList;
 	}

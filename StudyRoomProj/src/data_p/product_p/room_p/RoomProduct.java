@@ -15,6 +15,7 @@ public class RoomProduct extends ProductData {
 
 	public RoomProduct(int id, String name, long price, int personNum) {
 		super(id, name, price);
+		this.personNum = personNum;
 	}
 
 	// 날짜 입력
@@ -25,7 +26,6 @@ public class RoomProduct extends ProductData {
 			System.out.println(cal.getTime());
 		}
 		this.calendarList = calendarList;
-
 	}
 
 }

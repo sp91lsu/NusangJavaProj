@@ -108,7 +108,6 @@ class SocketClient extends Thread {
 	Socket socket;
 
 	boolean isChat = false;
-	public boolean doChatting = false;
 
 	SocketClient(Socket socket) {
 
