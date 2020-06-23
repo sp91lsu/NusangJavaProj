@@ -19,7 +19,7 @@ public class PacketMap {
 		map.put(CsChatConnectSyn.class, new MethChatConnectSyn()); // 채팅연결 요청
 
 		map.put(MsChatConnectAck.class, new MethMSChatConnectAck()); 
-		map.put(MsChatConnectAck.class, new MethMSChatConnectAck()); 
+		map.put(CsChatSyn.class, new MethCsChatSyn()); 
 		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 결제
 
 	}
