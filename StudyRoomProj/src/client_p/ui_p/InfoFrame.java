@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 
 public class InfoFrame extends JFrame{
 
-	String id = "star";
+	String id = BaseFrame.getInstance().userData.id;
 	String nDayUsingTime = "02:00";
 	String totUsingTime = "14:00";
 	
