@@ -23,11 +23,11 @@ public class ClientChatFrame extends JPanel{
 		window.getContentPane().add(this);
 		
 		TextArea textArea = new TextArea();
-		textArea.setBounds(0, 0, 900, 700);
+		textArea.setBounds(0, 0, 458, 478);
 		add(textArea);
 		
 		TextField keyChat = new TextField();
-		keyChat.setBounds(0, 695, 711, 258);
+		keyChat.setBounds(0, 484, 337, 182);
 		add(keyChat);
 		keyChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -40,7 +40,7 @@ public class ClientChatFrame extends JPanel{
 		keyChat.setColumns(10);
 		
 		JButton sendButton = new JButton("전 송");
-		sendButton.setBounds(716, 699, 152, 125);
+		sendButton.setBounds(343, 484, 99, 77);
 		add(sendButton);
 			sendButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -53,7 +53,7 @@ public class ClientChatFrame extends JPanel{
 					}}});
 		
 		JButton exitButton = new JButton("종 료");
-		exitButton.setBounds(717, 824, 151, 117);
+		exitButton.setBounds(343, 559, 99, 77);
 		add(exitButton);
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

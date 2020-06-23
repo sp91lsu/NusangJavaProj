@@ -17,9 +17,10 @@ import client_p.packet_p.ack_p.CsChatConnectAck;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScChatConnectAck;
 
 public class MainLayout extends JPanel implements Receivable {
-	
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +45,8 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-			}});
+			}
+		});
 
 		JButton button_2 = new JButton("´ÜÃ¼·ë ÀÌ¿ë");
 		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -53,7 +55,8 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
-			}});
+			}
+		});
 
 		JButton button_3 = new JButton("»ç¹°ÇÔ ´ë¿©");
 		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -61,7 +64,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("LockerMain");
-			}});
+			}
+		});
 
 		JButton button_4 = new JButton("1:1 °í°´¹®ÀÇ");
 		button_4.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -72,8 +76,9 @@ public class MainLayout extends JPanel implements Receivable {
 				CsChatConnectSyn packet = new CsChatConnectSyn();
 				ClientNet.getInstance().sendPacket(packet);
 				System.out.println("ÆÐÅ¶ÀÌ ´Ù½Ã ¿Ã¶§±îÁö ±â´Ù·Á¾ß ÇÔ");// ´ÙÀÌ¾ó·Î±× Ã¢ ¼³Á¤ÇÏ±â
-			}});
-		
+			}
+		});
+
 		JButton button_5 = new JButton("°³ÀÎ¼® ÀÌµ¿");
 		button_5.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		panel.add(button_5);
@@ -81,7 +86,8 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
 				BaseFrame.getInstance().view("Seating_Arrangement");
-			}});
+			}
+		});
 
 		JButton button_6 = new JButton("ÁÂ¼® ¿¬Àå");
 		button_6.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -89,7 +95,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().payment.openPage();
-			}});
+			}
+		});
 
 		JButton button_7 = new JButton("ÀÜ¿© ½Ã°£");
 		button_7.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -97,7 +104,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TimeFrame time = new TimeFrame();
-			}});
+			}
+		});
 
 		JButton button_8 = new JButton("³» ÀÌ¿ëÁ¤º¸");
 		button_8.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -105,7 +113,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InfoFrame info = new InfoFrame();
-			}});
+			}
+		});
 
 		JButton button_9 = new JButton("Åð½Ç");
 		button_9.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -113,7 +122,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ExitFrame exitframe = new ExitFrame();
-			}});
+			}
+		});
 
 		JLabel lblNewLabel = new JLabel("·Î±×ÀÎ ÈÄ È­¸é");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -124,11 +134,11 @@ public class MainLayout extends JPanel implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		CsChatConnectAck ack = (CsChatConnectAck) packet;
+		ScChatConnectAck ack = (ScChatConnectAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().view("ClientChatFrame");
 		} else {
-			System.out.println("°ÅÀý");
+			System.out.println("°ÅÀý´çÇÔ");
 		}
 	}
 }
