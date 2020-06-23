@@ -72,6 +72,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScSignUpAck.class, (Receivable) signUpFrame); // 회원가입
 		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// 결제
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) this);
+		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -162,5 +163,9 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public Seating_Arrangement getSeatingArrUI() {
 		return (Seating_Arrangement) jPanelArrl.get(2);
+	}
+	
+	public ClientChatFrame getClientChatFrame() {
+		return (ClientChatFrame) jPanelArrl.get(5);
 	}
 }

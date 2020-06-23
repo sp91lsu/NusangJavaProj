@@ -1,18 +1,21 @@
 package client_p.packet_p.syn_p;
 
-import java.net.InetAddress;
-
 import packetBase_p.PacketBase;
 
 //관리자에게 채팅 요청 
 public class CsChatSyn extends PacketBase {
 
 	public String text;
-	public InetAddress address;
+	public String cip;
+	public String mip;
 
-	CsChatSyn(String text, InetAddress address) {
-		this.text = text;
-		this.address = address;
+	public CsChatSyn(String cip, String mip) {
+		super();
+		this.cip = cip;
+		this.mip = mip;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
 }

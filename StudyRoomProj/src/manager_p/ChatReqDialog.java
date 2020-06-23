@@ -15,6 +15,7 @@ import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import packetBase_p.EResult;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.syn_p.SMChatConnectSyn;
 import server_p.packet_p.syn_p.ScChatSyn;
 
 import javax.swing.JLabel;
@@ -22,15 +23,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ChatReqDialog extends JDialog {
-	// managerWindow mw;
+	managerWindow mw;
 	private final JPanel contentPanel = new JPanel();
-
+	SMChatConnectSyn smc;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 //		try {
-		ChatReqDialog dialog = new ChatReqDialog(new managerWindow());
+		ChatReqDialog dialog = new ChatReqDialog(new managerWindow(),new SMChatConnectSyn(null));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 //		} catch (Exception e) {
@@ -41,8 +42,9 @@ public class ChatReqDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ChatReqDialog(managerWindow mw) {
-		// this.mw = mw;
+	public ChatReqDialog(managerWindow mw,SMChatConnectSyn smc) {
+		this.mw = mw;
+		this.smc = smc;
 		setBounds(100, 100, 339, 213);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,7 +72,9 @@ public class ChatReqDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
-						ScChatSyn packet = new ScChatSyn();
+						MsChatConnectAck packet = new MsChatConnectAck(true);
+						packet.setCip(smc.clientIp);
+						packet.setManagerIp(smc.managerIp);
 						ClientNet.getInstance().sendPacket(packet);
 						mw.tabbedPane.setSelectedIndex(7);
 					}
