@@ -71,6 +71,7 @@ public class AccountDao extends DBProcess {
 				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
 
 				Calendar current = Calendar.getInstance();
+				current.set(Calendar.MINUTE, 0);
 				Calendar cal = Calendar.getInstance();
 				cal.setTimeInMillis(timeStamp.getTime());
 
