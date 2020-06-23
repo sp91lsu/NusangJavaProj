@@ -172,7 +172,7 @@ public class Seating_Arrangement extends JPanel {
 		panel_center.add(roomBtn10);
 		group.add(roomBtn10);
 
-		JButton roomBtn11 = new JButton("Ãë½Ä");
+		JButton roomBtn11 = new JButton("ÆÄÆ¼·ë");
 		roomBtn11.addActionListener(new BtnAct(roomBtn11));
 		roomBtn11.setBounds(0, 420, 160, 240);
 		panel_center.add(roomBtn11);
