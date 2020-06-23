@@ -74,7 +74,7 @@ public class MainLayout extends JPanel implements Receivable {
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("ClientChatFrame");
-				CsChatConnectSyn packet = new CsChatConnectSyn();
+				CsChatConnectSyn packet = new CsChatConnectSyn(BaseFrame.getInstance().userData);
 				ClientNet.getInstance().sendPacket(packet);
 				System.out.println("패킷이 다시 올때까지 기다려야 함");// 다이얼로그 창 설정하기
 			}
