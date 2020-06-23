@@ -177,6 +177,7 @@ public class Payment extends JFrame {
 	public void resPossibleChk() {
 
 		for (MyCheckBox myCheckBox : checkBoxList) {
+			myCheckBox.box.setSelected(false);
 			myCheckBox.box.setEnabled(true);
 		}
 
