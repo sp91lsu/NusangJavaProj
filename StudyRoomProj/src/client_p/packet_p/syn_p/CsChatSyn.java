@@ -1,7 +1,5 @@
 package client_p.packet_p.syn_p;
 
-import java.net.InetAddress;
-
 import packetBase_p.PacketBase;
 
 //관리자에게 채팅 요청 
