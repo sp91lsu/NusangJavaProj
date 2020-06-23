@@ -16,7 +16,7 @@ public class UserData extends PacketData {
 	public String birth; // 생일
 	public String cType; // 로그인 타입 (일반,관리자(데이터베이스에 있는 키값을 보내야 함))
 
-	public ArrayList<RoomProduct> myReservationList;
+	public ArrayList<RoomProduct> myReservationList = new ArrayList<RoomProduct>();
 
 	//
 	public UserData(String uuid, String name, String id, String pw, String phone, String birth, String cType) {

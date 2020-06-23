@@ -108,6 +108,9 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
+		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
+		toMchatSyn.setManagerIp(sc.socket.getInetAddress().toString());
+
 		if (sc != null && !sc.isChat) {
 			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			sc.sendPacket(toMchatSyn);
@@ -152,21 +155,15 @@ class MethCsChatSyn implements ServerPacketMethod {
 
 		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text);
 
-		client.sendPacket(chatBroadCast);
-//		CsChatSyn recPacket = (CsChatSyn) packet;
-//
-//		SocketClient findClient = MyServer.getInstance().findClient(recPacket.address.toString());
-//
-//		if (findClient != null) {
-//			if (findClient.doChatting) {
-//				findClient.sendPacket(recPacket);
-//			} else {
-//
-//				client.sendPacket(recPacket);
-//			}
-//		} else {
-//
-//		}
+		SocketClient chatClient = MyServer.getInstance().findClient(csChatSyn.cip);
+		SocketClient chatManager = MyServer.getInstance().findClient(csChatSyn.mip);
+
+		if (chatClient != null) {
+			chatClient.sendPacket(chatBroadCast);
+		}
+		if (chatManager != null) {
+			chatManager.sendPacket(chatBroadCast);
+		}
 	}
 }
 
@@ -180,16 +177,9 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		ScBuyRoomAck ack = null;
 
 		// 타임별로 룸 구매
-		for (Calendar cal : recPacket.RoomProduct.calendarList) {
+		RoomDao roomDao = new RoomDao();
 
-			Timestamp ts = new Timestamp(cal.getTimeInMillis());
-
-			RoomDao roomDao = new RoomDao();
-
-			System.out.println(cal.getTime());
-
-			roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
-		}
+		roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 
 		ack = new ScBuyRoomAck(EResult.SUCCESS);
 

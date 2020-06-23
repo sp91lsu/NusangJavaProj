@@ -36,6 +36,7 @@ public class DBProcess {
 
 	void insertQuery(ETable table, String calum, String value) {
 		query = "insert into " + table.name() + "(" + calum + ") values " + "(" + value + ")";
+		System.out.println(query);
 	}
 
 	void findQuery(ETable table, String... data) {
