@@ -5,6 +5,7 @@ import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.syn_p.SMChatConnectSyn;
 
 import java.net.InetAddress;
 import java.sql.ResultSet;
@@ -21,6 +22,7 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
+import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
@@ -104,31 +106,35 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		String managerIp = "/192.168.1.99";
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
-		ScChatConnectAck ack = null;
+		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn();
 		if (sc != null && !sc.isChat) {
-			ack = new ScChatConnectAck(EResult.SUCCESS);
-			ack.setCIP(client.socket.getInetAddress().toString());
-			sc.sendPacket(ack);
-		} else {
-			ack = new ScChatConnectAck(EResult.FAIL);
-			sc.sendPacket(ack);
+			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
+			sc.sendPacket(toMchatSyn);
 		}
-
 	}
 }
 
-class MethChatConnectAck implements ServerPacketMethod {
+// 관리자가 서버로 연결 응답
+class MethMSChatConnectAck implements ServerPacketMethod {
 
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
-		ScChatConnectAck resPacket = (ScChatConnectAck) packet;
+		MsChatConnectAck resPacket = (MsChatConnectAck) packet;
 
-		SocketClient sc = MyServer.getInstance().findClient(resPacket.clientIp);
+		SocketClient sc = MyServer.getInstance().findClient(resPacket.cIp);
 
-		resPacket.setManagerIp(client.socket.getInetAddress().toString());
-		
-		sc.sendPacket(resPacket);
+		ScChatConnectAck scConnectAck = null;
 
+		if (sc != null) {
+			if (resPacket.isConnect) {
+				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp);
+			} else {
+				scConnectAck = new ScChatConnectAck(EResult.FAIL, null, null);
+			}
+			sc.sendPacket(scConnectAck);
+		} else {
+			System.out.println("client ip is null");
+		}
 	}
 }
 

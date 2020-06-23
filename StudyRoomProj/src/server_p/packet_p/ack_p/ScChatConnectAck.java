@@ -5,18 +5,14 @@ import packetBase_p.ResultPacketBase;
 
 public class ScChatConnectAck extends ResultPacketBase {
 
-	public String managerIp;
-	public String clientIp;
+	public String cip;
+	public String mip;
 
-	public ScChatConnectAck(EResult eResult) {
+	public ScChatConnectAck(EResult eResult, String cip, String mip) {
 		super(eResult);
+		this.cip = cip;
+		this.mip = mip;
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setCIP(String cip) {
-		clientIp = cip;
-	}
-
-	public void setManagerIp(String managerIp) {
-		this.managerIp = managerIp;
-	}
 }
