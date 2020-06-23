@@ -188,6 +188,14 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 
 }
 
+class MethCloseSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		client.close();
+	}
+
+}
+
 //class MethDuplicateIDSyn implements ServerPacketMethod {
 //
 //	@Override

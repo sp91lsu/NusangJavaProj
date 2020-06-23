@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
@@ -80,4 +81,56 @@ public class RoomDao extends DBProcess {
 		return roomList;
 	}
 
+	//현재 룸 정보 불러오기 
+	public ArrayList<RoomProduct> currentRoomState() {
+		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
+		try {
+			rs = getRoomInfoRS("*", "startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+			cRoomList = resToList(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cRoomList;
+	}
+	
+	//내 룸 정보 불러오기 
+
+	public ArrayList<RoomProduct> resToList(ResultSet rs) {
+		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
+		try {
+			while (rs.next()) {
+
+				int roomID = rs.getInt("ID");
+
+				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
+				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
+
+				Calendar current = Calendar.getInstance();
+				current.set(Calendar.MINUTE, 0);
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(timeStamp.getTime());
+
+				// 룸 정보가 없으면
+				if (!roomMap.containsKey(roomID)) {
+
+					RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price,
+							roomModel.personNum);
+					roomMap.put(room.id, room);
+					roomMap.get(roomID).userUUID = rs.getString("UUID");
+					System.out.println(room.name);
+				}
+
+				roomMap.get(roomID).calendarList.add(cal);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+
+		roomList.addAll(roomMap.values());
+
+		return roomList;
+	}
 }

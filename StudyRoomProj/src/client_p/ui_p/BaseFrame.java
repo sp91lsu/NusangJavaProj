@@ -79,7 +79,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	void addToBaseFrame(JPanel jp) {
 		jPanelArrl.add(jp);
-		add(jp);
+		//add(jp);
 	}
 
 	public void view(String jPanelName) {

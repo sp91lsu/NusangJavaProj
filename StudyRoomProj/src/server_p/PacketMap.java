@@ -21,6 +21,7 @@ public class PacketMap {
 		map.put(MsChatConnectAck.class, new MethMSChatConnectAck()); 
 		map.put(CsChatSyn.class, new MethCsChatSyn()); 
 		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 결제
+		map.put(CsCloseSyn.class, new MethCloseSyn()); // 소켓 종료
 
 	}
 

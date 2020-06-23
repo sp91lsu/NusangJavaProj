@@ -59,45 +59,15 @@ public class AccountDao extends DBProcess {
 
 	public ArrayList<RoomProduct> findUserRoom(String uuid) {
 		RoomDao roomDao = new RoomDao();
-		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
+		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 		try {
-			ResultSet rs = roomDao.getRoomInfoRS("*", "UUID = '" + uuid + "'");
-
-			while (rs.next()) {
-
-				int roomID = rs.getInt("ID");
-				
-				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
-				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
-
-				Calendar current = Calendar.getInstance();
-				current.set(Calendar.MINUTE, 0);
-				Calendar cal = Calendar.getInstance();
-				cal.setTimeInMillis(timeStamp.getTime());
-
-				// 앞으로의 이용 정보 유저에게 줌
-				if (cal.getTimeInMillis() >= current.getTimeInMillis()) {
-					// 룸 정보가 없으면
-					if (!roomMap.containsKey(roomID)) {
-
-						RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price,
-								roomModel.personNum);
-						roomMap.put(room.id, room);
-						roomMap.get(roomID).userUUID = rs.getString("UUID");
-						System.out.println(room.name);
-					}
-
-					roomMap.get(roomID).calendarList.add(cal);
-				}
-			}
-		} catch (Exception e) {
+			ResultSet rs = roomDao.getRoomInfoRS("*",
+					"startdate >=  to_char(sysdate,'yyyymmddhh24' ) and uuid = '" + uuid + "'");
+			roomList = roomDao.resToList(rs);
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
-
-		roomList.addAll(roomMap.values());
 
 		return roomList;
 	}

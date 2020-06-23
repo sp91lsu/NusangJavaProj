@@ -54,7 +54,6 @@ class MyServer {
 				while (true) {
 
 					System.out.println("클라이언트 접속 대기");
-
 					Socket client = server.accept(); // 클라이언트 접속
 
 					System.out.println(client.getInetAddress() + "접속");
@@ -136,16 +135,13 @@ class SocketClient extends Thread {
 				sleep(10);
 			} catch (Exception e) {
 				System.out.println("클라이언트에서 패킷 받는 도중 오류");
-				System.out.println(socket.getInetAddress() + "종료");
-				MyServer.getInstance().clientList.remove(this);
-				close();				
 				e.printStackTrace();
-				return;
 			}
 		}
 
 		System.out.println(socket.getInetAddress() + "종료");
 		MyServer.getInstance().clientList.remove(this);
+		System.out.println("현재 클라이언트 list 갯수"  +MyServer.getInstance().clientList.size() );
 		close();
 	}
 
