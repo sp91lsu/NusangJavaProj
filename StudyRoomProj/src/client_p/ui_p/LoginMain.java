@@ -14,12 +14,14 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.Receivable;
+import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
+import server_p.packet_p.syn_p.ScChatSyn;
 
 public class LoginMain extends JPanel implements Receivable {
 
@@ -92,6 +94,11 @@ public class LoginMain extends JPanel implements Receivable {
 	@Override
 	public void receive(PacketBase packet) {
 
+		CsChatSyn csChatSyn = new CsChatSyn("","");
+		csChatSyn.setText("");
+		ClientNet.getInstance().sendPacket(csChatSyn);
+		
+		
 		ScLoginAck ack = (ScLoginAck) packet;
 
 		if (ack.eResult == EResult.SUCCESS) {

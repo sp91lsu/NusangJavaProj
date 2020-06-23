@@ -73,6 +73,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// ∞·¡¶
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
+		PacketMap.getInstance().map.put(Sc.class,  (Receivable) jPanelArrl.get(5));
 	}
 
 	void addToBaseFrame(JPanel jp) {

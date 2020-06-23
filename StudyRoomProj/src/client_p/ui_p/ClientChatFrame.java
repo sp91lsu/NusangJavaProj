@@ -10,14 +10,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client_p.ClientNet;
+import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import packetBase_p.PacketBase;
+import server_p.packet_p.broadCast.ScChatBroadCast;
+import server_p.packet_p.syn_p.ScChatSyn;
 
-public class ClientChatFrame extends JPanel {
+public class ClientChatFrame extends JPanel implements Receivable{
 
 	private final static String newline = "\n";
 	String text = "";
 	JFrame window;
 	CsChatSyn chatSyn = null;
+	TextArea textArea;
 
 	public ClientChatFrame() {
 		window = new JFrame();
@@ -26,7 +31,7 @@ public class ClientChatFrame extends JPanel {
 		setLayout(null);
 		window.getContentPane().add(this);
 
-		TextArea textArea = new TextArea();
+		textArea = new TextArea();
 		textArea.setBounds(0, 0, 458, 478);
 		add(textArea);
 
@@ -79,6 +84,14 @@ public class ClientChatFrame extends JPanel {
 
 	public void setChatPacket(CsChatSyn chatSyn) {
 		this.chatSyn = chatSyn;
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+		
+		ScChatBroadCast scChat = (ScChatBroadCast)packet;
+		textArea.setText(textArea.getText()+"\n"+scChat.getText());
+		
 	}
 
 }
