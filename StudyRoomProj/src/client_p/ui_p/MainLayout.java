@@ -79,6 +79,9 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_5);
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().getSeatingArrUI().seatChange=true;
+				System.out.println("좌석이동중이냐?"+BaseFrame.getInstance().getSeatingArrUI().seatChange);
+				System.out.println(BaseFrame.getInstance().roomProduct.name);
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}});
