@@ -7,11 +7,16 @@ import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import client_p.PacketMap;
 import client_p.Receivable;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScBuyRoomAck;
+import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScLoginAck;
+import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class BaseFrame extends JFrame implements Receivable {
@@ -47,6 +52,11 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	void startFrame() {
+		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) BaseFrame.getInstance().jPanelArrl.get(0)); // 로그인
+																													// 응답
+		PacketMap.getInstance().map.put(ScSignUpAck.class, (Receivable) BaseFrame.getInstance().signUpFrame); // 회원가입
+		PacketMap.getInstance().map.put(ScBuyRoomAck.class, BaseFrame.getInstance().paymentPop);// 결제
+		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) BaseFrame.getInstance());
 //		jjj = new JPanel();
 //		jjj.setLayout(new BorderLayout(0,0));
 //		jjj.setVisible(true);
