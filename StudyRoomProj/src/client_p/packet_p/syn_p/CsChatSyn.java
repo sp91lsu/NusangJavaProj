@@ -11,11 +11,13 @@ public class CsChatSyn extends PacketBase {
 	public String cip;
 	public String mip;
 
-	public CsChatSyn(String text, String cip, String mip) {
+	public CsChatSyn(String cip, String mip) {
 		super();
-		this.text = text;
 		this.cip = cip;
 		this.mip = mip;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
 }

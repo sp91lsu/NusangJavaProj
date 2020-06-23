@@ -15,6 +15,7 @@ import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.ack_p.CsChatConnectAck;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
+import client_p.packet_p.syn_p.CsChatSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
@@ -136,7 +137,10 @@ public class MainLayout extends JPanel implements Receivable {
 	public void receive(PacketBase packet) {
 		ScChatConnectAck ack = (ScChatConnectAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
+
+			BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
 			BaseFrame.getInstance().view("ClientChatFrame");
+
 		} else {
 			System.out.println("거절당함");
 		}

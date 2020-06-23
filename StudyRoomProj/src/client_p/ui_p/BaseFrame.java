@@ -164,4 +164,8 @@ public class BaseFrame extends JFrame implements Receivable {
 	public Seating_Arrangement getSeatingArrUI() {
 		return (Seating_Arrangement) jPanelArrl.get(2);
 	}
+	
+	public ClientChatFrame getClientChatFrame() {
+		return (ClientChatFrame) jPanelArrl.get(5);
+	}
 }
