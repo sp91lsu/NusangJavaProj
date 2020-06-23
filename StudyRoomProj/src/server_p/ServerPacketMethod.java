@@ -55,7 +55,7 @@ class MethLoginSyn implements ServerPacketMethod {
 				RoomDao roomDao = new RoomDao();
 
 				userData.setMyRoom(accountDao.findUserRoom(userData.uuid));
-				
+
 				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getRoomInfo("*"));
 			} else {
 				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null);
@@ -100,17 +100,34 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
-		String managerIp = "/192.168.0.7";
+
+		String managerIp = "/192.168.1.99";
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		ScChatConnectAck ack = null;
 		if (sc != null && !sc.isChat) {
 			ack = new ScChatConnectAck(EResult.SUCCESS);
+			ack.setCIP(client.socket.getInetAddress().toString());
 			sc.sendPacket(ack);
 		} else {
 			ack = new ScChatConnectAck(EResult.FAIL);
 			sc.sendPacket(ack);
 		}
+
+	}
+}
+
+class MethChatConnectAck implements ServerPacketMethod {
+
+	@Override
+	public void receive(SocketClient client, PacketBase packet) {
+		ScChatConnectAck resPacket = (ScChatConnectAck) packet;
+
+		SocketClient sc = MyServer.getInstance().findClient(resPacket.clientIp);
+
+		resPacket.setManagerIp(client.socket.getInetAddress().toString());
+		
+		sc.sendPacket(resPacket);
 
 	}
 }

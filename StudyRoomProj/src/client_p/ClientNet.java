@@ -24,7 +24,7 @@ public class ClientNet extends Thread {
 		return instance;
 	}
 
-	Socket socket;
+	public Socket socket;
 	PacketProccess packetProccess;
 
 	@Override

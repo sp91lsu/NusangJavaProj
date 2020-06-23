@@ -4,4 +4,7 @@ import packetBase_p.PacketBase;
 
 public class CsChatConnectSyn extends PacketBase {
 
+	public CsChatConnectSyn() {
+		super();
+	}
 }

@@ -21,9 +21,7 @@ public class ServerMain {
 
 class MyServer {
 
-	// myserver ´Â ½Ì±ÛÅæ
 	private static MyServer instance;
-
 	public static MyServer getInstance() {
 
 		if (instance == null) {
