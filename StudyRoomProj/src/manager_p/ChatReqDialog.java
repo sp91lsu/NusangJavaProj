@@ -2,41 +2,30 @@ package manager_p;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import client_p.ClientNet;
-import client_p.packet_p.ack_p.CsChatConnectAck;
 import client_p.packet_p.ack_p.MsChatConnectAck;
-import client_p.packet_p.syn_p.CsChatConnectSyn;
-import packetBase_p.EResult;
-import server_p.packet_p.ack_p.ScChatConnectAck;
+import client_p.packet_p.syn_p.CsChatSyn;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
-import server_p.packet_p.syn_p.ScChatSyn;
-
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ChatReqDialog extends JDialog {
 	managerWindow mw;
 	private final JPanel contentPanel = new JPanel();
 	SMChatConnectSyn smc;
-	/**
-	 * Launch the application.
-	 */
+	String userName=null;
+	
 	public static void main(String[] args) {
-//		try {
 		ChatReqDialog dialog = new ChatReqDialog(new managerWindow(),new SMChatConnectSyn(null));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 	}
 
 	/**
@@ -45,6 +34,7 @@ public class ChatReqDialog extends JDialog {
 	public ChatReqDialog(managerWindow mw,SMChatConnectSyn smc) {
 		this.mw = mw;
 		this.smc = smc;
+//		userName = smc.name;
 		setBounds(100, 100, 339, 213);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -55,7 +45,7 @@ public class ChatReqDialog extends JDialog {
 		lblNewLabel.setBounds(42, 85, 221, 15);
 		contentPanel.add(lblNewLabel);
 
-		JLabel lbClientName = new JLabel("\uD074\uB77C\uC774\uC5B8\uD2B8");
+		JLabel lbClientName = new JLabel(userName);
 		lbClientName.setBounds(42, 35, 129, 15);
 		contentPanel.add(lbClientName);
 
@@ -75,8 +65,10 @@ public class ChatReqDialog extends JDialog {
 						MsChatConnectAck packet = new MsChatConnectAck(true);
 						packet.setCip(smc.clientIp);
 						packet.setManagerIp(smc.managerIp);
+						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
+						mw.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
-						mw.tabbedPane.setSelectedIndex(7);
+						mw.tabbedPane.setSelectedIndex(6);
 					}
 				});
 				okButton.setActionCommand("OK");

@@ -27,16 +27,18 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
+import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 import server_p.packet_p.syn_p.ScChatSyn;
+import java.awt.Color;
 
 public class managerWindow extends JFrame implements Receivable {
-	private JTable table;
 	private JTable table_1;
 	private JScrollPane scrollPane_3;
 	private JPanel panel_6;
@@ -45,21 +47,25 @@ public class managerWindow extends JFrame implements Receivable {
 	private JTable table_4;
 	private JTextField textField;
 	public JTabbedPane tabbedPane;
-
-
-	/**
-	 * Launch the application.
-	 */
+	
+	String text = "";
+	CsChatSyn chatSyn;
+	private final static String newline = "\n";
+	private JTextArea textArea;
+	private JTable table;
+	private JScrollPane scrollPane_3_1;
+	private JPanel panel;
+	private JTable table_2;
+	
 	public static void main(String[] args) {
 		managerWindow mww = new managerWindow();
 		PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
+		PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
+		PacketMap.getInstance().map.put(CsChatSyn.class, mww);
 		ClientNet.getInstance().start();
 		
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public managerWindow() {
 
 		System.out.println("생성!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -76,7 +82,7 @@ public class managerWindow extends JFrame implements Receivable {
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel_5 = new JPanel();
-		tabbedPane.addTab("\uD68C\uC6D0\uAD00\uB9AC2", null, panel_5, null);
+		tabbedPane.addTab("\uD68C\uC6D0\uAD00\uB9AC", null, panel_5, null);
 		GridBagLayout gbl_panel_5 = new GridBagLayout();
 		gbl_panel_5.columnWidths = new int[] { 162, 0, 0 };
 		gbl_panel_5.rowHeights = new int[] { 0, 0, 0 };
@@ -107,7 +113,11 @@ public class managerWindow extends JFrame implements Receivable {
 		panel_7.add(lblNewLabel, gbc_lblNewLabel);
 
 		JButton btnNewButton = new JButton("\uD604\uC7AC \uC774\uC6A9\uC911 \uACE0\uAC1D");
-		btnNewButton.addActionListener(new CardSwitch(panel_6, cl_panel_6));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_panel_6.show(panel_6, "scrollPane_3");
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 0;
@@ -115,6 +125,11 @@ public class managerWindow extends JFrame implements Receivable {
 		panel_7.add(btnNewButton, gbc_btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("\uC804\uCCB4 \uACE0\uAC1D");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_panel_6.show(panel_6, "scrollPane_3_1");
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton_1.gridx = 0;
@@ -122,7 +137,11 @@ public class managerWindow extends JFrame implements Receivable {
 		panel_7.add(btnNewButton_1, gbc_btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("\uD68C\uC6D0\uAC80\uC0C9");
-		btnNewButton_2.addActionListener(new CardSwitch(panel_6, cl_panel_6));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_panel_6.show(panel_6, "panel");
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.gridx = 0;
 		gbc_btnNewButton_2.gridy = 7;
@@ -137,6 +156,9 @@ public class managerWindow extends JFrame implements Receivable {
 		cl_panel_6 = new CardLayout(0, 0);
 		panel_6.setLayout(cl_panel_6);
 
+		
+		
+		//현재 이용중 고객
 		scrollPane_3 = new JScrollPane();
 		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -154,43 +176,37 @@ public class managerWindow extends JFrame implements Receivable {
 		table_1.setFillsViewportHeight(true);
 		table_1.setFont(new Font("새굴림", Font.PLAIN, 25));
 		scrollPane_3.setViewportView(table_1);
+		
+		
+		
+		//전체 회원리스트
+		scrollPane_3_1 = new JScrollPane();
+		scrollPane_3_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_3_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		panel_6.add("scrollPane_3_1",scrollPane_3_1);
 
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("\uD68C\uC6D0\uAD00\uB9AC", null, panel, null);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 25, 1167, 25, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 240, 15, 240, 0, 240, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
-
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 1;
-		panel.add(scrollPane, gbc_scrollPane);
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.gridx = 1;
-		gbc_scrollPane_1.gridy = 3;
-		panel.add(scrollPane_1, gbc_scrollPane_1);
-
-		JScrollPane scrollPane_2 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
-		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_2.gridx = 1;
-		gbc_scrollPane_2.gridy = 5;
-		panel.add(scrollPane_2, gbc_scrollPane_2);
-
+		String header4[] = { "이용석", "이용객", "금액" };
+		String contents4[][] = { { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, };
+		table = new JTable(contents4, header4);
+		table.setRowHeight(27);
+		table.setFillsViewportHeight(true);
+		table.setFont(new Font("새굴림", Font.PLAIN, 25));
+		scrollPane_3_1.setViewportView(table);
+		
+		
+		
+		//회원검색
+		panel = new JPanel();
+		panel.setBackground(Color.PINK);
+		panel_6.add("panel",panel);
+		
+		
+		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("\uC88C\uC11D/\uB8F8 \uAD00\uB9AC", null, panel_1, null);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
@@ -455,14 +471,15 @@ public class managerWindow extends JFrame implements Receivable {
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[] { 0, 0, 0 };
-		gbl_panel_4.rowHeights = new int[] { 0, 0, 0 };
-		gbl_panel_4.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel_4.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_4.columnWidths = new int[] { 300, 0, 300, 0 };
+		gbl_panel_4.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_panel_4.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_4.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		panel_4.setLayout(gbl_panel_4);
 
 		JPanel panel_10_2 = new JPanel();
 		GridBagConstraints gbc_panel_10_2 = new GridBagConstraints();
+		gbc_panel_10_2.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_10_2.fill = GridBagConstraints.BOTH;
 		gbc_panel_10_2.gridx = 1;
 		gbc_panel_10_2.gridy = 1;
@@ -490,6 +507,23 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_scrollPane_6_2.gridx = 0;
 		gbc_scrollPane_6_2.gridy = 1;
 		panel_10_2.add(scrollPane_6_2, gbc_scrollPane_6_2);
+		
+		
+		
+		//당일매출
+		String header5[] = { "이용석", "이용객", "금액" };
+		String contents5[][] = { { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+				{ "dfeb", "5", "234767" }, };
+		table_2 = new JTable(contents5, header5);
+		table_2.setRowHeight(27);
+		table_2.setFillsViewportHeight(true);
+		table_2.setFont(new Font("새굴림", Font.PLAIN, 25));
+		scrollPane_6_2.setViewportView(table_2);
+		
 
 		JPanel panel_12_2 = new JPanel();
 		GridBagConstraints gbc_panel_12_2 = new GridBagConstraints();
@@ -795,7 +829,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbl_panel_19.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		panel_19.setLayout(gbl_panel_19);
 
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.insets = new Insets(0, 0, 5, 0);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
@@ -824,6 +858,18 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_textField.gridy = 0;
 		panel_20.add(textField, gbc_textField);
 		textField.setColumns(10);
+		
+		//텍스트 입력 액션
+		textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				text = textField.getText();
+				chatSyn.setText(text);
+				ClientNet.getInstance().sendPacket(chatSyn);
+				textArea.append(text + newline);
+				textField.selectAll();
+				textArea.setCaretPosition(textArea.getParent().getWidth());
+			}
+		});
 
 		JButton btnNewButton_4 = new JButton("\uC804\uC1A1");
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
@@ -832,6 +878,21 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_btnNewButton_4.gridy = 0;
 		panel_20.add(btnNewButton_4, gbc_btnNewButton_4);
 
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!textField.getText().equals("")) {
+					
+					text = textField.getText();
+					chatSyn.setText(text);
+					ClientNet.getInstance().sendPacket(chatSyn);
+					textArea.append(text + newline);
+					textField.selectAll();
+					textArea.setCaretPosition(textArea.getParent().getWidth());
+					textField.setText("");
+				}
+			}
+		});
+		
 	}
 
 	protected JPanel getPanel_6() {
@@ -840,46 +901,51 @@ public class managerWindow extends JFrame implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		SMChatConnectSyn sccAck = (SMChatConnectSyn) packet;
-		if (sccAck.eResult == EResult.SUCCESS) {
-			System.out.println("하앍");
-			ChatReqDialog dialog = new ChatReqDialog(this,sccAck);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-
-			
-
+		System.out.println(packet.getClass());
+		if(packet.getClass() == SMChatConnectSyn.class) {
+			SMChatConnectSyn sccAck = (SMChatConnectSyn) packet;
+			if (sccAck.eResult == EResult.SUCCESS) {
+				System.out.println("하앍");
+				ChatReqDialog dialog = new ChatReqDialog(this,sccAck);
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setVisible(true);
+			}
 		}
+		if(packet.getClass() == ScChatBroadCast.class) {
+			ScChatBroadCast scChat = (ScChatBroadCast)packet;
+			textArea.setText(textArea.getText()+"\n"+scChat.getText());
+		}
+		
 	}
 }
 
-class CardSwitch implements ActionListener {
-
-	CardLayout card;
-	JPanel jp;
-
-	public CardSwitch(JPanel parentPanel, CardLayout cardLay) {
-		this.card = cardLay;
-		this.jp = parentPanel;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String str = e.getActionCommand();
-		switch (str) {
-		case "현재 이용중 고객":
-			card.show(jp, "scrollPane_3");
-			break;
-		case "전체 고객":
-			card.show(jp, "scrollPane_4");
-			break;
-//		case "회원 검색":
-//			card.show(jp, "scrollPane_5");
+//class CardSwitch implements ActionListener {
+//
+//	CardLayout card;
+//	JPanel jp;
+//
+//	public CardSwitch(JPanel parentPanel, CardLayout cardLay) {
+//		this.card = cardLay;
+//		this.jp = parentPanel;
+//	}
+//
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		String str = e.getActionCommand();
+//		switch (str) {
+//		case "현재 이용중 고객":
+//			card.show(jp, "scrollPane_3");
 //			break;
-
-		default:
-			break;
-		}
-	}
-
-}
+//		case "전체 고객":
+//			card.show(jp, "scrollPane_3_1");
+//			break;
+////		case "회원 검색":
+////			card.show(jp, "scrollPane_5");
+////			break;
+//
+//		default:
+//			break;
+//		}
+//	}
+//
+//}
