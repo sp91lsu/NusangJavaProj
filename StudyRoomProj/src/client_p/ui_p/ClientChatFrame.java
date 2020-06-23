@@ -16,7 +16,7 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.ScChatSyn;
 
-public class ClientChatFrame extends JPanel implements Receivable{
+public class ClientChatFrame extends JPanel implements Receivable {
 
 	private final static String newline = "\n";
 	String text = "";
@@ -40,10 +40,10 @@ public class ClientChatFrame extends JPanel implements Receivable{
 		add(keyChat);
 		keyChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				text = keyChat.getText();
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
-				textArea.append(text + newline);
 				keyChat.selectAll();
 				textArea.setCaretPosition(textArea.getParent().getWidth());
 			}
@@ -57,11 +57,10 @@ public class ClientChatFrame extends JPanel implements Receivable{
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!keyChat.getText().equals("")) {
-					
+
 					text = keyChat.getText();
 					chatSyn.setText(text);
 					ClientNet.getInstance().sendPacket(chatSyn);
-					textArea.append(text + newline);
 					keyChat.selectAll();
 					textArea.setCaretPosition(textArea.getParent().getWidth());
 					keyChat.setText("");
@@ -88,10 +87,10 @@ public class ClientChatFrame extends JPanel implements Receivable{
 
 	@Override
 	public void receive(PacketBase packet) {
-		
-		ScChatBroadCast scChat = (ScChatBroadCast)packet;
-		textArea.setText(textArea.getText()+"\n"+scChat.getText());
-		
+
+		ScChatBroadCast scChat = (ScChatBroadCast) packet;
+		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
+
 	}
 
 }

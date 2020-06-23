@@ -94,11 +94,6 @@ public class LoginMain extends JPanel implements Receivable {
 	@Override
 	public void receive(PacketBase packet) {
 
-		CsChatSyn csChatSyn = new CsChatSyn("","");
-		csChatSyn.setText("");
-		ClientNet.getInstance().sendPacket(csChatSyn);
-		
-		
 		ScLoginAck ack = (ScLoginAck) packet;
 
 		if (ack.eResult == EResult.SUCCESS) {
