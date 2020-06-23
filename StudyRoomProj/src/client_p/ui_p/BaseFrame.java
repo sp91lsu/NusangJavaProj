@@ -52,11 +52,10 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	void startFrame() {
-		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) BaseFrame.getInstance().jPanelArrl.get(0)); // 로그인
-																													// 응답
-		PacketMap.getInstance().map.put(ScSignUpAck.class, (Receivable) BaseFrame.getInstance().signUpFrame); // 회원가입
-		PacketMap.getInstance().map.put(ScBuyRoomAck.class, BaseFrame.getInstance().paymentPop);// 결제
-		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) BaseFrame.getInstance());
+		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) jPanelArrl.get(0)); // 로그인
+		PacketMap.getInstance().map.put(ScSignUpAck.class, (Receivable) signUpFrame); // 회원가입
+		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// 결제
+		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) this);
 //		jjj = new JPanel();
 //		jjj.setLayout(new BorderLayout(0,0));
 //		jjj.setVisible(true);
