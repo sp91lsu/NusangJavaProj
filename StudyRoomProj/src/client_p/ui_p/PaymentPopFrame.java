@@ -43,7 +43,6 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 			
 				CsBuyRoomSyn packet = new CsBuyRoomSyn(BaseFrame.getInstance().roomProduct,
 						BaseFrame.getInstance().userData.uuid);
-
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
 			}
