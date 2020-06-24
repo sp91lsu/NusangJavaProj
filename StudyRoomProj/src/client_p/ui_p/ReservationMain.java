@@ -2,7 +2,6 @@ package client_p.ui_p;
 
 import java.awt.Button;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -20,11 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import client_p.ui_p.Payment.MyCheckBox;
-import data_p.product_p.TimeData;
-import data_p.product_p.room_p.RoomProduct;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import data_p.product_p.DataManager;
 
 public class ReservationMain extends JPanel {
 
@@ -34,6 +30,7 @@ public class ReservationMain extends JPanel {
 	int nowYear = Calendar.getInstance().get(Calendar.YEAR);
 	int setYear =  Calendar.getInstance().get(Calendar.YEAR);
 	int dateChk;
+	int totPrice=0;
 	boolean calViewChk = true;
 	
 	ArrayList<Button> btnList = new ArrayList<Button>();
@@ -45,6 +42,7 @@ public class ReservationMain extends JPanel {
 	JLabel nowMonthL;
 	JPanel calPaneMain;
 	JLabel yearInfoL;
+	JLabel totPriceLabel;
 	ArrayList<String> textList = new ArrayList<String>();
 	
 	class MyCheckBox {
@@ -79,6 +77,8 @@ public class ReservationMain extends JPanel {
 
 	public ReservationMain() {
 
+		System.out.println(Calendar.getInstance().getTime());
+		
 		setBackground(new Color(240, 240, 240));
 		setForeground(Color.CYAN);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -165,6 +165,9 @@ public class ReservationMain extends JPanel {
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
 			timeChkPane.add(myBox1.box);
+		
+			
+			
 		}
 
 		JPanel infoPane = new JPanel();
@@ -175,7 +178,7 @@ public class ReservationMain extends JPanel {
 		roomInfo.setBounds(0, 0, 158, 63);
 		infoPane.add(roomInfo);
 
-		timeInfo = new JLabel("사용시간 09:00-11:00");
+		timeInfo = new JLabel("선택 시간");
 		timeInfo.setBounds(170, 0, 173, 63);
 		infoPane.add(timeInfo);
 
@@ -195,7 +198,7 @@ public class ReservationMain extends JPanel {
 		reservationButton.setBounds(12, 182, 150, 32);
 		paymentPane.add(reservationButton);
 
-		JLabel totPriceLabel = new JLabel("5,000");
+		totPriceLabel = new JLabel("5,000");
 		totPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		totPriceLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
 		totPriceLabel.setBounds(23, 126, 87, 32);
@@ -308,8 +311,10 @@ public class ReservationMain extends JPanel {
 	//달력 만들기
 	public void makeCalendar() {
 		
-		System.out.println("달력생성해라~~~~~~~!!!");
+		
 		Calendar today = Calendar.getInstance();
+//		today.set(Calendar.PM, -1);
+//		System.out.println("시간확인: "+today.getInstance().getTime());
 		today.set(Calendar.YEAR, setYear);
 		today.set(Calendar.MONTH, setMonth-1);
 		int nowM = today.get(Calendar.MONTH);
@@ -344,6 +349,15 @@ public class ReservationMain extends JPanel {
 				}
 			});
 	
+			//달력 일자버튼중에 오늘 이전의 버튼 비활성화
+			if(setYear == nowYear && setMonth == nowMonth) {
+				for (int j = 1; j <= Calendar.getInstance().getTime().getDate(); j++) {
+					for (MyJButton myBtn2 : dateList) {
+						if(myBtn2.dateBtn.getText().equals(j+""))
+						myBtn2.dateBtn.setEnabled(false);
+					}
+				}
+			}
 		}
 		
 	}
@@ -375,6 +389,8 @@ public class ReservationMain extends JPanel {
 				timeList.add(cal);
 				textList.add(box.getText());
 				timeInfo.setText(textList.toString());
+				totPrice += (int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+				totPriceLabel.setText(totPrice+"");
 				
 			} else {
 				System.out.println("타임 제거하기");
@@ -383,6 +399,8 @@ public class ReservationMain extends JPanel {
 						timeList.remove(cal1);
 						textList.remove(box.getText());
 						timeInfo.setText(textList.toString());
+						totPrice -= (int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+						totPriceLabel.setText(totPrice+"");
 					}
 				}
 
