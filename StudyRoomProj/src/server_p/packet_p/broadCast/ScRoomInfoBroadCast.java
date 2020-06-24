@@ -9,7 +9,7 @@ public class ScRoomInfoBroadCast extends PacketBase {
 
 	public ArrayList<RoomProduct> roomList;
 
-	ScRoomInfoBroadCast(ArrayList<RoomProduct> roomList) {
+	public ScRoomInfoBroadCast(ArrayList<RoomProduct> roomList) {
 		this.roomList = roomList;
 	}
 }

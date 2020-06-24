@@ -33,7 +33,7 @@ public class DBProcess {
 	}
 
 	void updateQuery(ETable table, String calum, String... value) {
-		query = "UPDATE " + table.name() + "SET " + calum + " = " + value[0];
+		query = "UPDATE " + table.name() + " SET " + calum + " = " + value[0];
 
 		where(value);
 	}

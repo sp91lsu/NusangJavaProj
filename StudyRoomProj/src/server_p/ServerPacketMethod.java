@@ -7,7 +7,9 @@ import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
+import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
+import sun.java2d.ScreenUpdateManager;
 
 import java.net.InetAddress;
 import java.sql.ResultSet;
@@ -202,10 +204,10 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 
-		roomDao.insertRoomInfo(recPacket.userUUID, recPacket.originRoom);
+		roomDao.mvoeRoomInfo(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
 		ack = new ScMoveSeatAck(EResult.SUCCESS);
 		client.sendPacket(ack);
-	
+
 	}
 
 }
@@ -215,7 +217,21 @@ class MethCloseSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		client.close();
 	}
+}
 
+class MethUpdateRoomSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		RoomDao roomDao = new RoomDao();
+
+		try {
+			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(roomDao.getRoomInfo("*"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }
 
 //class MethDuplicateIDSyn implements ServerPacketMethod {

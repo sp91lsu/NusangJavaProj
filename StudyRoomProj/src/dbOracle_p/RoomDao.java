@@ -8,9 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import data_p.product_p.DataManager;
-import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
-import data_p.user_p.UserData;
 
 public class RoomDao extends DBProcess {
 
@@ -51,6 +49,7 @@ public class RoomDao extends DBProcess {
 
 			stmt = con.prepareStatement(query);
 			stmt.setInt(1, moveID);
+			stmt.setString(2, userUUID);
 			stmt.executeUpdate();
 
 			close();
