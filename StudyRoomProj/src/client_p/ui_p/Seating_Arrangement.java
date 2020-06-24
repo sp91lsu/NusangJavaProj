@@ -391,9 +391,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							}
 						}
 						SeatChangeOkPop frame = new SeatChangeOkPop();
-						CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
-								BaseFrame.getInstance().getUsingRoom(), moveSeatId);
-						ClientNet.getInstance().sendPacket(packet);
 					}
 				}
 			}
