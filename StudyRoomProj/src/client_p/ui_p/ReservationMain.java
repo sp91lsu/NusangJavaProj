@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import data_p.product_p.DataManager;
+import data_p.product_p.room_p.RoomProduct;
 
 public class ReservationMain extends JPanel {
 
@@ -33,7 +34,7 @@ public class ReservationMain extends JPanel {
 	int totPrice=0;
 	boolean calViewChk = true;
 	
-	ArrayList<Button> btnList = new ArrayList<Button>();
+	ArrayList<JButton> btnList = new ArrayList<JButton>();
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	ArrayList<MyJButton> dateList = new ArrayList<MyJButton>();
@@ -43,6 +44,7 @@ public class ReservationMain extends JPanel {
 	JPanel calPaneMain;
 	JLabel yearInfoL;
 	JLabel totPriceLabel;
+	JComboBox personCntChoice;
 	ArrayList<String> textList = new ArrayList<String>();
 	
 	class MyCheckBox {
@@ -103,14 +105,14 @@ public class ReservationMain extends JPanel {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				calPaneMain.removeAll();
 				makeCalendar();
-				nowMonthL.setText(setMonth+"");
+				resetResInfo();
 			}
 		});
 		
 		yearInfoL = new JLabel(setYear+"년");
 		yearInfoL.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		yearInfoL.setHorizontalAlignment(SwingConstants.CENTER);
-		yearInfoL.setBounds(395, 10, 90, 30);
+		yearInfoL.setBounds(395, 0, 90, 30);
 		mapPane.add(yearInfoL);
 
 		JPanel calendarPane = new JPanel();
@@ -164,9 +166,8 @@ public class ReservationMain extends JPanel {
 			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
+			myBox1.box.setEnabled(false);
 			timeChkPane.add(myBox1.box);
-		
-			
 			
 		}
 
@@ -190,15 +191,15 @@ public class ReservationMain extends JPanel {
 		JButton reservationButton = new JButton("예약하기");
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				BaseFrame.getInstance().rcalc.setVisible(true);
+				resetResInfo();
 			}
 		});
 		reservationButton.setBounds(12, 182, 150, 32);
 		paymentPane.add(reservationButton);
 
-		totPriceLabel = new JLabel("5,000");
+		totPriceLabel = new JLabel("이용료: 0");
 		totPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		totPriceLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
 		totPriceLabel.setBounds(23, 126, 87, 32);
@@ -218,7 +219,7 @@ public class ReservationMain extends JPanel {
 		for (int i = 0; i <= 10; i++) {
 			personCnt.add(i);
 		}
-		JComboBox personCntChoice = new JComboBox(personCnt);
+		personCntChoice = new JComboBox(personCnt);
 		personCntChoice.setToolTipText("0");
 		personCntChoice.setBounds(52, 38, 50, 21);
 		paymentPane.add(personCntChoice);
@@ -240,13 +241,20 @@ public class ReservationMain extends JPanel {
 		}
 
 		Calendar cal = Calendar.getInstance();
-		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(cal.get(Calendar.MONTH),
+		
+		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(setMonth-1,
 				date);
 
-		for (MyCheckBox myCheckBox : checkBoxList) {
-			for (Integer i : checkList) {
-				if (myCheckBox.value == i) {
-					myCheckBox.box.setEnabled(false);
+		for (RoomProduct rp : BaseFrame.getInstance().roomInfoList) {
+			for (Calendar cl : rp.calendarList) {
+				if(cl.get(Calendar.MONTH)+1 == setMonth) {
+					for (MyCheckBox myCheckBox : checkBoxList) {
+						for (Integer i : checkList) {
+							if (myCheckBox.value == i) {
+								myCheckBox.box.setEnabled(false);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -256,8 +264,7 @@ public class ReservationMain extends JPanel {
 	class NextMonthAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println();
-			
+			resetResInfo();		
 			if(setMonth>0) {
 				setMonth++;
 				if(setMonth == 13) {
@@ -276,24 +283,24 @@ public class ReservationMain extends JPanel {
 	class PreMonthAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		
-				if(setMonth > nowMonth) {
-					setMonth--;
-					if(setMonth == 13) {
-						setMonth = 1;
-					}
+			resetResInfo();		
+			if(setMonth > nowMonth) {
+				setMonth--;
+				if(setMonth == 13) {
+					setMonth = 1;
 				}
-				else if(setYear > nowYear) {
-					setMonth--;
-					if(setMonth == 0) {
-						setMonth =12;
-						setYear--;
-						yearInfoL.setText(setYear+"년");
-					}
+			}
+			else if(setYear > nowYear) {
+				setMonth--;
+				if(setMonth == 0) {
+					setMonth =12;
+					setYear--;
+					yearInfoL.setText(setYear+"년");
 				}
-				
-				else {
-					return;
+			}
+			
+			else {
+				return;
 				
 			}
 			nowMonthL.setText(setMonth+"");
@@ -344,8 +351,20 @@ public class ReservationMain extends JPanel {
 			datebtn.dateBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					resetResInfo();
+
 					resPossibleChk(Integer.parseInt(datebtn.dateBtn.getText()));
 					dateChk = Integer.parseInt(datebtn.dateBtn.getText());
+					
+					JButton btn = (JButton)e.getSource();
+					
+					for (MyJButton btnn : dateList) {
+						if(btn.equals(btnn.dateBtn)) {
+							btnn.dateBtn.setBackground(Color.RED);
+						}
+						else
+							btnn.dateBtn.setBackground(null);
+					}
 				}
 			});
 	
@@ -405,6 +424,23 @@ public class ReservationMain extends JPanel {
 				}
 
 			}
+		}
+	}
+	
+	//다른 버튼 클릭시 선택정보 리셋
+	void resetResInfo() {
+		nowMonthL.setText(setMonth+"");
+		totPriceLabel.setText("이용료: 0");
+		totPrice=0;
+		textList.clear();
+		timeInfo.setText("");
+		personCntChoice.setSelectedIndex(0);
+		for (MyCheckBox myCheckBox : checkBoxList) {
+			myCheckBox.box.setSelected(false);
+			myCheckBox.box.setEnabled(false);
+		}
+		for (MyJButton btn : dateList) {
+			btn.dateBtn.setBackground(null);
 		}
 	}
 }
