@@ -49,4 +49,27 @@ public class TimeFrame extends JFrame{
 		
 		setVisible(true);
 	}
+	
+	
+	
+	void showRemainTime()
+	{
+		   BaseFrame.getInstance().getUsingRoom();
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

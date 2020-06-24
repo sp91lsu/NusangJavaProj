@@ -74,7 +74,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
 
-
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -175,12 +174,10 @@ public class BaseFrame extends JFrame implements Receivable {
 				System.out.println(cal.get(Calendar.MONTH));
 				System.out.println(cal.get(Calendar.HOUR));
 				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR)
-						&& !product.isExit) {
-					cRoom = product;
-				} else {
-					product.calendarList.remove(cal);
-					i--;
+						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR) && !product.isExit) {
+					RoomProduct clone = product.getClone();
+					clone.calendarList.add(cal);
+					cRoom = clone;
 				}
 			}
 		}
@@ -192,8 +189,7 @@ class CheckRoomInfo extends Thread {
 	@Override
 	public void run() {
 		try {
-			while(true)
-			{
+			while (true) {
 				CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
 						BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
