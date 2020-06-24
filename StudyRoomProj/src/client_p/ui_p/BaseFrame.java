@@ -188,10 +188,13 @@ class CheckRoomInfo extends Thread {
 	@Override
 	public void run() {
 		try {
-			sleep(60000);
-			CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
-					BaseFrame.getInstance().userData.uuid);
-			ClientNet.getInstance().sendPacket(packet);
+			while(true)
+			{
+				CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
+						BaseFrame.getInstance().userData.uuid);
+				ClientNet.getInstance().sendPacket(packet);
+				sleep(60000);
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
