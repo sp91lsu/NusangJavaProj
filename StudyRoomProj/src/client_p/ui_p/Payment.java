@@ -176,6 +176,7 @@ public class Payment extends JFrame {
 			Calendar cal = Calendar.getInstance();
 
 			cal.set(Calendar.HOUR_OF_DAY, value);
+			cal.set(Calendar.MINUTE, 0);
 			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
 			// value, 0);
 

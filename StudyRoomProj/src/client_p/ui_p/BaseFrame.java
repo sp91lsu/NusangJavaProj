@@ -164,7 +164,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 		Calendar current = Calendar.getInstance();
-		RoomProduct cRoom = null;
+		RoomProduct clone = null;
 
 		for (RoomProduct product : BaseFrame.getInstance().userData.myReservationList) {
 			for (int i = 0; i < product.calendarList.size(); i++) {
@@ -175,13 +175,34 @@ public class BaseFrame extends JFrame implements Receivable {
 				System.out.println(cal.get(Calendar.HOUR));
 				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
 						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR) && !product.isExit) {
-					RoomProduct clone = product.getClone();
+					clone = product.getClone();
 					clone.calendarList.add(cal);
-					cRoom = clone;
 				}
 			}
 		}
-		return cRoom;
+		return clone;
+	}
+
+	public ArrayList<Calendar> getTodayRemainTime() {
+
+		Calendar current = Calendar.getInstance();
+
+		ArrayList<Calendar> remainList = new ArrayList<Calendar>();
+
+		for (RoomProduct room : userData.myReservationList) {
+
+			if (room.name == getUsingRoom().name) {
+
+				for (Calendar cal : room.calendarList) {
+
+					if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
+							&& cal.get(Calendar.DATE) == current.get(Calendar.DATE)) {
+						remainList.add(cal);
+					}
+				}
+			}
+		}
+		return remainList;
 	}
 }
 
