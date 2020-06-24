@@ -4,6 +4,7 @@ import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
+import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
@@ -196,13 +197,13 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		CsMoveSeatSyn recPacket = (CsMoveSeatSyn) packet;
 
 		System.out.println("자리이동 ");
-		ScBuyRoomAck ack = null;
+		ScMoveSeatAck ack = null;
 
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 
 		roomDao.insertRoomInfo(recPacket.userUUID, recPacket.originRoom);
-		ack = new ScBuyRoomAck(EResult.SUCCESS);
+		ack = new ScMoveSeatAck(EResult.SUCCESS);
 		client.sendPacket(ack);
 	
 	}

@@ -22,9 +22,9 @@ public class RoomDao extends DBProcess {
 
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
-
+			stmt = con.prepareStatement(query);
+			
 			for (Calendar cal : room.calendarList) {
-				stmt = con.prepareStatement(query);
 				stmt.setInt(1, room.id);
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
 				stmt.setTimestamp(2, timeStamp);
