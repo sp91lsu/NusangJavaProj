@@ -196,13 +196,13 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		CsMoveSeatSyn recPacket = (CsMoveSeatSyn) packet;
 
 		System.out.println("들어온 상품 정보 ");
-		System.out.println(recPacket.RoomProduct.calendarList.size());
+		System.out.println(recPacket.originRoom.calendarList.size());
 		ScBuyRoomAck ack = null;
 
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 
-		roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct, true);
+		roomDao.insertRoomInfo(recPacket.userUUID, recPacket.originRoom, true);
 
 		ack = new ScBuyRoomAck(EResult.SUCCESS);
 
