@@ -230,7 +230,7 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 		RoomDao roomDao = new RoomDao();
 
 		try {
-			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(roomDao.getRoomInfo("*"));
+			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
 
 			client.sendPacket(roomCast);
 		} catch (Exception e) {
