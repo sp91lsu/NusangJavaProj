@@ -101,27 +101,27 @@ public class RoomDao extends DBProcess {
 		while (rs.next()) {
 
 			int roomID = rs.getInt("ID");
-			if (DataManager.getInstance().roomMap.containsKey(roomID))
-				;
+			if (DataManager.getInstance().roomMap.containsKey(roomID)) {
 
-			ArrayList<Calendar> timeList = new ArrayList<Calendar>();
+				ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 
-			Timestamp time = rs.getTimestamp("STARTDATE");
-			RoomProduct room = null;
-			RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
-			System.out.println(roomModel);
-			room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
+				Timestamp time = rs.getTimestamp("STARTDATE");
+				RoomProduct room = null;
+				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
+				System.out.println(roomModel);
+				room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
 
-			if (rs.getInt("ISEXIT") == 1) {
-				room.isExit = true;
+				if (rs.getInt("ISEXIT") == 1) {
+					room.isExit = true;
+				}
+
+				Calendar cal = Calendar.getInstance();
+
+				cal.setTimeInMillis(time.getTime());
+				timeList.add(cal);
+				room.setDate(rs.getString("UUID"), timeList);
+				roomList.add(room);
 			}
-
-			Calendar cal = Calendar.getInstance();
-
-			cal.setTimeInMillis(time.getTime());
-			timeList.add(cal);
-			room.setDate(rs.getString("UUID"), timeList);
-			roomList.add(room);
 		}
 
 		System.out.println("·ë ¸®½ºÆ® °¹¼ö" + roomList.size());
