@@ -50,10 +50,6 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	void startFrame() {
-
-//		jjj = new JPanel();
-//		jjj.setLayout(new BorderLayout(0,0));
-//		jjj.setVisible(true);
 		payment.setVisible(false);
 		addToBaseFrame(new LoginMain());
 		addToBaseFrame(new MainLayout());

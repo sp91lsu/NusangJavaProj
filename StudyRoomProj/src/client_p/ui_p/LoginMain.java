@@ -76,8 +76,7 @@ public class LoginMain extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
 				ClientNet.getInstance().sendPacket(packet);
-			}
-		});
+			}});
 
 		JButton signUpBt = new JButton("È¸¿ø°¡ÀÔ");
 		signUpBt.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -86,8 +85,7 @@ public class LoginMain extends JPanel implements Receivable {
 		signUpBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
-			}
-		});
+			}});
 	}
 
 	@Override

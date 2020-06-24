@@ -1,11 +1,9 @@
 package client_p.ui_p;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,16 +13,18 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.Receivable;
-import client_p.packet_p.ack_p.CsChatConnectAck;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
-import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 
 public class MainLayout extends JPanel implements Receivable {
 
+	private JButton button_1;
+	private JButton button_2;
+	private JButton button_6;
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,25 +42,23 @@ public class MainLayout extends JPanel implements Receivable {
 		add(panel);
 		panel.setLayout(new GridLayout(3, 3, 5, 5));
 
-		JButton button_1 = new JButton("개인석 이용");
+		button_1 = new JButton("개인석 이용");
 		button_1.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_1);
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-			}
-		});
+			}});
 
-		JButton button_2 = new JButton("단체룸 이용");
+		button_2 = new JButton("단체룸 이용");
 		button_2.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_2);
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
-			}
-		});
+			}});
 
 		JButton button_3 = new JButton("사물함 대여");
 		button_3.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -68,8 +66,7 @@ public class MainLayout extends JPanel implements Receivable {
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("LockerMain");
-			}
-		});
+			}});
 
 		JButton button_4 = new JButton("1:1 고객문의");
 		button_4.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -80,8 +77,7 @@ public class MainLayout extends JPanel implements Receivable {
 				CsChatConnectSyn packet = new CsChatConnectSyn(BaseFrame.getInstance().userData);
 				ClientNet.getInstance().sendPacket(packet);
 				System.out.println("패킷이 다시 올때까지 기다려야 함");// 다이얼로그 창 설정하기
-			}
-		});
+			}});
 
 		JButton button_5 = new JButton("개인석 이동");
 		button_5.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -98,17 +94,16 @@ public class MainLayout extends JPanel implements Receivable {
 //				}
 				BaseFrame.getInstance().getSeatingArrUI().openPage();
 				BaseFrame.getInstance().view("Seating_Arrangement");
-			}
-		});
+			}});
 
-		JButton button_6 = new JButton("좌석 연장");
+		button_6 = new JButton("좌석 연장");
 		button_6.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_6);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				BaseFrame.getInstance().payment.openPage();
-			}
-		});
+			}});
 
 		JButton button_7 = new JButton("잔여 시간");
 		button_7.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -116,8 +111,7 @@ public class MainLayout extends JPanel implements Receivable {
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TimeFrame time = new TimeFrame();
-			}
-		});
+			}});
 
 		JButton button_8 = new JButton("내 이용정보");
 		button_8.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -125,8 +119,7 @@ public class MainLayout extends JPanel implements Receivable {
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InfoFrame info = new InfoFrame();
-			}
-		});
+			}});
 
 		JButton button_9 = new JButton("퇴실");
 		button_9.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -134,8 +127,7 @@ public class MainLayout extends JPanel implements Receivable {
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ExitFrame exitframe = new ExitFrame();
-			}
-		});
+			}});
 
 		JLabel lblNewLabel = new JLabel("로그인 후 화면");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,8 +140,13 @@ public class MainLayout extends JPanel implements Receivable {
 	{
 		if(BaseFrame.getInstance().getUsingRoom() != null)
 		{
-			//단체석 이용버튼 비활성화
-			//개인룸 이용 버튼 비활성화
+			button_1.setEnabled(false);//개인룸 이용 버튼 비활성화
+			button_2.setEnabled(false);//단체석 이용버튼 비활성화
+		}else
+		{
+			button_1.setEnabled(true);
+			button_2.setEnabled(true);
+			button_6.setEnabled(false);//좌석 연장 버튼 비활성화 
 		}
 	}
 	
