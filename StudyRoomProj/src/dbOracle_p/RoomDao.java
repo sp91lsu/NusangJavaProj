@@ -21,7 +21,7 @@ public class RoomDao extends DBProcess {
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
 			stmt = con.prepareStatement(query);
-			
+
 			for (Calendar cal : room.calendarList) {
 				stmt.setInt(1, room.id);
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
@@ -82,11 +82,15 @@ public class RoomDao extends DBProcess {
 		System.out.println("로그인 시 룸 데이터");
 		while (rs.next()) {
 
+			int roomID = rs.getInt("ID");
+			if (DataManager.getInstance().roomMap.containsKey(roomID))
+				;
 			ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 
 			Timestamp time = rs.getTimestamp("STARTDATE");
 			RoomProduct room = null;
-			RoomProduct roomModel = DataManager.getInstance().roomMap.get(rs.getInt("ID"));
+			RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
+			System.out.println(roomModel);
 			room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
 			Calendar cal = Calendar.getInstance();
 

@@ -185,10 +185,13 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 
-		roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
+		if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
+			roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 
-		ack = new ScBuyRoomAck(EResult.SUCCESS);
-
+			ack = new ScBuyRoomAck(EResult.SUCCESS);
+		} else {
+			ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+		}
 		client.sendPacket(ack);
 	}
 
@@ -228,6 +231,8 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 		try {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(roomDao.getRoomInfo("*"));
+
+			client.sendPacket(roomCast);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
