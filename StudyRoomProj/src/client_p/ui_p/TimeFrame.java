@@ -69,7 +69,7 @@ public class TimeFrame extends JFrame {
 				end = calendar;
 			}
 		}
-		//end.add(Calendar.HOUR, 1);
+		end.add(Calendar.HOUR, 1);
 
 		long remain = end.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 
