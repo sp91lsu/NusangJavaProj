@@ -22,6 +22,7 @@ import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
+import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
@@ -104,7 +105,7 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-		String managerIp = "/192.168.0.63";
+		String managerIp = "/192.168.1.99";
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
@@ -179,7 +180,29 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 
-		roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
+		roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct, false);
+
+		ack = new ScBuyRoomAck(EResult.SUCCESS);
+
+		client.sendPacket(ack);
+	}
+
+}
+
+class MethMoveSeatSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsMoveSeatSyn recPacket = (CsMoveSeatSyn) packet;
+
+		System.out.println("들어온 상품 정보 ");
+		System.out.println(recPacket.RoomProduct.calendarList.size());
+		ScBuyRoomAck ack = null;
+
+		// 타임별로 룸 구매
+		RoomDao roomDao = new RoomDao();
+
+		roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct, true);
 
 		ack = new ScBuyRoomAck(EResult.SUCCESS);
 

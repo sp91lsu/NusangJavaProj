@@ -12,10 +12,11 @@ import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 
+
 public class RoomDao extends DBProcess {
 
-	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
-		String[] calumArr = { "ID", "PRICE", "STARTDATE", "UUID" };
+	public boolean insertRoomInfo(String userUUID, RoomProduct room, boolean isUpdate) {
+		String[] calumArr = { "ID", "STARTDATE", "UUID" };
 
 		String calumQuery = getCalum(calumArr);
 		String calumNum = getCalumNum(calumArr.length);
@@ -26,12 +27,15 @@ public class RoomDao extends DBProcess {
 			for (Calendar cal : room.calendarList) {
 				stmt = con.prepareStatement(query);
 				stmt.setInt(1, room.id);
-				stmt.setLong(2, room.price);
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
-				stmt.setTimestamp(3, timeStamp);
-				stmt.setString(4, userUUID);
+				stmt.setTimestamp(2, timeStamp);
+				stmt.setString(3, userUUID);
 				// stmt.setInt(5, room.personNum);
-				rs = stmt.executeQuery();
+				if (isUpdate) {
+					stmt.executeUpdate();
+				} else {
+					rs = stmt.executeQuery();
+				}
 			}
 
 			close();
@@ -81,7 +85,7 @@ public class RoomDao extends DBProcess {
 		return roomList;
 	}
 
-	//현재 룸 정보 불러오기 
+	// 현재 룸 정보 불러오기
 	public ArrayList<RoomProduct> currentRoomState() {
 		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
 		try {
@@ -92,8 +96,8 @@ public class RoomDao extends DBProcess {
 		}
 		return cRoomList;
 	}
-	
-	//내 룸 정보 불러오기 
+
+	// 내 룸 정보 불러오기
 
 	public ArrayList<RoomProduct> resToList(ResultSet rs) {
 		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
