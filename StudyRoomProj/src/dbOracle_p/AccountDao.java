@@ -39,6 +39,7 @@ public class AccountDao extends DBProcess {
 		}
 	}
 
+	
 	public UserData findUser(String idOrPhone, String id, String pw) throws Exception {
 
 		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ? and pw = ?");
@@ -57,6 +58,7 @@ public class AccountDao extends DBProcess {
 		return userdata;
 	}
 
+	//오늘 현재시간부터 나중 예약한 룸정보 불러오기
 	public ArrayList<RoomProduct> findUserRoom(String uuid) {
 		RoomDao roomDao = new RoomDao();
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
