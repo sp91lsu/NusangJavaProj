@@ -1,45 +1,31 @@
 package server_p;
 
+import java.util.UUID;
+
+import client_p.packet_p.ack_p.MsChatConnectAck;
+import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import client_p.packet_p.syn_p.CsChatConnectSyn;
+import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.CsExitSyn;
+import client_p.packet_p.syn_p.CsLoginSyn;
+import client_p.packet_p.syn_p.CsMoveSeatSyn;
+import client_p.packet_p.syn_p.CsSignUpSyn;
+import client_p.packet_p.syn_p.MSCurrMemListSyn;
+import data_p.product_p.DataManager;
+import data_p.user_p.UserData;
+import dbOracle_p.AccountDao;
+import dbOracle_p.RoomDao;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SMCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
-import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
-import sun.java2d.ScreenUpdateManager;
-
-import java.net.InetAddress;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
-
-import client_p.packet_p.syn_p.CsChatConnectSyn;
-import client_p.packet_p.syn_p.CsChatSyn;
-import client_p.packet_p.syn_p.CsDuplicateIDSyn;
-import client_p.packet_p.syn_p.CsExitSyn;
-import client_p.packet_p.syn_p.CsLoginSyn;
-import client_p.packet_p.syn_p.CsMoveSeatSyn;
-import client_p.packet_p.syn_p.CsSignUpSyn;
-import client_p.packet_p.syn_p.MSCurrMemListSyn;
-import client_p.packet_p.ack_p.MsChatConnectAck;
-import client_p.packet_p.syn_p.CsBuyRoomSyn;
-import data_p.product_p.DataManager;
-import data_p.product_p.TimeData;
-import data_p.product_p.room_p.RoomProduct;
-import data_p.user_p.UserData;
-import dbOracle_p.*;
-import jdk.nashorn.internal.runtime.FindProperty;
-import packetBase_p.EResult;
-import packetBase_p.PacketBase;
 
 public interface ServerPacketMethod {
 
@@ -230,8 +216,7 @@ class MethExitSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 
 		CsExitSyn respacket = (CsExitSyn) packet;
-		
-		
+
 	}
 }
 
