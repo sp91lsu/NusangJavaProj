@@ -90,8 +90,8 @@ public class Payment extends JFrame {
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:");
-			int text = i + 1;
-			int realtime = i + 1;
+			int text = i;
+			int realtime = i;
 			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);

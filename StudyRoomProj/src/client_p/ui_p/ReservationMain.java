@@ -46,6 +46,7 @@ public class ReservationMain extends JPanel {
 	JButton reservationButton;
 	ArrayList<String> textList = new ArrayList<String>();
 
+	// 선택 시간에 대한 버튼을 가지고 있는 클래스
 	class MyCheckBox {
 		JCheckBox box;
 		int value;
@@ -161,8 +162,8 @@ public class ReservationMain extends JPanel {
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:");
-			int text = i + 1;
-			int realtime = i + 1;
+			int text = i;
+			int realtime = i;
 			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
@@ -234,7 +235,7 @@ public class ReservationMain extends JPanel {
 		makeCalendar();
 	}
 
-	// 시간버튼 -> 서버데이터와 비교하여 비활성화
+	// 시간버튼 -> 서버데이터와 비교하여 비활성화(달 비교 -> 일비교 -> 시간비교)
 	public void resPossibleChk(int date) {
 
 		for (MyCheckBox myCheckBox : checkBoxList) {
@@ -299,10 +300,8 @@ public class ReservationMain extends JPanel {
 					yearInfoL.setText(setYear + "년");
 				}
 			}
-
 			else {
 				return;
-
 			}
 			nowMonthL.setText(setMonth + "");
 			System.out.println(setMonth);
@@ -320,8 +319,6 @@ public class ReservationMain extends JPanel {
 	public void makeCalendar() {
 
 		Calendar today = Calendar.getInstance();
-//		today.set(Calendar.PM, -1);
-//		System.out.println("시간확인: "+today.getInstance().getTime());
 		today.set(Calendar.YEAR, setYear);
 		today.set(Calendar.MONTH, setMonth - 1);
 		int nowM = today.get(Calendar.MONTH);
@@ -338,7 +335,7 @@ public class ReservationMain extends JPanel {
 			else if (last < i)
 				dateN = "";
 
-			// 버튼에 예약날짜 비교 기능
+			//버튼에 예약날짜 비교 기능
 			MyJButton datebtn = new MyJButton(new JButton(dateN));
 			dateList.add(datebtn);
 			calPaneMain.add(datebtn.dateBtn);
@@ -380,7 +377,7 @@ public class ReservationMain extends JPanel {
 
 	}
 
-	// 시간을 선택하는 동시에 예약하는 데이터값을 센드할 곳에 저장
+	// 시간을 선택하는 동시에 예약하는 데이터값을 센드할 곳(timeList)에 저장
 	class AddTimeActionListener implements ActionListener {
 
 		int value;
@@ -407,7 +404,7 @@ public class ReservationMain extends JPanel {
 				timeList.add(cal);
 				textList.add(box.getText());
 				timeInfo.setText(textList.toString());
-				totPrice += (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+				totPrice = timeList.size()*(int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
 				totPriceLabel.setText(totPrice + "");
 				if (!timeList.isEmpty()) {
 					reservationButton.setEnabled(true);
@@ -424,10 +421,8 @@ public class ReservationMain extends JPanel {
 						timeList.remove(cal1);
 						textList.remove(box.getText());
 						timeInfo.setText(textList.toString());
-						totPrice -= (int) DataManager.getInstance().roomMap
-								.get(BaseFrame.getInstance().roomProduct.id).price;
+						totPrice = timeList.size()*(int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
 						totPriceLabel.setText(totPrice + "");
-
 						i--;
 					}
 				}
@@ -435,7 +430,6 @@ public class ReservationMain extends JPanel {
 				if (timeList.isEmpty()) {
 					reservationButton.setEnabled(false);
 				}
-
 			}
 		}
 	}
