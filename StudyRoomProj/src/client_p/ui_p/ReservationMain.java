@@ -31,6 +31,8 @@ public class ReservationMain extends JPanel {
 	private final JPanel mapPane = new JPanel();
 	int setMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
 	int nowMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+	int nowYear = Calendar.getInstance().get(Calendar.YEAR);
+	int setYear =  Calendar.getInstance().get(Calendar.YEAR);
 	int dateChk;
 	boolean calViewChk = true;
 	
@@ -42,6 +44,7 @@ public class ReservationMain extends JPanel {
 	JLabel timeInfo;
 	JLabel nowMonthL;
 	JPanel calPaneMain;
+	JLabel yearInfoL;
 	
 	class MyCheckBox {
 		JCheckBox box;
@@ -102,6 +105,12 @@ public class ReservationMain extends JPanel {
 				nowMonthL.setText(setMonth+"");
 			}
 		});
+		
+		yearInfoL = new JLabel(setYear+"년");
+		yearInfoL.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		yearInfoL.setHorizontalAlignment(SwingConstants.CENTER);
+		yearInfoL.setBounds(395, 10, 90, 30);
+		mapPane.add(yearInfoL);
 
 		JPanel calendarPane = new JPanel();
 		calendarPane.setBounds(220, 29, 440, 340);
@@ -249,6 +258,8 @@ public class ReservationMain extends JPanel {
 				setMonth++;
 				if(setMonth == 13) {
 					setMonth = 1;
+					setYear++;
+					yearInfoL.setText(setYear+"년");
 				}
 			}
 			nowMonthL.setText(setMonth+"");
@@ -261,15 +272,25 @@ public class ReservationMain extends JPanel {
 	class PreMonthAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println();
-			
-			if(setMonth > nowMonth) {
-				setMonth--;
-				if(setMonth == 13) {
-					setMonth = 1;
+		
+				if(setMonth > nowMonth) {
+					setMonth--;
+					if(setMonth == 13) {
+						setMonth = 1;
+					}
 				}
-			}else {
-				return;
+				else if(setYear > nowYear) {
+					setMonth--;
+					if(setMonth == 0) {
+						setMonth =12;
+						setYear--;
+						yearInfoL.setText(setYear+"년");
+					}
+				}
+				
+				else {
+					return;
+				
 			}
 			nowMonthL.setText(setMonth+"");
 			System.out.println(setMonth);
@@ -288,6 +309,7 @@ public class ReservationMain extends JPanel {
 		
 		System.out.println("달력생성해라~~~~~~~!!!");
 		Calendar today = Calendar.getInstance();
+		today.set(Calendar.YEAR, setYear);
 		today.set(Calendar.MONTH, setMonth-1);
 		int nowM = today.get(Calendar.MONTH);
 		int nowD = today.get(Calendar.DATE);
@@ -342,6 +364,7 @@ public class ReservationMain extends JPanel {
 			System.out.println(value);
 			Calendar cal = Calendar.getInstance();
 			
+			cal.set(Calendar.YEAR, setYear);
 			cal.set(Calendar.MONTH, setMonth-1);
 			cal.set(Calendar.DATE, dateChk);
 			cal.set(Calendar.HOUR_OF_DAY, value);
