@@ -22,7 +22,7 @@ public class AccountDao extends DBProcess {
 		String calumNum = getCalumNum(calumArr.length);
 
 		try {
-			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
+			insertQuery(ETable.ACCOUNT, calumQuery, calumNum);
 			stmt = con.prepareStatement(query);
 			stmt.setString(1, userData.uuid);
 			stmt.setString(2, userData.name);
