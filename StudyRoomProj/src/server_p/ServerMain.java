@@ -136,6 +136,7 @@ class SocketClient extends Thread {
 			} catch (Exception e) {
 				System.out.println("클라이언트에서 패킷 받는 도중 오류");
 				e.printStackTrace();
+				break;
 			}
 		}
 
