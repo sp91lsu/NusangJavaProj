@@ -5,7 +5,6 @@ import java.util.HashMap;
 import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.*;
 import packetBase_p.*;
-import server_p.packet_p.ack_p.ScChatConnectAck;
 
 public class PacketMap {
 

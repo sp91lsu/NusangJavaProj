@@ -12,10 +12,9 @@ import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 
-
 public class RoomDao extends DBProcess {
 
-	public boolean insertRoomInfo(String userUUID, RoomProduct room, boolean isUpdate) {
+	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
 		String[] calumArr = { "ID", "STARTDATE", "UUID" };
 
 		String calumQuery = getCalum(calumArr);
@@ -31,16 +30,34 @@ public class RoomDao extends DBProcess {
 				stmt.setTimestamp(2, timeStamp);
 				stmt.setString(3, userUUID);
 				// stmt.setInt(5, room.personNum);
-				if (isUpdate) {
-					stmt.executeUpdate();
-				} else {
-					rs = stmt.executeQuery();
-				}
+				rs = stmt.executeQuery();
 			}
 
 			close();
 
 		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean mvoeRoomInfo(String userUUID, RoomProduct originRoom, int moveID) {
+
+		try {
+			updateQuery(ETable.INVENTORY, "ID", "?",
+					"uuid = ? and startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+
+			stmt = con.prepareStatement(query);
+			stmt.setInt(1, moveID);
+			stmt.executeUpdate();
+
+			close();
+
+		} catch (
+
+		SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return false;

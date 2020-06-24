@@ -27,21 +27,24 @@ public class DBProcess {
 		// updateData();
 	}
 
-//	ResultSet findData() {
-//
-//		reset();
-//		// rs = stmt.executeQuery(qo.query);
-//		return rs;
-//	}
-
-	void insertQuery(ETable table, String calum, String value) {
-		query = "insert into " + table.name() + "(" + calum + ") values " + "(" + value + ")";
-		System.out.println(query);
+	void insertQuery(ETable table, String calum, String... value) {
+		query = "insert into " + table.name() + "(" + calum + ") values " + "(" + value[0] + ")";
+		where(value);
 	}
 
-	void findQuery(ETable table, String... data) {
+	void updateQuery(ETable table, String calum, String... value) {
+		query = "UPDATE " + table.name() + "SET " + calum + " = " + value[0];
 
-		query = "select " + data[0] + " from " + table.name();
+		where(value);
+	}
+
+	void findQuery(ETable table, String... value) {
+
+		query = "select " + value[0] + " from " + table.name();
+		where(value);
+	}
+
+	void where(String... data) {
 		if (data.length == 2) {
 			query += " where " + data[1];
 		}
@@ -111,34 +114,6 @@ public class DBProcess {
 		}
 	}
 
-//	public void createQuery(String calum, Object... valueArr) {
-//
-//		this.calum = calum;
-//
-//		for (int i = 0; i < valueArr.length; i++) {
-//			System.out.println(valueArr[i].toString());
-//
-//			if (valueArr[i].getClass() == String.class) {
-//				query += "'" + valueArr[i].toString() + "'";
-//			} else {
-//				query += valueArr[i].toString();
-//			}
-//			if (i < valueArr.length - 1) {
-//				query += ",";
-//			}
-//		}
-//	}
-//
+
 
 }
-//// 쿠리 실행 데이터
-//while (rs.next()) {
-//	System.out.print(rs.getString("id"));
-//	System.out.print(rs.getString("name"));
-//	System.out.print(rs.getString("kor"));
-//	System.out.print(rs.getString("eng"));
-//	System.out.print(rs.getString("mat"));
-//	System.out.println();
-//	Timestamp time = rs.getTimestamp("reg");
-//	Stud st = new Stud(rs.getString("name"), rs.getString("id"), rs.getInt("kor"));
-//}
