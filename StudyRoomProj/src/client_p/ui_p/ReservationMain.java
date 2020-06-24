@@ -29,7 +29,8 @@ import java.awt.FlowLayout;
 public class ReservationMain extends JPanel {
 
 	private final JPanel mapPane = new JPanel();
-	int setMonth = 6;
+	int setMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+	int nowMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
 	int dateChk;
 	boolean calViewChk = true;
 	
@@ -37,8 +38,10 @@ public class ReservationMain extends JPanel {
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	ArrayList<MyJButton> dateList = new ArrayList<MyJButton>();
-	JLabel timeInfo;
 	JLabel roomInfo = new JLabel();
+	JLabel timeInfo;
+	JLabel nowMonthL;
+	JPanel calPaneMain;
 	
 	class MyCheckBox {
 		JCheckBox box;
@@ -52,6 +55,7 @@ public class ReservationMain extends JPanel {
 		}
 	}
 
+	//달력의 date 버튼을 가지고있는 클래스
 	class MyJButton {
 		JButton dateBtn;
 
@@ -59,7 +63,6 @@ public class ReservationMain extends JPanel {
 			super();
 			this.dateBtn = dateBtn;
 		}
-
 	}
 
 	public static void main(String[] args) {
@@ -89,9 +92,14 @@ public class ReservationMain extends JPanel {
 		backBtn.setBounds(750, 10, 90, 30);
 		mapPane.add(backBtn);
 		backBtn.addActionListener(new ActionListener() {
+			//뒤로가면서 달력 현재달로 달력 초기화
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
 				BaseFrame.getInstance().view("Seating_Arrangement");
+				calPaneMain.removeAll();
+				makeCalendar();
+				nowMonthL.setText(setMonth+"");
 			}
 		});
 
@@ -108,16 +116,17 @@ public class ReservationMain extends JPanel {
 
 		JButton preMonthBtn = new JButton("이전달");
 		monthChoicePane.add(preMonthBtn);
+		preMonthBtn.addActionListener(new PreMonthAct());
 		
-		JLabel nowMonthL = new JLabel(setMonth + "");
+		nowMonthL = new JLabel(setMonth+"");
 		nowMonthL.setHorizontalAlignment(SwingConstants.CENTER);
 		monthChoicePane.add(nowMonthL);
 
 		JButton nextMonthBtn = new JButton("다음달");
 		monthChoicePane.add(nextMonthBtn);
-		nextMonthBtn.addActionListener(new MonthChoiceAct());
+		nextMonthBtn.addActionListener(new NextMonthAct());
 
-		JPanel calPaneMain = new JPanel();
+		calPaneMain = new JPanel();
 		calPaneMain.setBounds(0, 82, 432, 217);
 		calPaneMain.setLayout(new GridLayout(6, 7));
 		calendarPane.add(calPaneMain);
@@ -136,7 +145,7 @@ public class ReservationMain extends JPanel {
 		timeInfoPane.add(timeChkPane);
 		timeChkPane.setLayout(new GridLayout(4, 6));
 
-		//////// 시간 선택 버튼/////////
+		//시간선택 버튼 생성
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:");
@@ -153,8 +162,6 @@ public class ReservationMain extends JPanel {
 		timeInfoPane.add(infoPane);
 		infoPane.setLayout(null);
 
-		
-		
 		roomInfo.setBounds(0, 0, 158, 63);
 		infoPane.add(roomInfo);
 
@@ -207,54 +214,11 @@ public class ReservationMain extends JPanel {
 		personCntChoice2.setBounds(109, 33, 22, 30);
 		paymentPane.add(personCntChoice2);
 		
-	
-
-		///////////////// 달력버튼 생성///////////////////////////////////
-
-		setMonth = 6;
-
-		Calendar today = Calendar.getInstance();
-		today.set(Calendar.MONTH, setMonth - 1);
-		int nowM = today.get(Calendar.MONTH);
-		int nowD = today.get(Calendar.DATE);
-
-		today.set(Calendar.DATE, 1);
-		int first = today.get(Calendar.DAY_OF_WEEK);
-
-		// System.out.println(first);
-		//for (int i = 1; i < first; i++) {System.out.print("\t");}
-
-		int last = today.getActualMaximum(Calendar.DATE);
-
-		for (int i = 2 - first; i < 44 - first; i++) {
-			String dateN = i + "";
-			if (i < 1)
-				dateN = "";
-			else if (last < i)
-				dateN = "";
-
-			//버튼에 예약날짜 비교 기능
-			MyJButton datebtn = new MyJButton(new JButton(dateN));
-			dateList.add(datebtn);
-			calPaneMain.add(datebtn.dateBtn);
-			for (MyJButton myBtn : dateList) {		//없는 date의 버튼 비활성화
-				if(myBtn.dateBtn.getText()==""){
-					myBtn.dateBtn.setEnabled(false);
-				}
-
-			}
-			datebtn.dateBtn.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					resPossibleChk(Integer.parseInt(datebtn.dateBtn.getText()));
-					dateChk = Integer.parseInt(datebtn.dateBtn.getText());
-				}
-			});
-
-		}
+		makeCalendar();
 	}
 	
+
+	//시간버튼 -> 서버데이터와 비교하여 비활성화
 	public void resPossibleChk(int date) {
 
 		for (MyCheckBox myCheckBox : checkBoxList) {
@@ -267,11 +231,7 @@ public class ReservationMain extends JPanel {
 				date);
 
 		for (MyCheckBox myCheckBox : checkBoxList) {
-
 			for (Integer i : checkList) {
-				
-				System.out.println(">>"+i);
-
 				if (myCheckBox.value == i) {
 					myCheckBox.box.setEnabled(false);
 				}
@@ -279,30 +239,93 @@ public class ReservationMain extends JPanel {
 		}
 	}
 
-	//달 변경하는 버튼 수정중
-	class MonthChoiceAct implements ActionListener {
-
+	//달 변경하는 버튼(다음달)
+	class NextMonthAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("들어가니??");
+			System.out.println();
+			
 			if(setMonth>0) {
 				setMonth++;
-				if(setMonth == 12) {
+				if(setMonth == 13) {
 					setMonth = 1;
 				}
 			}
+			nowMonthL.setText(setMonth+"");
 			System.out.println(setMonth);
+			calPaneMain.removeAll();
+			makeCalendar();
+		}
+	}
+	//달 변경하는 버튼(이전달)
+	class PreMonthAct implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println();
+			
+			if(setMonth > nowMonth) {
+				setMonth--;
+				if(setMonth == 13) {
+					setMonth = 1;
+				}
+			}else {
+				return;
+			}
+			nowMonthL.setText(setMonth+"");
+			System.out.println(setMonth);
+			calPaneMain.removeAll();
+			makeCalendar();
 		}
 	}
 
 	public void init(String name) {
 		setVisible(true);
 		roomInfo.setText(name);
-
+	}
+	
+	//달력 만들기
+	public void makeCalendar() {
+		
+		System.out.println("달력생성해라~~~~~~~!!!");
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.MONTH, setMonth-1);
+		int nowM = today.get(Calendar.MONTH);
+		int nowD = today.get(Calendar.DATE);
+	
+		today.set(Calendar.DATE, 1);
+		int first = today.get(Calendar.DAY_OF_WEEK);
+		int last = today.getActualMaximum(Calendar.DATE);
+	
+		for (int i = 2 - first; i < 44 - first; i++) {
+			String dateN = i + "";
+			if (i < 1)
+				dateN = "";
+			else if (last < i)
+				dateN = "";
+	
+			//버튼에 예약날짜 비교 기능
+			MyJButton datebtn = new MyJButton(new JButton(dateN));
+			dateList.add(datebtn);
+			calPaneMain.add(datebtn.dateBtn);
+			for (MyJButton myBtn : dateList) {		//없는 date의 버튼 비활성화
+				if(myBtn.dateBtn.getText()==""){
+					myBtn.dateBtn.setEnabled(false);
+				}
+	
+			}
+			datebtn.dateBtn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					resPossibleChk(Integer.parseInt(datebtn.dateBtn.getText()));
+					dateChk = Integer.parseInt(datebtn.dateBtn.getText());
+				}
+			});
+	
+		}
 		
 	}
-
-
+	
+	//시간을 선택하는 동시에 예약하는 데이터값을 센드할 곳에 저장
 	class AddTimeActionListener implements ActionListener {
 
 		int value;
@@ -319,6 +342,7 @@ public class ReservationMain extends JPanel {
 			System.out.println(value);
 			Calendar cal = Calendar.getInstance();
 			
+			cal.set(Calendar.MONTH, setMonth-1);
 			cal.set(Calendar.DATE, dateChk);
 			cal.set(Calendar.HOUR_OF_DAY, value);
 
