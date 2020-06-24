@@ -9,6 +9,7 @@ import data_p.product_p.TimeData;
 //룸 하나의 여러개의 시간 상품 
 public class RoomProduct extends ProductData {
 
+	public boolean isExit;
 	public Integer personNum;
 	public String userUUID;
 	public ArrayList<Calendar> calendarList = new ArrayList<Calendar>();;
@@ -16,6 +17,7 @@ public class RoomProduct extends ProductData {
 	public RoomProduct(int id, String name, long price, int personNum) {
 		super(id, name, price);
 		this.personNum = personNum;
+		isExit = false;
 	}
 
 	// 날짜 입력
@@ -28,4 +30,9 @@ public class RoomProduct extends ProductData {
 		this.calendarList = calendarList;
 	}
 
+	
+	public void setExit()
+	{
+		isExit = true;
+	}
 }

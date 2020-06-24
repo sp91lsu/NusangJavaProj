@@ -22,6 +22,8 @@ public class AccountDao extends DBProcess {
 		String calumNum = getCalumNum(calumArr.length);
 
 		try {
+			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
+			stmt = con.prepareStatement(query);
 			stmt.setString(1, userData.uuid);
 			stmt.setString(2, userData.name);
 			stmt.setString(3, userData.id);
@@ -30,8 +32,8 @@ public class AccountDao extends DBProcess {
 			stmt.setString(6, userData.phone);
 			stmt.setString(7, userData.cType);
 
-			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
-			rs = stmt.executeQuery(query);
+			
+			rs = stmt.executeQuery();
 			close();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
