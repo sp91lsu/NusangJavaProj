@@ -25,6 +25,7 @@ import java.util.UUID;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
+import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -221,6 +222,16 @@ class MethCloseSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
 		client.close();
+	}
+}
+
+class MethExitSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsExitSyn respacket = (CsExitSyn) packet;
+		
+		
 	}
 }
 

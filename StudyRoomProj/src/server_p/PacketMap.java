@@ -22,7 +22,7 @@ public class PacketMap {
 		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 결제
 		map.put(CsMoveSeatSyn.class, new MethMoveSeatSyn()); // 자리이동
 		map.put(CsCloseSyn.class, new MethCloseSyn()); // 소켓 종료
-		
+		map.put(CsExitSyn.class, new MethExitSyn()); // 소켓 종료
 		map.put(CsUpdateRoomSyn.class, new MethUpdateRoomSyn()); // 룸 정보 업데이
 		map.put(MSCurrMemListSyn.class, new MethCsCurrMemListSyn()); //현재 회원리스트
 
