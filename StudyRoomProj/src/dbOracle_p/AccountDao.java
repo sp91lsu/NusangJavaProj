@@ -93,7 +93,7 @@ public class AccountDao extends DBProcess {
 		
 		
 		for (String str : uuidList) {
-			String s="UUID = "+str;
+			String s="UUID = "+"'"+str+"'";
 			findQuery(ETable.ACCOUNT, "*",s);
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();

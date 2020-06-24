@@ -20,6 +20,7 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SMCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -196,7 +197,7 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 
-		roomDao.mvoeRoomInfo(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
+		roomDao.moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
 		ack = new ScMoveSeatAck(EResult.SUCCESS);
 		client.sendPacket(ack);
 
@@ -217,6 +218,12 @@ class MethExitSyn implements ServerPacketMethod {
 
 		CsExitSyn respacket = (CsExitSyn) packet;
 
+		RoomDao roomDao = new RoomDao();
+		roomDao.exitRoom(respacket.room);
+
+		ScExitAck ack = new ScExitAck(EResult.SUCCESS);
+
+		client.sendPacket(ack);
 	}
 }
 
