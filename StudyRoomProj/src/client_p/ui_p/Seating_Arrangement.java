@@ -14,15 +14,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client_p.ClientNet;
+import client_p.Receivable;
+import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScMoveSeatAck;
 
-public class Seating_Arrangement extends JPanel {
+public class Seating_Arrangement extends JPanel implements Receivable {
 
 	public boolean seatChange = false;
 	static JLabel north_west;
+	int moveSeatId;
 
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
@@ -33,7 +40,7 @@ public class Seating_Arrangement extends JPanel {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(500, 30, 900, 1000);
-		frame.add(new Seating_Arrangement());
+		frame.getContentPane().add(new Seating_Arrangement());
 		frame.setVisible(true);
 	}
 
@@ -185,7 +192,6 @@ public class Seating_Arrangement extends JPanel {
 
 		// 매너존 패널
 		JPanel mannerzone_panel = new JPanel();
-		mannerzone_panel.setBackground(Color.GREEN);
 		mannerzone_panel.setBounds(0, 660, 300, 250);
 		panel_center.add(mannerzone_panel);
 		mannerzone_panel.setLayout(null);
@@ -228,7 +234,6 @@ public class Seating_Arrangement extends JPanel {
 
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
-		normalzone_panel.setBackground(Color.CYAN);
 		normalzone_panel.setBounds(300, 300, 300, 250);
 		panel_center.add(normalzone_panel);
 		normalzone_panel.setLayout(null);
@@ -317,54 +322,79 @@ public class Seating_Arrangement extends JPanel {
 	}
 
 	public void openPage() {
-
 		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
-
 		if (roomProduct != null) {
-
 			for (JButton jButton : all) {
-
 				if (roomProduct.name.equals(jButton.getText())) {
-
 					jButton.setBackground(Color.blue);
 				}
 			}
 		}
 	}
-}
 
-class BtnAct implements ActionListener {
+	public void setBtnColor() {
+		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
+		if (roomProduct != null) {
+			for (JButton jButton : all) {
+				if (roomProduct.name.equals(jButton.getText())) {
+					jButton.setBackground(null);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void receive(PacketBase packet) {
+		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
+		if (ack.eResult == EResult.SUCCESS) {
+			String roomName = DataManager.getInstance().roomMap.get(moveSeatId).name;
+			BaseFrame.getInstance().view("LoginMain");
+			setBtnColor();
+		} else {
 
-	JButton bt;
-
-	public BtnAct(JButton bt) {
-		this.bt = bt;
+		}
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	class BtnAct implements ActionListener {
+		JButton bt;
 
-		for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
+		public BtnAct(JButton bt) {
+			this.bt = bt;
+		}
 
-			if (roomData.name.equals(bt.getText())) {
-				if (!BaseFrame.getInstance().getSeatingArrUI().seatChange)// 좌석이동중이 아닐때
-				{
-					// 페이지 여는 순간 현재 상품 복사
-					BaseFrame.getInstance().roomProduct = roomData;
+		@Override
+		public void actionPerformed(ActionEvent e) {
 
-					if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
-						System.out.println("KIOSK");
-						BaseFrame.getInstance().payment.openPage();
-					} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-						System.out.println("MOBILE");
-						BaseFrame.getInstance().view("ReservationMain");
-						BaseFrame.getInstance().getReservationMain().init(roomData.name);
+			for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
+
+				if (roomData.name.equals(bt.getText())) {
+					if (!BaseFrame.getInstance().getSeatingArrUI().seatChange)// 좌석이동중이 아닐때
+					{
+						// 페이지 여는 순간 현재 상품 복사
+						BaseFrame.getInstance().roomProduct = roomData;
+
+						if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
+							System.out.println("KIOSK");
+							BaseFrame.getInstance().payment.openPage();
+						} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+							System.out.println("MOBILE");
+							BaseFrame.getInstance().view("ReservationMain");
+							BaseFrame.getInstance().getReservationMain().init(roomData.name);
+						}
+
+						BaseFrame.getInstance().payment.resPossibleChk();
+					} else// 좌석이동중일때
+					{
+						for (RoomProduct room : DataManager.getInstance().roomMap.values()) {
+							if (room.name.equals(bt.getText())) {
+								moveSeatId = room.id;
+							}
+						}
+						SeatChangeOkPop frame = new SeatChangeOkPop();
+						CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
+								BaseFrame.getInstance().getUsingRoom(), moveSeatId);
+						ClientNet.getInstance().sendPacket(packet);
 					}
-
-					BaseFrame.getInstance().payment.resPossibleChk();
-				} else// 좌석이동중일때
-				{
-
 				}
 			}
 		}

@@ -1,26 +1,30 @@
 package client_p.ui_p;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SeatChangePop extends JFrame {
 
-	private JPanel contentPane;
-
-	public static void main(String[] args) {
-		SeatChangePop frame = new SeatChangePop();
-	}
-
 	public SeatChangePop() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		setBounds(300, 300, 400, 200);
+		getContentPane().setLayout(null);
+		
+		JLabel msg = new JLabel("이동할 좌석을 클릭해 주세요");
+		msg.setFont(new Font("굴림", Font.PLAIN, 25));
+		msg.setBounds(0, 0, 380, 80);
+		getContentPane().add(msg);
+		
+		JButton okBtn = new JButton("확인");
+		okBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}});
+		okBtn.setBounds(120, 90, 150, 50);
+		getContentPane().add(okBtn);
 		setVisible(true);
 	}
 }

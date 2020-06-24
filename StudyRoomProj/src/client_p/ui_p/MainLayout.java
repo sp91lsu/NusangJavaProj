@@ -86,14 +86,9 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().getSeatingArrUI().seatChange=true;
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-				
-//				for(JButton btn : BaseFrame.getInstance().getSeatingArrUI().all){
-//					if(btn.getText().equals(BaseFrame.getInstance().userData.myReservationList)){
-//						btn.setBackground(Color.red);
-//					}
-//				}
 				BaseFrame.getInstance().getSeatingArrUI().openPage();
 				BaseFrame.getInstance().view("Seating_Arrangement");
+				SeatChangePop frame = new SeatChangePop();
 			}});
 
 		button_6 = new JButton("좌석 연장");
@@ -101,7 +96,6 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_6);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				BaseFrame.getInstance().payment.openPage();
 			}});
 
@@ -142,10 +136,11 @@ public class MainLayout extends JPanel implements Receivable {
 		{
 			button_1.setEnabled(false);//개인룸 이용 버튼 비활성화
 			button_2.setEnabled(false);//단체석 이용버튼 비활성화
+			button_6.setEnabled(true);//좌석 연장 버튼 활성화 
 		}else
 		{
-			button_1.setEnabled(true);
-			button_2.setEnabled(true);
+			button_1.setEnabled(true);//개인룸 이용 버튼 활성화
+			button_2.setEnabled(true);//단체룸 이용 버튼 활성화
 			button_6.setEnabled(false);//좌석 연장 버튼 비활성화 
 		}
 	}

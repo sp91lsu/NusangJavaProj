@@ -18,6 +18,7 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScLoginAck;
+import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
@@ -69,6 +70,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, (Receivable) jPanelArrl.get(5));
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
+		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 
 	}
 
@@ -160,20 +162,25 @@ public class BaseFrame extends JFrame implements Receivable {
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 		Calendar current = Calendar.getInstance();
-		for (RoomProduct product : BaseFrame.getInstance().userData.myReservationList) {
-			for (Calendar cal : product.calendarList) {
+		RoomProduct cRoom = null;
 
+		for (RoomProduct product : BaseFrame.getInstance().userData.myReservationList) {
+			for (int i = 0; i < product.calendarList.size(); i++) {
+				Calendar cal = product.calendarList.get(i);
+
+				System.out.println("------------------");
 				System.out.println(cal.get(Calendar.MONTH));
-				System.out.println(current.get(Calendar.MONTH));
 				System.out.println(cal.get(Calendar.HOUR));
-				System.out.println(current.get(Calendar.HOUR));
 				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
 						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR)) {
-					return product;
+					cRoom = product;
+				} else {
+					product.calendarList.remove(cal);
+					i--;
 				}
 			}
 		}
-		return null;
+		return cRoom;
 	}
 }
 

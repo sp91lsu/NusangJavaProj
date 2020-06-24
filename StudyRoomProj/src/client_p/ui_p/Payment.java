@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import client_p.Receivable;
+import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import javafx.scene.control.CheckBox;
@@ -34,7 +35,9 @@ public class Payment extends JFrame {
 	String current_day = date.format((Calendar.getInstance().getTime()));
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
-
+	JLabel priceLabel;
+	int totPrice = 0;
+	
 	class MyCheckBox {
 		JCheckBox box;
 		int value;
@@ -123,7 +126,7 @@ public class Payment extends JFrame {
 		payButton.setBounds(356, 30, 179, 60);
 		payPane.add(payButton);
 
-		JLabel priceLabel = new JLabel("결제금액     5,000 \uC6D0");
+		priceLabel = new JLabel("결제금액");
 		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		priceLabel.setFont(new Font("굴림", Font.PLAIN, 15));
 		priceLabel.setBounds(37, 30, 265, 60);
@@ -155,12 +158,17 @@ public class Payment extends JFrame {
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
 				timeList.add(cal);
+				totPrice += (int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+				priceLabel.setText(totPrice+"");
 			} else {
 				System.out.println("타임 제거하기");
 				for (Calendar cal1 : timeList) {
 					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
 						timeList.remove(cal1);
-					}
+						totPrice -= (int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+						priceLabel.setText(totPrice+"");
+					
+						}
 				}
 
 			}
@@ -175,7 +183,7 @@ public class Payment extends JFrame {
 	}
 
 	public void resPossibleChk() {
-	
+		totPrice=0;
 
 		for (MyCheckBox myCheckBox : checkBoxList) {
 			myCheckBox.box.setSelected(false);
@@ -194,8 +202,7 @@ public class Payment extends JFrame {
 					myCheckBox.box.setEnabled(false);
 				}
 			}
-			if (myCheckBox.value <= cal.get(Calendar.HOUR_OF_DAY)) {
-				System.out.println("시간 확인함==="+cal.get(Calendar.HOUR_OF_DAY));
+			if (myCheckBox.value < cal.get(Calendar.HOUR_OF_DAY)) {
 				myCheckBox.box.setEnabled(false);		
 			}
 		}
