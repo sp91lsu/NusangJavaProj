@@ -57,6 +57,42 @@ public class AccountDao extends DBProcess {
 		rs.close();
 		return userdata;
 	}
+	
+	public ArrayList<UserData> getAllUserList()throws Exception 
+	{
+		ArrayList<UserData> userList = new ArrayList<UserData>();
+		findQuery(ETable.ACCOUNT, "*");
+		stmt = con.prepareStatement(query);
+
+		rs = stmt.executeQuery();
+
+		while(rs.next())
+		{
+			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
+					rs.getString("phone"), rs.getString("birth"));
+			userList.add(userdata);
+		}
+		rs.close();
+		return userList;
+	}
+	
+	public ArrayList<UserData> getCurrentUserList()throws Exception 
+	{
+		ArrayList<UserData> userList = new ArrayList<UserData>();
+		findQuery(ETable.INVENTORY, "*","startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+		stmt = con.prepareStatement(query);
+		rs = stmt.executeQuery();
+
+		while(rs.next())
+		{
+			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
+					rs.getString("phone"), rs.getString("birth"));
+			userList.add(userdata);
+		}
+		rs.close();
+		return userList;
+	}
+	
 
 	//오늘 현재시간부터 나중 예약한 룸정보 불러오기
 	public ArrayList<RoomProduct> findUserRoom(String uuid) {
