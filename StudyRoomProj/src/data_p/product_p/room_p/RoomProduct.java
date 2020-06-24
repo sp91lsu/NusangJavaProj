@@ -36,7 +36,8 @@ public class RoomProduct extends ProductData {
 
 	public RoomProduct getClone() {
 		RoomProduct clone = new RoomProduct(this.id, this.name, this.price, this.personNum);
-
+		clone.userUUID = userUUID;
+		clone.isExit = isExit;
 		return clone;
 	}
 }
