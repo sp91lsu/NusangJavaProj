@@ -16,14 +16,6 @@ public class LockerMain extends JPanel implements ActionListener {
 
 	ArrayList<JButton> list = new ArrayList<JButton>();
 	
-//	public static void main(String[] args) {
-//		JFrame frame = new JFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setBounds(100, 100, 550, 650);
-//		frame.getContentPane().add(new LockerMain());
-//		frame.setVisible(true);
-//	}
-	
 	public LockerMain() {
 		setLayout(null);
 		
@@ -125,7 +117,6 @@ public class LockerMain extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton jbt = (JButton)e.getSource();
 		
 		for (JButton jbtt : list) {
 			if(e.getSource().equals(jbtt)){

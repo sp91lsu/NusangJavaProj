@@ -124,7 +124,6 @@ public class Payment extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				BaseFrame.getInstance().paymentPop.setVisible(true);
-				;
 			}
 		});
 		payButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));

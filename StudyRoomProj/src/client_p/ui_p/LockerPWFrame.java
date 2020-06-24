@@ -13,15 +13,11 @@ import javax.swing.SwingConstants;
 public class LockerPWFrame extends JFrame implements ActionListener{
 
 	private JPasswordField passwordField;
-	
-//	public static void main(String[] args) {
-//		LockerPWFrame window = new LockerPWFrame();
-//	}
 
 	public LockerPWFrame() {
 		setBounds(100, 100, 500, 450);
 		getContentPane().setLayout(null);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField.setFont(new Font("±º∏≤", Font.BOLD, 40));
@@ -91,6 +87,7 @@ public class LockerPWFrame extends JFrame implements ActionListener{
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LockerCalcFrame lc = new LockerCalcFrame();
+				dispose();
 			}});
 		
 		JButton button_9 = new JButton("√Îº“");
@@ -108,6 +105,7 @@ public class LockerPWFrame extends JFrame implements ActionListener{
 		
 		setVisible(true);
 	}
+	
 	String text = "";
 
 	@Override
