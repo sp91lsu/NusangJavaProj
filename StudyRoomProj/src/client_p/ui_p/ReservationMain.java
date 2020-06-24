@@ -45,6 +45,7 @@ public class ReservationMain extends JPanel {
 	JLabel nowMonthL;
 	JPanel calPaneMain;
 	JLabel yearInfoL;
+	ArrayList<String> textList = new ArrayList<String>();
 	
 	class MyCheckBox {
 		JCheckBox box;
@@ -372,12 +373,16 @@ public class ReservationMain extends JPanel {
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
 				timeList.add(cal);
+				textList.add(box.getText());
+				timeInfo.setText(textList.toString());
 				
 			} else {
 				System.out.println("타임 제거하기");
 				for (Calendar cal1 : timeList) {
 					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
 						timeList.remove(cal1);
+						textList.remove(box.getText());
+						timeInfo.setText(textList.toString());
 					}
 				}
 
