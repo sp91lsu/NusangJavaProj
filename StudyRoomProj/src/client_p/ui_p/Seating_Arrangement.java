@@ -202,31 +202,31 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		label_manner.setBounds(120, 115, 70, 20);
 		mannerzone_panel.add(label_manner);
 
-		JButton btnM_1 = new JButton("M1");
+		JButton btnM_1 = new JButton("매너존-1");
 		btnM_1.addActionListener(new BtnAct(btnM_1));
 		btnM_1.setBounds(0, 0, 100, 90);
 		mannerzone_panel.add(btnM_1);
 		solo.add(btnM_1);
 
-		JButton btnM_2 = new JButton("M2");
+		JButton btnM_2 = new JButton("매너존-2");
 		btnM_2.addActionListener(new BtnAct(btnM_2));
 		btnM_2.setBounds(100, 0, 100, 90);
 		mannerzone_panel.add(btnM_2);
 		solo.add(btnM_2);
 
-		JButton btnM_3 = new JButton("M3");
+		JButton btnM_3 = new JButton("매너존-3");
 		btnM_3.addActionListener(new BtnAct(btnM_3));
 		btnM_3.setBounds(0, 160, 100, 90);
 		mannerzone_panel.add(btnM_3);
 		solo.add(btnM_3);
 
-		JButton btnM_4 = new JButton("M4");
+		JButton btnM_4 = new JButton("매너존-4");
 		btnM_4.addActionListener(new BtnAct(btnM_4));
 		btnM_4.setBounds(100, 160, 100, 90);
 		mannerzone_panel.add(btnM_4);
 		solo.add(btnM_4);
 
-		JButton btnM_5 = new JButton("M5");
+		JButton btnM_5 = new JButton("매너존-5");
 		btnM_5.addActionListener(new BtnAct(btnM_5));
 		btnM_5.setBounds(200, 160, 100, 90);
 		mannerzone_panel.add(btnM_5);
@@ -243,37 +243,37 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		label_normal.setBounds(120, 115, 70, 20);
 		normalzone_panel.add(label_normal);
 
-		JButton btnN_1 = new JButton("1");
+		JButton btnN_1 = new JButton("개인석-1");
 		btnN_1.addActionListener(new BtnAct(btnN_1));
 		btnN_1.setBounds(0, 0, 100, 90);
 		normalzone_panel.add(btnN_1);
 		solo.add(btnN_1);
 
-		JButton btnN_2 = new JButton("2");
+		JButton btnN_2 = new JButton("개인석-2");
 		btnN_2.addActionListener(new BtnAct(btnN_2));
 		btnN_2.setBounds(100, 0, 100, 90);
 		normalzone_panel.add(btnN_2);
 		solo.add(btnN_2);
 
-		JButton btnN_3 = new JButton("3");
+		JButton btnN_3 = new JButton("개인석-3");
 		btnN_3.addActionListener(new BtnAct(btnN_3));
 		btnN_3.setBounds(200, 0, 100, 90);
 		normalzone_panel.add(btnN_3);
 		solo.add(btnN_3);
 
-		JButton btnN_4 = new JButton("4");
+		JButton btnN_4 = new JButton("개인석-4");
 		btnN_4.addActionListener(new BtnAct(btnN_4));
 		btnN_4.setBounds(0, 160, 100, 90);
 		normalzone_panel.add(btnN_4);
 		solo.add(btnN_4);
 
-		JButton btnN_5 = new JButton("5");
+		JButton btnN_5 = new JButton("개인석-5");
 		btnN_5.addActionListener(new BtnAct(btnN_5));
 		btnN_5.setBounds(100, 160, 100, 90);
 		normalzone_panel.add(btnN_5);
 		solo.add(btnN_5);
 
-		JButton btnN_6 = new JButton("6");
+		JButton btnN_6 = new JButton("개인석-6");
 		btnN_6.addActionListener(new BtnAct(btnN_6));
 		btnN_6.setBounds(200, 160, 100, 90);
 		normalzone_panel.add(btnN_6);
