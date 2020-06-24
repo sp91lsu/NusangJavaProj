@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client_p.ClientNet;
+import client_p.packet_p.syn_p.CsChatConnectSyn;
+import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
@@ -317,15 +320,10 @@ public class Seating_Arrangement extends JPanel {
 	}
 
 	public void openPage() {
-
 		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
-
 		if (roomProduct != null) {
-
 			for (JButton jButton : all) {
-
 				if (roomProduct.name.equals(jButton.getText())) {
-
 					jButton.setBackground(Color.blue);
 				}
 			}
@@ -334,8 +332,8 @@ public class Seating_Arrangement extends JPanel {
 }
 
 class BtnAct implements ActionListener {
-
 	JButton bt;
+	int moveSeatId;
 
 	public BtnAct(JButton bt) {
 		this.bt = bt;
@@ -364,7 +362,15 @@ class BtnAct implements ActionListener {
 					BaseFrame.getInstance().payment.resPossibleChk();
 				} else// 좌석이동중일때
 				{
-
+					for (RoomProduct room : DataManager.getInstance().roomMap.values()) {
+						if (room.name.equals(bt.getText())) {
+							moveSeatId = room.id;
+						}
+					}
+					SeatChangeOkPop frame = new SeatChangeOkPop();
+					CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid, 
+							BaseFrame.getInstance().roomProduct, moveSeatId);
+					ClientNet.getInstance().sendPacket(packet);
 				}
 			}
 		}
