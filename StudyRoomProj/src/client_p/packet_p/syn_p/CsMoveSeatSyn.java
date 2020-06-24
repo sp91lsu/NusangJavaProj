@@ -7,9 +7,9 @@ public class CsMoveSeatSyn extends PacketBase {
 
 	public String userUUID;
 	public RoomProduct originRoom;
-	public String moveSeatID;
+	public int moveSeatID;
 
-	CsMoveSeatSyn(String userUUID, RoomProduct originRoom, String moveSeatID) {
+	public CsMoveSeatSyn(String userUUID, RoomProduct originRoom, int moveSeatID) {
 		this.userUUID = userUUID;
 		this.originRoom = originRoom;
 		this.moveSeatID = moveSeatID;
