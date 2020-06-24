@@ -2,6 +2,7 @@ package manager_p;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -28,15 +29,15 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.MSCurrMemListSyn;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
+import data_p.user_p.UserData;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.SMCurrMemListAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
-import server_p.packet_p.syn_p.ScChatSyn;
-import java.awt.Color;
 
 public class managerWindow extends JFrame implements Receivable {
 	private JTable table_1;
@@ -56,12 +57,15 @@ public class managerWindow extends JFrame implements Receivable {
 	private JScrollPane scrollPane_3_1;
 	private JPanel panel;
 	private JTable table_2;
+	private String headerCurrMem[];
+	private String contentsCurrMem[][];
 	
 	public static void main(String[] args) {
 		managerWindow mww = new managerWindow();
 		PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
 		PacketMap.getInstance().map.put(CsChatSyn.class, mww);
+		PacketMap.getInstance().map.put(MSCurrMemListSyn.class, mww);
 		ClientNet.getInstance().start();
 		
 	}
@@ -112,10 +116,13 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_lblNewLabel.gridy = 1;
 		panel_7.add(lblNewLabel, gbc_lblNewLabel);
 
+		//회원관리 - 현재 이용중 고객 버튼
 		JButton btnNewButton = new JButton("\uD604\uC7AC \uC774\uC6A9\uC911 \uACE0\uAC1D");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_panel_6.show(panel_6, "scrollPane_3");
+				MSCurrMemListSyn packet = new MSCurrMemListSyn();
+				ClientNet.getInstance().sendPacket(packet);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -164,14 +171,14 @@ public class managerWindow extends JFrame implements Receivable {
 		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		panel_6.add("scrollPane_3", scrollPane_3);
 
-		String header3[] = { "이용석", "이용객", "금액" };
-		String contents3[][] = { { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, };
-		table_1 = new JTable(contents3, header3);
+		headerCurrMem = new String[] { "이름", "ID", "휴대폰번호", "생년월일" };
+//		contentsCurrMem = new String[][] { { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
+//				{ "dfeb", "5", "234767" }, };
+		table_1 = new JTable(contentsCurrMem, headerCurrMem);
 		table_1.setRowHeight(27);
 		table_1.setFillsViewportHeight(true);
 		table_1.setFont(new Font("새굴림", Font.PLAIN, 25));
@@ -914,6 +921,17 @@ public class managerWindow extends JFrame implements Receivable {
 		if(packet.getClass() == ScChatBroadCast.class) {
 			ScChatBroadCast scChat = (ScChatBroadCast)packet;
 			textArea.setText(textArea.getText()+"\n"+scChat.getText());
+		}
+		
+		//현재 이용중 고객
+		if(packet.getClass() == SMCurrMemListAck.class) {
+			SMCurrMemListAck currAck = (SMCurrMemListAck)packet;
+			for (int i = 0; i < currAck.userList.size(); i++) {
+				contentsCurrMem[i][0] = currAck.userList.get(i).name;
+				contentsCurrMem[i][1] = currAck.userList.get(i).id;
+				contentsCurrMem[i][2] = currAck.userList.get(i).phone;
+				contentsCurrMem[i][3] = currAck.userList.get(i).birth;
+			}
 		}
 		
 	}
