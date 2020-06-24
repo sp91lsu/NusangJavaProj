@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JLabel;
 
-class SetNowTime extends Thread 
+public class SetNowTime extends Thread 
 {
 	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
 	JLabel lb;

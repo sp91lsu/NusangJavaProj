@@ -1,9 +1,11 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import client_p.Receivable;
 import client_p.packet_p.ack_p.CsChatConnectAck;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
+import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
@@ -86,9 +89,14 @@ public class MainLayout extends JPanel implements Receivable {
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().getSeatingArrUI().seatChange=true;
-				System.out.println("좌석이동중이냐?"+BaseFrame.getInstance().getSeatingArrUI().seatChange);
-				System.out.println(BaseFrame.getInstance().roomProduct.name);
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
+				
+//				for(JButton btn : BaseFrame.getInstance().getSeatingArrUI().all){
+//					if(btn.getText().equals(BaseFrame.getInstance().userData.myReservationList)){
+//						btn.setBackground(Color.red);
+//					}
+//				}
+				BaseFrame.getInstance().getSeatingArrUI().openPage();
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}
 		});
@@ -136,6 +144,15 @@ public class MainLayout extends JPanel implements Receivable {
 		add(lblNewLabel);
 	}
 
+	public void openPage()
+	{
+		if(BaseFrame.getInstance().getUsingRoom() != null)
+		{
+			//단체석 이용버튼 비활성화
+			//개인룸 이용 버튼 비활성화
+		}
+	}
+	
 	@Override
 	public void receive(PacketBase packet) {
 		ScChatConnectAck ack = (ScChatConnectAck) packet;

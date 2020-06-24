@@ -20,14 +20,14 @@ import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 
 public class Seating_Arrangement extends JPanel {
-	
-	public boolean seatChange=false;
+
+	public boolean seatChange = false;
 	static JLabel north_west;
 
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
-	ArrayList<JButton> group = new ArrayList<JButton>();//단체석
-	ArrayList<JButton> solo = new ArrayList<JButton>();//개인석
-	ArrayList<JButton> all = new ArrayList<JButton>();//전체
+	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
+	ArrayList<JButton> solo = new ArrayList<JButton>();// 개인석
+	ArrayList<JButton> all = new ArrayList<JButton>();// 전체
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -53,12 +53,13 @@ public class Seating_Arrangement extends JPanel {
 		panel_north.add(north_east, BorderLayout.EAST);
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				seatChange=false;
-				System.out.println("좌석이동중이냐?"+seatChange);
+				seatChange = false;
+				System.out.println("좌석이동중이냐?" + seatChange);
 				BaseFrame.getInstance().view("MainLayout");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(true);
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(true);
-			}});
+			}
+		});
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
@@ -299,16 +300,35 @@ public class Seating_Arrangement extends JPanel {
 		SetNowTime now_time = new SetNowTime(north_west);
 		now_time.start();
 		setVisible(true);
+		all.addAll(solo);
+		all.addAll(group);
 	}
 
-	public void group_state(boolean state) {//그룹버튼 활성/비활성
+	public void group_state(boolean state) {// 그룹버튼 활성/비활성
 		for (JButton button : group) {
 			button.setEnabled(state);
 		}
 	}
-	public void solo_state(boolean state) {//그룹버튼 활성/비활성
+
+	public void solo_state(boolean state) {// 그룹버튼 활성/비활성
 		for (JButton button : solo) {
 			button.setEnabled(state);
+		}
+	}
+
+	public void openPage() {
+
+		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
+
+		if (roomProduct != null) {
+
+			for (JButton jButton : all) {
+
+				if (roomProduct.name.equals(jButton.getText())) {
+
+					jButton.setBackground(Color.blue);
+				}
+			}
 		}
 	}
 }
@@ -327,11 +347,11 @@ class BtnAct implements ActionListener {
 		for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
 
 			if (roomData.name.equals(bt.getText())) {
-				if(!BaseFrame.getInstance().getSeatingArrUI().seatChange)//좌석이동중이 아닐때
+				if (!BaseFrame.getInstance().getSeatingArrUI().seatChange)// 좌석이동중이 아닐때
 				{
 					// 페이지 여는 순간 현재 상품 복사
 					BaseFrame.getInstance().roomProduct = roomData;
-					
+
 					if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 						System.out.println("KIOSK");
 						BaseFrame.getInstance().payment.openPage();
@@ -340,12 +360,11 @@ class BtnAct implements ActionListener {
 						BaseFrame.getInstance().view("ReservationMain");
 						BaseFrame.getInstance().getReservationMain().init(roomData.name);
 					}
-					
+
 					BaseFrame.getInstance().payment.resPossibleChk();
-				}
-				else//좌석이동중일때
+				} else// 좌석이동중일때
 				{
-					
+
 				}
 			}
 		}

@@ -14,19 +14,18 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.Receivable;
-import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
-import server_p.packet_p.syn_p.ScChatSyn;
 
 public class LoginMain extends JPanel implements Receivable {
 
 	private JTextField idTextF;
 	private JPasswordField passwordField;
+	CheckRoomInfo chkroominfo;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -108,7 +107,11 @@ public class LoginMain extends JPanel implements Receivable {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
 				passwordField.setText("");
-				BaseFrame.getInstance().view("MainLayout");
+				
+				BaseFrame.getInstance().openMainLayout().openPage();
+				
+				chkroominfo = new CheckRoomInfo();
+				chkroominfo.start();
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 
 				BaseFrame.getInstance().view("Seating_Arrangement");
