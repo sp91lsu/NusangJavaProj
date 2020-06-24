@@ -1,5 +1,6 @@
 package server_p;
 
+import server_p.packet_p.ack_p.SMCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
@@ -27,6 +28,7 @@ import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
+import client_p.packet_p.syn_p.MSCurrMemListSyn;
 import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.DataManager;
@@ -231,6 +233,31 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 			e.printStackTrace();
 		}
 
+	}
+}
+
+class MethCsCurrMemListSyn implements ServerPacketMethod {
+
+	@Override
+	public void receive(SocketClient client, PacketBase packet) {
+		MSCurrMemListSyn resPacket = (MSCurrMemListSyn) packet;
+
+		String managerIp = "/192.168.100.27";
+		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+
+		SMCurrMemListAck toMcurrMLAck = null;
+		AccountDao accountDao = new AccountDao();
+		try {
+			if (sc != null) {
+				toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
+			} else {
+				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		sc.sendPacket(toMcurrMLAck);
 	}
 }
 
