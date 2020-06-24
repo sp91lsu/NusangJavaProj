@@ -80,10 +80,24 @@ public class AccountDao extends DBProcess {
 	
 	public ArrayList<UserData> getCurrentUserList()throws Exception 
 	{
+		ArrayList<String> uuidList = new ArrayList<String>();
 		ArrayList<UserData> userList = new ArrayList<UserData>();
-		findQuery(ETable.INVENTORY, "*","startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+		findQuery(ETable.INVENTORY, "UUID","startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 		stmt = con.prepareStatement(query);
 		rs = stmt.executeQuery();
+
+		while(rs.next())
+		{
+			uuidList.add(rs.getString("uuid"));
+		}
+		
+		
+		for (String str : uuidList) {
+			String s="UUID = "+str;
+			findQuery(ETable.ACCOUNT, "*",s);
+			stmt = con.prepareStatement(query);
+			rs = stmt.executeQuery();
+		}
 
 		while(rs.next())
 		{
@@ -91,6 +105,7 @@ public class AccountDao extends DBProcess {
 					rs.getString("phone"), rs.getString("birth"));
 			userList.add(userdata);
 		}
+		
 		rs.close();
 		return userList;
 	}
