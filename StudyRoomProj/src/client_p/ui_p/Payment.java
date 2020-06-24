@@ -175,6 +175,7 @@ public class Payment extends JFrame {
 	}
 
 	public void resPossibleChk() {
+	
 
 		for (MyCheckBox myCheckBox : checkBoxList) {
 			myCheckBox.box.setSelected(false);
@@ -193,7 +194,12 @@ public class Payment extends JFrame {
 					myCheckBox.box.setEnabled(false);
 				}
 			}
+			if (myCheckBox.value <= cal.get(Calendar.HOUR_OF_DAY)) {
+				System.out.println("시간 확인함==="+cal.get(Calendar.HOUR_OF_DAY));
+				myCheckBox.box.setEnabled(false);		
+			}
 		}
+		
 	}
 
 	public void openPage() {
