@@ -37,6 +37,7 @@ public class Payment extends JFrame {
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	JLabel priceLabel;
 	JComboBox personCntChoice;
+	JButton payButton;
 	int totPrice = 0;
 
 	class MyCheckBox {
@@ -118,7 +119,7 @@ public class Payment extends JFrame {
 		MainPane.add(payPane);
 		payPane.setLayout(null);
 
-		JButton payButton = new JButton("결          제");
+		payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
@@ -129,6 +130,7 @@ public class Payment extends JFrame {
 		payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		payButton.setBounds(165, 25, 179, 83);
 		payPane.add(payButton);
+		payButton.setEnabled(false);
 		personCntChoice = new JComboBox(personCnt);
 		personCntChoice.setBounds(24, 40, 74, 45);
 		personCntChoice.setSelectedIndex(0);
@@ -148,6 +150,8 @@ public class Payment extends JFrame {
 				dispose();
 				priceLabel.setText("이용료: 0");
 				personCntChoice.setSelectedIndex(0);
+				payButton.setEnabled(false);
+				timeList.clear();
 				
 
 			}
@@ -181,18 +185,23 @@ public class Payment extends JFrame {
 				timeList.add(cal);
 				totPrice += (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
 				priceLabel.setText(totPrice + "");
+				payButton.setEnabled(true);
 			} else {
 				System.out.println("타임 제거하기");
-				for (Calendar cal1 : timeList) {
+				
+				for (int i = 0; i < timeList.size(); i++) {
+					Calendar cal1 = timeList.get(i);
 					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
 						timeList.remove(cal1);
 						totPrice -= (int) DataManager.getInstance().roomMap
 								.get(BaseFrame.getInstance().roomProduct.id).price;
 						priceLabel.setText(totPrice + "");
-
+						
 					}
 				}
-
+				if(timeList.isEmpty()) {
+					payButton.setEnabled(false);
+				}
 			}
 		}
 	}
