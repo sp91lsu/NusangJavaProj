@@ -18,6 +18,7 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScExitAck;
 
 public class MainLayout extends JPanel implements Receivable {
 
@@ -147,14 +148,25 @@ public class MainLayout extends JPanel implements Receivable {
 	
 	@Override
 	public void receive(PacketBase packet) {
-		ScChatConnectAck ack = (ScChatConnectAck) packet;
-		if (ack.eResult == EResult.SUCCESS) {
+		if(packet.getClass() == ScChatConnectAck.class) {
+			ScChatConnectAck ack = (ScChatConnectAck) packet;
+			if (ack.eResult == EResult.SUCCESS) {
 
-			BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
-			BaseFrame.getInstance().view("ClientChatFrame");
+				BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
+				BaseFrame.getInstance().view("ClientChatFrame");
 
-		} else {
-			System.out.println("거절당함");
+			} else {
+				System.out.println("거절당함");
+			}
+		}else if(packet.getClass() == ScExitAck.class) {
+			ScExitAck resPacket = (ScExitAck) packet;
+			if (resPacket.eResult == EResult.SUCCESS) {
+				BaseFrame.getInstance().view("LoginMain");
+			} else if (resPacket.eResult == EResult.FAIL) {
+				System.out.println("퇴실 실패");
+			}
 		}
+		
+		
 	}
 }

@@ -17,6 +17,7 @@ import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -71,6 +72,8 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, (Receivable) jPanelArrl.get(5));
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
+		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
+
 
 	}
 
@@ -172,7 +175,8 @@ public class BaseFrame extends JFrame implements Receivable {
 				System.out.println(cal.get(Calendar.MONTH));
 				System.out.println(cal.get(Calendar.HOUR));
 				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR)) {
+						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR)
+						&& !product.isExit) {
 					cRoom = product;
 				} else {
 					product.calendarList.remove(cal);

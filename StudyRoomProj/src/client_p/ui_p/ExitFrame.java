@@ -11,11 +11,12 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsExitSyn;
+import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScExitAck;
 
-public class ExitFrame extends JFrame implements Receivable {
+public class ExitFrame extends JFrame{
 
 	public ExitFrame() {
 		setBounds(100, 100, 450, 400);
@@ -34,7 +35,9 @@ public class ExitFrame extends JFrame implements Receivable {
 		okButton.setBounds(38, 227, 162, 70);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsExitSyn packet = new CsExitSyn(BaseFrame.getInstance().getUsingRoom());
+				RoomProduct room = BaseFrame.getInstance().getUsingRoom();
+				room.isExit = true;
+				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
 				BaseFrame.getInstance().view("LoginMain");
@@ -57,13 +60,4 @@ public class ExitFrame extends JFrame implements Receivable {
 		setVisible(true);
 	}
 
-	@Override
-	public void receive(PacketBase packet) {
-		ScExitAck resPacket = (ScExitAck) packet;
-		if (resPacket.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().view("MainLayout");
-		} else if (resPacket.eResult == EResult.FAIL) {
-			System.out.println("Επ½Η ½ΗΖΠ");
-		}
-	}
 }
