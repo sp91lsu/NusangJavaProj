@@ -297,11 +297,7 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-<<<<<<< HEAD
-				toMcurrMLAck = new SmCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
-=======
-			toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
->>>>>>> 9ff0fecf4211ea49cf73ec71919f66b88553f781
+			toMcurrMLAck = new SmCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -323,11 +319,11 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
-		SmAllMemListAck Ack = null;
+		SmAllMemListAck ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-			Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
+			ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -335,7 +331,7 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 			e.printStackTrace();
 		}
 
-		client.sendPacket(Ack);
+		client.sendPacket(ack);
 	}
 }
 
@@ -345,35 +341,27 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
-<<<<<<< HEAD
 		
 		String managerIp = "/127.0.0.1";
 		SocketClient mc = MyServer.getInstance().findClient(managerIp);
 		
-=======
-
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
-
->>>>>>> 9ff0fecf4211ea49cf73ec71919f66b88553f781
-		SmMemSearchAck Ack = null;
+		SmMemSearchAck ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
 			if (mc != null) {
-			Ack = new SmMemSearchAck(EResult.SUCCESS, accountDao.getAllUserList());
+				ack = new SmMemSearchAck(EResult.SUCCESS, accountDao.getAllUserList());
 			} else {
-				Ack = new SmMemSearchAck(EResult.FAIL, accountDao.getAllUserList());
+				ack = new SmMemSearchAck(EResult.FAIL, accountDao.getAllUserList());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
 		
-		mc.sendPacket(Ack);
-=======
+		mc.sendPacket(ack);
 
-		client.sendPacket(Ack);
->>>>>>> 9ff0fecf4211ea49cf73ec71919f66b88553f781
+//		client.sendPacket(ack);
 	}
 }
 
