@@ -19,7 +19,7 @@ import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.SMCurrMemListAck;
+import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScExitAck;
@@ -238,6 +238,23 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 		try {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+			client.sendPacket(roomCast);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}
+
+//전체 룸정보 관리자로
+class MethMsGiveMeAllRoomSyn implements ServerPacketMethod {
+	
+	public void receive(SocketClient client, PacketBase packet) {
+		RoomDao roomDao = new RoomDao();
+		
+		try {
+			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
 			String managerIp = "/192.168.100.27";
 			SocketClient mc = MyServer.getInstance().findClient(managerIp);
 			if(mc != null)
@@ -249,7 +266,7 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
 }
 
@@ -263,11 +280,11 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
-		SMCurrMemListAck toMcurrMLAck = null;
+		SmCurrMemListAck toMcurrMLAck = null;
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-				toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
+				toMcurrMLAck = new SmCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -312,22 +329,22 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
 		
-//		String managerIp = "/192.168.100.27";
-//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+		String managerIp = "/127.0.0.1";
+		SocketClient mc = MyServer.getInstance().findClient(managerIp);
 		
 		SmMemSearchAck Ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
-//			if (sc != null) {
+			if (mc != null) {
 			Ack = new SmMemSearchAck(EResult.SUCCESS, accountDao.getAllUserList());
-//			} else {
-//				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
-//			}
+			} else {
+				Ack = new SmMemSearchAck(EResult.FAIL, accountDao.getAllUserList());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		client.sendPacket(Ack);
+		mc.sendPacket(Ack);
 	}
 }
 

@@ -8,11 +8,11 @@ import data_p.user_p.UserData;
 import packetBase_p.EResult;
 import packetBase_p.ResultPacketBase;
 
-public class SMCurrMemListAck extends ResultPacketBase {
+public class SmCurrMemListAck extends ResultPacketBase {
 
 	public ArrayList<UserData> userList;
 
-	public SMCurrMemListAck(EResult eResult, ArrayList<UserData> userList) {
+	public SmCurrMemListAck(EResult eResult, ArrayList<UserData> userList) {
 		super(eResult);
 		this.userList = userList;
 	}
