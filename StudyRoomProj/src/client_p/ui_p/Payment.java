@@ -151,7 +151,6 @@ public class Payment extends JFrame {
 				personCntChoice.setSelectedIndex(0);
 				payButton.setEnabled(false);
 				timeList.clear();
-				
 
 			}
 		});
@@ -169,7 +168,7 @@ public class Payment extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JCheckBox box = (JCheckBox) e.getSource();
+			JCheckBox cBox = (JCheckBox) e.getSource();
 
 			System.out.println(value);
 
@@ -180,27 +179,51 @@ public class Payment extends JFrame {
 			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
 			// value, 0);
 
-			if (box.isSelected()) {
+			if (cBox.isSelected()) {
 				System.out.println("타임 추가하기");
 				timeList.add(cal);
-				totPrice += (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+				totPrice = timeList.size()
+						* (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
 				priceLabel.setText(totPrice + "");
 				payButton.setEnabled(true);
+				for (int i = 0; i < checkBoxList.size(); i++) {
+					MyCheckBox mBox = checkBoxList.get(i);
+					if (mBox.box == cBox) {
+						mBox.box.setEnabled(true);
+						if (i + 1 < checkBoxList.size()) {
+							checkBoxList.get(i + 1).box.setEnabled(true);
+						}
+						i++;
+					} else {
+						mBox.box.setEnabled(false);
+					}
+				}
 			} else {
 				System.out.println("타임 제거하기");
-				
 				for (int i = 0; i < timeList.size(); i++) {
 					Calendar cal1 = timeList.get(i);
 					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
 						timeList.remove(cal1);
-						totPrice -= (int) DataManager.getInstance().roomMap
+						totPrice = timeList.size() * (int) DataManager.getInstance().roomMap
 								.get(BaseFrame.getInstance().roomProduct.id).price;
 						priceLabel.setText(totPrice + "");
-						
 					}
 				}
-				if(timeList.isEmpty()) {
+				if (timeList.isEmpty()) {
 					payButton.setEnabled(false);
+				}
+				Calendar cal2 = Calendar.getInstance();
+				for (int i = checkBoxList.size() - 1; i > cal2.get(Calendar.HOUR_OF_DAY) + 1; i--) {
+					MyCheckBox mBox = checkBoxList.get(i);
+					if (mBox.box == cBox) {
+						// mBox.box.setEnabled(true);
+						if (i - 1 >= 0) {
+							checkBoxList.get(i - 1).box.setEnabled(true);
+							i--;
+						}
+					} else {
+						mBox.box.setEnabled(false);
+					}
 				}
 			}
 		}
@@ -210,34 +233,27 @@ public class Payment extends JFrame {
 
 	public void updateRoomInfo() {
 		// 서버에서 받은 룸정보
-
 	}
 
 	public void resPossibleChk() {
 		totPrice = 0;
-
 		for (MyCheckBox myCheckBox : checkBoxList) {
 			myCheckBox.box.setSelected(false);
 			myCheckBox.box.setEnabled(true);
 		}
-
 		Calendar cal = Calendar.getInstance();
 		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(cal.get(Calendar.MONTH),
 				cal.get(Calendar.DATE));
-
 		for (MyCheckBox myCheckBox : checkBoxList) {
-
 			for (Integer i : checkList) {
-
 				if (myCheckBox.value == i) {
 					myCheckBox.box.setEnabled(false);
 				}
 			}
-			if (myCheckBox.value < cal.get(Calendar.HOUR_OF_DAY)) {
+			if (myCheckBox.value <= cal.get(Calendar.HOUR_OF_DAY)) {
 				myCheckBox.box.setEnabled(false);
 			}
 		}
-
 	}
 
 	public void openPage() {
