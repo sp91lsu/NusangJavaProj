@@ -17,13 +17,13 @@ import data_p.user_p.UserData;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScBuyLockerAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
@@ -74,7 +74,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
-		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
+		PacketMap.getInstance().map.put(ScBuyLockerCast.class, (Receivable) this);
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -99,9 +99,9 @@ public class BaseFrame extends JFrame implements Receivable {
 	         ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
 	         roomInfoList = roomInfoCast.roomList;
 	      }
-	      else if (packet.getClass()==ScBuyLockerAck.class)
+	      else if (packet.getClass()==ScBuyLockerCast.class)
 	      {
-	         ScBuyLockerAck packetAck = (ScBuyLockerAck)packet;
+	    	  ScBuyLockerCast packetAck = (ScBuyLockerCast)packet;
 	         if(packetAck.eResult==EResult.SUCCESS) {
 	            BaseFrame.getInstance().view("LoginMain");
 	         }
