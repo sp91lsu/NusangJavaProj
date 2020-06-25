@@ -63,7 +63,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		addToBaseFrame(new ReservationMain());
 		addToBaseFrame(new ClientChatFrame());
 		setBackground(Color.GRAY);
-		setBounds(510, 80, 900, 1000);
+		setBounds(510, 140, 900, 800);
 		setVisible(true);
 		view("LoginMain");
 		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) jPanelArrl.get(0)); // ·Î±×ÀÎ
