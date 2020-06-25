@@ -19,12 +19,12 @@ import data_p.product_p.room_p.RoomProduct;
 public class TimeFrame extends JFrame {
 
 	String id = BaseFrame.getInstance().userData.id;
-	String phoneNum = "01012341234";
-	String seatingName = "»þ¿ö·ë";
-	String usingTime = "01:20";
-	String remaingTime = "00:40";
+	String phoneNum = BaseFrame.getInstance().userData.phone;
+	String seatingName = BaseFrame.getInstance().getUsingRoom().name;
+	String remaingTime = showRemainTime();
 
 	public TimeFrame() {
+		
 		setBounds(100, 100, 500, 500);
 		getContentPane().setLayout(null);
 
@@ -35,7 +35,7 @@ public class TimeFrame extends JFrame {
 		getContentPane().add(titleLabel);
 
 		JLabel lblNewLabel = new JLabel("<html>ÀÌ¿ëÀÚ ID : " + id + "<br>ÈÞ´ëÆù¹øÈ£ : " + phoneNum + "<br>ÀÌ¿ë ÁßÀÎ ÁÂ¼®/·ë : "
-				+ seatingName + "<br>ÀÌ¿ë ½Ã°£ : " + usingTime + "<br>ÀÜ¿© ½Ã°£ : " + remaingTime + "<html>");
+				+ seatingName +"<br>ÀÜ¿© ½Ã°£ : " + remaingTime + "<html>");
 		showRemainTime();
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 24));
@@ -58,10 +58,13 @@ public class TimeFrame extends JFrame {
 		setVisible(true);
 	}
 
-	public void showRemainTime() {
+	public String showRemainTime() {
 
 		long remain = BaseFrame.getInstance().getTodayRemainTime();
-		System.out.println(TimeUnit.MILLISECONDS.toMinutes(remain));
+		long remainHour = TimeUnit.MILLISECONDS.toHours(remain);
+		long remainMinute = TimeUnit.MILLISECONDS.toMinutes(remain)*10/60;
+		
+		return remainHour + "½Ã°£" + remainMinute + "ºÐ";
 
 	}
 
