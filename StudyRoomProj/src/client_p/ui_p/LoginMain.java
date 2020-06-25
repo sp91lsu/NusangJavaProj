@@ -133,7 +133,7 @@ public class LoginMain extends JPanel implements Receivable {
 				chkroominfo = new CheckRoomInfo();
 				chkroominfo.start();
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-
+				BaseFrame.getInstance().getSeatingArrUI().north_east.setEnabled(false);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}
 		}
