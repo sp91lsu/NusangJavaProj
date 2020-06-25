@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -284,12 +285,13 @@ public class Payment extends JFrame {
 	
 	public void updatePayment()
 	{
-		JDialog jd = new JDialog();
-		jd.setLayout(null);
-		jd.setBounds(300, 300, 200, 200);
-		JLabel jb = new JLabel("좌석현황이 업데이트되었습니다.");
-		jd.add(jb);
-		jd.setVisible(true);
+//		JDialog jd = new JDialog();
+//		jd.setLayout(null);
+//		jd.setBounds(300, 300, 200, 200);
+//		JLabel jb = new JLabel("좌석현황이 업데이트되었습니다.");
+//		jd.add(jb);
+//		jd.setVisible(true);
+		JOptionPane.showMessageDialog(null, "좌석현황이 업데이트되었습니다.");
 		
 		resPossibleChk();
 		System.out.println("중간에 예약함");

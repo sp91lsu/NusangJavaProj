@@ -105,7 +105,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	            payment.updatePayment();
 	         }
 	         if (getReservationMain().isVisible()) {
-	            getReservationMain().updateUI();
+	            getReservationMain().updateReservationMain();
 	         }
 	      } else if (packet.getClass() == ScBuyLockerCast.class) {
 	         ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;

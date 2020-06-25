@@ -15,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -531,8 +532,12 @@ public class ReservationMain extends JPanel {
 		}
 	}
 	
-	public void updateReservation()
+	public void updateReservationMain()
 	{
-		
+		JOptionPane.showMessageDialog(null, "좌석현황이 업데이트되었습니다.");
+		calPaneMain.removeAll();
+		makeCalendar();
+		resetResInfo();
+		System.out.println("중간에 예약함");
 	}
 }
