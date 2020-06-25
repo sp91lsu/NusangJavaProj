@@ -416,6 +416,7 @@ public class ReservationMain extends JPanel {
 			cal.set(Calendar.MONTH, setMonth - 1);
 			cal.set(Calendar.DATE, dateChk);
 			cal.set(Calendar.HOUR_OF_DAY, value);
+			cal.set(Calendar.MINUTE, 0);
 
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
