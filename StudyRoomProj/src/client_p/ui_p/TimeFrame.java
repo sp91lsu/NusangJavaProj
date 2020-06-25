@@ -58,24 +58,11 @@ public class TimeFrame extends JFrame {
 		setVisible(true);
 	}
 
-	void showRemainTime() {
+	public void showRemainTime() {
 
-		ArrayList<Calendar> remainList = BaseFrame.getInstance().getTodayRemainTime();
-
-		Calendar end = remainList.get(0);
-
-		for (Calendar calendar : remainList) {
-			if (end.getTimeInMillis() < calendar.getTimeInMillis()) {
-				end = calendar;
-			}
-		}
-		end.add(Calendar.HOUR, 1);
-
-		long remain = end.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
-
-		System.out.println("끝시간 " + end.getTime());
-		System.out.println("남은시간 ");
+		long remain = BaseFrame.getInstance().getTodayRemainTime();
 		System.out.println(TimeUnit.MILLISECONDS.toMinutes(remain));
+
 	}
 
 }
