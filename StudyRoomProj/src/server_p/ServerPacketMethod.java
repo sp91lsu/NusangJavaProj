@@ -1,17 +1,22 @@
 package server_p;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
+import client_p.packet_p.syn_p.CsBuyLockerSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
+import data_p.product_p.LockerData;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
+import dbOracle_p.LockerDao;
 import dbOracle_p.RoomDao;
 import manager_p.ack_p.MsChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
@@ -22,12 +27,14 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
+import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
@@ -49,7 +56,7 @@ class MethLoginSyn implements ServerPacketMethod {
 		UserData userData = null;
 		ScLoginAck ack = null;
 		try {
-			userData = accountDao.findUser(idOrPhone, recPacket.id, recPacket.pw);
+			userData = accountDao.loginUser(idOrPhone, recPacket.id, recPacket.pw);
 
 			if (userData != null) {
 
@@ -176,15 +183,22 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
+		try {
+			if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
+				roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 
-		if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
-			roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
+				ack = new ScBuyRoomAck(EResult.SUCCESS);
+				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+				MyServer.getInstance().broadCast(roomCast);
 
-			ack = new ScBuyRoomAck(EResult.SUCCESS);
-		} else {
-			ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+			} else {
+				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+			}
+			client.sendPacket(ack);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		client.sendPacket(ack);
 	}
 
 }
@@ -257,8 +271,7 @@ class MethMsGiveMeAllRoomSyn implements ServerPacketMethod {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
 			String managerIp = "/192.168.100.27";
 			SocketClient mc = MyServer.getInstance().findClient(managerIp);
-			if(mc != null)
-			{
+			if (mc != null) {
 				mc.sendPacket(roomCast);
 			}
 			client.sendPacket(roomCast);
@@ -284,7 +297,11 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
+<<<<<<< HEAD
 				toMcurrMLAck = new SmCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
+=======
+			toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
+>>>>>>> 9ff0fecf4211ea49cf73ec71919f66b88553f781
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -310,7 +327,7 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-				Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
+			Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -324,14 +341,21 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 
 //회원 검색
 class MethMsMemSearchSyn implements ServerPacketMethod {
-	
+
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
+<<<<<<< HEAD
 		
 		String managerIp = "/127.0.0.1";
 		SocketClient mc = MyServer.getInstance().findClient(managerIp);
 		
+=======
+
+//		String managerIp = "/192.168.100.27";
+//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+
+>>>>>>> 9ff0fecf4211ea49cf73ec71919f66b88553f781
 		SmMemSearchAck Ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
@@ -343,8 +367,60 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 		
 		mc.sendPacket(Ack);
+=======
+
+		client.sendPacket(Ack);
+>>>>>>> 9ff0fecf4211ea49cf73ec71919f66b88553f781
+	}
+}
+
+class MethBuyLockerSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
+
+		ScBuyLockerCast ack = null;
+
+		LockerDao lockerDao = new LockerDao();
+
+		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
+			ack = new ScBuyLockerCast(EResult.SUCCESS);
+
+			MyServer.getInstance().broadCast(ack);
+		} else {
+			ack = new ScBuyLockerCast(EResult.FAIL);
+			client.sendPacket(ack);
+		}
+
+	}
+}
+
+class MethDuplicateIDSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsDuplicateIDSyn resPacket = (CsDuplicateIDSyn) packet;
+
+		AccountDao ad = new AccountDao();
+
+		ScDuplicateIDAck ack;
+		try {
+			if (ad.duplicateIDChk(resPacket.id)) {
+				ack = new ScDuplicateIDAck(EResult.SUCCESS);
+			} else {
+				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ack = new ScDuplicateIDAck(EResult.FAIL);
+		}
+
+		client.sendPacket(ack);
 	}
 }
 
