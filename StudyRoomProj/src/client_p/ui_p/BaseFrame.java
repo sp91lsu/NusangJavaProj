@@ -47,7 +47,6 @@ public class BaseFrame extends JFrame implements Receivable {
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
 	//public RCalcFrame rcalc = new RCalcFrame();
-	public LockerMain lockerMain = new LockerMain();
 	public RoomProduct roomProduct;
 
 	public BaseFrame() {
