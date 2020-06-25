@@ -113,7 +113,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			if (packetAck.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().view("LoginMain");
 
-				for (Integer id : packetAck.idList) {// 구매한 라커 번호
+				for (Integer id : packetAck.lockerDList) {// 구매한 라커 번호
 					for (LockerBtn lockerbtn : getLockerMain().list) {
 						if (lockerbtn.data.id.equals(id)) {
 							System.out.println("들어오냐");

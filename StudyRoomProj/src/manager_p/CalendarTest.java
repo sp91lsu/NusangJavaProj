@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import client_p.ClientNet;
+import manager_p.syn_p.MsGiveMeResvRoomSyn;
+
 public class CalendarTest extends JPanel {
 
    private final JPanel mapPane = new JPanel();
@@ -59,30 +62,31 @@ public class CalendarTest extends JPanel {
       JFrame frame = new JFrame();
       frame.getContentPane().add(new CalendarTest(new ManagerWindow()));
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setBounds(10, 10, 900, 1000);
+      frame.setBounds(10, 10, 900, 800);
       frame.setVisible(true);
    }
 
    public CalendarTest(ManagerWindow mw) {
 	  this.mw = mw;
+	   
       System.out.println(Calendar.getInstance().getTime());
 
       setBackground(new Color(240, 240, 240));
       setForeground(Color.CYAN);
       setBorder(new EmptyBorder(5, 5, 5, 5));
       setLayout(null);
-      mapPane.setBounds(12, 10, 860, 400);
+      mapPane.setBounds(12, 10, 800, 400);
       add(mapPane);
       mapPane.setLayout(null);
 
       yearInfoL = new JLabel(setYear + "≥‚");
       yearInfoL.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 15));
       yearInfoL.setHorizontalAlignment(SwingConstants.CENTER);
-      yearInfoL.setBounds(170, 0, 90, 30);
+      yearInfoL.setBounds(175, 0, 90, 30);
       mapPane.add(yearInfoL);
 
       JPanel calendarPane = new JPanel();
-      calendarPane.setBounds(0, 29, 440, 340);
+      calendarPane.setBounds(12, 20, 440, 340);
       mapPane.add(calendarPane);
       calendarPane.setLayout(null);
       calendarPane.setLayout(null);
@@ -90,7 +94,7 @@ public class CalendarTest extends JPanel {
       JPanel monthChoicePane = new JPanel();
       monthChoicePane.setBounds(0, 1, 432, 46);
       calendarPane.add(monthChoicePane);
-      monthChoicePane.setLayout(new GridLayout(1, 3));
+      monthChoicePane.setLayout(  new GridLayout(1, 3));
 
       JButton preMonthBtn = new JButton("¿Ã¿¸¥ﬁ");
       monthChoicePane.add(preMonthBtn);
@@ -190,8 +194,10 @@ public class CalendarTest extends JPanel {
          datebtn.dateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
-            	System.out.println(setYear+" "+setMonth+" "+datebtn.dateBtn.getText());
+            	String date = datebtn.dateBtn.getText();
+            	MsGiveMeResvRoomSyn packet = new MsGiveMeResvRoomSyn(setYear, setMonth, date);
+            	ClientNet.getInstance().sendPacket(packet);
+            	System.out.println(setYear+" "+setMonth+" "+date);
             }
          });
       }

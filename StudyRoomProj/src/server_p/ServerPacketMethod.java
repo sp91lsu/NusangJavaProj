@@ -14,6 +14,8 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
+import data_p.product_p.LockerData;
+import data_p.product_p.room_p.RoomTimeData;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.LockerDao;
@@ -21,10 +23,10 @@ import dbOracle_p.RoomDao;
 import manager_p.ack_p.MsChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
+import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyLockerAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
@@ -34,6 +36,8 @@ import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
+import server_p.packet_p.ack_p.SmCurrMemListAck;
+import server_p.packet_p.ack_p.SmGiveMeResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
@@ -274,20 +278,21 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 	}
 }
 
-//전체 룸정보 관리자로
-class MethMsGiveMeAllRoomSyn implements ServerPacketMethod {
+//예약 룸정보 관리자로
+class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
+		MsGiveMeResvRoomSyn resPacket = (MsGiveMeResvRoomSyn) packet;
 		RoomDao roomDao = new RoomDao();
-
 		try {
-			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
-			String managerIp = "/192.168.100.27";
+			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,roomDao.rTimeDataList(resPacket.yyyy,resPacket.mm,resPacket.dd) );
+//			String managerIp = "/192.168.100.27";
+			String managerIp = "/127.0.0.1";
 			SocketClient mc = MyServer.getInstance().findClient(managerIp);
 			if (mc != null) {
-				mc.sendPacket(roomCast);
+				mc.sendPacket(ack);
 			}
-			client.sendPacket(roomCast);
+			client.sendPacket(ack);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -390,7 +395,7 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 			lockerDao = new LockerDao();
 
-			ArrayList<Integer> lockerList = lockerDao.getLockerIDList();
+			ArrayList<LockerData> lockerList = lockerDao.getLockerIDList();
 
 			ScBuyLockerCast lockerCast = new ScBuyLockerCast(EResult.SUCCESS, lockerList);
 

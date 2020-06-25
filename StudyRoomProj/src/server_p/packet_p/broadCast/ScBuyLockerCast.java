@@ -8,12 +8,12 @@ import packetBase_p.ResultPacketBase;
 
 public class ScBuyLockerCast extends ResultPacketBase {
 
-	public ArrayList<Integer> idList;
+	public ArrayList<LockerData> lockerDList;
 
-	public ScBuyLockerCast(EResult eResult, ArrayList<Integer> idList) {
+	public ScBuyLockerCast(EResult eResult, ArrayList<LockerData> lockerDList) {
 		super(eResult);
 
-		this.idList = idList;
+		this.lockerDList = lockerDList;
 	}
 
 }

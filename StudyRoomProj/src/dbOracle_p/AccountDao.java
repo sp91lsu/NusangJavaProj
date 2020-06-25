@@ -18,8 +18,8 @@ public class AccountDao extends DBProcess {
 
 		String[] calumArr = { "uuid", "name", "id", "pw", "birth", "phone", "ctype" };
 
-		String calumQuery = getCalum(calumArr);
-		String calumNum = getCalumNum(calumArr.length);
+		String calumQuery = getColum(calumArr);
+		String calumNum = getColumNum(calumArr.length);
 
 		try {
 			insertQuery(ETable.ACCOUNT, calumQuery, calumNum);
@@ -56,6 +56,24 @@ public class AccountDao extends DBProcess {
 		}
 		rs.close();
 		return userdata;
+	}
+	
+	public String userName(String uuID) throws Exception {
+		String un = "";
+		query = "select name,uuid from account";
+		stmt = con.prepareStatement(query);
+		rs = stmt.executeQuery();
+		
+		while (rs.next()) {
+			if(rs.getString("name")==null) continue;
+			if(uuID.equals(rs.getString("uuid"))) {
+				un=rs.getString("name");
+				break;
+			}
+		}
+		rs.close();
+		
+		return un;
 	}
 
 	public boolean duplicateIDChk(String id) throws SQLException {

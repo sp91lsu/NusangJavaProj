@@ -24,6 +24,8 @@ public class DataManager {
 	public ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	String managerKey = "";
+	private ArrayList<String> idList;
+	private ArrayList<String> nameList;
 
 	DataManager() {
 		RoomSetting();
@@ -35,13 +37,23 @@ public class DataManager {
 	public static void main(String[] args) {
 		DataManager pm = new DataManager();
 	}
-
+	
+	public String roomName(String roomID) {
+		String str = "";
+		for (int i = 0; i < idList.size(); i++) {
+			if(idList.get(i).equals(roomID)) {
+				str = nameList.get(i);
+			}
+		}
+		return str;
+	}
+	
 	void RoomSetting() {
 		ExcelReader reader = new ExcelReader();
 		reader.read("RoomData.xlsx");
 
-		ArrayList<String> idList = reader.getList("ID");
-		ArrayList<String> nameList = reader.getList("Name");
+		idList = reader.getList("ID");
+		nameList = reader.getList("Name");
 		ArrayList<String> priceList = reader.getList("Price");
 		ArrayList<String> pNumList = reader.getList("PersonNum");
 

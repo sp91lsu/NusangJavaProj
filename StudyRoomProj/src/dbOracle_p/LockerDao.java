@@ -13,13 +13,13 @@ import data_p.product_p.room_p.RoomProduct;
 public class LockerDao extends DBProcess {
 
 	public boolean insertLocker(String userUUID, LockerData lockerData) {
-		String[] calumArr = { "UUID", "ID", "PW" };
+		String[] columArr = { "UUID", "ID", "PW" };
 
-		String calumQuery = getCalum(calumArr);
-		String calumNum = getCalumNum(calumArr.length);
+		String columQuery = getColum(columArr);
+		String columNum = getColumNum(columArr.length);
 
 		try {
-			insertQuery(ETable.LOCKER, calumQuery, calumNum);
+			insertQuery(ETable.LOCKER, columQuery, columNum);
 
 			stmt = con.prepareStatement(query);
 

@@ -81,7 +81,7 @@ public class DBProcess {
 //		}
 //	}
 
-	public String getCalum(String... calumArr) {
+	public String getColum(String... calumArr) {
 		String cQuery = "";
 
 		for (int i = 0; i < calumArr.length; i++) {
@@ -94,7 +94,7 @@ public class DBProcess {
 		return cQuery;
 	}
 
-	public String getCalumNum(int num) {
+	public String getColumNum(int num) {
 		String cQuery = "";
 
 		for (int i = 0; i < num; i++) {
