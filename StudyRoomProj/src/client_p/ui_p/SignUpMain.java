@@ -244,7 +244,7 @@ public class SignUpMain extends JFrame implements Receivable{
 
 	void check()
 	{
-		CsSignUpSyn packet =new CsSignUpSyn(nameTextField.getText(), idTextField.getText(), passwordField.getText(), check_passwordField.getText(), " ", "");
+		CsSignUpSyn packet =new CsSignUpSyn(nameTextField.getText(), idTextField.getText(), passwordField.getText(), phoneNumTextField.getText(), "", "");
 		
 		passwordField.getText().trim();
 		check_passwordField.getText().trim();
