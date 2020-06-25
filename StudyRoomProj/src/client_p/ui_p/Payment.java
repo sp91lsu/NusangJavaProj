@@ -37,7 +37,6 @@ public class Payment extends JFrame {
 	String current_day = date.format((Calendar.getInstance().getTime()));
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
-	ArrayList<String> textList = new ArrayList<String>();
 	JLabel priceLabel;
 	JComboBox personCntChoice;
 	JButton payButton;
@@ -87,9 +86,8 @@ public class Payment extends JFrame {
 		centerPane.setBounds(12, 382, 560, 130);
 		MainPane.add(centerPane);
 		centerPane.setLayout(null);
-		// 시간 선택박스
-//				JCheckBox 
-
+		
+		// 시간 선택박스 JCheckBox 생성
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:");
@@ -128,7 +126,7 @@ public class Payment extends JFrame {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				//BaseFrame.getInstance().paymentPop.setVisible(true);
 				RCalcFrame rcalc = new RCalcFrame();
-				textList.clear();
+				
 			}
 		});
 		payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -156,11 +154,8 @@ public class Payment extends JFrame {
 				personCntChoice.setSelectedIndex(0);
 				payButton.setEnabled(false);
 				timeList.clear();
-				textList.clear();
-
 			}
 		});
-
 		setVisible(false);
 	}
 
@@ -182,12 +177,10 @@ public class Payment extends JFrame {
 
 			cal.set(Calendar.HOUR_OF_DAY, value);
 			cal.set(Calendar.MINUTE, 0);
-			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
-			// value, 0);
 
+			//시간 체크시
 			if (cBox.isSelected()) {
 				System.out.println("타임 추가하기");
-				textList.add(cBox.getText());
 				timeList.add(cal);
 				totPrice = timeList.size()
 						* (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
@@ -215,10 +208,9 @@ public class Payment extends JFrame {
 						mBox.box.setEnabled(false);
 					}
 				}
-
-			} else {
+				
+			} else {	//시간 체크 해제
 				System.out.println("타임 제거하기");
-				textList.remove(cBox.getText());
 				for (int i = 0; i < timeList.size(); i++) {
 					Calendar cal3 = timeList.get(i);
 					if (cal3.get(Calendar.HOUR_OF_DAY) == value) {
@@ -232,7 +224,6 @@ public class Payment extends JFrame {
 				for (int i = checkBoxList.size() - 1; i > cal4.get(Calendar.HOUR_OF_DAY) + 1; i--) {
 					MyCheckBox mBox = checkBoxList.get(i);
 					if (mBox.box == cBox) {
-						// mBox.box.setEnabled(true);
 						if (i - 1 >= 0) {
 							checkBoxList.get(i - 1).box.setEnabled(true);
 							// 예약시간대가 겹칠때에는 버튼 비활성화
@@ -257,8 +248,6 @@ public class Payment extends JFrame {
 			}
 		}
 	}
-
-	boolean ddd = false;
 
 	public void resPossibleChk() {
 		totPrice = 0;

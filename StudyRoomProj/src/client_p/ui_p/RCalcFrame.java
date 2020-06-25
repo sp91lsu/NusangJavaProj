@@ -66,17 +66,19 @@ public class RCalcFrame extends JFrame{
 		setVisible(true);
 	}
 	
+	//날짜관련 정보 불러오는 매소드
 	void dateCal() {
 		SimpleDateFormat date = new SimpleDateFormat("YYYY-MM-dd");
+		SimpleDateFormat date2 = new SimpleDateFormat("HH:00");
 		for (Calendar roomCal : BaseFrame.getInstance().roomProduct.calendarList) {
 			if (roomCal != null ) {
 				resDate = date.format(roomCal.getTime());
 			}
 		}
 		int cnt=0;
-		for ( String aa : BaseFrame.getInstance().getReservationMain().textList) {
+		for ( Calendar aa : BaseFrame.getInstance().roomProduct.calendarList) {
 			cnt++;
-			resTime+= aa+" ";
+			resTime+= date2.format(aa.getTime())+" ";
 			if(cnt%3==0)
 			resTime+="<br>";
 		}
