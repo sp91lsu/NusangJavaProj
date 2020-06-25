@@ -198,9 +198,9 @@ public class BaseFrame extends JFrame implements Receivable {
 
 				System.out.println("------------------");
 				System.out.println(cal.get(Calendar.MONTH));
-				System.out.println(cal.get(Calendar.HOUR));
+				System.out.println(cal.get(Calendar.HOUR_OF_DAY));
 				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR) && !product.isExit) {
+						&& cal.get(Calendar.HOUR_OF_DAY) == current.get(Calendar.HOUR_OF_DAY) && !product.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
