@@ -126,6 +126,8 @@ public class Payment extends JFrame {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				//BaseFrame.getInstance().paymentPop.setVisible(true);
 				RCalcFrame rcalc = new RCalcFrame();
+	
+				dispose();
 				
 			}
 		});
