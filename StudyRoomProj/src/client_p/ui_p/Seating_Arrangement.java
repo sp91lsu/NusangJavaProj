@@ -379,7 +379,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				if (BaseFrame.getInstance().isSameTime(cal, Calendar.getInstance())) {
 
 					for (JButton jButton2 : all) {
-						System.out.println(jButton2.getText());
 						if (jButton2.getText().equals(room.name)) {
 							jButton2.setBackground(Color.red);
 							jButton2.setEnabled(false);
