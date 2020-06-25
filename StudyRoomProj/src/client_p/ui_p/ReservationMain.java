@@ -39,7 +39,8 @@ public class ReservationMain extends JPanel {
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	ArrayList<MyJButton> dateList = new ArrayList<MyJButton>();
-	JLabel roomInfo = new JLabel();
+	ArrayList<String> textList = new ArrayList<String>();
+	static JLabel roomInfo = new JLabel();
 	JLabel timeInfo;
 	JLabel nowMonthL;
 	JPanel calPaneMain;
@@ -47,7 +48,6 @@ public class ReservationMain extends JPanel {
 	JLabel totPriceLabel;
 	JComboBox personCntChoice;
 	JButton reservationButton;
-	ArrayList<String> textList = new ArrayList<String>();
 
 	// 선택 시간에 대한 버튼을 가지고 있는 클래스
 	class MyCheckBox {
@@ -197,7 +197,7 @@ public class ReservationMain extends JPanel {
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
-				BaseFrame.getInstance().rcalc.setVisible(true);
+				RCalcFrame rcalc = new RCalcFrame();
 
 				setMonth = nowMonth;
 

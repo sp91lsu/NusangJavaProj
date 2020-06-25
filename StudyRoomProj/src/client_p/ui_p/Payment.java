@@ -86,9 +86,8 @@ public class Payment extends JFrame {
 		centerPane.setBounds(12, 382, 560, 130);
 		MainPane.add(centerPane);
 		centerPane.setLayout(null);
-		// 시간 선택박스
-//				JCheckBox 
-
+		
+		// 시간 선택박스 JCheckBox 생성
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:");
@@ -125,7 +124,9 @@ public class Payment extends JFrame {
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
-				BaseFrame.getInstance().paymentPop.setVisible(true);
+				//BaseFrame.getInstance().paymentPop.setVisible(true);
+				RCalcFrame rcalc = new RCalcFrame();
+				
 			}
 		});
 		payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -153,10 +154,8 @@ public class Payment extends JFrame {
 				personCntChoice.setSelectedIndex(0);
 				payButton.setEnabled(false);
 				timeList.clear();
-
 			}
 		});
-
 		setVisible(false);
 	}
 
@@ -178,9 +177,8 @@ public class Payment extends JFrame {
 
 			cal.set(Calendar.HOUR_OF_DAY, value);
 			cal.set(Calendar.MINUTE, 0);
-			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
-			// value, 0);
 
+			//시간 체크시
 			if (cBox.isSelected()) {
 				System.out.println("타임 추가하기");
 				timeList.add(cal);
@@ -210,8 +208,8 @@ public class Payment extends JFrame {
 						mBox.box.setEnabled(false);
 					}
 				}
-
-			} else {
+				
+			} else {	//시간 체크 해제
 				System.out.println("타임 제거하기");
 				for (int i = 0; i < timeList.size(); i++) {
 					Calendar cal3 = timeList.get(i);
@@ -226,7 +224,6 @@ public class Payment extends JFrame {
 				for (int i = checkBoxList.size() - 1; i > cal4.get(Calendar.HOUR_OF_DAY) + 1; i--) {
 					MyCheckBox mBox = checkBoxList.get(i);
 					if (mBox.box == cBox) {
-						// mBox.box.setEnabled(true);
 						if (i - 1 >= 0) {
 							checkBoxList.get(i - 1).box.setEnabled(true);
 							// 예약시간대가 겹칠때에는 버튼 비활성화
@@ -250,12 +247,6 @@ public class Payment extends JFrame {
 				}
 			}
 		}
-	}
-
-	boolean ddd = false;
-
-	public void updateRoomInfo() {
-		// 서버에서 받은 룸정보
 	}
 
 	public void resPossibleChk() {
@@ -285,6 +276,5 @@ public class Payment extends JFrame {
 		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + BaseFrame.getInstance().roomProduct.name + "<br>"
 				+ "입실시간:" + current_day + "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>"
 				+ "*예약은 1시간 단위로 가능합니다.<html>");
-		updateRoomInfo();
 	}
 }

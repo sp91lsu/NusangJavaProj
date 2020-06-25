@@ -31,6 +31,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public boolean seatChange = false;
 	static JLabel north_west;
 	int moveSeatId;
+	JLabel lblNewLabel_7;
+	JLabel lblNewLabel_8;
 
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
@@ -117,12 +119,14 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		north_center_center.add(panel_9);
 		panel_9.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel lblNewLabel_7 = new JLabel("현재 좌석");
+		lblNewLabel_7 = new JLabel("현재 좌석");
 		panel_9.add(lblNewLabel_7);
+		lblNewLabel_7.setVisible(false);
 
 		umgIc = new ImageIcon("img/blue.png");
-		JLabel lblNewLabel_8 = new JLabel(umgIc);
+		lblNewLabel_8 = new JLabel(umgIc);
 		panel_9.add(lblNewLabel_8);
+		lblNewLabel_8.setVisible(false);
 		
 		JPanel north_center_west = new JPanel();
 		north_center.add(north_center_west, BorderLayout.WEST);
@@ -356,10 +360,14 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		if (roomProduct != null) {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(Color.cyan);
+					jButton.setBackground(Color.blue);
+					lblNewLabel_7.setVisible(true);
+					lblNewLabel_8.setVisible(true);
+					
 				}
 			}
 		}
+		
 	}
 
 	public void setBtnColor() {
@@ -386,7 +394,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
 					jButton.setBackground(Color.cyan);
-
+					jButton.setBackground(Color.green);
 				}
 			}
 

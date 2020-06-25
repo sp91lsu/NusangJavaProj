@@ -55,7 +55,7 @@ public class TimeFrame extends JFrame {
 
 		long remain = BaseFrame.getInstance().getTodayRemainTime();
 		long remainHour = TimeUnit.MILLISECONDS.toHours(remain);
-		long remainMinute = TimeUnit.MILLISECONDS.toMinutes(remain)*10/60;
+		long remainMinute = 60 - TimeUnit.MILLISECONDS.toMinutes(remain)*10/60;
 		
 		return remainHour + "½Ã°£" + remainMinute + "ºÐ";
 	}

@@ -96,8 +96,18 @@ public class DataManager {
 			int id = Integer.parseInt(idList.get(i));
 			long price = Long.parseLong(priceList.get(i));
 
-			LockerData data = new LockerData(id, nameList.get(i), pwList.get(i), price);
+			LockerData data = new LockerData(id, nameList.get(i), price);
 			lockerList.add(data);
 		}
+	}
+
+	public LockerData getLockerData(int id) {
+		for (LockerData lockerData : lockerList) {
+			if (lockerData.id == id) {
+				return lockerData;
+			}
+		}
+
+		return null;
 	}
 }

@@ -9,34 +9,47 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class LockerCalcFrame extends JFrame
-{
-	String id = BaseFrame.getInstance().userData.id;
-	String lockerNum;
-	
-	public LockerCalcFrame(String lockerNum) {
-		this.lockerNum=lockerNum;
+import client_p.ClientNet;
+import client_p.Receivable;
+import client_p.packet_p.syn_p.CsBuyLockerSyn;
+import data_p.product_p.DataManager;
+import data_p.product_p.LockerData;
+import data_p.user_p.UserData;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+import server_p.packet_p.broadCast.ScBuyLockerCast;
+
+public class LockerCalcFrame extends JFrame {
+
+	UserData userData = BaseFrame.getInstance().userData;
+	LockerData lockerData;
+
+	public LockerCalcFrame(LockerData lockerData) {
+		this.lockerData = lockerData;
 		setBounds(100, 100, 450, 350);
 		getContentPane().setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("<html>사물함 대여 내역<br>이용자 ID :"+id+"<br>"
-				+ "사물함 번호 : "+lockerNum+"<br>대여 요금 : 1000원<html>");
+
+		JLabel lblNewLabel = new JLabel("<html>사물함 대여 내역<br>이용자 ID :" + userData.id + "<br>" + "사물함 번호 : "
+				+ lockerData.id + "<br>대여 요금 : 1000원<html>");
 		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 24));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(17, 26, 394, 146);
 		getContentPane().add(lblNewLabel);
-		
+
 		JButton btnNewButton = new JButton("결제");
 		btnNewButton.setFont(new Font("굴림", Font.BOLD, 22));
 		btnNewButton.setBounds(67, 209, 129, 70);
 		getContentPane().add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//결제하면 기능을  추가. 일단은 창을 닫는다
+
+				// 결제하면 기능을 추가. 일단은 창을 닫는다
+				CsBuyLockerSyn csBuyLockerPacket = new CsBuyLockerSyn(userData.uuid, lockerData);
+				ClientNet.getInstance().sendPacket(csBuyLockerPacket);
 				dispose();
-				BaseFrame.getInstance().view("LoginMain");
-			}});
-		
+			}
+		});
+
 		JButton button = new JButton("취소");
 		button.setFont(new Font("굴림", Font.BOLD, 22));
 		button.setBounds(221, 209, 129, 70);
@@ -44,8 +57,9 @@ public class LockerCalcFrame extends JFrame
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}});
-		
+			}
+		});
+
 		setVisible(true);
 	}
 }

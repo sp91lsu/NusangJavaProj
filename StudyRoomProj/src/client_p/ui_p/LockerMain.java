@@ -11,9 +11,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import data_p.product_p.DataManager;
+import data_p.product_p.LockerData;
+
+class LockerBtn {
+	LockerData data;
+	JButton btn;
+
+	public LockerBtn(LockerData data, JButton btn) {
+		super();
+
+		this.data = data;
+		this.btn = btn;
+
+		btn.setText(data.name);
+	}
+}
+
 public class LockerMain extends JPanel implements ActionListener {
 
-	ArrayList<JButton> list = new ArrayList<JButton>();
+	ArrayList<LockerBtn> list = new ArrayList<LockerBtn>();
+	LockerData currentData = null;
+
 	String lockerNum = "123";
 
 	public LockerMain() {
@@ -26,59 +45,24 @@ public class LockerMain extends JPanel implements ActionListener {
 		ButtonGroup bg = new ButtonGroup();
 		mainPanel.setLayout(null);
 
-		JButton button_1 = new JButton("사물함 1번");
-		button_1.setBounds(0, 0, 150, 100);
-		mainPanel.add(button_1);
-		list.add(button_1);
-		bg.add(button_1);
+		int y = 0;
+		int x = 0;
+		for (LockerData data : DataManager.getInstance().lockerList) {
 
-		JButton button_2 = new JButton("사물함 2번");
-		button_2.setBounds(150, 0, 150, 100);
-		mainPanel.add(button_2);
-		list.add(button_2);
-		bg.add(button_2);
+			if (x > 2) {
+				x = 0;
+				y++;
+			}
+			JButton btn = new JButton();
+			btn.setBounds(x * 150, y * 100, 150, 100);
+			mainPanel.add(btn);
+			bg.add(btn);
+			btn.addActionListener(this);
+			LockerBtn lBtn = new LockerBtn(data, btn);
+			list.add(lBtn);
 
-		JButton button_3 = new JButton("사물함 3번");
-		button_3.setBounds(300, 0, 150, 100);
-		mainPanel.add(button_3);
-		list.add(button_3);
-		bg.add(button_3);
-
-		JButton button_4 = new JButton("사물함 4번");
-		button_4.setBounds(0, 100, 150, 100);
-		mainPanel.add(button_4);
-		list.add(button_4);
-		bg.add(button_4);
-
-		JButton button_5 = new JButton("사물함 5번");
-		button_5.setBounds(150, 100, 150, 100);
-		mainPanel.add(button_5);
-		list.add(button_5);
-		bg.add(button_5);
-
-		JButton button_6 = new JButton("사물함 6번");
-		button_6.setBounds(300, 100, 150, 100);
-		mainPanel.add(button_6);
-		list.add(button_6);
-		bg.add(button_6);
-
-		JButton button_7 = new JButton("사물함 7번");
-		button_7.setBounds(0, 200, 150, 100);
-		mainPanel.add(button_7);
-		list.add(button_7);
-		bg.add(button_7);
-
-		JButton button_8 = new JButton("사물함 8번");
-		button_8.setBounds(150, 200, 150, 100);
-		mainPanel.add(button_8);
-		list.add(button_8);
-		bg.add(button_8);
-
-		JButton button_9 = new JButton("사물함 9번");
-		button_9.setBounds(300, 200, 150, 100);
-		mainPanel.add(button_9);
-		list.add(button_9);
-		bg.add(button_9);
+			x++;
+		}
 
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(0, 400, 450, 330);
@@ -96,8 +80,9 @@ public class LockerMain extends JPanel implements ActionListener {
 		infoPanel.add(pwSetting);
 		pwSetting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LockerPWFrame lp = new LockerPWFrame(lockerNum);
-			}});
+				LockerPWFrame lp = new LockerPWFrame(currentData);
+			}
+		});
 
 		JButton cancelButton = new JButton("취소");
 		cancelButton.setBounds(350, 10, 100, 100);
@@ -105,11 +90,8 @@ public class LockerMain extends JPanel implements ActionListener {
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("MainLayout");
-			}});
-
-		for (JButton jbt : list) {
-			jbt.addActionListener(this);
-		}
+			}
+		});
 
 		setVisible(true);
 	}
@@ -119,12 +101,18 @@ public class LockerMain extends JPanel implements ActionListener {
 		JButton btn = (JButton) e.getSource();
 
 		lockerNum = btn.getText();
-		for (JButton jbtt : list) {
-			if (e.getSource().equals(jbtt)) {
-				jbtt.setBackground(Color.red);
+
+		for (int i = 0; i < list.size(); i++) {
+
+			JButton listBtn = list.get(i).btn;
+
+			if (e.getSource().equals(listBtn)) {
+				listBtn.setBackground(Color.red);
+				currentData = list.get(i).data;
 			} else {
-				jbtt.setBackground(null);
+				listBtn.setBackground(null);
 			}
+
 		}
 	}
 }

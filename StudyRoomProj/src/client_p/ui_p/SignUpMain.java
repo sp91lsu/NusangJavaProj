@@ -16,9 +16,11 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.Receivable;
+import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 
 public class SignUpMain extends JFrame implements Receivable{
@@ -29,10 +31,11 @@ public class SignUpMain extends JFrame implements Receivable{
 	private JPasswordField passwordField;
 	private JPasswordField check_passwordField;
 	
-	JDialog jd;
+	JDialog jd,jd2;
 	JLabel pwChk;
 	String text="";
-	
+	JLabel jl,jl2;
+	JButton jb,jb2;
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
 	
@@ -116,7 +119,8 @@ public class SignUpMain extends JFrame implements Receivable{
 		mainPane.add(idChkBtn);
 		idChkBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//중복체크 이벤트 추가할곳
+				CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText());
+				ClientNet.getInstance().sendPacket(packet);
 			}});
 		
 		pwChk = new JLabel("입력한 비밀번호와 동일 하게 입력 하세요");
@@ -144,27 +148,54 @@ public class SignUpMain extends JFrame implements Receivable{
 	@Override
 	public void receive(PacketBase packet) {
 		
-		ScSignUpAck ack = (ScSignUpAck) packet;
+		if (packet.getClass() == ScSignUpAck.class) {
+			ScSignUpAck ack = (ScSignUpAck) packet;
 
-		
-		if (ack.eResult == EResult.SUCCESS) {
-			jd = new JDialog();
-			jd.setBounds(50, 50, 150, 150);
-			jd.setLayout(new GridLayout(2,1));
-			JLabel jl = new JLabel("회원가입 완료");
-			JButton jb = new JButton("확인");
-			jb.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JButton bbb = (JButton)e.getSource();
-					if(bbb.getText().equals("확인")) {
-						jd.setVisible(false);
-						setVisible(false);
-					}}});
+			if (ack.eResult == EResult.SUCCESS) {
+				jd = new JDialog();
+				jd.setBounds(50, 50, 150, 150);
+				jd.setLayout(new GridLayout(2, 1));
+				jl = new JLabel("회원가입 완료");
+				jb = new JButton("확인");
+				jb.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton bbb = (JButton) e.getSource();
+						if (bbb.getText().equals("확인")) {
+							jd.setVisible(false);
+							setVisible(false);
+						}
+					}
+				});
+
+				jd.add(jl);
+				jd.add(jb);
+				jd.setVisible(true);
+			}
+		}else if(packet.getClass() == ScDuplicateIDAck.class) {
+			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
 			
-			jd.add(jl);
-			jd.add(jb);
-			jd.setVisible(true);
+			if(ack.eResult == EResult.SUCCESS) {
+				jd2 = new JDialog();
+				jd2.setBounds(50, 50, 150, 150);
+				jd2.setLayout(new GridLayout(2, 1));
+				jl2 = new JLabel("사용 가능한 ID 입니다.");
+				jb2 = new JButton("확인");
+				jb2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton bbb = (JButton) e.getSource();
+						if (bbb.getText().equals("확인")) {
+							jd2.setVisible(false);
+							setVisible(false);
+						}
+					}
+				});
+
+				jd2.add(jl2);
+				jd2.add(jb2);
+				jd2.setVisible(true);
+			}
 		}
+		
 	}
 
 	void check()
