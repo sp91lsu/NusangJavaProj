@@ -36,6 +36,7 @@ public class SignUpMain extends JFrame implements Receivable{
 	String text="";
 	JLabel jl,jl2;
 	JButton jb,jb2;
+	JButton signUpBtn;
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
 	
@@ -88,7 +89,7 @@ public class SignUpMain extends JFrame implements Receivable{
 		mainPane.add(phoneNumTextField);
 		textList.add(phoneNumTextField);
 		
-		JButton signUpBtn = new JButton("회원가입");
+		signUpBtn = new JButton("회원가입");
 		signUpBtn.setBounds(296, 368, 140, 42);
 		mainPane.add(signUpBtn);
 		signUpBtn.addActionListener(new ActionListener() {
@@ -162,7 +163,28 @@ public class SignUpMain extends JFrame implements Receivable{
 						JButton bbb = (JButton) e.getSource();
 						if (bbb.getText().equals("확인")) {
 							jd.setVisible(false);
-							setVisible(false);
+							dispose();
+						}
+					}
+				});
+
+				jd.add(jl);
+				jd.add(jb);
+				jd.setVisible(true);
+			}else if(ack.eResult == EResult.DUPLICATEED_ID) {
+				signUpBtn.setEnabled(false);
+				jd = new JDialog();
+				jd.setBounds(50, 50, 150, 150);
+				jd.setLayout(new GridLayout(2, 1));
+				jl = new JLabel("ID 중복 확인을 해주세요");
+				jb = new JButton("확인");
+				jb.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton bbb = (JButton) e.getSource();
+						if (bbb.getText().equals("확인")) {
+							jd.setVisible(false);
+							setVisible(true);
+							
 						}
 					}
 				});
@@ -185,7 +207,29 @@ public class SignUpMain extends JFrame implements Receivable{
 						JButton bbb = (JButton) e.getSource();
 						if (bbb.getText().equals("확인")) {
 							jd2.setVisible(false);
-							setVisible(false);
+							setVisible(true);
+							signUpBtn.setEnabled(true);
+							
+						}
+					}
+				});
+
+				jd2.add(jl2);
+				jd2.add(jb2);
+				jd2.setVisible(true);
+			}else if(ack.eResult == EResult.DUPLICATEED_ID){
+				jd2 = new JDialog();
+				jd2.setBounds(50, 50, 150, 150);
+				jd2.setLayout(new GridLayout(2, 1));
+				jl2 = new JLabel("중복된 ID 입니다.");
+				jb2 = new JButton("확인");
+				jb2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton bbb = (JButton) e.getSource();
+						if (bbb.getText().equals("확인")) {
+							jd2.setVisible(false);
+							setVisible(true);
+							signUpBtn.setEnabled(false);
 						}
 					}
 				});

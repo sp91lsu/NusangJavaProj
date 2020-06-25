@@ -19,6 +19,7 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
@@ -75,6 +76,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, (Receivable) this);
+		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, (Receivable) signUpFrame);
 	}
 
 	void addToBaseFrame(JPanel jp) {
