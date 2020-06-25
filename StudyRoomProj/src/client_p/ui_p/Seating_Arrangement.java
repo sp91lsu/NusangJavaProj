@@ -356,10 +356,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		if (roomProduct != null) {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(Color.cyan);
+					jButton.setBackground(Color.blue);
+					
 				}
 			}
 		}
+		
 	}
 
 	public void setBtnColor() {
@@ -386,7 +388,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
 					jButton.setBackground(Color.cyan);
-
+					jButton.setBackground(Color.green);
 				}
 			}
 

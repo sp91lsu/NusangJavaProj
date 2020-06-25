@@ -33,7 +33,7 @@ public class InfoFrame extends JFrame {
 	public InfoFrame() {
 
 		long totUseTimeMinute = BaseFrame.getInstance().totTodayUseTime();
-		long hour = TimeUnit.MILLISECONDS.toHours(totUseTimeMinute)-1;
+		long hour = TimeUnit.MILLISECONDS.toHours(totUseTimeMinute);
 		long minute = TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute)*10/60;
 		System.out.println(totUseTimeMinute);
 		System.out.println(minute);
