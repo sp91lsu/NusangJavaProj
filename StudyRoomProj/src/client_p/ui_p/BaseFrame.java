@@ -170,7 +170,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		int hour = 0;
 		Calendar current = Calendar.getInstance();
 
-		 current.add(Calendar.HOUR, 1);
+		current.add(Calendar.HOUR, 1);
 
 		for (RoomProduct room : userData.myReservationList) {
 			for (Calendar time : room.calendarList) {
@@ -196,17 +196,21 @@ public class BaseFrame extends JFrame implements Receivable {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
 
-				System.out.println("------------------");
-				System.out.println(cal.get(Calendar.MONTH));
-				System.out.println(cal.get(Calendar.HOUR_OF_DAY));
-				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-						&& cal.get(Calendar.HOUR_OF_DAY) == current.get(Calendar.HOUR_OF_DAY) && !product.isExit) {
+				if (isSameTime(cal, current) && !product.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
 			}
 		}
 		return clone;
+	}
+
+	public boolean isSameTime(Calendar cal1, Calendar cal2) {
+		if (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
+				&& cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY)) {
+			return true;
+		}
+		return false;
 	}
 
 	public long getTodayRemainTime() {
