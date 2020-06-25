@@ -96,19 +96,22 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	@Override
-	public void receive(PacketBase packet) {
-	      if(packet.getClass()==ScRoomInfoBroadCast.class){
+	   public void receive(PacketBase packet) {
+	      if (packet.getClass() == ScRoomInfoBroadCast.class) {
 	         ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
 	         roomInfoList = roomInfoCast.roomList;
-	      }
-	      else if (packet.getClass()==ScBuyLockerCast.class)
-	      {
-	    	  ScBuyLockerCast packetAck = (ScBuyLockerCast)packet;
-	         if(packetAck.eResult==EResult.SUCCESS) {
-	            BaseFrame.getInstance().view("LoginMain");
+
+	         if (payment.isVisible()) {
+	            payment.updatePayment();
 	         }
-	         else
-	         {
+	         if (getReservationMain().isVisible()) {
+	            getReservationMain().updateUI();
+	         }
+	      } else if (packet.getClass() == ScBuyLockerCast.class) {
+	         ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
+	         if (packetAck.eResult == EResult.SUCCESS) {
+	            BaseFrame.getInstance().view("LoginMain");
+	         } else {
 	            System.out.println("사물함 결제 실패");
 	         }
 	      }
@@ -267,17 +270,21 @@ public class BaseFrame extends JFrame implements Receivable {
 }
 
 class CheckRoomInfo extends Thread {
-	@Override
-	public void run() {
-		try {
-			while (true) {
-				CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
-						BaseFrame.getInstance().userData.uuid);
-				ClientNet.getInstance().sendPacket(packet);
-				sleep(60000);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	   @Override
+	   public void run() {
+	      try {
+	         while (true) {
+	            Calendar cal = Calendar.getInstance();
+	            if (cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0) {
+	               CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
+	                     BaseFrame.getInstance().userData.uuid);
+	               ClientNet.getInstance().sendPacket(packet);
+	            }
+
+	            sleep(800);
+	         }
+	      } catch (InterruptedException e) {
+	         e.printStackTrace();
+	      }
+	   }
 	}
-}
