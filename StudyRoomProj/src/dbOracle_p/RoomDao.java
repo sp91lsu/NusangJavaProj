@@ -13,7 +13,7 @@ import data_p.product_p.room_p.RoomProduct;
 public class RoomDao extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
-		String[] calumArr = { "ID", "STARTDATE", "UUID" };
+		String[] calumArr = { "ID", "STARTDATE", "UUID", "ISEXIT" };
 
 		String calumQuery = getCalum(calumArr);
 		String calumNum = getCalumNum(calumArr.length);
@@ -27,21 +27,21 @@ public class RoomDao extends DBProcess {
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
 				stmt.setTimestamp(2, timeStamp);
 				stmt.setString(3, userUUID);
-				// stmt.setInt(5, room.personNum);
+				stmt.setInt(4, 0);
 				rs = stmt.executeQuery();
 			}
 
 			close();
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 
-	public boolean mvoeRoomInfo(String userUUID, RoomProduct originRoom, int moveID) {
+	// ÀÚ¸®ÀÌµ¿
+	public boolean moveSeat(String userUUID, RoomProduct originRoom, int moveID) {
 
 		try {
 			updateQuery(ETable.INVENTORY, "ID", "?",
@@ -53,15 +53,33 @@ public class RoomDao extends DBProcess {
 			stmt.executeUpdate();
 
 			close();
-
 		} catch (
 
 		SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return false;
 		}
 		return true;
+	}
+
+	public void exitRoom(RoomProduct room) {
+
+		int exitValue = room.isExit ? 1 : 0;
+		try {
+			updateQuery(ETable.INVENTORY, "ISEXIT", "?",
+					"uuid = ? and startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+
+			stmt = con.prepareStatement(query);
+			stmt.setInt(1, exitValue);
+			stmt.setString(2, room.userUUID);
+			stmt.executeUpdate();
+
+			close();
+		} catch (
+
+		SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	public ResultSet getRoomInfoRS(String... keys) throws SQLException {
@@ -83,21 +101,27 @@ public class RoomDao extends DBProcess {
 		while (rs.next()) {
 
 			int roomID = rs.getInt("ID");
-			if (DataManager.getInstance().roomMap.containsKey(roomID))
-				;
-			ArrayList<Calendar> timeList = new ArrayList<Calendar>();
+			if (DataManager.getInstance().roomMap.containsKey(roomID)) {
 
-			Timestamp time = rs.getTimestamp("STARTDATE");
-			RoomProduct room = null;
-			RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
-			System.out.println(roomModel);
-			room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
-			Calendar cal = Calendar.getInstance();
+				ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 
-			cal.setTimeInMillis(time.getTime());
-			timeList.add(cal);
-			room.setDate(rs.getString("UUID"), timeList);
-			roomList.add(room);
+				Timestamp time = rs.getTimestamp("STARTDATE");
+				RoomProduct room = null;
+				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
+				System.out.println(roomModel);
+				room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
+
+				if (rs.getInt("ISEXIT") == 1) {
+					room.isExit = true;
+				}
+
+				Calendar cal = Calendar.getInstance();
+
+				cal.setTimeInMillis(time.getTime());
+				timeList.add(cal);
+				room.setDate(rs.getString("UUID"), timeList);
+				roomList.add(room);
+			}
 		}
 
 		System.out.println("·ë ¸®½ºÆ® °¹¼ö" + roomList.size());
@@ -139,6 +163,11 @@ public class RoomDao extends DBProcess {
 
 					RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price,
 							roomModel.personNum);
+
+					if (rs.getInt("ISEXIT") == 1) {
+						room.isExit = true;
+					}
+
 					roomMap.put(room.id, room);
 					roomMap.get(roomID).userUUID = rs.getString("UUID");
 					System.out.println(room.name);

@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client_p.ClientNet;
+import client_p.packet_p.syn_p.CsMoveSeatSyn;
+
 public class SeatChangeOkPop extends JFrame {
 
 	private JPanel contentPane;
@@ -28,6 +31,10 @@ public class SeatChangeOkPop extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
+						BaseFrame.getInstance().getUsingRoom(),
+						BaseFrame.getInstance().getSeatingArrUI().moveSeatId);
+				ClientNet.getInstance().sendPacket(packet);
 			}});
 		btnNewButton.setBounds(59, 80, 105, 27);
 		contentPane.add(btnNewButton);

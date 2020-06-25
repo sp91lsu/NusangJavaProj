@@ -17,6 +17,7 @@ import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -43,6 +44,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
 	public RCalcFrame rcalc = new RCalcFrame();
+	public LockerMain lockerMain = new LockerMain();
 	public RoomProduct roomProduct;
 
 	public BaseFrame() {
@@ -71,6 +73,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, (Receivable) jPanelArrl.get(5));
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
+		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
 
 	}
 
@@ -162,7 +165,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 		Calendar current = Calendar.getInstance();
-		RoomProduct cRoom = null;
+		RoomProduct clone = null;
 
 		for (RoomProduct product : BaseFrame.getInstance().userData.myReservationList) {
 			for (int i = 0; i < product.calendarList.size(); i++) {
@@ -172,15 +175,35 @@ public class BaseFrame extends JFrame implements Receivable {
 				System.out.println(cal.get(Calendar.MONTH));
 				System.out.println(cal.get(Calendar.HOUR));
 				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR)) {
-					cRoom = product;
-				} else {
-					product.calendarList.remove(cal);
-					i--;
+						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR) && !product.isExit) {
+					clone = product.getClone();
+					clone.calendarList.add(cal);
 				}
 			}
 		}
-		return cRoom;
+		return clone;
+	}
+
+	public ArrayList<Calendar> getTodayRemainTime() {
+
+		Calendar current = Calendar.getInstance();
+
+		ArrayList<Calendar> remainList = new ArrayList<Calendar>();
+
+		for (RoomProduct room : userData.myReservationList) {
+
+			if (room.name == getUsingRoom().name) {
+
+				for (Calendar cal : room.calendarList) {
+
+					if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
+							&& cal.get(Calendar.DATE) == current.get(Calendar.DATE)) {
+						remainList.add(cal);
+					}
+				}
+			}
+		}
+		return remainList;
 	}
 }
 
@@ -188,8 +211,7 @@ class CheckRoomInfo extends Thread {
 	@Override
 	public void run() {
 		try {
-			while(true)
-			{
+			while (true) {
 				CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
 						BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);

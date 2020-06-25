@@ -36,8 +36,10 @@ public class Payment extends JFrame {
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	JLabel priceLabel;
+	JComboBox personCntChoice;
+	JButton payButton;
 	int totPrice = 0;
-	
+
 	class MyCheckBox {
 		JCheckBox box;
 		int value;
@@ -57,39 +59,39 @@ public class Payment extends JFrame {
 
 		JPanel infoPane = new JPanel();
 		infoPane.setBackground(new Color(240, 240, 240));
-		infoPane.setBounds(12, 10, 560, 286);
+		infoPane.setBounds(12, 10, 560, 355);
 		MainPane.add(infoPane);
 		infoPane.setLayout(null);
 
 		titelLabel = new JLabel("결제창");
 		titelLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titelLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		titelLabel.setBounds(131, 10, 269, 47);
+		titelLabel.setBounds(142, 10, 269, 47);
 		infoPane.add(titelLabel);
+
+		JPanel timeChKPane = new JPanel();
+		timeChKPane.setBounds(50, 67, 458, 257);
+		infoPane.add(timeChKPane);
+		timeChKPane.setForeground(Color.WHITE);
+		timeChKPane.setLayout(new GridLayout(4, 6));
 		useInfo = new JLabel();
 		useInfo.setBackground(new Color(240, 240, 240));
 		useInfo.setFont(new Font("굴림", Font.PLAIN, 14));
 		useInfo.setBounds(12, 88, 536, 161);
-		infoPane.add(useInfo);
+		// infoPane.add(useInfo);
 
 		JPanel centerPane = new JPanel();
-		centerPane.setBounds(12, 306, 560, 206);
+		centerPane.setBounds(12, 382, 560, 130);
 		MainPane.add(centerPane);
 		centerPane.setLayout(null);
-
-		JPanel timeChKPane = new JPanel();
-		timeChKPane.setForeground(Color.WHITE);
-		timeChKPane.setBounds(0, 0, 458, 206);
-		centerPane.add(timeChKPane);
-		timeChKPane.setLayout(new GridLayout(4, 6));
 		// 시간 선택박스
 //				JCheckBox 
 
 		for (int i = 0; i < 24; i++) {
 
 			DecimalFormat format = new DecimalFormat("00:");
-			int text = i + 1;
-			int realtime = i + 1;
+			int text = i;
+			int realtime = i;
 			MyCheckBox myBox1 = new MyCheckBox(new JCheckBox(format.format(text) + "00"), realtime);
 			myBox1.box.addActionListener(new AddTimeActionListener(myBox1.value));
 			checkBoxList.add(myBox1);
@@ -101,36 +103,57 @@ public class Payment extends JFrame {
 		for (int i = 0; i <= 10; i++) {
 			personCnt.add(i);
 		}
-		JComboBox personCntChoice = new JComboBox(personCnt);
-		personCntChoice.setBounds(470, 92, 40, 21);
-		centerPane.add(personCntChoice);
 
-		JLabel cnt = new JLabel("명");
-		cnt.setBounds(522, 86, 26, 32);
-		centerPane.add(cnt);
+		priceLabel = new JLabel("결제금액");
+		priceLabel.setBounds(95, 35, 268, 60);
+		centerPane.add(priceLabel);
+		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		priceLabel.setFont(new Font("굴림", Font.PLAIN, 20));
+
+		JLabel wonLabel = new JLabel("원");
+		wonLabel.setBounds(375, 35, 86, 60);
+		centerPane.add(wonLabel);
 
 		JPanel payPane = new JPanel();
 		payPane.setBounds(12, 522, 560, 130);
 		MainPane.add(payPane);
 		payPane.setLayout(null);
 
-		JButton payButton = new JButton("결          제");
+		payButton = new JButton("결          제");
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
 				BaseFrame.getInstance().paymentPop.setVisible(true);
-				;
 			}
 		});
 		payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
-		payButton.setBounds(356, 30, 179, 60);
+		payButton.setBounds(165, 25, 179, 83);
 		payPane.add(payButton);
+		payButton.setEnabled(false);
+		personCntChoice = new JComboBox(personCnt);
+		personCntChoice.setBounds(24, 40, 74, 45);
+		personCntChoice.setSelectedIndex(0);
+		payPane.add(personCntChoice);
 
-		priceLabel = new JLabel("결제금액");
-		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		priceLabel.setFont(new Font("굴림", Font.PLAIN, 15));
-		priceLabel.setBounds(37, 30, 265, 60);
-		payPane.add(priceLabel);
+		JLabel cnt = new JLabel("명");
+		cnt.setBounds(110, 40, 34, 50);
+		payPane.add(cnt);
+
+		JButton cancelButton = new JButton("취소");
+		cancelButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		cancelButton.setBounds(356, 25, 179, 83);
+		payPane.add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				priceLabel.setText("이용료: 0");
+				personCntChoice.setSelectedIndex(0);
+				payButton.setEnabled(false);
+				timeList.clear();
+
+			}
+		});
 
 		setVisible(false);
 	}
@@ -145,32 +168,63 @@ public class Payment extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JCheckBox box = (JCheckBox) e.getSource();
+			JCheckBox cBox = (JCheckBox) e.getSource();
 
 			System.out.println(value);
 
 			Calendar cal = Calendar.getInstance();
 
 			cal.set(Calendar.HOUR_OF_DAY, value);
+			cal.set(Calendar.MINUTE, 0);
 			// TimeData time = new TimeData(1, Calendar.getInstance().get(Calendar.DATE),
 			// value, 0);
 
-			if (box.isSelected()) {
+			if (cBox.isSelected()) {
 				System.out.println("타임 추가하기");
 				timeList.add(cal);
-				totPrice += (int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
-				priceLabel.setText(totPrice+"");
+				totPrice = timeList.size()
+						* (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+				priceLabel.setText(totPrice + "");
+				payButton.setEnabled(true);
+				for (int i = 0; i < checkBoxList.size(); i++) {
+					MyCheckBox mBox = checkBoxList.get(i);
+					if (mBox.box == cBox) {
+						mBox.box.setEnabled(true);
+						if (i + 1 < checkBoxList.size()) {
+							checkBoxList.get(i + 1).box.setEnabled(true);
+						}
+						i++;
+					} else {
+						mBox.box.setEnabled(false);
+					}
+				}
 			} else {
 				System.out.println("타임 제거하기");
-				for (Calendar cal1 : timeList) {
+				for (int i = 0; i < timeList.size(); i++) {
+					Calendar cal1 = timeList.get(i);
 					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
 						timeList.remove(cal1);
-						totPrice -= (int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
-						priceLabel.setText(totPrice+"");
-					
-						}
+						totPrice = timeList.size() * (int) DataManager.getInstance().roomMap
+								.get(BaseFrame.getInstance().roomProduct.id).price;
+						priceLabel.setText(totPrice + "");
+					}
 				}
-
+				if (timeList.isEmpty()) {
+					payButton.setEnabled(false);
+				}
+				Calendar cal2 = Calendar.getInstance();
+				for (int i = checkBoxList.size() - 1; i > cal2.get(Calendar.HOUR_OF_DAY) + 1; i--) {
+					MyCheckBox mBox = checkBoxList.get(i);
+					if (mBox.box == cBox) {
+						// mBox.box.setEnabled(true);
+						if (i - 1 >= 0) {
+							checkBoxList.get(i - 1).box.setEnabled(true);
+							i--;
+						}
+					} else {
+						mBox.box.setEnabled(false);
+					}
+				}
 			}
 		}
 	}
@@ -179,34 +233,27 @@ public class Payment extends JFrame {
 
 	public void updateRoomInfo() {
 		// 서버에서 받은 룸정보
-
 	}
 
 	public void resPossibleChk() {
-		totPrice=0;
-
+		totPrice = 0;
 		for (MyCheckBox myCheckBox : checkBoxList) {
 			myCheckBox.box.setSelected(false);
 			myCheckBox.box.setEnabled(true);
 		}
-
 		Calendar cal = Calendar.getInstance();
 		ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(cal.get(Calendar.MONTH),
 				cal.get(Calendar.DATE));
-
 		for (MyCheckBox myCheckBox : checkBoxList) {
-
 			for (Integer i : checkList) {
-
 				if (myCheckBox.value == i) {
 					myCheckBox.box.setEnabled(false);
 				}
 			}
-			if (myCheckBox.value < cal.get(Calendar.HOUR_OF_DAY)) {
-				myCheckBox.box.setEnabled(false);		
+			if (myCheckBox.value <= cal.get(Calendar.HOUR_OF_DAY)) {
+				myCheckBox.box.setEnabled(false);
 			}
 		}
-		
 	}
 
 	public void openPage() {

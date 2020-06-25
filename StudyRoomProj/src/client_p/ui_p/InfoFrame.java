@@ -41,8 +41,8 @@ public class InfoFrame extends JFrame {
 		if (roomProduct != null && roomProduct.calendarList != null) {
 			String dateList = date.format(roomProduct.calendarList.get(0).getTime());
 
-			contentLabel.setText("<html>이용자 ID : " + id + "<br>현재 이용 중인 내역<br>이용중인 좌석/룸 : " + roomProduct.name
-					+ "<br>결제한 시간" + dateList + "<html>");
+			contentLabel.setText("<html>이용자 ID : " + id + "<br>현재 이용 중인 내역<br>이용중인 좌석/룸 : " 
+			+ roomProduct.name + "<br>결제한 시간" + dateList + "<html>");
 			setVisible(true);
 		} else {
 

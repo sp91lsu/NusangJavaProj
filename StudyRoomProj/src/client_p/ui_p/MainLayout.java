@@ -18,12 +18,14 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScExitAck;
 
 public class MainLayout extends JPanel implements Receivable {
 
 	private JButton button_1;
 	private JButton button_2;
 	private JButton button_6;
+	private JButton button_9;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -115,7 +117,7 @@ public class MainLayout extends JPanel implements Receivable {
 				InfoFrame info = new InfoFrame();
 			}});
 
-		JButton button_9 = new JButton("퇴실");
+		button_9 = new JButton("퇴실");
 		button_9.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_9);
 		button_9.addActionListener(new ActionListener() {
@@ -132,29 +134,42 @@ public class MainLayout extends JPanel implements Receivable {
 
 	public void openPage()
 	{
-		if(BaseFrame.getInstance().getUsingRoom() != null)
+		if(BaseFrame.getInstance().getUsingRoom() != null)//예약했으면
 		{
 			button_1.setEnabled(false);//개인룸 이용 버튼 비활성화
 			button_2.setEnabled(false);//단체석 이용버튼 비활성화
 			button_6.setEnabled(true);//좌석 연장 버튼 활성화 
+			button_9.setEnabled(true);
 		}else
 		{
 			button_1.setEnabled(true);//개인룸 이용 버튼 활성화
 			button_2.setEnabled(true);//단체룸 이용 버튼 활성화
 			button_6.setEnabled(false);//좌석 연장 버튼 비활성화 
+			button_9.setEnabled(false);
 		}
 	}
 	
 	@Override
 	public void receive(PacketBase packet) {
-		ScChatConnectAck ack = (ScChatConnectAck) packet;
-		if (ack.eResult == EResult.SUCCESS) {
+		if(packet.getClass() == ScChatConnectAck.class) {
+			ScChatConnectAck ack = (ScChatConnectAck) packet;
+			if (ack.eResult == EResult.SUCCESS) {
 
-			BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
-			BaseFrame.getInstance().view("ClientChatFrame");
+				BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
+				BaseFrame.getInstance().view("ClientChatFrame");
 
-		} else {
-			System.out.println("거절당함");
+			} else {
+				System.out.println("거절당함");
+			}
+		}else if(packet.getClass() == ScExitAck.class) {
+			ScExitAck resPacket = (ScExitAck) packet;
+			if (resPacket.eResult == EResult.SUCCESS) {
+				BaseFrame.getInstance().view("LoginMain");
+			} else if (resPacket.eResult == EResult.FAIL) {
+				System.out.println("퇴실 실패");
+			}
 		}
+		
+		
 	}
 }

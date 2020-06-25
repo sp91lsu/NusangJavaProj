@@ -4,13 +4,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class TimeFrame extends JFrame{
+import data_p.product_p.room_p.RoomProduct;
+
+public class TimeFrame extends JFrame {
 
 	String id = BaseFrame.getInstance().userData.id;
 	String phoneNum = "01012341234";
@@ -21,32 +27,55 @@ public class TimeFrame extends JFrame{
 	public TimeFrame() {
 		setBounds(100, 100, 500, 500);
 		getContentPane().setLayout(null);
-		
+
 		JLabel titleLabel = new JLabel("잔여 시간 확인");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		titleLabel.setBounds(60, 10, 360, 70);
 		getContentPane().add(titleLabel);
-		
-		JLabel lblNewLabel = new JLabel("<html>이용자 ID : "+id+"<br>휴대폰번호 : "+phoneNum
-				+ "<br>이용 중인 좌석/룸 : "+seatingName+"<br>이용 시간 : "+usingTime+"<br>잔여 시간 : "+remaingTime+"<html>");
+
+		JLabel lblNewLabel = new JLabel("<html>이용자 ID : " + id + "<br>휴대폰번호 : " + phoneNum + "<br>이용 중인 좌석/룸 : "
+				+ seatingName + "<br>이용 시간 : " + usingTime + "<br>잔여 시간 : " + remaingTime + "<html>");
+		showRemainTime();
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 24));
 		lblNewLabel.setBounds(51, 98, 387, 183);
-		//lblNewLabel.setOpaque(true);
+		// lblNewLabel.setOpaque(true);
 		getContentPane().add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
+
 		JButton btnNewButton = new JButton("확인");
 		btnNewButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
 		btnNewButton.setBounds(110, 340, 243, 71);
 		getContentPane().add(btnNewButton);
-		
+
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}});
-		
+			}
+		});
+
 		setVisible(true);
 	}
+
+	void showRemainTime() {
+
+		ArrayList<Calendar> remainList = BaseFrame.getInstance().getTodayRemainTime();
+
+		Calendar end = remainList.get(0);
+
+		for (Calendar calendar : remainList) {
+			if (end.getTimeInMillis() < calendar.getTimeInMillis()) {
+				end = calendar;
+			}
+		}
+		end.add(Calendar.HOUR, 1);
+
+		long remain = end.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+
+		System.out.println("끝시간 " + end.getTime());
+		System.out.println("남은시간 ");
+		System.out.println(TimeUnit.MILLISECONDS.toMinutes(remain));
+	}
+
 }

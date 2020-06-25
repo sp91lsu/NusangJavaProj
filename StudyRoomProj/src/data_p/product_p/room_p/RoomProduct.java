@@ -30,9 +30,14 @@ public class RoomProduct extends ProductData {
 		this.calendarList = calendarList;
 	}
 
-	
-	public void setExit()
-	{
+	public void setExit() {
 		isExit = true;
+	}
+
+	public RoomProduct getClone() {
+		RoomProduct clone = new RoomProduct(this.id, this.name, this.price, this.personNum);
+		clone.userUUID = userUUID;
+		clone.isExit = isExit;
+		return clone;
 	}
 }
