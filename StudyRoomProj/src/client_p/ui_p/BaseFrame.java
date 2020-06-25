@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
@@ -13,6 +15,7 @@ import client_p.packet_p.syn_p.CsUpdateRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import packetBase_p.ELoginType;
+import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
@@ -42,7 +45,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public Payment payment = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
-	public RCalcFrame rcalc = new RCalcFrame();
+	//public RCalcFrame rcalc = new RCalcFrame();
 	public LockerMain lockerMain = new LockerMain();
 	public RoomProduct roomProduct;
 
@@ -73,7 +76,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
-
+		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -95,15 +98,28 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
-		roomInfoList = roomInfoCast.roomList;
-		// 예약페이지
-		// 당일결제페이지
-	}
+	      if(packet.getClass()==ScRoomInfoBroadCast.class){
+	         ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
+	         roomInfoList = roomInfoCast.roomList;
+	      }
+	      else if (packet.getClass()==ScBuyLockerAck.class)
+	      {
+	         ScBuyLockerAck packetAck = (ScBuyLockerAck)packet;
+	         if(packetAck.eResult==EResult.SUCCESS) {
+	            BaseFrame.getInstance().view("LoginMain");
+	         }
+	         else
+	         {
+	            System.out.println("사물함 결제 실패");
+	         }
+	      }
+	      // 예약페이지
+	      // 당일결제페이지
+	   }
 
 	public void updateInfo(ArrayList<RoomProduct> roomList) {
 		roomInfoList = roomList;
-		payment.updateRoomInfo();
+	
 	}
 
 	// 현재 룸 정보 결제를 위해 시간 넣기
