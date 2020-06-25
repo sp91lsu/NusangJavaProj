@@ -245,7 +245,14 @@ class MethExitSyn implements ServerPacketMethod {
 		RoomDao roomDao = new RoomDao();
 		roomDao.exitRoom(respacket.room);
 
-		ScExitAck ack = new ScExitAck(EResult.SUCCESS);
+		LockerDao lockerDao = new LockerDao();
+
+		ScExitAck ack;
+		if (lockerDao.deleteLocker(respacket.room.userUUID)) {
+			ack = new ScExitAck(EResult.SUCCESS);
+		} else {
+			ack = new ScExitAck(EResult.FAIL);
+		}
 
 		client.sendPacket(ack);
 	}

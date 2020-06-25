@@ -44,6 +44,10 @@ public class DBProcess {
 		where(value);
 	}
 
+	void deleteQuery(ETable table, String... value) {
+		query = "DELETE " + "from " + table.name() + " where " + value;
+	}
+
 	void where(String... data) {
 		if (data.length == 2) {
 			query += " where " + data[1];
