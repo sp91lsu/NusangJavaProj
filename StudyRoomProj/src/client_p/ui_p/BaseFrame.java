@@ -1,8 +1,10 @@
 package client_p.ui_p;
 
 import java.awt.Color;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -162,12 +164,35 @@ public class BaseFrame extends JFrame implements Receivable {
 		return (ReservationMain) jPanelArrl.get(4);
 	}
 
+	// 오늘 총 이용시간
+	public long totTodayUseTime() {
+
+		int hour = 0;
+		Calendar current = Calendar.getInstance();
+
+		 current.add(Calendar.HOUR, 1);
+
+		for (RoomProduct room : userData.myReservationList) {
+			for (Calendar time : room.calendarList) {
+
+				if (time.getTimeInMillis() <= current.getTimeInMillis()) {
+
+					hour++;
+				}
+			}
+		}
+		// 오늘 누적 시간만 밀리세컨즈로
+		long hourMilli = TimeUnit.HOURS.toMillis(hour);
+
+		return hourMilli - getTodayRemainTime();
+	}
+
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 		Calendar current = Calendar.getInstance();
 		RoomProduct clone = null;
 
-		for (RoomProduct product : BaseFrame.getInstance().userData.myReservationList) {
+		for (RoomProduct product : userData.myReservationList) {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
 
@@ -184,8 +209,9 @@ public class BaseFrame extends JFrame implements Receivable {
 		return clone;
 	}
 
-	public ArrayList<Calendar> getTodayRemainTime() {
+	public long getTodayRemainTime() {
 
+		// 오늘예약한 리스트만 가지고오기
 		Calendar current = Calendar.getInstance();
 
 		ArrayList<Calendar> remainList = new ArrayList<Calendar>();
@@ -198,12 +224,27 @@ public class BaseFrame extends JFrame implements Receivable {
 
 					if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
 							&& cal.get(Calendar.DATE) == current.get(Calendar.DATE)) {
-						remainList.add(cal);
+						Calendar copyCal = Calendar.getInstance();
+						copyCal.setTime(cal.getTime());
+						remainList.add(copyCal);
 					}
 				}
 			}
 		}
-		return remainList;
+
+		// 오늘 예약한 마지막 시간 가지고 오기
+		Calendar end = remainList.get(0);
+
+		for (Calendar calendar : remainList) {
+			if (end.getTimeInMillis() < calendar.getTimeInMillis()) {
+				end = calendar;
+			}
+		}
+
+		end.add(Calendar.HOUR, 1);
+
+		// 오늘 예약한 남은시간
+		return end.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 	}
 }
 
