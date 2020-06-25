@@ -30,7 +30,7 @@ public class MainLayout extends JPanel implements Receivable {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 900, 1000);
+		frame.setBounds(100, 100, 900, 800);
 		frame.getContentPane().add(new MainLayout());
 		frame.setVisible(true);
 	}

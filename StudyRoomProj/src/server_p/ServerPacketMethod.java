@@ -1,6 +1,7 @@
 package server_p;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsBuyLockerSyn;
@@ -114,14 +115,14 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-		String managerIp = "/192.168.1.99";
+		String managerIp = "/192.168.0.63";
 		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
 		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
-		toMchatSyn.setManagerIp(sc.socket.getInetAddress().toString());
 
-		if (sc != null && !sc.isChat) {
+		if (sc != null) {// && !sc.isChat
+			toMchatSyn.setManagerIp(sc.socket.getInetAddress().toString());
 			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			sc.sendPacket(toMchatSyn);
 		}
@@ -244,7 +245,14 @@ class MethExitSyn implements ServerPacketMethod {
 		RoomDao roomDao = new RoomDao();
 		roomDao.exitRoom(respacket.room);
 
-		ScExitAck ack = new ScExitAck(EResult.SUCCESS);
+		LockerDao lockerDao = new LockerDao();
+
+		ScExitAck ack;
+		if (lockerDao.deleteLocker(respacket.room.userUUID)) {
+			ack = new ScExitAck(EResult.SUCCESS);
+		} else {
+			ack = new ScExitAck(EResult.FAIL);
+		}
 
 		client.sendPacket(ack);
 	}
@@ -376,16 +384,19 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
 
-		ScBuyLockerAck ack = null;
-
 		LockerDao lockerDao = new LockerDao();
 
 		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
-			ack = new ScBuyLockerAck(EResult.SUCCESS);
 
-			MyServer.getInstance().broadCast(ack);
+			lockerDao = new LockerDao();
+
+			ArrayList<Integer> lockerList = lockerDao.getLockerIDList();
+
+			ScBuyLockerCast lockerCast = new ScBuyLockerCast(EResult.SUCCESS, lockerList);
+
+			MyServer.getInstance().broadCast(lockerCast);
 		} else {
-			ack = new ScBuyLockerAck(EResult.FAIL);
+			ScBuyLockerAck ack = new ScBuyLockerAck(EResult.FAIL);
 			client.sendPacket(ack);
 		}
 
