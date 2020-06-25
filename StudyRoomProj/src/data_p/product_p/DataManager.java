@@ -100,4 +100,14 @@ public class DataManager {
 			lockerList.add(data);
 		}
 	}
+
+	public LockerData getLockerData(int id) {
+		for (LockerData lockerData : lockerList) {
+			if (lockerData.id == id) {
+				return lockerData;
+			}
+		}
+
+		return null;
+	}
 }

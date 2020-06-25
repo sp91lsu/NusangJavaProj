@@ -10,12 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
+import data_p.product_p.LockerData;
+
 public class LockerPWFrame extends JFrame implements ActionListener{
 
 	private JPasswordField passwordField;
-	private String lockerNum;
-	public LockerPWFrame(String lockerNum) {
-		this.lockerNum = lockerNum;
+	private LockerData lockerData;
+	public LockerPWFrame(LockerData lockerData) {
+		this.lockerData = lockerData;
 		setBounds(100, 100, 500, 450);
 		getContentPane().setLayout(null);
 
@@ -87,7 +89,8 @@ public class LockerPWFrame extends JFrame implements ActionListener{
 		getContentPane().add(button_8);
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LockerCalcFrame lc = new LockerCalcFrame(lockerNum);
+				LockerCalcFrame lc = new LockerCalcFrame(lockerData);
+				System.out.println(passwordField.getText());
 				dispose();
 			}});
 		
