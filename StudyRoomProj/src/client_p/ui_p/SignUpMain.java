@@ -55,7 +55,7 @@ public class SignUpMain extends JFrame implements Receivable{
 		idL.setBounds(280, 155, 77, 42);
 		mainPane.add(idL);
 		
-		JLabel nameL = new JLabel("영문이름");
+		JLabel nameL = new JLabel("이름");
 		nameL.setBounds(280, 103, 77, 42);
 		mainPane.add(nameL);
 		
