@@ -109,10 +109,21 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		JLabel lblNewLabel_5 = new JLabel("¼±ÅÃ ÁÂ¼®");
 		panel_8.add(lblNewLabel_5);
 
-		umgIc = new ImageIcon("img/blue.png");
+		umgIc = new ImageIcon("img/cyan.png");
 		JLabel lblNewLabel_6 = new JLabel(umgIc);
 		panel_8.add(lblNewLabel_6);
 
+		JPanel panel_9 = new JPanel();
+		north_center_center.add(panel_9);
+		panel_9.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel lblNewLabel_7 = new JLabel("ÇöÀç ÁÂ¼®");
+		panel_9.add(lblNewLabel_7);
+
+		umgIc = new ImageIcon("img/blue.png");
+		JLabel lblNewLabel_8 = new JLabel(umgIc);
+		panel_9.add(lblNewLabel_8);
+		
 		JPanel north_center_west = new JPanel();
 		north_center.add(north_center_west, BorderLayout.WEST);
 
@@ -345,7 +356,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		if (roomProduct != null) {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(Color.blue);
+					jButton.setBackground(Color.cyan);
 				}
 			}
 		}
@@ -374,7 +385,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		if (roomProduct != null) {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(Color.blue);
+					jButton.setBackground(Color.cyan);
 
 				}
 			}
