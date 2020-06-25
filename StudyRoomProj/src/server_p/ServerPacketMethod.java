@@ -24,6 +24,7 @@ import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
+import server_p.packet_p.ack_p.ScBuyLockerAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
@@ -375,16 +376,16 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
 
-		ScBuyLockerCast ack = null;
+		ScBuyLockerAck ack = null;
 
 		LockerDao lockerDao = new LockerDao();
 
 		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
-			ack = new ScBuyLockerCast(EResult.SUCCESS);
+			ack = new ScBuyLockerAck(EResult.SUCCESS);
 
 			MyServer.getInstance().broadCast(ack);
 		} else {
-			ack = new ScBuyLockerCast(EResult.FAIL);
+			ack = new ScBuyLockerAck(EResult.FAIL);
 			client.sendPacket(ack);
 		}
 
