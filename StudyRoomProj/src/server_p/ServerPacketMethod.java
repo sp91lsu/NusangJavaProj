@@ -2,7 +2,6 @@ package server_p;
 
 import java.util.UUID;
 
-import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
@@ -10,11 +9,13 @@ import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
-import client_p.packet_p.syn_p.MSCurrMemListSyn;
 import data_p.product_p.DataManager;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.RoomDao;
+import manager_p.ack_p.MsChatConnectAck;
+import manager_p.syn_p.MsAllMemListSyn;
+import manager_p.syn_p.MsCurrMemListSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SMCurrMemListAck;
@@ -23,6 +24,7 @@ import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
@@ -237,28 +239,53 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 	}
 }
 
-class MethCsCurrMemListSyn implements ServerPacketMethod {
+class MethMsCurrMemListSyn implements ServerPacketMethod {
 
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
-		MSCurrMemListSyn resPacket = (MSCurrMemListSyn) packet;
+		MsCurrMemListSyn resPacket = (MsCurrMemListSyn) packet;
 
-		String managerIp = "/192.168.100.27";
-		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+//		String managerIp = "/192.168.100.27";
+//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		SMCurrMemListAck toMcurrMLAck = null;
 		AccountDao accountDao = new AccountDao();
 		try {
-			if (sc != null) {
+//			if (sc != null) {
 				toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
-			} else {
-				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
-			}
+//			} else {
+//				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		sc.sendPacket(toMcurrMLAck);
+		client.sendPacket(toMcurrMLAck);
+	}
+}
+
+class MethMsAllMemListSyn implements ServerPacketMethod {
+
+	@Override
+	public void receive(SocketClient client, PacketBase packet) {
+		MsAllMemListSyn resPacket = (MsAllMemListSyn) packet;
+
+//		String managerIp = "/192.168.100.27";
+//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+
+		SmAllMemListAck Ack = null;
+		AccountDao accountDao = new AccountDao();
+		try {
+//			if (sc != null) {
+				Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
+//			} else {
+//				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		client.sendPacket(Ack);
 	}
 }
 

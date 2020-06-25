@@ -2,8 +2,10 @@ package server_p;
 
 import java.util.HashMap;
 
-import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.*;
+import manager_p.ack_p.MsChatConnectAck;
+import manager_p.syn_p.MsCurrMemListSyn;
+import manager_p.syn_p.MsAllMemListSyn;
 import packetBase_p.*;
 
 public class PacketMap {
@@ -24,7 +26,8 @@ public class PacketMap {
 		map.put(CsCloseSyn.class, new MethCloseSyn()); // 소켓 종료
 		map.put(CsExitSyn.class, new MethExitSyn()); // 소켓 종료
 		map.put(CsUpdateRoomSyn.class, new MethUpdateRoomSyn()); // 룸 정보 업데이
-		map.put(MSCurrMemListSyn.class, new MethCsCurrMemListSyn()); //현재 회원리스트
+		map.put(MsCurrMemListSyn.class, new MethMsCurrMemListSyn()); //현재 회원리스트
+		map.put(MsAllMemListSyn.class, new MethMsAllMemListSyn()); //현재 회원리스트
 
 	}
 

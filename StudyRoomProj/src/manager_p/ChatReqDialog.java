@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import client_p.ClientNet;
-import client_p.packet_p.ack_p.MsChatConnectAck;
 import client_p.packet_p.syn_p.CsChatSyn;
+import manager_p.ack_p.MsChatConnectAck;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
 public class ChatReqDialog extends JDialog {

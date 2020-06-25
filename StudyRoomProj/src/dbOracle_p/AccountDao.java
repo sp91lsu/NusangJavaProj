@@ -73,7 +73,9 @@ public class AccountDao extends DBProcess {
 			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
 					rs.getString("phone"), rs.getString("birth"));
 			userList.add(userdata);
+			System.out.println(userdata.uuid);
 		}
+		System.out.println(userList.size());
 		rs.close();
 		return userList;
 	}
@@ -93,7 +95,7 @@ public class AccountDao extends DBProcess {
 		
 		
 		for (String str : uuidList) {
-			String s="UUID = "+str;
+			String s="UUID = "+"'"+str+"'";
 			findQuery(ETable.ACCOUNT, "*",s);
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();

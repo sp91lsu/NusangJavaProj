@@ -1,4 +1,4 @@
-package client_p.packet_p.ack_p;
+package manager_p.ack_p;
 
 import packetBase_p.PacketBase;
 

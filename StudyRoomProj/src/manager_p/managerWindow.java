@@ -24,18 +24,20 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
-import client_p.packet_p.syn_p.MSCurrMemListSyn;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
-import data_p.user_p.UserData;
+import manager_p.syn_p.MsAllMemListSyn;
+import manager_p.syn_p.MsCurrMemListSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SMCurrMemListAck;
+import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
@@ -59,17 +61,29 @@ public class managerWindow extends JFrame implements Receivable {
 	private JTable table_2;
 	private String headerCurrMem[];
 	private String contentsCurrMem[][];
+	private DefaultTableModel dTable;
+	private DefaultTableModel dTable2;
+	private JPanel panel_5;
+	private String headerAllMem[];
+	private String contentsAllMem[][];
 	
 	public static void main(String[] args) {
 		managerWindow mww = new managerWindow();
 		PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
 		PacketMap.getInstance().map.put(CsChatSyn.class, mww);
-		PacketMap.getInstance().map.put(MSCurrMemListSyn.class, mww);
+		PacketMap.getInstance().map.put(SMCurrMemListAck.class, mww);
+		PacketMap.getInstance().map.put(SmAllMemListAck.class, mww);
 		ClientNet.getInstance().start();
 		
 	}
 
+	/**
+	 * 
+	 */
+	/**
+	 * 
+	 */
 	public managerWindow() {
 
 		System.out.println("생성!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -85,7 +99,7 @@ public class managerWindow extends JFrame implements Receivable {
 		tabbedPane.setToolTipText("회원");
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 
-		JPanel panel_5 = new JPanel();
+		panel_5 = new JPanel();
 		tabbedPane.addTab("\uD68C\uC6D0\uAD00\uB9AC", null, panel_5, null);
 		GridBagLayout gbl_panel_5 = new GridBagLayout();
 		gbl_panel_5.columnWidths = new int[] { 162, 0, 0 };
@@ -121,7 +135,7 @@ public class managerWindow extends JFrame implements Receivable {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_panel_6.show(panel_6, "scrollPane_3");
-				MSCurrMemListSyn packet = new MSCurrMemListSyn();
+				MsCurrMemListSyn packet = new MsCurrMemListSyn();
 				ClientNet.getInstance().sendPacket(packet);
 			}
 		});
@@ -131,10 +145,13 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_btnNewButton.gridy = 3;
 		panel_7.add(btnNewButton, gbc_btnNewButton);
 
+		//회원관리 - 전체 고객 버튼
 		JButton btnNewButton_1 = new JButton("\uC804\uCCB4 \uACE0\uAC1D");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_panel_6.show(panel_6, "scrollPane_3_1");
+				MsAllMemListSyn packet = new MsAllMemListSyn();
+				ClientNet.getInstance().sendPacket(packet);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -149,6 +166,25 @@ public class managerWindow extends JFrame implements Receivable {
 				cl_panel_6.show(panel_6, "panel");
 			}
 		});
+		
+		//테스트
+		JButton btnNewButton_5 = new JButton("New button");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentsCurrMem[0][3] = "ㄷㅈ라ㅣㅁㅈㄷ리";
+				dTable = new DefaultTableModel(contentsCurrMem, headerCurrMem);
+				table_1 = new JTable(dTable);
+				table_1.setRowHeight(27);
+				table_1.setFillsViewportHeight(true);
+				table_1.setFont(new Font("새굴림", Font.PLAIN, 25));
+				scrollPane_3.setViewportView(table_1);
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
+		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton_5.gridx = 0;
+		gbc_btnNewButton_5.gridy = 6;
+		panel_7.add(btnNewButton_5, gbc_btnNewButton_5);
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.gridx = 0;
 		gbc_btnNewButton_2.gridy = 7;
@@ -171,14 +207,12 @@ public class managerWindow extends JFrame implements Receivable {
 		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		panel_6.add("scrollPane_3", scrollPane_3);
 
+		
 		headerCurrMem = new String[] { "이름", "ID", "휴대폰번호", "생년월일" };
-//		contentsCurrMem = new String[][] { { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-//				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-//				{ "dfeb", "5", "234767" }, };
-		table_1 = new JTable(contentsCurrMem, headerCurrMem);
+		contentsCurrMem = new String[][] { { "샤워실", "2", "30000","ef" }, { "일반1", "3", "34003","ef" }, { "ㅇㄹㄷㄷ", "4", "34534","ef" },
+				{ "dfeb", "5", "234767" ,"ef"},};
+		dTable = new DefaultTableModel(contentsCurrMem, headerCurrMem);
+		table_1 = new JTable(dTable);
 		table_1.setRowHeight(27);
 		table_1.setFillsViewportHeight(true);
 		table_1.setFont(new Font("새굴림", Font.PLAIN, 25));
@@ -192,14 +226,11 @@ public class managerWindow extends JFrame implements Receivable {
 		scrollPane_3_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		panel_6.add("scrollPane_3_1",scrollPane_3_1);
 
-		String header4[] = { "이용석", "이용객", "금액" };
-		String contents4[][] = { { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "샤워실", "2", "30000" }, { "일반1", "3", "34003" }, { "ㅇㄹㄷㄷ", "4", "34534" },
-				{ "dfeb", "5", "234767" }, };
-		table = new JTable(contents4, header4);
+		headerAllMem = new String[] { "이름", "ID", "휴대폰번호", "생년월일" };
+		contentsAllMem = new String[][] { { "샤워실", "2", "30000","ef" }, { "일반1", "3", "34003","ef" }, { "ㅇㄹㄷㄷ", "4", "34534","ef" },
+			{ "dfeb", "5", "234767" ,"ef"}};
+		dTable2 = new DefaultTableModel(contentsAllMem, headerAllMem);
+		table = new JTable(dTable2);
 		table.setRowHeight(27);
 		table.setFillsViewportHeight(true);
 		table.setFont(new Font("새굴림", Font.PLAIN, 25));
@@ -932,8 +963,35 @@ public class managerWindow extends JFrame implements Receivable {
 				contentsCurrMem[i][2] = currAck.userList.get(i).phone;
 				contentsCurrMem[i][3] = currAck.userList.get(i).birth;
 			}
+			dTable = new DefaultTableModel(contentsCurrMem, headerCurrMem);
+			table_1 = new JTable(dTable);
+			table_1.setRowHeight(27);
+			table_1.setFillsViewportHeight(true);
+			table_1.setFont(new Font("새굴림", Font.PLAIN, 25));
+			scrollPane_3.setViewportView(table_1);
 		}
 		
+		
+		//전체 고객
+		if(packet.getClass() == SmAllMemListAck.class) {
+			SmAllMemListAck ack = (SmAllMemListAck)packet;
+			contentsAllMem = new String[ack.userList.size()][4];
+			System.out.println("ack 사이즈:"+ack.userList.size()+" contentsAllMem 사이즈:"+contentsAllMem.length);
+			System.out.println("fefef"+ack.userList.get(0).name);
+			
+			for (int i = 0; i < ack.userList.size(); i++) {
+				contentsAllMem[i][0] = ack.userList.get(i).name;
+				contentsAllMem[i][1] = ack.userList.get(i).id;
+				contentsAllMem[i][2] = ack.userList.get(i).phone;
+				contentsAllMem[i][3] = ack.userList.get(i).birth;
+			}
+			dTable2 = new DefaultTableModel(contentsAllMem, headerAllMem);
+			table = new JTable(dTable2);
+			table.setRowHeight(27);
+			table.setFillsViewportHeight(true);
+			table.setFont(new Font("새굴림", Font.PLAIN, 25));
+			scrollPane_3_1.setViewportView(table);
+		}
 	}
 }
 
