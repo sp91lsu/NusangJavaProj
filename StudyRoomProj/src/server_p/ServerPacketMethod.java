@@ -13,7 +13,6 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
-import data_p.product_p.LockerData;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.LockerDao;
@@ -191,9 +190,9 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		try {
 			if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
 				roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
-
+				RoomDao roomDao2 = new RoomDao();
 				ack = new ScBuyRoomAck(EResult.SUCCESS);
-				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao2.getRoomInfo("*"));
 				MyServer.getInstance().broadCast(roomCast);
 
 			} else {
