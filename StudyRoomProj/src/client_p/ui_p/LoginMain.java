@@ -20,18 +20,21 @@ import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
+import javax.swing.JCheckBox;
 
 public class LoginMain extends JPanel implements Receivable {
 
 	private JTextField idTextF;
 	private JPasswordField passwordField;
 	CheckRoomInfo chkroominfo;
+	JCheckBox changeBox;
+	JLabel idLabel;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 900, 1000);
-		frame.add(new LoginMain());
+		frame.getContentPane().add(new LoginMain());
 		frame.setVisible(true);
 	}
 
@@ -43,44 +46,63 @@ public class LoginMain extends JPanel implements Receivable {
 		JLabel lblNewLabel = new JLabel("로그인창");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
-		lblNewLabel.setBounds(251, 21, 469, 110);
+		lblNewLabel.setBounds(230, 21, 469, 110);
 		add(lblNewLabel);
 
-		JLabel idLabel = new JLabel("ID");
+		idLabel = new JLabel("ID");
 		idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 26));
-		idLabel.setBounds(251, 156, 51, 55);
+		idLabel.setBounds(150, 156, 100, 55);
 		add(idLabel);
 
 		idTextF = new JTextField();
-		idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
+		idTextF.setText("등록한 ID 또는 휴대폰 번호를 입력하세요");
 		idTextF.setToolTipText("");
 		idTextF.setFont(new Font("맑은 고딕", Font.ITALIC, 14));
-		idTextF.setBounds(323, 156, 328, 55);
+		idTextF.setBounds(300, 156, 328, 55);
 		add(idTextF);
 		idTextF.setColumns(10);
+		
+		changeBox = new JCheckBox("휴대폰 번호로 로그인하기");
+		changeBox.setBounds(300, 220, 300, 70);
+		changeBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(changeBox.isSelected() == true) {
+					idLabel.setText("Phone");
+					idTextF.setText("등록한 휴대폰 번호를 입력하세요");
+				}else {
+					idLabel.setText("ID");
+					idTextF.setText("등록한 ID를 입력하세요");
+				}
+				
+				
+			}
+		});
+		add(changeBox);
 
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 26));
-		lblPw.setBounds(251, 236, 51, 54);
+		lblPw.setBounds(150, 300, 51, 54);
 		add(lblPw);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(323, 236, 328, 54);
+		passwordField.setBounds(300, 300, 328, 54);
 		add(passwordField);
 
 		JButton logInBtn = new JButton("로그인");
 		logInBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		logInBtn.setBounds(323, 321, 120, 45);
+		logInBtn.setBounds(300, 400, 120, 45);
 		add(logInBtn);
 		logInBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), true);
+				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), !changeBox.isSelected());
 				ClientNet.getInstance().sendPacket(packet);
 			}});
 
 		JButton signUpBt = new JButton("회원가입");
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		signUpBt.setBounds(508, 321, 120, 45);
+		signUpBt.setBounds(480, 400, 120, 45);
 		add(signUpBt);
 		signUpBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
