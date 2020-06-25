@@ -68,7 +68,7 @@ public class ChatReqDialog extends JDialog {
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
 						mw.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
-						mw.tabbedPane.setSelectedIndex(6);
+						mw.tabbedPane.setSelectedIndex(7);
 					}
 				});
 				okButton.setActionCommand("OK");
