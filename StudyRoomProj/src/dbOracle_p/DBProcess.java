@@ -50,6 +50,14 @@ public class DBProcess {
 		}
 		System.out.println(query);
 	}
+
+	public ResultSet getRS(ETable table, String... keys) throws SQLException {
+
+		findQuery(table, keys);
+		stmt = con.prepareStatement(query);
+
+		return stmt.executeQuery();
+	}
 //	public void setQuery() throws SQLException {
 //		reset();
 //		rs = stmt.executeQuery(query);
@@ -113,7 +121,5 @@ public class DBProcess {
 			e.printStackTrace();
 		}
 	}
-
-
 
 }

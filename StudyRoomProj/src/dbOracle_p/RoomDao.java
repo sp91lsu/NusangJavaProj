@@ -82,18 +82,10 @@ public class RoomDao extends DBProcess {
 		}
 	}
 
-	public ResultSet getRoomInfoRS(String... keys) throws SQLException {
-
-		findQuery(ETable.INVENTORY, keys);
-		stmt = con.prepareStatement(query);
-
-		return stmt.executeQuery();
-	}
-
 	// 재고 모든 정보 불러오기
 	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
 
-		rs = getRoomInfoRS(keys);
+		rs = getRS(ETable.INVENTORY, keys);
 
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 
@@ -131,7 +123,8 @@ public class RoomDao extends DBProcess {
 	public ArrayList<RoomProduct> currentRoomState() {
 		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
 		try {
-			rs = getRoomInfoRS("*", "startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+			rs = getRS(ETable.INVENTORY, "*",
+					"startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 			cRoomList = resToList(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();

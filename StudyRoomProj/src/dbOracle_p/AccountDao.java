@@ -124,7 +124,7 @@ public class AccountDao extends DBProcess {
 		RoomDao roomDao = new RoomDao();
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 		try {
-			ResultSet rs = roomDao.getRoomInfoRS("*", "uuid = '" + uuid + "'");
+			ResultSet rs = roomDao.getRS(ETable.INVENTORY, "*", "uuid = '" + uuid + "'");
 			// Listener refused the connection with the following error:
 			roomList = roomDao.resToList(rs);
 		} catch (SQLException e) {
