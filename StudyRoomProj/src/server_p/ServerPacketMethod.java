@@ -2,6 +2,7 @@ package server_p;
 
 import java.util.UUID;
 
+import client_p.packet_p.syn_p.CsBuyLockerSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
@@ -10,8 +11,10 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
+import data_p.product_p.LockerData;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
+import dbOracle_p.LockerDao;
 import dbOracle_p.RoomDao;
 import manager_p.ack_p.MsChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
@@ -20,6 +23,7 @@ import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SMCurrMemListAck;
+import server_p.packet_p.ack_p.ScBuyLockerAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScExitAck;
@@ -240,8 +244,7 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
 			String managerIp = "/192.168.100.27";
 			SocketClient mc = MyServer.getInstance().findClient(managerIp);
-			if(mc != null)
-			{
+			if (mc != null) {
 				mc.sendPacket(roomCast);
 			}
 			client.sendPacket(roomCast);
@@ -267,7 +270,7 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-				toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
+			toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -293,7 +296,7 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-				Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
+			Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -307,14 +310,14 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 
 //회원 검색
 class MethMsMemSearchSyn implements ServerPacketMethod {
-	
+
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
-		
+
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
-		
+
 		SmMemSearchAck Ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
@@ -326,7 +329,7 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		client.sendPacket(Ack);
 	}
 }
@@ -334,6 +337,19 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 class MethBuyLockerSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
+
+		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
+
+		ScBuyLockerAck ack = null;
+
+		LockerDao lockerDao = new LockerDao();
+
+		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
+			ack = new ScBuyLockerAck(EResult.SUCCESS);
+		} else {
+			ack = new ScBuyLockerAck(EResult.FAIL);
+		}
+		client.sendPacket(ack);
 	}
 }
 

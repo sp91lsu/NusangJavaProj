@@ -1,6 +1,6 @@
 package dbOracle_p;
 
 public enum ETable {
-	PRODUCT, ACCOUNT, MANAGERKEY, INVENTORY;
+	PRODUCT, ACCOUNT, MANAGERKEY, INVENTORY, LOCKER;
 
 }
