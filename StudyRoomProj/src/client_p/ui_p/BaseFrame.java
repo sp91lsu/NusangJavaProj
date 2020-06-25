@@ -96,33 +96,33 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	@Override
-	   public void receive(PacketBase packet) {
-	      if (packet.getClass() == ScRoomInfoBroadCast.class) {
-	         ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
-	         roomInfoList = roomInfoCast.roomList;
+	public void receive(PacketBase packet) {
+		if (packet.getClass() == ScRoomInfoBroadCast.class) {
+			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
+			roomInfoList = roomInfoCast.roomList;
 
-	         if (payment.isVisible()) {
-	            payment.updatePayment();
-	         }
-	         if (getReservationMain().isVisible()) {
-	            getReservationMain().updateReservationMain();
-	         }
-	      } else if (packet.getClass() == ScBuyLockerCast.class) {
-	         ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
-	         if (packetAck.eResult == EResult.SUCCESS) {
-	            BaseFrame.getInstance().view("LoginMain");
-	         } else {
-	            System.out.println("사물함 결제 실패");
-	         }
-	      }
-	      // 예약페이지
-	      // 당일결제페이지
-	   }
-
-	public void updateInfo(ArrayList<RoomProduct> roomList) {
-		roomInfoList = roomList;
-	
+			if (payment.isVisible()) {
+				payment.updatePayment();
+			}
+			if (getReservationMain().isVisible()) {
+				getReservationMain().updateReservationMain();
+			}
+		} else if (packet.getClass() == ScBuyLockerCast.class) {
+			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
+			if (packetAck.eResult == EResult.SUCCESS) {
+				BaseFrame.getInstance().view("LoginMain");
+			} else {
+				System.out.println("사물함 결제 실패");
+			}
+		}
+		// 예약페이지
+		// 당일결제페이지
 	}
+
+		public void updateInfo(ArrayList<RoomProduct> roomList) {
+			roomInfoList = roomList;
+
+		}
 
 	// 현재 룸 정보 결제를 위해 시간 넣기
 	public void setCurrentRoomInfo(ArrayList<Calendar> calendarList) {
@@ -261,7 +261,6 @@ public class BaseFrame extends JFrame implements Receivable {
 				end = calendar;
 			}
 		}
-
 		end.add(Calendar.HOUR, 1);
 
 		// 오늘 예약한 남은시간
@@ -270,21 +269,20 @@ public class BaseFrame extends JFrame implements Receivable {
 }
 
 class CheckRoomInfo extends Thread {
-	   @Override
-	   public void run() {
-	      try {
-	         while (true) {
-	            Calendar cal = Calendar.getInstance();
-	            if (cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0) {
-	               CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
-	                     BaseFrame.getInstance().userData.uuid);
-	               ClientNet.getInstance().sendPacket(packet);
-	            }
-
-	            sleep(800);
-	         }
-	      } catch (InterruptedException e) {
-	         e.printStackTrace();
-	      }
-	   }
+	@Override
+	public void run() {
+		try {
+			while (true) {
+				Calendar cal = Calendar.getInstance();
+				if (cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0) {
+					CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
+							BaseFrame.getInstance().userData.uuid);
+					ClientNet.getInstance().sendPacket(packet);
+				}
+				sleep(800);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
+}
