@@ -592,7 +592,6 @@ public class managerWindow extends JFrame implements Receivable {
 
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
-		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", new JButton("¿¹¾à"));
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[] { 300, 0, 300, 0 };
 		gbl_panel_4.rowHeights = new int[] { 0, 0, 0, 0 };
