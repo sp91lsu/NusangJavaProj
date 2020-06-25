@@ -96,7 +96,7 @@ public class DataManager {
 			int id = Integer.parseInt(idList.get(i));
 			long price = Long.parseLong(priceList.get(i));
 
-			LockerData data = new LockerData(id, nameList.get(i), pwList.get(i), price);
+			LockerData data = new LockerData(id, nameList.get(i), price);
 			lockerList.add(data);
 		}
 	}

@@ -4,9 +4,12 @@ public class LockerData extends ProductData {
 
 	String pw;
 
-	public LockerData(Integer id, String name, String pw, long price) {
+	public LockerData(Integer id, String name, long price) {
 		super(id, name, price);
-		this.pw = pw;
+
 	}
 
+	public void setPW(String pw) {
+		this.pw = pw;
+	}
 }
