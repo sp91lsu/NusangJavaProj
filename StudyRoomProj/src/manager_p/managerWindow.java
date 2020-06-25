@@ -2,7 +2,6 @@ package manager_p;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -27,6 +26,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import client_p.ClientNet;
@@ -36,19 +37,17 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.user_p.UserData;
-import javafx.scene.control.ComboBox;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
+import manager_p.syn_p.MsGiveMeAllRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
+import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 
 public class managerWindow extends JFrame implements Receivable {
 	private JTable table_1;
@@ -98,6 +97,7 @@ public class managerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(SmCurrMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmAllMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmMemSearchAck.class, mww);
+					PacketMap.getInstance().map.put(MsGiveMeAllRoomSyn.class, mww);
 					ClientNet.getInstance().start();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -121,6 +121,17 @@ public class managerWindow extends JFrame implements Receivable {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("회원");
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+		public void stateChanged(ChangeEvent evt) {
+	        JTabbedPane pane = (JTabbedPane) evt.getSource();
+	        int sel = pane.getSelectedIndex();
+	        if(sel==3) {
+	        	MsGiveMeAllRoomSyn packet = new MsGiveMeAllRoomSyn();
+	        	ClientNet.getInstance().sendPacket(packet);
+	        }
+			}
+	    });
 
 		panel_5 = new JPanel();
 		tabbedPane.addTab("\uD68C\uC6D0\uAD00\uB9AC", null, panel_5, null);
@@ -553,21 +564,35 @@ public class managerWindow extends JFrame implements Receivable {
 		LockerMain lockerMain = new LockerMain();
 		lockerMain.setPreferredSize(size1);
 		
-				JPanel panel_3 = new JPanel();
-				System.out.println(panel_3.getHeight());
-				tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
-				panel_3.setLayout(null);
-				
-				JPanel panel_18 = new JPanel();
-				panel_18.setBounds(40, 128, 550, 520);
-				panel_3.add(panel_18);
-				
-				JPanel panel_22 = new JPanel();
-				panel_22.setBounds(628, 90, 317, 558);
-				panel_3.add(panel_22);
+		JPanel panel_3 = new JPanel();
+		System.out.println(panel_3.getHeight());
+		tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
+		panel_3.setLayout(null);
+		
+		JPanel panel_18 = new JPanel();
+		panel_18.setBounds(40, 128, 550, 520);
+		panel_3.add(panel_18);
+		GridBagLayout gbl_panel_18 = new GridBagLayout();
+		gbl_panel_18.columnWidths = new int[]{12, 1, 0};
+		gbl_panel_18.rowHeights = new int[]{1, 0, 0};
+		gbl_panel_18.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_18.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panel_18.setLayout(gbl_panel_18);
+		
+		CalendarTest cal = new CalendarTest();
+		GridBagConstraints gbc_cal = new GridBagConstraints();
+		gbc_cal.fill = GridBagConstraints.BOTH;
+		gbc_cal.gridx = 1;
+		gbc_cal.gridy = 1;
+		panel_18.add(cal, gbc_cal);
+		
+		JPanel panel_22 = new JPanel();
+		panel_22.setBounds(628, 90, 317, 558);
+		panel_3.add(panel_22);
 
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
+		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", new JButton("예약"));
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[] { 300, 0, 300, 0 };
 		gbl_panel_4.rowHeights = new int[] { 0, 0, 0, 0 };
