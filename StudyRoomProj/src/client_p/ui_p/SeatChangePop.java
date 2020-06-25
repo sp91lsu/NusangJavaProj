@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 public class SeatChangePop extends JFrame {
 
 	public SeatChangePop() {
-		setBounds(300, 300, 400, 200);
+		setBounds(760, 440, 400, 200);
 		getContentPane().setLayout(null);
 		
 		JLabel msg = new JLabel("이동할 좌석을 클릭해 주세요");

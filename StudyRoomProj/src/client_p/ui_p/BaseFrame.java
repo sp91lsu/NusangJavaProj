@@ -62,6 +62,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		addToBaseFrame(new LockerMain());
 		addToBaseFrame(new ReservationMain());
 		addToBaseFrame(new ClientChatFrame());
+		addToBaseFrame(new LockerMain());
 		setBackground(Color.GRAY);
 		setBounds(510, 140, 900, 800);
 		setVisible(true);
@@ -111,6 +112,16 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().view("LoginMain");
+
+				for (Integer id : packetAck.idList) {// 구매한 라커 번호
+					for (LockerBtn lockerbtn : getLockerMain().list) {
+						if (lockerbtn.data.id.equals(id)) {
+							System.out.println("들어오냐");
+							lockerbtn.btn.setBackground(null);
+							lockerbtn.btn.setEnabled(false);
+						}
+					}
+				}
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -119,10 +130,10 @@ public class BaseFrame extends JFrame implements Receivable {
 		// 당일결제페이지
 	}
 
-		public void updateInfo(ArrayList<RoomProduct> roomList) {
-			roomInfoList = roomList;
+	public void updateInfo(ArrayList<RoomProduct> roomList) {
+		roomInfoList = roomList;
 
-		}
+	}
 
 	// 현재 룸 정보 결제를 위해 시간 넣기
 	public void setCurrentRoomInfo(ArrayList<Calendar> calendarList) {
@@ -170,6 +181,10 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public ClientChatFrame getClientChatFrame() {
 		return (ClientChatFrame) jPanelArrl.get(5);
+	}
+
+	public LockerMain getLockerMain() {
+		return (LockerMain) jPanelArrl.get(6);
 	}
 
 	public MainLayout openMainLayout() {

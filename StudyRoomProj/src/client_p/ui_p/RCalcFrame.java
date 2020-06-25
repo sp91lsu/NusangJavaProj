@@ -26,7 +26,7 @@ public class RCalcFrame extends JFrame{
 	}
 
 	public RCalcFrame(){
-		setBounds(100, 100, 500, 500);
+		setBounds(710, 100, 500, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		dateCal();
