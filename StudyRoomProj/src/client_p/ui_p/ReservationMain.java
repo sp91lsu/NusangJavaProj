@@ -19,18 +19,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import client_p.ui_p.Payment.MyCheckBox;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 
 public class ReservationMain extends JPanel {
 
 	private final JPanel mapPane = new JPanel();
+	int setdate;
 	int setMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 	int nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 	int nowYear = Calendar.getInstance().get(Calendar.YEAR);
 	int setYear = Calendar.getInstance().get(Calendar.YEAR);
 	int dateChk;
 	int totPrice = 0;
+	MyCheckBox firstClickBox = null;
 	boolean calViewChk = true;
 
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
@@ -197,7 +200,22 @@ public class ReservationMain extends JPanel {
 				BaseFrame.getInstance().rcalc.setVisible(true);
 
 				setMonth = nowMonth;
-				resetResInfo();
+
+				nowMonthL.setText(setMonth + "");
+				totPriceLabel.setText("이용료: 0");
+				totPrice = 0;
+				textList.clear();
+				timeInfo.setText("");
+				personCntChoice.setSelectedIndex(0);
+				reservationButton.setEnabled(false);
+				for (MyCheckBox myCheckBox : checkBoxList) {
+					myCheckBox.box.setSelected(false);
+					myCheckBox.box.setEnabled(false);
+				}
+				for (MyJButton btn : dateList) {
+					btn.dateBtn.setBackground(null);
+				}
+
 			}
 		});
 		reservationButton.setBounds(12, 182, 150, 32);
@@ -237,7 +255,7 @@ public class ReservationMain extends JPanel {
 
 	// 시간버튼 -> 서버데이터와 비교하여 비활성화(달 비교 -> 일비교 -> 시간비교)
 	public void resPossibleChk(int date) {
-
+		setdate = date;
 		for (MyCheckBox myCheckBox : checkBoxList) {
 			myCheckBox.box.setSelected(false);
 			myCheckBox.box.setEnabled(true);
@@ -299,8 +317,7 @@ public class ReservationMain extends JPanel {
 					setYear--;
 					yearInfoL.setText(setYear + "년");
 				}
-			}
-			else {
+			} else {
 				return;
 			}
 			nowMonthL.setText(setMonth + "");
@@ -335,7 +352,7 @@ public class ReservationMain extends JPanel {
 			else if (last < i)
 				dateN = "";
 
-			//버튼에 예약날짜 비교 기능
+			// 버튼에 예약날짜 비교 기능
 			MyJButton datebtn = new MyJButton(new JButton(dateN));
 			dateList.add(datebtn);
 			calPaneMain.add(datebtn.dateBtn);
@@ -401,44 +418,105 @@ public class ReservationMain extends JPanel {
 
 			if (box.isSelected()) {
 				System.out.println("타임 추가하기");
+
 				timeList.add(cal);
 				textList.add(box.getText());
 				timeInfo.setText(textList.toString());
-				totPrice = timeList.size()*(int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+				totPrice = timeList.size()
+						* (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
 				totPriceLabel.setText(totPrice + "");
-				if (!timeList.isEmpty()) {
-					reservationButton.setEnabled(true);
+				reservationButton.setEnabled(true);
+
+				for (int i = 0; i < checkBoxList.size(); i++) {
+					MyCheckBox mBox = checkBoxList.get(i);
+					if (mBox.box == box) {
+						if (firstClickBox == null) {
+							firstClickBox = mBox;
+						}
+						mBox.box.setEnabled(true);
+						if (i + 1 < checkBoxList.size()) {
+							checkBoxList.get(i + 1).box.setEnabled(true);
+
+							// 예약시간대가 겹칠때에는 버튼 비활성화
+							Calendar cal2 = Calendar.getInstance();
+							ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(setMonth - 1, setdate);
+
+							for (RoomProduct rp : BaseFrame.getInstance().roomInfoList) {
+								for (Calendar cl : rp.calendarList) {
+									if (cl.get(Calendar.MONTH) + 1 == setMonth) {
+										for (Integer j : checkList) {
+											if (checkBoxList.get(i + 1).value == j) {
+												checkBoxList.get(i + 1).box.setEnabled(false);
+											}
+										}
+									}
+								}
+							}
+						}
+						i++;
+					} else {
+						mBox.box.setEnabled(false);
+					}
 				}
+
 			} else {
 				System.out.println("타임 제거하기");
 
 				for (int i = 0; i < timeList.size(); i++) {
-
 					Calendar cal1 = timeList.get(i);
-
 					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
-						
+
 						timeList.remove(cal1);
 						textList.remove(box.getText());
 						timeInfo.setText(textList.toString());
-						totPrice = timeList.size()*(int)DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
+						totPrice = timeList.size() * (int) DataManager.getInstance().roomMap
+								.get(BaseFrame.getInstance().roomProduct.id).price;
 						totPriceLabel.setText(totPrice + "");
 						i--;
 					}
 				}
 
+				Calendar cal4 = Calendar.getInstance();
+				for (int i = checkBoxList.size() - 1; i > firstClickBox.value; i--) {
+					MyCheckBox mBox = checkBoxList.get(i);
+					if (mBox.box == box) {
+						if (i - 1 >= 0) {
+							checkBoxList.get(i - 1).box.setEnabled(true);
+							// 예약시간대가 겹칠때에는 버튼 비활성화
+							Calendar cal5 = Calendar.getInstance();
+							ArrayList<Integer> checkList = BaseFrame.getInstance().getCheckList(setMonth - 1, setdate);
+							for (RoomProduct rp : BaseFrame.getInstance().roomInfoList) {
+								for (Calendar cl : rp.calendarList) {
+									if (cl.get(Calendar.MONTH) + 1 == setMonth) {
+										for (Integer j : checkList) {
+											System.out.println(">>>>>>"+ (i-1));
+											if (i > 1 && checkBoxList.get(i - 1).value == j) {
+												checkBoxList.get(i - 1).box.setEnabled(false);
+											}
+										}
+										i--;
+									}
+								}
+							}
+						}
+					} else {
+						mBox.box.setEnabled(false);
+					}
+				}
 				if (timeList.isEmpty()) {
+					firstClickBox = null;
 					reservationButton.setEnabled(false);
+					resPossibleChk(setdate);
 				}
 			}
 		}
 	}
 
 	// 다른 버튼 클릭시 선택정보 리셋
-	void resetResInfo() {
+	public void resetResInfo() {
 		nowMonthL.setText(setMonth + "");
-		totPriceLabel.setText("이용료: 0");
 		totPrice = 0;
+		totPriceLabel.setText(totPrice + "");
 		textList.clear();
 		timeInfo.setText("");
 		personCntChoice.setSelectedIndex(0);
