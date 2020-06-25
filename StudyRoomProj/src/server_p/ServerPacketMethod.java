@@ -331,6 +331,12 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	}
 }
 
+class MethBuyLockerSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+	}
+}
+
 //class MethDuplicateIDSyn implements ServerPacketMethod {
 //
 //	@Override

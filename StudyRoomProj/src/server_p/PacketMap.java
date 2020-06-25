@@ -2,6 +2,7 @@ package server_p;
 
 import java.util.HashMap;
 
+import client_p.packet_p.syn_p.CsBuyLockerSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
@@ -38,6 +39,7 @@ public class PacketMap {
 		map.put(MsCurrMemListSyn.class, new MethMsCurrMemListSyn()); //현재 회원리스트
 		map.put(MsAllMemListSyn.class, new MethMsAllMemListSyn()); //현재 회원리스트
 		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); //회원 검색
+		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); //사물함 구매
 
 	}
 
