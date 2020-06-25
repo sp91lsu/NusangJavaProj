@@ -89,8 +89,8 @@ public class LockerPWFrame extends JFrame implements ActionListener{
 		getContentPane().add(button_8);
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lockerData.setPW(passwordField.getText());
 				LockerCalcFrame lc = new LockerCalcFrame(lockerData);
-				System.out.println(passwordField.getText());
 				dispose();
 			}});
 		
