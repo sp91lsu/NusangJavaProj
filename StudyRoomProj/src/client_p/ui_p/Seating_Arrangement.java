@@ -33,6 +33,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	int moveSeatId;
 	JLabel lblNewLabel_7;
 	JLabel lblNewLabel_8;
+	JButton north_east;
 
 	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
@@ -58,7 +59,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		north_west.setFont(new Font("굴림", Font.PLAIN, 20));
 		panel_north.add(north_west, BorderLayout.WEST);
 
-		JButton north_east = new JButton("뒤로가기");
+		north_east = new JButton("뒤로가기");
 		north_east.setFont(new Font("굴림", Font.PLAIN, 17));
 		panel_north.add(north_east, BorderLayout.EAST);
 		north_east.addActionListener(new ActionListener() {
