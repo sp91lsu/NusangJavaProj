@@ -119,7 +119,8 @@ public class AccountDao extends DBProcess {
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 		try {
 			ResultSet rs = roomDao.getRoomInfoRS("*",
-					"startdate >=  to_char(sysdate,'yyyymmddhh24' ) and uuid = '" + uuid + "'");
+					"uuid = '" + uuid + "'");
+			// Listener refused the connection with the following error:
 			roomList = roomDao.resToList(rs);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
