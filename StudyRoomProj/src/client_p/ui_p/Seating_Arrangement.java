@@ -42,7 +42,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(500, 30, 900, 1000);
+		frame.setBounds(500, 30, 900, 900);
 		frame.getContentPane().add(new Seating_Arrangement());
 		frame.setVisible(true);
 	}
@@ -142,25 +142,25 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		// 여기서부터 룸 버튼
 		JButton roomBtn1 = new JButton("샤워실");
 		roomBtn1.addActionListener(new BtnAct(roomBtn1));
-		roomBtn1.setBounds(0, 0, 300, 180);
+		roomBtn1.setBounds(0, 0, 300, 150);
 		panel_center.add(roomBtn1);
 		group.add(roomBtn1);
 
 		JButton roomBtn2 = new JButton("8인실");
 		roomBtn2.addActionListener(new BtnAct(roomBtn2));
-		roomBtn2.setBounds(300, 0, 250, 180);
+		roomBtn2.setBounds(300, 0, 250, 150);
 		panel_center.add(roomBtn2);
 		group.add(roomBtn2);
 
 		JButton roomBtn3 = new JButton("6인실-1");
 		roomBtn3.addActionListener(new BtnAct(roomBtn3));
-		roomBtn3.setBounds(550, 0, 160, 180);
+		roomBtn3.setBounds(550, 0, 160, 150);
 		panel_center.add(roomBtn3);
 		group.add(roomBtn3);
 
 		JButton roomBtn4 = new JButton("6인실-2");
 		roomBtn4.addActionListener(new BtnAct(roomBtn4));
-		roomBtn4.setBounds(710, 0, 160, 180);
+		roomBtn4.setBounds(710, 0, 160, 150);
 		panel_center.add(roomBtn4);
 		group.add(roomBtn4);
 
@@ -196,19 +196,19 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		JButton roomBtn10 = new JButton("노래방");
 		roomBtn10.addActionListener(new BtnAct(roomBtn10));
-		roomBtn10.setBounds(0, 180, 160, 240);
+		roomBtn10.setBounds(0, 150, 160, 210);
 		panel_center.add(roomBtn10);
 		group.add(roomBtn10);
 
 		JButton roomBtn11 = new JButton("파티룸");
 		roomBtn11.addActionListener(new BtnAct(roomBtn11));
-		roomBtn11.setBounds(0, 420, 160, 240);
+		roomBtn11.setBounds(0, 360, 160, 210);
 		panel_center.add(roomBtn11);
 		group.add(roomBtn11);
 
 		// 매너존 패널
 		JPanel mannerzone_panel = new JPanel();
-		mannerzone_panel.setBounds(0, 660, 300, 250);
+		mannerzone_panel.setBounds(0, 570, 300, 250);
 		panel_center.add(mannerzone_panel);
 		mannerzone_panel.setLayout(null);
 
@@ -250,7 +250,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
-		normalzone_panel.setBounds(300, 300, 300, 250);
+		normalzone_panel.setBounds(300, 250, 300, 250);
 		panel_center.add(normalzone_panel);
 		normalzone_panel.setLayout(null);
 		// 일반실 라벨,버튼
@@ -298,7 +298,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		// 휴게실
 		JPanel restzone_panel = new JPanel();
 		restzone_panel.setBackground(Color.ORANGE);
-		restzone_panel.setBounds(300, 710, 260, 200);
+		restzone_panel.setBounds(300, 620, 260, 200);
 		panel_center.add(restzone_panel);
 		restzone_panel.setLayout(null);
 		// 휴게실 안에 들어갈것은 여기서
@@ -309,7 +309,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		JPanel locker = new JPanel();
 		locker.setBackground(Color.LIGHT_GRAY);
-		locker.setBounds(560, 710, 30, 200);
+		locker.setBounds(560, 620, 30, 200);
 		panel_center.add(locker);
 		locker.setLayout(null);
 
