@@ -530,4 +530,9 @@ public class ReservationMain extends JPanel {
 			btn.dateBtn.setBackground(null);
 		}
 	}
+	
+	public void updateReservation()
+	{
+		
+	}
 }

@@ -36,12 +36,13 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.user_p.UserData;
+import javafx.scene.control.ComboBox;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.SMCurrMemListAck;
+import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
@@ -80,9 +81,11 @@ public class managerWindow extends JFrame implements Receivable {
 	private String contentsMemS;
 	private JLabel lbSearch;
 	private JLabel lbSearch_2;
-	private String searchList[];
+	private String searchList[] = new String[] {"이름","ID","휴대폰 번호"};
 	private DefaultTableModel dTable3;
 	private JScrollPane scrollPane_3_2;
+	private JComboBox comboBox;
+	private ArrayList<UserData> searchedUDs;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -92,7 +95,7 @@ public class managerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
 					PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
 					PacketMap.getInstance().map.put(CsChatSyn.class, mww);
-					PacketMap.getInstance().map.put(SMCurrMemListAck.class, mww);
+					PacketMap.getInstance().map.put(SmCurrMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmAllMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmMemSearchAck.class, mww);
 					ClientNet.getInstance().start();
@@ -188,6 +191,7 @@ public class managerWindow extends JFrame implements Receivable {
 				if(textField_1.getText().equals("")) {
 					lbSearch.setText("내용을 입력해주세요.");
 				}else {
+					idxNameMemS = comboBox.getSelectedItem().toString();
 					contentsMemS = textField_1.getText();
 					textField_1.setText("");
 					MsMemSearchSyn packet = new MsMemSearchSyn();
@@ -198,13 +202,12 @@ public class managerWindow extends JFrame implements Receivable {
 			}
 		});
 		
-		searchList = new String[] {"이름","ID","휴대폰 번호"};
-		JComboBox comboBox = new JComboBox(searchList);
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				idxNameMemS = comboBox.getSelectedItem().toString();
-			}
-		});
+		comboBox = new JComboBox(searchList);
+//		comboBox.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				idxNameMemS = comboBox.getSelectedItem().toString();
+//			}
+//		});
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -301,7 +304,7 @@ public class managerWindow extends JFrame implements Receivable {
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("\uC88C\uC11D/\uB8F8 \uAD00\uB9AC", null, panel_1, null);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 399, 926, 0 };
+		gbl_panel_1.columnWidths = new int[] { 399, 889, 0 };
 		gbl_panel_1.rowHeights = new int[] { 0, 0 };
 		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		gbl_panel_1.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
@@ -321,14 +324,14 @@ public class managerWindow extends JFrame implements Receivable {
 		gbl_panel_7_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel_7_1.setLayout(gbl_panel_7_1);
 
-		JLabel lblNewLabel_6 = new JLabel("\uBA54\uB274");
+		JLabel lblNewLabel_6 = new JLabel("\uC88C\uC11D/\uB8F8 \uC635\uC158");
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_6.gridx = 0;
 		gbc_lblNewLabel_6.gridy = 1;
 		panel_7_1.add(lblNewLabel_6, gbc_lblNewLabel_6);
 
-		JButton btnNewButton_3 = new JButton("\uC88C\uC11D/\uB8F8 \uBE44\uD65C\uC131\uD654");
+		JButton btnNewButton_3 = new JButton("\uBE44\uD65C\uC131\uD654");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -339,7 +342,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_btnNewButton_3.gridy = 3;
 		panel_7_1.add(btnNewButton_3, gbc_btnNewButton_3);
 
-		JButton btnNewButton_1_1 = new JButton("\uC88C\uC11D/\uB8F8 \uD65C\uC131\uD654");
+		JButton btnNewButton_1_1 = new JButton("\uD65C\uC131\uD654");
 		GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
 		gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton_1_1.gridx = 0;
@@ -558,6 +561,10 @@ public class managerWindow extends JFrame implements Receivable {
 				JPanel panel_18 = new JPanel();
 				panel_18.setBounds(40, 128, 550, 520);
 				panel_3.add(panel_18);
+				
+				JPanel panel_22 = new JPanel();
+				panel_22.setBounds(628, 90, 317, 558);
+				panel_3.add(panel_22);
 
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
@@ -1008,8 +1015,8 @@ public class managerWindow extends JFrame implements Receivable {
 		}
 		
 		//현재 이용중 고객
-		if(packet.getClass() == SMCurrMemListAck.class) {
-			SMCurrMemListAck currAck = (SMCurrMemListAck)packet;
+		if(packet.getClass() == SmCurrMemListAck.class) {
+			SmCurrMemListAck currAck = (SmCurrMemListAck)packet;
 			contentsCurrMem = new String[currAck.userList.size()][headerMem.length];
 			for (int i = 0; i < currAck.userList.size(); i++) {
 				contentsCurrMem[i][0] = currAck.userList.get(i).name;
@@ -1052,27 +1059,44 @@ public class managerWindow extends JFrame implements Receivable {
 		
 		if(packet.getClass() == SmMemSearchAck.class) {
 			SmMemSearchAck ack = (SmMemSearchAck)packet;
-			ArrayList<UserData> searchedUDs = new ArrayList<UserData>();
+			searchedUDs = new ArrayList<UserData>();
+			
+//			System.out.println(idxNameMemS+" "+contentsMemS+" "+searchList[0]);
+//			System.out.println(ack.userList.size());
+//			
+//			
+//			for (int i = 0; i < ack.userList.size(); i++) {
+//				System.out.println(ack.userList.get(i).name);
+//				if(ack.userList.get(i).name==null) continue;
+//				if((ack.userList.get(i).name).equals(contentsMemS)) {
+//					System.out.println("dddd");
+//					searchedUDs.add(ack.userList.get(i));
+//				}
+//			}
+			
 			if(idxNameMemS.equals(searchList[0])) {
 				for (UserData ud : ack.userList) {
+					if(ud.name==null) continue;
 					if(ud.name.equals(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
 			}else if(idxNameMemS.equals(searchList[1])) {
 				for (UserData ud : ack.userList) {
+					if(ud.id==null) continue;
 					if(ud.id.equals(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
 			}else if(idxNameMemS.equals(searchList[2])) {
 				for (UserData ud : ack.userList) {
+					if(ud.phone==null) continue;
 					if(ud.phone.equals(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
 			}
-			
+			System.out.println(searchedUDs.size());
 			contentsMemSearch = new String[searchedUDs.size()][headerMem.length];
 			for (int i = 0; i < searchedUDs.size(); i++) {
 				contentsMemSearch[i][0] = searchedUDs.get(i).name;

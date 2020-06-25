@@ -7,6 +7,7 @@ import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsCloseSyn;
+import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
@@ -28,7 +29,6 @@ public class PacketMap {
 		map.put(CsLoginSyn.class, new MethLoginSyn()); // 로그인
 		map.put(CsSignUpSyn.class, new MethSignUpSyn()); // 회원가입
 		map.put(CsChatConnectSyn.class, new MethChatConnectSyn()); // 채팅연결 요청
-
 		map.put(MsChatConnectAck.class, new MethMSChatConnectAck());
 		map.put(CsChatSyn.class, new MethCsChatSyn());
 		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 결제
@@ -40,7 +40,7 @@ public class PacketMap {
 		map.put(MsAllMemListSyn.class, new MethMsAllMemListSyn()); //현재 회원리스트
 		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); //회원 검색
 		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); //사물함 구매
-
+		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); //중복아이디 확인 
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {

@@ -142,7 +142,7 @@ class SocketClient extends Thread {
 			}
 		}
 
-		close();
+//		close();
 	}
 
 	void sendPacket(PacketBase packet) {

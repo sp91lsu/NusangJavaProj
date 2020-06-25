@@ -1,11 +1,13 @@
 package server_p;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsBuyLockerSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
@@ -22,16 +24,17 @@ import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.SMCurrMemListAck;
-import server_p.packet_p.ack_p.ScBuyLockerAck;
+import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
+import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
+import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
@@ -53,7 +56,7 @@ class MethLoginSyn implements ServerPacketMethod {
 		UserData userData = null;
 		ScLoginAck ack = null;
 		try {
-			userData = accountDao.findUser(idOrPhone, recPacket.id, recPacket.pw);
+			userData = accountDao.loginUser(idOrPhone, recPacket.id, recPacket.pw);
 
 			if (userData != null) {
 
@@ -83,15 +86,20 @@ class MethSignUpSyn implements ServerPacketMethod {
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
 
-			AccountDao accountDao = new AccountDao();
+			AccountDao ad = new AccountDao();
 
-			UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id, recPacket.pw,
-					recPacket.phone, recPacket.birth, recPacket.cType);
+			if (ad.duplicateIDChk(recPacket.id)) {
+				ack = new ScSignUpAck(EResult.DUPLICATEED_ID, "");
+			} else {
+				AccountDao accountDao = new AccountDao();
 
-			accountDao.createAccount(userData);
+				UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id,
+						recPacket.pw, recPacket.phone, recPacket.birth, recPacket.cType);
 
-			ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
+				accountDao.createAccount(userData);
 
+				ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
+			}
 		} catch (Exception e) {
 			ack = new ScSignUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
 			e.printStackTrace();
@@ -180,15 +188,22 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
+		try {
+			if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
+				roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 
-		if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
-			roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
+				ack = new ScBuyRoomAck(EResult.SUCCESS);
+				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+				MyServer.getInstance().broadCast(roomCast);
 
-			ack = new ScBuyRoomAck(EResult.SUCCESS);
-		} else {
-			ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+			} else {
+				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+			}
+			client.sendPacket(ack);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		client.sendPacket(ack);
 	}
 
 }
@@ -242,6 +257,23 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 		try {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+			client.sendPacket(roomCast);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}
+
+//전체 룸정보 관리자로
+class MethMsGiveMeAllRoomSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		RoomDao roomDao = new RoomDao();
+
+		try {
+			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
 			String managerIp = "/192.168.100.27";
 			SocketClient mc = MyServer.getInstance().findClient(managerIp);
 			if (mc != null) {
@@ -266,11 +298,11 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
-		SMCurrMemListAck toMcurrMLAck = null;
+		SmCurrMemListAck toMcurrMLAck = null;
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-			toMcurrMLAck = new SMCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
+			toMcurrMLAck = new SmCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -292,11 +324,11 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
-		SmAllMemListAck Ack = null;
+		SmAllMemListAck ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
 //			if (sc != null) {
-			Ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
+			ack = new SmAllMemListAck(EResult.SUCCESS, accountDao.getAllUserList());
 //			} else {
 //				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
 //			}
@@ -304,7 +336,7 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 			e.printStackTrace();
 		}
 
-		client.sendPacket(Ack);
+		client.sendPacket(ack);
 	}
 }
 
@@ -315,22 +347,26 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
 
+		String managerIp = "/127.0.0.1";
+		SocketClient mc = MyServer.getInstance().findClient(managerIp);
+
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
-
-		SmMemSearchAck Ack = null;
+		SmMemSearchAck ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
-//			if (sc != null) {
-			Ack = new SmMemSearchAck(EResult.SUCCESS, accountDao.getAllUserList());
-//			} else {
-//				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
-//			}
+			if (mc != null) {
+				ack = new SmMemSearchAck(EResult.SUCCESS, accountDao.getAllUserList());
+			} else {
+				ack = new SmMemSearchAck(EResult.FAIL, accountDao.getAllUserList());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		client.sendPacket(Ack);
+		mc.sendPacket(ack);
+
+//		client.sendPacket(ack);
 	}
 }
 
@@ -340,15 +376,43 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
 
-		ScBuyLockerAck ack = null;
+		ScBuyLockerCast ack = null;
 
 		LockerDao lockerDao = new LockerDao();
 
 		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
-			ack = new ScBuyLockerAck(EResult.SUCCESS);
+			ack = new ScBuyLockerCast(EResult.SUCCESS);
+
+			MyServer.getInstance().broadCast(ack);
 		} else {
-			ack = new ScBuyLockerAck(EResult.FAIL);
+			ack = new ScBuyLockerCast(EResult.FAIL);
+			client.sendPacket(ack);
 		}
+
+	}
+}
+
+class MethDuplicateIDSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsDuplicateIDSyn resPacket = (CsDuplicateIDSyn) packet;
+
+		AccountDao ad = new AccountDao();
+
+		ScDuplicateIDAck ack;
+		try {
+			if (ad.duplicateIDChk(resPacket.id)) {
+				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
+			} else {
+				ack = new ScDuplicateIDAck(EResult.SUCCESS);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ack = new ScDuplicateIDAck(EResult.FAIL);
+		}
+
 		client.sendPacket(ack);
 	}
 }
