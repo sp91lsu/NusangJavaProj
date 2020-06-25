@@ -86,7 +86,6 @@ public class AccountDao extends DBProcess {
 			userList.add(userdata);
 			System.out.println(userdata.uuid);
 		}
-		System.out.println(userList.size());
 		rs.close();
 		return userList;
 	}

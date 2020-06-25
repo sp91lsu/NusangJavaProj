@@ -97,7 +97,6 @@ public class RoomDao extends DBProcess {
 
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 
-		System.out.println("로그인 시 룸 데이터");
 		while (rs.next()) {
 
 			int roomID = rs.getInt("ID");
@@ -108,7 +107,6 @@ public class RoomDao extends DBProcess {
 				Timestamp time = rs.getTimestamp("STARTDATE");
 				RoomProduct room = null;
 				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
-				System.out.println(roomModel);
 				room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
 
 				if (rs.getInt("ISEXIT") == 1) {
@@ -170,7 +168,6 @@ public class RoomDao extends DBProcess {
 
 					roomMap.put(room.id, room);
 					roomMap.get(roomID).userUUID = rs.getString("UUID");
-					System.out.println(room.name);
 				}
 
 				roomMap.get(roomID).calendarList.add(cal);
