@@ -13,7 +13,6 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
-import data_p.product_p.LockerData;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.LockerDao;
@@ -86,15 +85,20 @@ class MethSignUpSyn implements ServerPacketMethod {
 		try {
 			CsSignUpSyn recPacket = (CsSignUpSyn) packet;
 
-			AccountDao accountDao = new AccountDao();
+			AccountDao ad = new AccountDao();
 
-			UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id, recPacket.pw,
-					recPacket.phone, recPacket.birth, recPacket.cType);
+			if (ad.duplicateIDChk(recPacket.id)) {
+				ack = new ScSignUpAck(EResult.DUPLICATEED_ID, "");
+			} else {
+				AccountDao accountDao = new AccountDao();
 
-			accountDao.createAccount(userData);
+				UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id,
+						recPacket.pw, recPacket.phone, recPacket.birth, recPacket.cType);
 
-			ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
+				accountDao.createAccount(userData);
 
+				ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
+			}
 		} catch (Exception e) {
 			ack = new ScSignUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
 			e.printStackTrace();
@@ -186,9 +190,9 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		try {
 			if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
 				roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
-
+				RoomDao roomDao2 = new RoomDao();
 				ack = new ScBuyRoomAck(EResult.SUCCESS);
-				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao2.getRoomInfo("*"));
 				MyServer.getInstance().broadCast(roomCast);
 
 			} else {
@@ -263,10 +267,10 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 //전체 룸정보 관리자로
 class MethMsGiveMeAllRoomSyn implements ServerPacketMethod {
-	
+
 	public void receive(SocketClient client, PacketBase packet) {
 		RoomDao roomDao = new RoomDao();
-		
+
 		try {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
 			String managerIp = "/192.168.100.27";
@@ -279,7 +283,7 @@ class MethMsGiveMeAllRoomSyn implements ServerPacketMethod {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }
 
@@ -341,10 +345,10 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
-		
+
 		String managerIp = "/127.0.0.1";
 		SocketClient mc = MyServer.getInstance().findClient(managerIp);
-		
+
 //		String managerIp = "/192.168.100.27";
 //		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 		SmMemSearchAck ack = null;
@@ -358,7 +362,7 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		mc.sendPacket(ack);
 
 //		client.sendPacket(ack);
@@ -398,9 +402,9 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 		ScDuplicateIDAck ack;
 		try {
 			if (ad.duplicateIDChk(resPacket.id)) {
-				ack = new ScDuplicateIDAck(EResult.SUCCESS);
-			} else {
 				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
+			} else {
+				ack = new ScDuplicateIDAck(EResult.SUCCESS);
 			}
 
 		} catch (SQLException e) {
