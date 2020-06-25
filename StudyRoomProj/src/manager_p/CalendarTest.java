@@ -29,6 +29,8 @@ public class CalendarTest extends JPanel {
    JLabel nowMonthL;
    JPanel calPaneMain;
    JLabel yearInfoL;
+   
+   ManagerWindow mw;
 
    // 선택 시간에 대한 버튼을 가지고 있는 클래스
    class MyCheckBox {
@@ -55,14 +57,14 @@ public class CalendarTest extends JPanel {
 
    public static void main(String[] args) {
       JFrame frame = new JFrame();
-      frame.getContentPane().add(new CalendarTest());
+      frame.getContentPane().add(new CalendarTest(new ManagerWindow()));
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setBounds(10, 10, 900, 1000);
       frame.setVisible(true);
    }
 
-   public CalendarTest() {
-
+   public CalendarTest(ManagerWindow mw) {
+	  this.mw = mw;
       System.out.println(Calendar.getInstance().getTime());
 
       setBackground(new Color(240, 240, 240));

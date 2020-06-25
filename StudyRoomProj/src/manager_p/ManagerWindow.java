@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -36,6 +37,7 @@ import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
+import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
@@ -46,10 +48,12 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
+import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
+import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
-public class managerWindow extends JFrame implements Receivable {
+public class ManagerWindow extends JFrame implements Receivable {
 	private JTable table_1;
 	private JScrollPane scrollPane_3;
 	private JPanel panel_6;
@@ -85,12 +89,14 @@ public class managerWindow extends JFrame implements Receivable {
 	private JScrollPane scrollPane_3_2;
 	private JComboBox comboBox;
 	private ArrayList<UserData> searchedUDs;
+	private CalendarTest cal;
+	private ArrayList<RoomProduct> allRoomList;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					managerWindow mww = new managerWindow();
+					ManagerWindow mww = new ManagerWindow();
 					PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
 					PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
 					PacketMap.getInstance().map.put(CsChatSyn.class, mww);
@@ -98,6 +104,8 @@ public class managerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(SmAllMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmMemSearchAck.class, mww);
 					PacketMap.getInstance().map.put(MsGiveMeAllRoomSyn.class, mww);
+					PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, mww);
+					PacketMap.getInstance().map.put(ScBuyLockerCast.class, mww);
 					ClientNet.getInstance().start();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -107,7 +115,7 @@ public class managerWindow extends JFrame implements Receivable {
 	}
 
 	
-	public managerWindow() {
+	public ManagerWindow() {
 
 		System.out.println("생성!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		setVisible(true);
@@ -119,7 +127,7 @@ public class managerWindow extends JFrame implements Receivable {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setToolTipText("회원");
+		tabbedPane.setToolTipText("");
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		tabbedPane.addChangeListener(new ChangeListener() {
@@ -163,7 +171,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_lblNewLabel.gridy = 1;
 		panel_7.add(lblNewLabel, gbc_lblNewLabel);
 
-		//회원관리 - 현재 이용중 고객 버튼
+		//관리 - 현재 이용중 고객 버튼
 		JButton btnNewButton = new JButton("\uD604\uC7AC \uC774\uC6A9\uC911 \uACE0\uAC1D");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -179,7 +187,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_btnNewButton.gridy = 3;
 		panel_7.add(btnNewButton, gbc_btnNewButton);
 
-		//회원관리 - 전체회원 버튼
+		//관리 - 전체 버튼
 		JButton btnNewButton_1 = new JButton("\uC804\uCCB4 \uD68C\uC6D0");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -195,7 +203,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_btnNewButton_1.gridy = 5;
 		panel_7.add(btnNewButton_1, gbc_btnNewButton_1);
 
-		//회원관리 - 회원검색 버튼
+		//관리 - 검색 버튼
 		JButton btnNewButton_2 = new JButton("\uD68C\uC6D0\uAC80\uC0C9");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -226,7 +234,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbc_comboBox.gridy = 7;
 		panel_7.add(comboBox, gbc_comboBox);
 		
-		//회원관리 - 회원검색 입력 텍스트필드
+		//관리 - 검색 입력 텍스트필드
 		textField_1 = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -283,7 +291,7 @@ public class managerWindow extends JFrame implements Receivable {
 		
 		
 		
-		//전체 회원리스트
+		//전체 리스트
 		scrollPane_3_1 = new JScrollPane();
 		scrollPane_3_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panel_6.add("scrollPane_3_1",scrollPane_3_1);
@@ -564,6 +572,7 @@ public class managerWindow extends JFrame implements Receivable {
 		LockerMain lockerMain = new LockerMain();
 		lockerMain.setPreferredSize(size1);
 		
+		//예약
 		JPanel panel_3 = new JPanel();
 		System.out.println(panel_3.getHeight());
 		tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
@@ -579,7 +588,7 @@ public class managerWindow extends JFrame implements Receivable {
 		gbl_panel_18.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_18.setLayout(gbl_panel_18);
 		
-		CalendarTest cal = new CalendarTest();
+		cal = new CalendarTest(this);
 		GridBagConstraints gbc_cal = new GridBagConstraints();
 		gbc_cal.fill = GridBagConstraints.BOTH;
 		gbc_cal.gridx = 1;
@@ -1079,24 +1088,10 @@ public class managerWindow extends JFrame implements Receivable {
 		}
 		
 		
-		//회원 검색
-		
+		// 검색
 		if(packet.getClass() == SmMemSearchAck.class) {
 			SmMemSearchAck ack = (SmMemSearchAck)packet;
 			searchedUDs = new ArrayList<UserData>();
-			
-//			System.out.println(idxNameMemS+" "+contentsMemS+" "+searchList[0]);
-//			System.out.println(ack.userList.size());
-//			
-//			
-//			for (int i = 0; i < ack.userList.size(); i++) {
-//				System.out.println(ack.userList.get(i).name);
-//				if(ack.userList.get(i).name==null) continue;
-//				if((ack.userList.get(i).name).equals(contentsMemS)) {
-//					System.out.println("dddd");
-//					searchedUDs.add(ack.userList.get(i));
-//				}
-//			}
 			
 			if(idxNameMemS.equals(searchList[0])) {
 				for (UserData ud : ack.userList) {
@@ -1129,7 +1124,6 @@ public class managerWindow extends JFrame implements Receivable {
 				contentsMemSearch[i][3] = searchedUDs.get(i).birth;
 			}
 
-			
 			dTable3 = new DefaultTableModel(contentsMemSearch, headerMem);
 			table_6 = new JTable(dTable3);
 			table_6.setRowHeight(27);
@@ -1137,6 +1131,13 @@ public class managerWindow extends JFrame implements Receivable {
 			table_6.setFont(new Font("새굴림", Font.PLAIN, 25));
 			scrollPane_3_2.setViewportView(table_6);
 		}
+		
+		//예약관리 페이지로 이동시 재고 룸정보 받아오기
+		if(packet.getClass() == ScRoomInfoBroadCast.class) {
+			ScRoomInfoBroadCast sccAck = (ScRoomInfoBroadCast) packet;
+			allRoomList = sccAck.roomList;
+		}
+		
 	}
 }
 
@@ -1160,7 +1161,7 @@ public class managerWindow extends JFrame implements Receivable {
 //		case "전체 고객":
 //			card.show(jp, "scrollPane_3_1");
 //			break;
-////		case "회원 검색":
+////		case " 검색":
 ////			card.show(jp, "scrollPane_5");
 ////			break;
 //

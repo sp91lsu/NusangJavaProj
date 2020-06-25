@@ -17,13 +17,13 @@ import manager_p.ack_p.MsChatConnectAck;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
 public class ChatReqDialog extends JDialog {
-	managerWindow mw;
+	ManagerWindow mw;
 	private final JPanel contentPanel = new JPanel();
 	SMChatConnectSyn smc;
 	String userName=null;
 	
 	public static void main(String[] args) {
-		ChatReqDialog dialog = new ChatReqDialog(new managerWindow(),new SMChatConnectSyn(null));
+		ChatReqDialog dialog = new ChatReqDialog(new ManagerWindow(),new SMChatConnectSyn(null));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 	}
@@ -31,7 +31,7 @@ public class ChatReqDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ChatReqDialog(managerWindow mw,SMChatConnectSyn smc) {
+	public ChatReqDialog(ManagerWindow mw,SMChatConnectSyn smc) {
 		this.mw = mw;
 		this.smc = smc;
 //		userName = smc.name;

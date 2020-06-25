@@ -3,7 +3,7 @@ package client_p;
 import java.util.HashMap;
 
 import client_p.ui_p.BaseFrame;
-import manager_p.managerWindow;
+import manager_p.ManagerWindow;
 import packetBase_p.ResultPacketBase;
 import server_p.packet_p.ack_p.*;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;

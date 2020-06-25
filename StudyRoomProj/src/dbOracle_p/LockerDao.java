@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 
@@ -37,14 +38,22 @@ public class LockerDao extends DBProcess {
 		return true;
 	}
 
-	public ArrayList<Integer> getLockerIDList() {
+	public ArrayList<LockerData> getLockerIDList() {
 
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<LockerData> list = new ArrayList<LockerData>();
 		try {
 			ResultSet rs = getRS(ETable.LOCKER, "*");
 
 			while (rs.next()) {
-				list.add(rs.getInt("id"));
+				for (LockerData data : DataManager.getInstance().lockerList) {
+					
+					if(data.id == rs.getInt("ID"))
+					{
+						data.setPW(rs.getString("pw"));
+						list.add(data);
+					}
+				}
+			
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
