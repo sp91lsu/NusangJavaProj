@@ -16,6 +16,7 @@ import dbOracle_p.RoomDao;
 import manager_p.ack_p.MsChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
+import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SMCurrMemListAck;
@@ -26,6 +27,7 @@ import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
+import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
@@ -236,7 +238,12 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 		try {
 			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
-
+			String managerIp = "/192.168.100.27";
+			SocketClient mc = MyServer.getInstance().findClient(managerIp);
+			if(mc != null)
+			{
+				mc.sendPacket(roomCast);
+			}
 			client.sendPacket(roomCast);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -246,6 +253,7 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 	}
 }
 
+//현재 이용중 고객 조회
 class MethMsCurrMemListSyn implements ServerPacketMethod {
 
 	@Override
@@ -271,6 +279,7 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 	}
 }
 
+//전체 회원 조회
 class MethMsAllMemListSyn implements ServerPacketMethod {
 
 	@Override
@@ -292,6 +301,32 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 			e.printStackTrace();
 		}
 
+		client.sendPacket(Ack);
+	}
+}
+
+//회원 검색
+class MethMsMemSearchSyn implements ServerPacketMethod {
+	
+	@Override
+	public void receive(SocketClient client, PacketBase packet) {
+		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
+		
+//		String managerIp = "/192.168.100.27";
+//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+		
+		SmMemSearchAck Ack = null;
+		AccountDao accountDao = new AccountDao();
+		try {
+//			if (sc != null) {
+			Ack = new SmMemSearchAck(EResult.SUCCESS, accountDao.getAllUserList());
+//			} else {
+//				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		client.sendPacket(Ack);
 	}
 }
