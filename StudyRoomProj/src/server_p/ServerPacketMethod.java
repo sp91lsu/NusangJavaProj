@@ -120,9 +120,9 @@ class MethChatConnectSyn implements ServerPacketMethod {
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
 		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
-		toMchatSyn.setManagerIp(sc.socket.getInetAddress().toString());
 
-		if (sc != null && !sc.isChat) {
+		if (sc != null) {// && !sc.isChat
+			toMchatSyn.setManagerIp(sc.socket.getInetAddress().toString());
 			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			sc.sendPacket(toMchatSyn);
 		}
