@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -105,7 +106,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		north_center_center.add(panel_8);
 		panel_8.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JLabel lblNewLabel_5 = new JLabel("현재선택");
+		JLabel lblNewLabel_5 = new JLabel("선택 좌석");
 		panel_8.add(lblNewLabel_5);
 
 		umgIc = new ImageIcon("img/blue.png");
@@ -307,6 +308,24 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		setVisible(true);
 		all.addAll(solo);
 		all.addAll(group);
+		for (JButton buttonColor : all) {
+			buttonColor.setBackground(Color.green);
+			buttonColor.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					for (JButton jbtt : all) {
+						if (e.getSource().equals(jbtt)) {
+							jbtt.setBackground(Color.cyan);
+						} else {
+							jbtt.setBackground(Color.green);
+						}
+					}
+					
+				}
+			});
+		}
 	}
 
 	public void group_state(boolean state) {// 그룹버튼 활성/비활성
@@ -333,13 +352,33 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	}
 
 	public void setBtnColor() {
+
+		for (RoomProduct room : BaseFrame.getInstance().roomInfoList) {
+
+			for (Calendar cal : room.calendarList) {
+
+				if (BaseFrame.getInstance().isSameTime(cal, Calendar.getInstance())) {
+
+					for (JButton jButton2 : all) {
+						System.out.println(jButton2.getText());
+						if (jButton2.getText().equals(room.name)) {
+							jButton2.setBackground(Color.red);
+							jButton2.setEnabled(false);
+						}
+					}
+				}
+			}
+		}
+
 		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
 		if (roomProduct != null) {
 			for (JButton jButton : all) {
 				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(null);
+					jButton.setBackground(Color.blue);
+
 				}
 			}
+
 		}
 	}
 	

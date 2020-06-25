@@ -1,14 +1,11 @@
 package client_p.ui_p;
 
 import java.awt.Color;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
@@ -148,7 +145,9 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	public Seating_Arrangement getSeatingArrUI() {
-		return (Seating_Arrangement) jPanelArrl.get(2);
+		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
+		sa.setBtnColor();
+		return sa;
 	}
 
 	public ClientChatFrame getClientChatFrame() {
