@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
@@ -14,17 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import data_p.product_p.room_p.RoomProduct;
-
 public class TimeFrame extends JFrame {
 
 	String id = BaseFrame.getInstance().userData.id;
-	String phoneNum = "01012341234";
-	String seatingName = "»þ¿ö·ë";
-	String usingTime = "01:20";
-	String remaingTime = "00:40";
+	String phoneNum = BaseFrame.getInstance().userData.phone;
+	String seatingName = BaseFrame.getInstance().getUsingRoom().name;
 
 	public TimeFrame() {
+		
 		setBounds(100, 100, 500, 500);
 		getContentPane().setLayout(null);
 
@@ -34,9 +28,9 @@ public class TimeFrame extends JFrame {
 		titleLabel.setBounds(60, 10, 360, 70);
 		getContentPane().add(titleLabel);
 
+		String remaingTime = showRemainTime();
 		JLabel lblNewLabel = new JLabel("<html>ÀÌ¿ëÀÚ ID : " + id + "<br>ÈÞ´ëÆù¹øÈ£ : " + phoneNum + "<br>ÀÌ¿ë ÁßÀÎ ÁÂ¼®/·ë : "
-				+ seatingName + "<br>ÀÌ¿ë ½Ã°£ : " + usingTime + "<br>ÀÜ¿© ½Ã°£ : " + remaingTime + "<html>");
-		showRemainTime();
+				+ seatingName +"<br>ÀÜ¿© ½Ã°£ : " + remaingTime + "<html>");
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 24));
 		lblNewLabel.setBounds(51, 98, 387, 183);
@@ -52,17 +46,17 @@ public class TimeFrame extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}
-		});
+			}});
 
 		setVisible(true);
 	}
 
-	public void showRemainTime() {
+	public String showRemainTime() {
 
 		long remain = BaseFrame.getInstance().getTodayRemainTime();
-		System.out.println(TimeUnit.MILLISECONDS.toMinutes(remain));
-
+		long remainHour = TimeUnit.MILLISECONDS.toHours(remain);
+		long remainMinute = TimeUnit.MILLISECONDS.toMinutes(remain)*10/60;
+		
+		return remainHour + "½Ã°£" + remainMinute + "ºÐ";
 	}
-
 }

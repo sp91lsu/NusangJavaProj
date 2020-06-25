@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.sun.org.glassfish.external.statistics.annotations.Reset;
+
 import client_p.Receivable;
 import data_p.product_p.DataManager;
 import data_p.product_p.TimeData;
@@ -192,38 +194,59 @@ public class Payment extends JFrame {
 						mBox.box.setEnabled(true);
 						if (i + 1 < checkBoxList.size()) {
 							checkBoxList.get(i + 1).box.setEnabled(true);
+
+							// 예약시간대가 겹칠때에는 버튼 비활성화
+							Calendar cal2 = Calendar.getInstance();
+							ArrayList<Integer> checkList = BaseFrame.getInstance()
+									.getCheckList(cal2.get(Calendar.MONTH), cal2.get(Calendar.DATE));
+							for (Integer j : checkList) {
+								if (checkBoxList.get(i + 1).value == j) {
+									checkBoxList.get(i + 1).box.setEnabled(false);
+								}
+							}
 						}
 						i++;
 					} else {
 						mBox.box.setEnabled(false);
 					}
 				}
+
 			} else {
 				System.out.println("타임 제거하기");
 				for (int i = 0; i < timeList.size(); i++) {
-					Calendar cal1 = timeList.get(i);
-					if (cal1.get(Calendar.HOUR_OF_DAY) == value) {
-						timeList.remove(cal1);
+					Calendar cal3 = timeList.get(i);
+					if (cal3.get(Calendar.HOUR_OF_DAY) == value) {
+						timeList.remove(cal3);
 						totPrice = timeList.size() * (int) DataManager.getInstance().roomMap
 								.get(BaseFrame.getInstance().roomProduct.id).price;
 						priceLabel.setText(totPrice + "");
 					}
 				}
-				if (timeList.isEmpty()) {
-					payButton.setEnabled(false);
-				}
-				Calendar cal2 = Calendar.getInstance();
-				for (int i = checkBoxList.size() - 1; i > cal2.get(Calendar.HOUR_OF_DAY) + 1; i--) {
+				Calendar cal4 = Calendar.getInstance();
+				for (int i = checkBoxList.size() - 1; i > cal4.get(Calendar.HOUR_OF_DAY) + 1; i--) {
 					MyCheckBox mBox = checkBoxList.get(i);
 					if (mBox.box == cBox) {
 						// mBox.box.setEnabled(true);
 						if (i - 1 >= 0) {
 							checkBoxList.get(i - 1).box.setEnabled(true);
+							// 예약시간대가 겹칠때에는 버튼 비활성화
+							Calendar cal5 = Calendar.getInstance();
+							ArrayList<Integer> checkList = BaseFrame.getInstance()
+									.getCheckList(cal5.get(Calendar.MONTH), cal5.get(Calendar.DATE));
+							for (Integer j : checkList) {
+								if (checkBoxList.get(i - 1).value == j) {
+									checkBoxList.get(i - 1).box.setEnabled(false);
+								}
+							}
 							i--;
 						}
 					} else {
 						mBox.box.setEnabled(false);
 					}
+				}
+				if (timeList.isEmpty()) {
+					payButton.setEnabled(false);
+					resPossibleChk();
 				}
 			}
 		}

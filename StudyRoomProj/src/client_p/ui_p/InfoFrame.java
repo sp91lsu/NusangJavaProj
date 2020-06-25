@@ -33,12 +33,12 @@ public class InfoFrame extends JFrame {
 	public InfoFrame() {
 
 		long totUseTimeMinute = BaseFrame.getInstance().totTodayUseTime();
-		
-		long minute = TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute);
+		long hour = TimeUnit.MILLISECONDS.toHours(totUseTimeMinute)-1;
+		long minute = TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute)*10/60;
 		System.out.println(totUseTimeMinute);
 		System.out.println(minute);
 		contentLabel = new JLabel("이용자 정보");
-		contentLabel.setFont(new Font("맑은 고딕", Font.BOLD, 28));
+		contentLabel.setFont(new Font("맑은 고딕", Font.BOLD, 22));
 		contentLabel.setBounds(33, 135, 407, 199);
 
 		contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -48,28 +48,28 @@ public class InfoFrame extends JFrame {
 			String dateList = date.format(roomProduct.calendarList.get(0).getTime());
 
 			contentLabel.setText("<html>이용자 ID : " + id + "<br>현재 이용 중인 내역<br>이용중인 좌석/룸 : " + roomProduct.name
-					+ "<br>결제한 시간" + dateList + "<br>누적 이용 시간 : " + minute + "<html>");
+					+ "<br>선택한 첫 시간 : " + dateList + "<br>누적 이용 시간 : " +hour+ "시간" + minute + "분" + "<html>");
 			setVisible(true);
 		} else {
 
 			JDialog jd = new JDialog();
 			jd.setBounds(100, 100, 200, 200);
-			jd.setLayout(new GridLayout(2, 1));
+			jd.getContentPane().setLayout(new GridLayout(2, 1));
 
 			JLabel jl = new JLabel("현재 이용중인 내역이 없습니다.");
-			jd.add(jl);
+			jd.getContentPane().add(jl);
 
 			JButton jb = new JButton("확인");
 			jb.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("짹스");
+				
 					jd.dispose();
 
 				}
 			});
-			jd.add(jb);
+			jd.getContentPane().add(jb);
 			jd.setVisible(true);
 		}
 		getContentPane().add(contentLabel);

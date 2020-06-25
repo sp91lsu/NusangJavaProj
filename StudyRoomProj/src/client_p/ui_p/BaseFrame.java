@@ -1,14 +1,11 @@
 package client_p.ui_p;
 
 import java.awt.Color;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
@@ -148,7 +145,9 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	public Seating_Arrangement getSeatingArrUI() {
-		return (Seating_Arrangement) jPanelArrl.get(2);
+		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
+		sa.setBtnColor();
+		return sa;
 	}
 
 	public ClientChatFrame getClientChatFrame() {
@@ -170,7 +169,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		int hour = 0;
 		Calendar current = Calendar.getInstance();
 
-		 current.add(Calendar.HOUR, 1);
+		current.add(Calendar.HOUR, 1);
 
 		for (RoomProduct room : userData.myReservationList) {
 			for (Calendar time : room.calendarList) {
@@ -196,17 +195,21 @@ public class BaseFrame extends JFrame implements Receivable {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
 
-				System.out.println("------------------");
-				System.out.println(cal.get(Calendar.MONTH));
-				System.out.println(cal.get(Calendar.HOUR));
-				if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-						&& cal.get(Calendar.HOUR) == current.get(Calendar.HOUR) && !product.isExit) {
+				if (isSameTime(cal, current) && !product.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
 			}
 		}
 		return clone;
+	}
+
+	public boolean isSameTime(Calendar cal1, Calendar cal2) {
+		if (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
+				&& cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY)) {
+			return true;
+		}
+		return false;
 	}
 
 	public long getTodayRemainTime() {

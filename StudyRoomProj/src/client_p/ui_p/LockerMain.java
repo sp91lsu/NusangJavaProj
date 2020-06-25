@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -98,8 +97,7 @@ public class LockerMain extends JPanel implements ActionListener {
 		pwSetting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LockerPWFrame lp = new LockerPWFrame(lockerNum);
-			}
-		});
+			}});
 
 		JButton cancelButton = new JButton("√Îº“");
 		cancelButton.setBounds(350, 10, 100, 100);
@@ -107,8 +105,7 @@ public class LockerMain extends JPanel implements ActionListener {
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("MainLayout");
-			}
-		});
+			}});
 
 		for (JButton jbt : list) {
 			jbt.addActionListener(this);

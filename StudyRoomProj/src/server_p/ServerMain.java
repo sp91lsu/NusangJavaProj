@@ -22,6 +22,7 @@ public class ServerMain {
 class MyServer {
 
 	private static MyServer instance;
+
 	public static MyServer getInstance() {
 
 		if (instance == null) {
@@ -135,14 +136,12 @@ class SocketClient extends Thread {
 				sleep(10);
 			} catch (Exception e) {
 				System.out.println("클라이언트에서 패킷 받는 도중 오류");
+				close();
 				e.printStackTrace();
-				break;
+				return;
 			}
 		}
 
-		System.out.println(socket.getInetAddress() + "종료");
-		MyServer.getInstance().clientList.remove(this);
-		System.out.println("현재 클라이언트 list 갯수"  +MyServer.getInstance().clientList.size() );
 		close();
 	}
 
@@ -160,6 +159,10 @@ class SocketClient extends Thread {
 	}
 
 	public void close() {
+
+		System.out.println(socket.getInetAddress() + "종료");
+		MyServer.getInstance().clientList.remove(this);
+		System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
 		if (!socket.isClosed()) {
 			try {
 				socket.close();

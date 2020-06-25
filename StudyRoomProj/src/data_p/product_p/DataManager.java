@@ -20,6 +20,7 @@ public class DataManager {
 
 	public UserData userData = null;
 	public HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
+	public ArrayList<LockerData> lockerList = new ArrayList<LockerData>();
 	public ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	String managerKey = "";
@@ -28,6 +29,7 @@ public class DataManager {
 		RoomSetting();
 		keySetting();
 		TimeDataSetting();
+		lockerSetting();
 	}
 
 	public static void main(String[] args) {
@@ -77,6 +79,25 @@ public class DataManager {
 		for (int i = 0; i < keyList.size(); i++) {
 			managerKey = keyList.get(i);
 			// System.out.println(managerKey);
+		}
+	}
+
+	void lockerSetting() {
+		ExcelReader roomReader = new ExcelReader();
+		roomReader.read("LockerData.xlsx");
+
+		ArrayList<String> idList = roomReader.getList("id");
+		ArrayList<String> nameList = roomReader.getList("name");
+		ArrayList<String> pwList = roomReader.getList("pw");
+		ArrayList<String> priceList = roomReader.getList("price");
+
+		for (int i = 0; i < idList.size(); i++) {
+
+			int id = Integer.parseInt(idList.get(i));
+			long price = Long.parseLong(priceList.get(i));
+
+			LockerData data = new LockerData(id, nameList.get(i), pwList.get(i), price);
+			lockerList.add(data);
 		}
 	}
 }
