@@ -1,6 +1,7 @@
 package client_p.ui_p;
 
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -276,5 +278,18 @@ public class Payment extends JFrame {
 		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + BaseFrame.getInstance().roomProduct.name + "<br>"
 				+ "입실시간:" + current_day + "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>"
 				+ "*예약은 1시간 단위로 가능합니다.<html>");
+	}
+	
+	public void updatePayment()
+	{
+		JDialog jd = new JDialog();
+		jd.setLayout(null);
+		jd.setBounds(300, 300, 200, 200);
+		JLabel jb = new JLabel("좌석현황이 업데이트되었습니다.");
+		jd.add(jb);
+		jd.setVisible(true);
+		
+		resPossibleChk();
+		System.out.println("중간에 예약함");
 	}
 }
