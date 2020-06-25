@@ -37,6 +37,7 @@ public class Payment extends JFrame {
 	String current_day = date.format((Calendar.getInstance().getTime()));
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<Payment.MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
+	ArrayList<String> textList = new ArrayList<String>();
 	JLabel priceLabel;
 	JComboBox personCntChoice;
 	JButton payButton;
@@ -125,7 +126,9 @@ public class Payment extends JFrame {
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
-				BaseFrame.getInstance().paymentPop.setVisible(true);
+				//BaseFrame.getInstance().paymentPop.setVisible(true);
+				RCalcFrame rcalc = new RCalcFrame();
+				textList.clear();
 			}
 		});
 		payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -153,6 +156,7 @@ public class Payment extends JFrame {
 				personCntChoice.setSelectedIndex(0);
 				payButton.setEnabled(false);
 				timeList.clear();
+				textList.clear();
 
 			}
 		});
@@ -183,6 +187,7 @@ public class Payment extends JFrame {
 
 			if (cBox.isSelected()) {
 				System.out.println("타임 추가하기");
+				textList.add(cBox.getText());
 				timeList.add(cal);
 				totPrice = timeList.size()
 						* (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().roomProduct.id).price;
@@ -213,6 +218,7 @@ public class Payment extends JFrame {
 
 			} else {
 				System.out.println("타임 제거하기");
+				textList.remove(cBox.getText());
 				for (int i = 0; i < timeList.size(); i++) {
 					Calendar cal3 = timeList.get(i);
 					if (cal3.get(Calendar.HOUR_OF_DAY) == value) {
@@ -254,10 +260,6 @@ public class Payment extends JFrame {
 
 	boolean ddd = false;
 
-	public void updateRoomInfo() {
-		// 서버에서 받은 룸정보
-	}
-
 	public void resPossibleChk() {
 		totPrice = 0;
 		for (MyCheckBox myCheckBox : checkBoxList) {
@@ -285,6 +287,5 @@ public class Payment extends JFrame {
 		useInfo = new JLabel("<html>이름: 홍길동<br>" + "선택좌석:  " + BaseFrame.getInstance().roomProduct.name + "<br>"
 				+ "입실시간:" + current_day + "(16:00)<br>" + "퇴실예정:" + current_day + "(18:00)<br><br>"
 				+ "*예약은 1시간 단위로 가능합니다.<html>");
-		updateRoomInfo();
 	}
 }

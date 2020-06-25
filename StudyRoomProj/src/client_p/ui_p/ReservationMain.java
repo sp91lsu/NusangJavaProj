@@ -39,7 +39,7 @@ public class ReservationMain extends JPanel {
 	ArrayList<MyCheckBox> checkBoxList = new ArrayList<MyCheckBox>();
 	ArrayList<Calendar> timeList = new ArrayList<Calendar>();
 	ArrayList<MyJButton> dateList = new ArrayList<MyJButton>();
-	JLabel roomInfo = new JLabel();
+	static JLabel roomInfo = new JLabel();
 	JLabel timeInfo;
 	JLabel nowMonthL;
 	JPanel calPaneMain;
@@ -197,7 +197,7 @@ public class ReservationMain extends JPanel {
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
-				BaseFrame.getInstance().rcalc.setVisible(true);
+				RCalcFrame rcalc = new RCalcFrame();
 
 				setMonth = nowMonth;
 
