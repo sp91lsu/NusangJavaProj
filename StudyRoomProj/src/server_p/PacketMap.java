@@ -2,11 +2,20 @@ package server_p;
 
 import java.util.HashMap;
 
-import client_p.packet_p.syn_p.*;
+import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import client_p.packet_p.syn_p.CsChatConnectSyn;
+import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.CsCloseSyn;
+import client_p.packet_p.syn_p.CsExitSyn;
+import client_p.packet_p.syn_p.CsLoginSyn;
+import client_p.packet_p.syn_p.CsMoveSeatSyn;
+import client_p.packet_p.syn_p.CsSignUpSyn;
+import client_p.packet_p.syn_p.CsUpdateRoomSyn;
 import manager_p.ack_p.MsChatConnectAck;
-import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsAllMemListSyn;
-import packetBase_p.*;
+import manager_p.syn_p.MsCurrMemListSyn;
+import manager_p.syn_p.MsMemSearchSyn;
+import packetBase_p.PacketBase;
 
 public class PacketMap {
 
@@ -28,6 +37,7 @@ public class PacketMap {
 		map.put(CsUpdateRoomSyn.class, new MethUpdateRoomSyn()); // 룸 정보 업데이
 		map.put(MsCurrMemListSyn.class, new MethMsCurrMemListSyn()); //현재 회원리스트
 		map.put(MsAllMemListSyn.class, new MethMsAllMemListSyn()); //현재 회원리스트
+		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); //회원 검색
 
 	}
 
