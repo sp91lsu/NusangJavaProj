@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import client_p.ClientNet;
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 
@@ -27,6 +28,8 @@ class LockerBtn {
 		btn.setText(data.name);
 	}
 }
+
+
 
 public class LockerMain extends JPanel implements ActionListener {
 

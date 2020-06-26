@@ -104,9 +104,9 @@ public class ManagerWindow extends JFrame implements Receivable {
 	
 	public static void main(String[] args) {
 		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
 					ManagerWindow mww = new ManagerWindow();
 					PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // 채팅 연결 요청에 대한 응답
 					PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
@@ -119,11 +119,11 @@ public class ManagerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(ScBuyLockerCast.class, mww);
 					PacketMap.getInstance().map.put(SmGiveMeResvRoomAck.class, mww);
 					ClientNet.getInstance().start();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	
