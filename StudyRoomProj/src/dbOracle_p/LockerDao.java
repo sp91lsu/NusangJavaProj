@@ -64,22 +64,20 @@ public class LockerDao extends DBProcess {
 	}
 
 	public boolean deleteLocker(String uuid) {
-		deleteQuery(ETable.LOCKER, "uuid = ?");
+		deleteQuery(ETable.LOCKER, "uuid = " + uuid);
 
 		try {
 			stmt = con.prepareStatement(query);
 
-			stmt.setString(1, uuid);
-
 			rs = stmt.executeQuery();
 
 			close();
-			return true;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return false;
+		return true;
 	}
 }

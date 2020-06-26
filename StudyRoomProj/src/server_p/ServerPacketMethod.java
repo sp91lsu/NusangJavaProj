@@ -66,12 +66,13 @@ class MethLoginSyn implements ServerPacketMethod {
 			if (userData != null) {
 
 				RoomDao roomDao = new RoomDao();
+				LockerDao lockerDao = new LockerDao();
 
 				userData.setMyRoom(accountDao.findUserRoom(userData.uuid));
 
-				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getRoomInfo("*"));
+				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getRoomInfo("*"), lockerDao.getLockerIDList());
 			} else {
-				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null);
+				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null, null);
 
 			}
 		} catch (Exception e) {
@@ -285,7 +286,8 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 		MsGiveMeResvRoomSyn resPacket = (MsGiveMeResvRoomSyn) packet;
 		RoomDao roomDao = new RoomDao();
 		try {
-			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,roomDao.rTimeDataList(resPacket.yyyy,resPacket.mm,resPacket.dd) );
+			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,
+					roomDao.rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
 //			String managerIp = "/192.168.100.27";
 			String managerIp = "/127.0.0.1";
 			SocketClient mc = MyServer.getInstance().findClient(managerIp);
@@ -308,17 +310,10 @@ class MethMsCurrMemListSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsCurrMemListSyn resPacket = (MsCurrMemListSyn) packet;
 
-//		String managerIp = "/192.168.100.27";
-//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
-
 		SmCurrMemListAck toMcurrMLAck = null;
 		AccountDao accountDao = new AccountDao();
 		try {
-//			if (sc != null) {
 			toMcurrMLAck = new SmCurrMemListAck(EResult.SUCCESS, accountDao.getCurrentUserList());
-//			} else {
-//				toMcurrMLAck = new SMCurrMemListAck(EResult.FAIL, accountDao.getCurrentUserList());
-//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -333,9 +328,6 @@ class MethMsAllMemListSyn implements ServerPacketMethod {
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		MsAllMemListSyn resPacket = (MsAllMemListSyn) packet;
-
-//		String managerIp = "/192.168.100.27";
-//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 
 		SmAllMemListAck ack = null;
 		AccountDao accountDao = new AccountDao();
@@ -363,8 +355,6 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 		String managerIp = "/127.0.0.1";
 		SocketClient mc = MyServer.getInstance().findClient(managerIp);
 
-//		String managerIp = "/192.168.100.27";
-//		SocketClient sc = MyServer.getInstance().findClient(managerIp);
 		SmMemSearchAck ack = null;
 		AccountDao accountDao = new AccountDao();
 		try {
