@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import data_p.product_p.LockerData;
+import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
@@ -27,6 +29,7 @@ public class MainLayout extends JPanel implements Receivable {
 	private JButton button_2;
 	private JButton button_6;
 	private JButton button_9;
+	private JButton button_5;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -94,7 +97,7 @@ public class MainLayout extends JPanel implements Receivable {
 			}
 		});
 
-		JButton button_5 = new JButton("개인석 이동");
+		button_5 = new JButton("개인석 이동");
 		button_5.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_5);
 		button_5.addActionListener(new ActionListener() {
@@ -121,7 +124,11 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_7);
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TimeFrame time = new TimeFrame();
+				if (BaseFrame.getInstance().getUsingRoom() != null) {
+					TimeFrame time = new TimeFrame();
+				} else {
+					System.out.println("현재 이용중인 방이 없음.");
+				}
 			}
 		});
 
@@ -134,12 +141,13 @@ public class MainLayout extends JPanel implements Receivable {
 			}
 		});
 
-		button_9 = new JButton("퇴실");
+		button_9 = new JButton();
 		button_9.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_9);
+
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ExitFrame exitframe = new ExitFrame();
+				ExitFrame exitframe = new ExitFrame(button_9.getText());
 			}
 		});
 
@@ -151,7 +159,24 @@ public class MainLayout extends JPanel implements Receivable {
 	}
 
 	public void openPage() {
-		if (BaseFrame.getInstance().getTodayRemainTime() > 0)// 예약했으면
+		long remain = BaseFrame.getInstance().getTodayRemainTime();
+		RoomProduct reserRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
+
+		if (BaseFrame.getInstance().getUsingRoom() != null) {
+
+			button_9.setText("퇴실");
+		} else if (reserRoom != null) {
+			BaseFrame.getInstance().roomProduct = reserRoom;
+			button_5.setEnabled(false);
+			button_9.setText("예약 취소");
+		} else {
+			button_9.setText("퇴실");
+			button_5.setEnabled(false);
+			button_9.setEnabled(false);
+		}
+		System.out.println("오늘 남은 시간" + remain);
+
+		if (remain > 0)// 예약했으면
 		{
 			button_1.setEnabled(false);// 개인룸 이용 버튼 비활성화
 			button_2.setEnabled(false);// 단체석 이용버튼 비활성화
@@ -163,6 +188,11 @@ public class MainLayout extends JPanel implements Receivable {
 			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 			button_9.setEnabled(false);
 		}
+	}
+
+	public void is_reservation() {
+		button_1.setEnabled(false);// 개인룸 이용 버튼 비활성화
+		button_2.setEnabled(false);// 단체석 이용버튼 비활성화
 	}
 
 	@Override

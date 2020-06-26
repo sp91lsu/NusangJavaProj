@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,14 +18,17 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScExitAck;
 
-public class ExitFrame extends JFrame{
+public class ExitFrame extends JFrame {
 
-	public ExitFrame() {
+	String title = "";
+
+	public ExitFrame(String title) {
+		this.title = title;
 		setBounds(100, 100, 450, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("퇴실 하시겠습니까???");
+		JLabel lblNewLabel = new JLabel(title + " 하시겠습니까???");
 		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 32));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -35,7 +40,7 @@ public class ExitFrame extends JFrame{
 		okButton.setBounds(38, 227, 162, 70);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RoomProduct room = BaseFrame.getInstance().getUsingRoom();
+				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
 				room.isExit = true;
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);

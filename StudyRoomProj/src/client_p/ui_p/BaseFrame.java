@@ -46,7 +46,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		return instance;
 	}
 
-	public UserData userData = null;
+	UserData userData = null;
 	public Payment payment = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
@@ -257,14 +257,22 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
+
+		return checkMyReserRoom(Calendar.HOUR_OF_DAY);
+	}
+
+	public RoomProduct checkMyReserRoom(int field) {
 		Calendar current = Calendar.getInstance();
 		RoomProduct clone = null;
 
 		for (RoomProduct product : userData.myReservationList) {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
-
-				if (isSameTime(Calendar.HOUR_OF_DAY, cal, current) && !product.isExit) {
+				System.out.println(product.name);
+				System.out.println(cal.getTime());
+				System.out.println(current.getTime());
+				System.out.println(!product.isExit);
+				if (isSameTime(field, cal, current) && !product.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
@@ -297,8 +305,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		current.set(Calendar.HOUR_OF_DAY, -1);
 		long remainTime = 0;
 
-		RoomProduct cRoom = getUsingRoom();
-
+		RoomProduct cRoom = checkMyReserRoom(Calendar.DATE);
 		if (cRoom != null) {// 오늘 총 예약한 리스트
 			for (Calendar cal : cRoom.calendarList) {
 

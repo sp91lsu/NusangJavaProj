@@ -11,14 +11,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import data_p.product_p.room_p.RoomProduct;
+
 public class TimeFrame extends JFrame {
 
 	String id = BaseFrame.getInstance().userData.id;
 	String phoneNum = BaseFrame.getInstance().userData.phone;
-	String seatingName = BaseFrame.getInstance().getUsingRoom().name;
+	String seatingName;
 
 	public TimeFrame() {
 
+		RoomProduct usingRoom = BaseFrame.getInstance().getUsingRoom();
+		if (usingRoom != null) {
+			seatingName = usingRoom.name;
+		}
 		setBounds(100, 100, 500, 500);
 		getContentPane().setLayout(null);
 
