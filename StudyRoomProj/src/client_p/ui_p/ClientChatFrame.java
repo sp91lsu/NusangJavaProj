@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import com.sun.javafx.embed.swing.Disposer;
 
@@ -31,7 +32,8 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	JFrame window;
 	CsChatSyn chatSyn = null;
 	private TextField keyChat;
-	private TextArea textArea;
+	private JTextArea textArea;
+	private JScrollPane scrollPane;
 
 	public static void main(String[] args) {
 		JFrame window = new JFrame();
@@ -49,7 +51,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -57,7 +59,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gbc_scrollPane.gridy = 0;
 		add(scrollPane, gbc_scrollPane);
 		
-		textArea = new TextArea();
+		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		
 		JPanel panel = new JPanel();
@@ -78,7 +80,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text = "["+BaseFrame.getInstance().userData.name+"]: "+keyChat.getText() + "\n";
-				textArea.append(text);
+				//textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
 				
@@ -110,10 +112,10 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text = "["+BaseFrame.getInstance().userData.name+"]: "+keyChat.getText() + "\n";
-				textArea.append(text);
+				//textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
-				
+			
 				keyChat.setText("");
 				
 				keyChat.selectAll();
@@ -143,7 +145,8 @@ public class ClientChatFrame extends JPanel implements Receivable {
 
 		ScChatBroadCast scChat = (ScChatBroadCast) packet;
 		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
-
+		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 	}
+	
 
 }
