@@ -30,7 +30,7 @@ public class RoomDao extends DBProcess {
 				stmt.setTimestamp(2, timeStamp);
 				stmt.setString(3, userUUID);
 				stmt.setInt(4, 0);
-				rs = stmt.executeQuery(); 
+				rs = stmt.executeQuery();
 			}
 
 			close();
@@ -83,17 +83,17 @@ public class RoomDao extends DBProcess {
 			e1.printStackTrace();
 		}
 	}
-	
-	//select id,uuid,substr(to_char(startdate),10,2) from inventory where TRUNC(startdate) = TO_DATE('2020-06-01', 'YYYY-MM-DD');
-	//관리자 예약현황에 쓸 RoomTimeDataList
-	public ArrayList<RoomTimeData> rTimeDataList(String yyyy,String mm,String dd) throws Exception {
 
-		query = "select id,uuid,substr(to_char(startdate),10,2) as hour from inventory "
-				+ "where TRUNC(startdate) "
-				+ "= TO_DATE('"+yyyy+"-"+mm+"-"+dd+"', 'YYYY-MM-DD')";
+	// select id,uuid,substr(to_char(startdate),10,2) from inventory where
+	// TRUNC(startdate) = TO_DATE('2020-06-01', 'YYYY-MM-DD');
+	// 관리자 예약현황에 쓸 RoomTimeDataList
+	public ArrayList<RoomTimeData> rTimeDataList(String yyyy, String mm, String dd) throws Exception {
+
+		query = "select id,uuid,substr(to_char(startdate),10,2) as hour from inventory " + "where TRUNC(startdate) "
+				+ "= TO_DATE('" + yyyy + "-" + mm + "-" + dd + "', 'YYYY-MM-DD')";
 		stmt = con.prepareStatement(query);
-		rs = stmt.executeQuery(); 
-		
+		rs = stmt.executeQuery();
+
 		ArrayList<RoomTimeData> roomTDList = new ArrayList<RoomTimeData>();
 		ArrayList<String> chk = new ArrayList<String>();
 		while (rs.next()) {
@@ -103,19 +103,20 @@ public class RoomDao extends DBProcess {
 			System.out.println(userN);
 			String hour = rs.getString("hour");
 			System.out.println(hour);
-			
-			if(roomTDList.size()==0) {
+
+			if (roomTDList.size() == 0) {
 				RoomTimeData rtd = new RoomTimeData(roomN, userN);
 				rtd.hourList = new ArrayList<String>();
 				rtd.hourList.add(hour);
 				roomTDList.add(rtd);
 			}
-			for (RoomTimeData t : roomTDList) {
-				//기존에 있으면 추가하고
-				if(t.roomName.equals(roomN) && t.userName.equals(userN)) {
+			for (int i = 0; i < roomTDList.size(); i++) {
+				RoomTimeData t = roomTDList.get(i);
+				// 기존에 있으면 추가하고
+				if (t.roomName.equals(roomN) && t.userName.equals(userN)) {
 					t.hourList.add(hour);
-				//기존에 없으면 새로 만들고
-				}else {
+					// 기존에 없으면 새로 만들고
+				} else {
 					RoomTimeData rtd = new RoomTimeData(roomN, userN);
 					rtd.hourList = new ArrayList<String>();
 					rtd.hourList.add(hour);
@@ -126,7 +127,7 @@ public class RoomDao extends DBProcess {
 		rs.close();
 		return roomTDList;
 	}
-	
+
 	// 재고 모든 정보 불러오기
 	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
 
