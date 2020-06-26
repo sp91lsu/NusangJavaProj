@@ -100,6 +100,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private JTable table;
 	private JScrollPane scrollPane_12;
 	private JLabel lbChatName;
+	private JScrollPane scrollPane_Chat;
 	
 	public static void main(String[] args) {
 		
@@ -1033,13 +1034,17 @@ public class ManagerWindow extends JFrame implements Receivable {
 		gbl_panel_19.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		panel_19.setLayout(gbl_panel_19);
 
+		
+		//채팅 에어리어
 		textArea = new JTextArea();
+		scrollPane_Chat = new JScrollPane(textArea);
+		scrollPane_Chat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.insets = new Insets(0, 0, 5, 0);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 0;
 		gbc_textArea.gridy = 0;
-		panel_19.add(textArea, gbc_textArea);
+		panel_19.add(scrollPane_Chat, gbc_textArea);
 
 		JPanel panel_20 = new JPanel();
 		GridBagConstraints gbc_panel_20 = new GridBagConstraints();
@@ -1054,6 +1059,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		gbl_panel_20.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel_20.setLayout(gbl_panel_20);
 
+		//채팅
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
@@ -1066,15 +1072,17 @@ public class ManagerWindow extends JFrame implements Receivable {
 		//텍스트 입력 액션
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				text = textField.getText();
+				text = "[관리자]: "+textField.getText() + "\n";
+				textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
-//				textArea.append(text + newline);
+				
+				textField.setText("");
+				
 				textField.selectAll();
-				textArea.setCaretPosition(textArea.getParent().getWidth());
+				scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 			}
 		});
-
 		JButton btnNewButton_4 = new JButton("\uC804\uC1A1");
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.fill = GridBagConstraints.VERTICAL;
@@ -1086,13 +1094,15 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				if (!textField.getText().equals("")) {
 					
-					text = textField.getText();
+					text = "[관리자]: "+textField.getText() + "\n";
+					textArea.append(text);
 					chatSyn.setText(text);
 					ClientNet.getInstance().sendPacket(chatSyn);
-//					textArea.append(text + newline);
-					textField.selectAll();
-					textArea.setCaretPosition(textArea.getParent().getWidth());
+					
 					textField.setText("");
+					
+					textField.selectAll();
+					scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 				}
 			}
 		});

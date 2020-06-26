@@ -24,7 +24,7 @@ public class ChatReqDialog extends JDialog {
 	public JLabel lbClientName;
 	
 	public static void main(String[] args) {
-		ChatReqDialog dialog = new ChatReqDialog(new ManagerWindow(),new SMChatConnectSyn(null));
+		ChatReqDialog dialog = new ChatReqDialog(new ManagerWindow(),new SMChatConnectSyn(null,null));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 	}

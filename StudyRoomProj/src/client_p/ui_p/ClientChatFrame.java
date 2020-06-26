@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.ScChatSyn;
@@ -23,6 +25,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	JFrame window;
 	CsChatSyn chatSyn = null;
 	TextArea textArea;
+	private JScrollPane scrollPane_Chat;
 
 	public ClientChatFrame() {
 		window = new JFrame();
@@ -33,7 +36,8 @@ public class ClientChatFrame extends JPanel implements Receivable {
 
 		textArea = new TextArea();
 		textArea.setBounds(0, 0, 458, 478);
-		add(textArea);
+		scrollPane_Chat = new JScrollPane(textArea);
+		add(scrollPane_Chat);
 
 		TextField keyChat = new TextField();
 		keyChat.setBounds(0, 484, 337, 182);
@@ -41,11 +45,21 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		keyChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				text = keyChat.getText();
+				text = "["+BaseFrame.getInstance().userData.name+"]: "+keyChat.getText() + "\n";
+				textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
+				
+				keyChat.setText("");
+				
 				keyChat.selectAll();
-				textArea.setCaretPosition(textArea.getParent().getWidth());
+				scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+				
+//				text = keyChat.getText();
+//				chatSyn.setText(text);
+//				ClientNet.getInstance().sendPacket(chatSyn);
+//				keyChat.selectAll();
+//				textArea.setCaretPosition(textArea.getParent().getWidth());
 			}
 		});
 
@@ -58,12 +72,23 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				if (!keyChat.getText().equals("")) {
 
-					text = keyChat.getText();
+					text = "["+BaseFrame.getInstance().userData.name+"]: "+keyChat.getText() + "\n";
+					textArea.append(text);
 					chatSyn.setText(text);
 					ClientNet.getInstance().sendPacket(chatSyn);
-					keyChat.selectAll();
-					textArea.setCaretPosition(textArea.getParent().getWidth());
+					
 					keyChat.setText("");
+					
+					keyChat.selectAll();
+					scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+					
+					
+//					text = keyChat.getText();
+//					chatSyn.setText(text);
+//					ClientNet.getInstance().sendPacket(chatSyn);
+//					keyChat.selectAll();
+//					textArea.setCaretPosition(textArea.getParent().getWidth());
+//					keyChat.setText("");
 				}
 			}
 		});
