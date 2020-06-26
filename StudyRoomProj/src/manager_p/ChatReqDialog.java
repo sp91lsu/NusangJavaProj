@@ -21,6 +21,7 @@ public class ChatReqDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	SMChatConnectSyn smc;
 	String userName=null;
+	public JLabel lbClientName;
 	
 	public static void main(String[] args) {
 		ChatReqDialog dialog = new ChatReqDialog(new ManagerWindow(),new SMChatConnectSyn(null));
@@ -28,9 +29,6 @@ public class ChatReqDialog extends JDialog {
 		dialog.setVisible(true);
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public ChatReqDialog(ManagerWindow mw,SMChatConnectSyn smc) {
 		this.mw = mw;
 		this.smc = smc;
@@ -45,7 +43,7 @@ public class ChatReqDialog extends JDialog {
 		lblNewLabel.setBounds(42, 85, 221, 15);
 		contentPanel.add(lblNewLabel);
 
-		JLabel lbClientName = new JLabel(userName);
+		lbClientName = new JLabel(userName);
 		lbClientName.setBounds(42, 35, 129, 15);
 		contentPanel.add(lbClientName);
 
@@ -68,7 +66,7 @@ public class ChatReqDialog extends JDialog {
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
 						mw.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
-						mw.tabbedPane.setSelectedIndex(7);
+						mw.tabbedPane.setSelectedIndex(6);
 					}
 				});
 				okButton.setActionCommand("OK");

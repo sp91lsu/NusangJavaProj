@@ -34,6 +34,7 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.ui_p.BaseFrame;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.room_p.RoomProduct;
@@ -98,6 +99,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private String contentsResvs[][];
 	private JTable table;
 	private JScrollPane scrollPane_12;
+	private JLabel lbChatName;
 	
 	public static void main(String[] args) {
 		
@@ -1003,12 +1005,12 @@ public class ManagerWindow extends JFrame implements Receivable {
 		gbc_lblNewLabel_9.gridy = 1;
 		panel_17.add(lblNewLabel_9, gbc_lblNewLabel_9);
 
-		JLabel lblNewLabel_10 = new JLabel("\uC774\uB984");
-		GridBagConstraints gbc_lblNewLabel_10 = new GridBagConstraints();
-		gbc_lblNewLabel_10.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_10.gridx = 0;
-		gbc_lblNewLabel_10.gridy = 3;
-		panel_17.add(lblNewLabel_10, gbc_lblNewLabel_10);
+		lbChatName = new JLabel("\uC774\uB984");
+		GridBagConstraints gbc_lbChatName = new GridBagConstraints();
+		gbc_lbChatName.insets = new Insets(0, 0, 5, 0);
+		gbc_lbChatName.gridx = 0;
+		gbc_lbChatName.gridy = 3;
+		panel_17.add(lbChatName, gbc_lbChatName);
 
 		JLabel lblNewLabel_11 = new JLabel("\uB2D8\uACFC \uCC44\uD305\uC911\uC785\uB2C8\uB2E4");
 		GridBagConstraints gbc_lblNewLabel_11 = new GridBagConstraints();
@@ -1067,7 +1069,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 				text = textField.getText();
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
-				textArea.append(text + newline);
+//				textArea.append(text + newline);
 				textField.selectAll();
 				textArea.setCaretPosition(textArea.getParent().getWidth());
 			}
@@ -1087,7 +1089,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 					text = textField.getText();
 					chatSyn.setText(text);
 					ClientNet.getInstance().sendPacket(chatSyn);
-					textArea.append(text + newline);
+//					textArea.append(text + newline);
 					textField.selectAll();
 					textArea.setCaretPosition(textArea.getParent().getWidth());
 					textField.setText("");
@@ -1108,7 +1110,10 @@ public class ManagerWindow extends JFrame implements Receivable {
 			SMChatConnectSyn sccAck = (SMChatConnectSyn) packet;
 			if (sccAck.eResult == EResult.SUCCESS) {
 				System.out.println("го╬л");
+//				System.out.println(BaseFrame.getInstance().userData.name);
 				ChatReqDialog dialog = new ChatReqDialog(this,sccAck);
+//				lbChatName.setText(BaseFrame.getInstance().userData.name);
+//				dialog.lbClientName.setText(BaseFrame.getInstance().userData.name);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
 			}

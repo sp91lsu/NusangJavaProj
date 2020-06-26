@@ -7,6 +7,6 @@ public class ClientMain {
 	public static void main(String[] args) {
 		ClientNet.getInstance().start();
 		DataManager.getInstance();
-		BaseFrame.getInstance();
+		BaseFrame.getInstance().startFrame();
 	}
 }
