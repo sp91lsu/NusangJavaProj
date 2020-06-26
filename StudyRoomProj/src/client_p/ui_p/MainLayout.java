@@ -119,7 +119,7 @@ public class MainLayout extends JPanel implements Receivable {
 				TimeFrame time = new TimeFrame();
 			}});
 
-		JButton button_8 = new JButton("내 이용정보");
+		JButton button_8 = new JButton("내 이용내역");
 		button_8.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_8);
 		button_8.addActionListener(new ActionListener() {
