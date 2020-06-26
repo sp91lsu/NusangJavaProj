@@ -34,7 +34,7 @@ public class InfoFrame extends JFrame {
 
 		long totUseTimeMinute = BaseFrame.getInstance().totTodayUseTime();
 		long hour = TimeUnit.MILLISECONDS.toHours(totUseTimeMinute);
-		long minute = TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute) % 60;
+		long minute = 60+(TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute) % 60);
 		System.out.println(totUseTimeMinute);
 		System.out.println(minute);
 		contentLabel = new JLabel("이용자 정보");
