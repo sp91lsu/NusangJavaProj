@@ -23,7 +23,6 @@ public class AccountDao extends DBProcess {
 
 		try {
 			insertQuery(ETable.ACCOUNT, calumQuery, calumNum);
-			stmt = con.prepareStatement(query);
 			stmt.setString(1, userData.uuid);
 			stmt.setString(2, userData.name);
 			stmt.setString(3, userData.id);
@@ -43,7 +42,6 @@ public class AccountDao extends DBProcess {
 	public UserData loginUser(String idOrPhone, String id, String pw) throws Exception {
 
 		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ? and pw = ?");
-		stmt = con.prepareStatement(query);
 
 		stmt.setString(1, id);
 		stmt.setString(2, pw);
@@ -81,7 +79,6 @@ public class AccountDao extends DBProcess {
 
 		boolean hasID = false;
 		findQuery(ETable.ACCOUNT, "*", "id = ?");
-		stmt = con.prepareStatement(query);
 
 		stmt.setString(1, id);
 		rs = stmt.executeQuery();
@@ -95,7 +92,6 @@ public class AccountDao extends DBProcess {
 	public ArrayList<UserData> getAllUserList() throws Exception {
 		ArrayList<UserData> userList = new ArrayList<UserData>();
 		findQuery(ETable.ACCOUNT, "*");
-		stmt = con.prepareStatement(query);
 
 		rs = stmt.executeQuery();
 
@@ -115,7 +111,6 @@ public class AccountDao extends DBProcess {
 		ArrayList<UserData> userList = new ArrayList<UserData>();
 		findQuery(ETable.INVENTORY, "UUID",
 				"startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
-		stmt = con.prepareStatement(query);
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
@@ -158,7 +153,6 @@ public class AccountDao extends DBProcess {
 	public void exitUser(String uuid, int isExit) {
 		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = ?");
 		try {
-			stmt = con.prepareStatement(query);
 
 			stmt.setInt(1, isExit);
 			stmt.setString(2, uuid);

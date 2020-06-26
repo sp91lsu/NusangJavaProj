@@ -42,6 +42,7 @@ public class DBProcess {
 
 		query = "select " + value[0] + " from " + table.name();
 		where(value);
+
 	}
 
 	void deleteQuery(ETable table, String... value) {
@@ -52,13 +53,18 @@ public class DBProcess {
 		if (data.length == 2) {
 			query += " where " + data[1];
 		}
+		try {
+			stmt = con.prepareStatement(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(query);
 	}
 
 	ResultSet getRS(ETable table, String... keys) throws SQLException {
 
 		findQuery(table, keys);
-		stmt = con.prepareStatement(query);
 
 		return stmt.executeQuery();
 	}
@@ -107,7 +113,7 @@ public class DBProcess {
 		return cQuery;
 	}
 
-	void reset() {
+	public void reset() {
 		try {
 			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
 

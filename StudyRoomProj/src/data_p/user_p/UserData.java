@@ -1,8 +1,10 @@
 package data_p.user_p;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.UUID;
 
+import client_p.ui_p.BaseFrame;
 import data_p.PacketData;
 import data_p.product_p.room_p.RoomProduct;
 
@@ -43,5 +45,18 @@ public class UserData extends PacketData {
 
 	public void setMyRoom(ArrayList<RoomProduct> myReservationList) {
 		this.myReservationList = myReservationList;
+	}
+
+	public RoomProduct getTodayRoom() {
+		for (RoomProduct room : myReservationList) {
+			if (room != null && !room.isExit) {// ø¿¥√ √— øπæ‡«— ∏ÆΩ∫∆Æ
+				for (Calendar cal : room.calendarList) {
+					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, Calendar.getInstance())) {
+						return room;
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

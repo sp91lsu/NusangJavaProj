@@ -13,7 +13,7 @@ import data_p.product_p.room_p.RoomProduct;
 public class LockerDao extends DBProcess {
 
 	public boolean insertLocker(String userUUID, LockerData lockerData) {
-		String[] columArr = { "UUID", "ID", "PW" };
+		String[] columArr = { "UUID", "ID", "PW", "ISEXIT", "TIME" };
 
 		String columQuery = getColum(columArr);
 		String columNum = getColumNum(columArr.length);
@@ -21,12 +21,12 @@ public class LockerDao extends DBProcess {
 		try {
 			insertQuery(ETable.LOCKER, columQuery, columNum);
 
-			stmt = con.prepareStatement(query);
-
 			stmt.setString(1, userUUID);
 			stmt.setInt(2, lockerData.id);
 			stmt.setString(3, lockerData.pw);
-
+			stmt.setInt(4, 0);
+			Timestamp time = new Timestamp(Calendar.getInstance().getTimeInMillis());
+			stmt.setTimestamp(5, time);
 			rs = stmt.executeQuery();
 
 			close();
@@ -41,9 +41,10 @@ public class LockerDao extends DBProcess {
 	public boolean findUserLocker(String uuid) {
 
 		try {
-			ResultSet rs = getRS(ETable.LOCKER, "*", "uuid = ? and ISEXIT = 0");
+			findQuery(ETable.LOCKER, "*", "uuid = ? and ISEXIT = 0");
 
 			stmt.setString(1, uuid);
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				return true;
 			}
@@ -82,7 +83,6 @@ public class LockerDao extends DBProcess {
 		updateQuery(ETable.LOCKER, "ISEXIT", "1", "uuid = ?");
 
 		try {
-			stmt = con.prepareStatement(query);
 			stmt.setString(1, uuid);
 			rs = stmt.executeQuery();
 

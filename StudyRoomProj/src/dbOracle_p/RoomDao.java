@@ -16,6 +16,9 @@ import oracle.net.aso.d;
 public class RoomDao extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
+
+		updateExitRoom();
+
 		String[] calumArr = { "ID", "STARTDATE", "UUID", "ISEXIT", "PUID" };
 
 		String calumQuery = getColum(calumArr);
@@ -23,10 +26,10 @@ public class RoomDao extends DBProcess {
 		String puid = UUID.randomUUID().toString();
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
-			stmt = con.prepareStatement(query);
 
 			for (Calendar cal : room.calendarList) {
 				stmt.setInt(1, room.id);
+				cal.set(Calendar.MILLISECOND, 0);
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
 				stmt.setTimestamp(2, timeStamp);
 				stmt.setString(3, userUUID);
@@ -47,11 +50,11 @@ public class RoomDao extends DBProcess {
 	// 자리이동
 	public boolean moveSeat(String userUUID, RoomProduct originRoom, int moveID) {
 
+		updateExitRoom();
 		try {
 			updateQuery(ETable.INVENTORY, "ID", "?",
 					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
-			stmt = con.prepareStatement(query);
 			stmt.setInt(1, moveID);
 			stmt.setString(2, userUUID);
 			stmt.executeUpdate();
@@ -66,8 +69,25 @@ public class RoomDao extends DBProcess {
 		return true;
 	}
 
+	public void updateExitRoom() {
+		try {
+
+			updateQuery(ETable.INVENTORY, "ISEXIT", "?", "startdate + 1/24 < sysdate");
+
+			stmt.setInt(1, 1);
+			stmt.executeUpdate();
+
+			reset();
+		} catch (
+
+		SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	public void exitRoom(RoomProduct room) {
 
+		updateExitRoom();
 		int exitValue = room.isExit ? 1 : 0;
 
 		try {
@@ -75,7 +95,6 @@ public class RoomDao extends DBProcess {
 			updateQuery(ETable.INVENTORY, "ISEXIT", "?",
 					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
-			stmt = con.prepareStatement(query);
 			stmt.setInt(1, exitValue);
 			stmt.setString(2, room.userUUID);
 			stmt.executeUpdate();
@@ -133,7 +152,7 @@ public class RoomDao extends DBProcess {
 	}
 
 	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
-
+		updateExitRoom();
 		rs = getRS(ETable.INVENTORY, keys);
 
 		ArrayList<RoomProduct> roomList = resToList(rs);
@@ -154,7 +173,7 @@ public class RoomDao extends DBProcess {
 
 	// 현재 룸 연장정보까지 불러오기
 	public ArrayList<RoomProduct> currentRoomList() {
-
+		updateExitRoom();
 		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
 
 		// 현 시간부터 다음날 바로 전까지

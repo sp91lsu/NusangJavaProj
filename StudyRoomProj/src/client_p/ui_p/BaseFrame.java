@@ -276,25 +276,42 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public long getTodayRemainTime() {
 
-		// 오늘예약한 리스트만 가지고오기
-		Calendar current = Calendar.getInstance();
+		if (!userData.isExit) {// 오늘예약한 리스트만 가지고오기
+			Calendar current = Calendar.getInstance();
 
-		Calendar last = null;
-		for (RoomProduct room : userData.myReservationList) {
+			Calendar last = null;
+			Calendar start = null;
+
+			RoomProduct room = userData.getTodayRoom();
 
 			if (room != null) {// 오늘 총 예약한 리스트
 				for (Calendar cal : room.calendarList) {
 					if (isSameTime(Calendar.DATE, cal, current)) {
-						if (last == null || last.getTimeInMillis() < cal.getTimeInMillis()) {
+						if (last == null) {
 							last = cal;
+							start = cal;
+						}
+						if (last.getTimeInMillis() < cal.getTimeInMillis()) {
+							last = cal;
+						}
+						if (start.getTimeInMillis() > cal.getTimeInMillis()) {
+							start = cal;
 						}
 					}
 				}
 			}
+
+			if (start != null) {
+				System.out.println("마지막 끝나는 시간" + last.getTime());
+				// 오늘 예약한 남은시간
+				if (start.getTimeInMillis() < current.getTimeInMillis()) {
+					return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - current.getTimeInMillis();
+				} else {
+					return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - start.getTimeInMillis();
+				}
+			}
 		}
-		System.out.println("마지막 끝나는 시간" + last.getTime());
-		// 오늘 예약한 남은시간
-		return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - current.getTimeInMillis();
+		return 0;
 	}
 }
 
