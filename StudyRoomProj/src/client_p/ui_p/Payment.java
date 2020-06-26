@@ -107,7 +107,6 @@ public class Payment extends JFrame {
 		for (int i = 0; i <= 10; i++) {
 			personCnt.add(i);
 		}
-
 		priceLabel = new JLabel("결제금액");
 		priceLabel.setBounds(95, 35, 268, 60);
 		centerPane.add(priceLabel);
@@ -182,6 +181,7 @@ public class Payment extends JFrame {
 
 			cal.set(Calendar.HOUR_OF_DAY, value);
 			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
 
 			//시간 체크시
 			if (cBox.isSelected()) {
@@ -269,7 +269,7 @@ public class Payment extends JFrame {
 					myCheckBox.box.setEnabled(false);
 				}
 			}
-			if (myCheckBox.value <= cal.get(Calendar.HOUR_OF_DAY)) {
+			if (myCheckBox.value < cal.get(Calendar.HOUR_OF_DAY)) {
 				myCheckBox.box.setEnabled(false);
 			}
 		}
