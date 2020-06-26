@@ -53,6 +53,7 @@ import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
+import javax.swing.table.TableModel;
 
 public class ManagerWindow extends JFrame implements Receivable {
 	private JTable table_1;
@@ -92,6 +93,11 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private ArrayList<UserData> searchedUDs;
 	private ArrayList<RoomProduct> allRoomList;
 	private ArrayList<RoomTimeData> rTimeDList;
+	private DefaultTableModel dTable5;
+	private String headerResvs[];
+	private String contentsResvs[][];
+	private JTable table;
+	private JScrollPane scrollPane_12;
 	
 	public static void main(String[] args) {
 		
@@ -629,31 +635,40 @@ public class ManagerWindow extends JFrame implements Receivable {
 		LockerMain lockerMain = new LockerMain();
 		lockerMain.setPreferredSize(size1);
 		
+		
+		
 		//예약
 		JPanel panel_3 = new JPanel();
 		System.out.println(panel_3.getHeight());
 		tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
 		panel_3.setLayout(null);
-		JPanel panel_18 = new JPanel();
-		panel_18.setBounds(40, 128, 550, 520);
-		panel_3.add(panel_18);
-		GridBagLayout gbl_panel_18 = new GridBagLayout();
-		gbl_panel_18.columnWidths = new int[]{12, 1, 0};
-		gbl_panel_18.rowHeights = new int[]{1, 0, 0};
-		gbl_panel_18.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_18.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		panel_18.setLayout(gbl_panel_18);
 		
 		CalendarTest cal = new CalendarTest((ManagerWindow) null);
-		GridBagConstraints gbc_cal = new GridBagConstraints();
-		gbc_cal.fill = GridBagConstraints.BOTH;
-		gbc_cal.gridx = 1;
-		gbc_cal.gridy = 1;
-		panel_18.add(cal, gbc_cal);
+		cal.setBounds(224, 25, 502, 362);
+		panel_3.add(cal);
 		
-		JPanel panel_22 = new JPanel();
-		panel_22.setBounds(628, 90, 317, 558);
-		panel_3.add(panel_22);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(-28, 368, 887, 305);
+		cal.add(scrollPane);
+		
+		
+		scrollPane_12 = new JScrollPane();
+		scrollPane_12.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_12.setBounds(79, 389, 842, 311);
+		panel_3.add(scrollPane_12);
+		
+		headerResvs = new String[] {"이용석","예약자","예약시간"};
+		contentsResvs = new String [1][headerResvs.length];
+		dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
+		table = new JTable(dTable5);
+		table.getColumn("이용석").setPreferredWidth(100);
+		table.getColumn("예약자").setPreferredWidth(100);
+		table.getColumn("예약시간").setPreferredWidth(400);
+		table.setRowHeight(27);
+		table.setFont(new Font("새굴림", Font.PLAIN, 25));
+		table.setFillsViewportHeight(true);
+		scrollPane_12.setViewportView(table);
+		
 
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
@@ -1192,6 +1207,32 @@ public class ManagerWindow extends JFrame implements Receivable {
 		if(packet.getClass() == SmGiveMeResvRoomAck.class) {
 			SmGiveMeResvRoomAck ack = (SmGiveMeResvRoomAck) packet;
 			rTimeDList = ack.rtd;
+			
+			System.out.println("rTimeDList 사이즈 "+rTimeDList.size());
+			contentsResvs = new String[rTimeDList.size()][headerResvs.length];
+			for (int i = 0; i < rTimeDList.size(); i++) {
+				contentsResvs[i][0] = rTimeDList.get(i).roomName;
+				System.out.println(rTimeDList.get(i).roomName);
+				contentsResvs[i][1] = rTimeDList.get(i).userName;
+				String hhh = "";
+				for (String h : rTimeDList.get(i).hourList) {
+					hhh += h+"시 ";
+				}
+				contentsResvs[i][2] = hhh;
+			}
+			
+			dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
+			table = new JTable(dTable5);
+//			table.getColumn("이용석").setPreferredWidth(100);
+//			table.getColumn("예약자").setPreferredWidth(100);
+//			table.getColumn("예약시간").setPreferredWidth(400);
+//			table.setCellSelectionEnabled(true);
+//			table.setColumnSelectionAllowed(true);
+			table.setRowHeight(27);
+			table.setFont(new Font("새굴림", Font.PLAIN, 25));
+			table.setFillsViewportHeight(true);
+			scrollPane_12.setViewportView(table);
+			
 		}
 		
 	}

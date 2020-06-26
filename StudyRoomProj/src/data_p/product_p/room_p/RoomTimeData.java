@@ -1,8 +1,9 @@
 package data_p.product_p.room_p;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RoomTimeData {
+public class RoomTimeData implements Serializable{
 	public String roomName, userName, uuID;
 	public ArrayList<String> hourList = new ArrayList<String>();
 	public int roomID;

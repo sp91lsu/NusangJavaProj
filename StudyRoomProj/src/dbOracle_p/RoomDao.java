@@ -98,9 +98,18 @@ public class RoomDao extends DBProcess {
 		ArrayList<String> chk = new ArrayList<String>();
 		while (rs.next()) {
 			String roomN = DataManager.getInstance().roomName(rs.getString("ID"));
+			System.out.println(roomN);
 			String userN = new AccountDao().userName(rs.getString("uuid"));
+			System.out.println(userN);
 			String hour = rs.getString("hour");
+			System.out.println(hour);
 			
+			if(roomTDList.size()==0) {
+				RoomTimeData rtd = new RoomTimeData(roomN, userN);
+				rtd.hourList = new ArrayList<String>();
+				rtd.hourList.add(hour);
+				roomTDList.add(rtd);
+			}
 			for (RoomTimeData t : roomTDList) {
 				//기존에 있으면 추가하고
 				if(t.roomName.equals(roomN) && t.userName.equals(userN)) {

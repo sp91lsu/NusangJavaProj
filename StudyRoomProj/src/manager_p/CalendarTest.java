@@ -195,9 +195,10 @@ public class CalendarTest extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
             	String date = datebtn.dateBtn.getText();
-            	MsGiveMeResvRoomSyn packet = new MsGiveMeResvRoomSyn(setYear, setMonth, date);
-            	ClientNet.getInstance().sendPacket(packet);
             	System.out.println(setYear+" "+setMonth+" "+date);
+            	MsGiveMeResvRoomSyn packet = new MsGiveMeResvRoomSyn(setYear, setMonth, date);
+            	System.out.println(packet);
+            	ClientNet.getInstance().sendPacket(packet);
             }
          });
       }

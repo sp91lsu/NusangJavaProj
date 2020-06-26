@@ -42,7 +42,7 @@ public class PacketMap {
 		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); //회원 검색
 		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); //사물함 구매
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); //중복아이디 확인 
-		//map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeAllRoomSyn()); //중복아이디 확인 
+		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); //예약룸  
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {

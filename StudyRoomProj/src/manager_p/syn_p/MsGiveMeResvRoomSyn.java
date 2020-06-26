@@ -13,6 +13,11 @@ public class MsGiveMeResvRoomSyn  extends PacketBase {
 		this.mm = mm<10 ? "0"+mm : ""+mm;
 		this.dd = dd.length()==1 ? "0"+dd : dd;
 	}
+
+	@Override
+	public String toString() {
+		return "MsGiveMeResvRoomSyn [yyyy=" + yyyy + ", mm=" + mm + ", dd=" + dd + "]";
+	}
 	
 	
 }
