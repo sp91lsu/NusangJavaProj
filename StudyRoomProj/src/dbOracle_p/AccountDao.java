@@ -52,27 +52,28 @@ public class AccountDao extends DBProcess {
 		UserData userdata = null;
 		if (rs.next()) {
 			userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"));
+					rs.getString("phone"), rs.getString("birth"), rs.getInt("isExit") == 1);
 		}
 		rs.close();
 		return userdata;
 	}
-	
+
 	public String userName(String uuID) throws Exception {
 		String un = "";
 		query = "select name,uuid from account";
 		stmt = con.prepareStatement(query);
 		rs = stmt.executeQuery();
-		
+
 		while (rs.next()) {
-			if(rs.getString("name")==null) continue;
-			if(uuID.equals(rs.getString("uuid"))) {
-				un=rs.getString("name");
+			if (rs.getString("name") == null)
+				continue;
+			if (uuID.equals(rs.getString("uuid"))) {
+				un = rs.getString("name");
 				break;
 			}
 		}
 		rs.close();
-		
+
 		return un;
 	}
 
@@ -99,8 +100,9 @@ public class AccountDao extends DBProcess {
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
+
 			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"));
+					rs.getString("phone"), rs.getString("birth"), rs.getInt("isExit") == 1);
 			userList.add(userdata);
 			System.out.println(userdata.uuid);
 		}
@@ -129,7 +131,7 @@ public class AccountDao extends DBProcess {
 
 		while (rs.next()) {
 			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"));
+					rs.getString("phone"), rs.getString("birth"), rs.getInt("isExit") == 1);
 			userList.add(userdata);
 		}
 
@@ -151,5 +153,20 @@ public class AccountDao extends DBProcess {
 		}
 
 		return roomList;
+	}
+
+	public void exitUser(String uuid, int isExit) {
+		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = " + uuid);
+		try {
+			stmt = con.prepareStatement(query);
+
+			stmt.setInt(1, isExit);
+			rs = stmt.executeQuery();
+
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

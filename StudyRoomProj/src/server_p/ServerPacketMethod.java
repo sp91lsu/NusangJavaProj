@@ -185,11 +185,16 @@ class MethCsChatSyn implements ServerPacketMethod {
 class MethBuyRoomSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
+
 		CsBuyRoomSyn recPacket = (CsBuyRoomSyn) packet;
 
 		System.out.println("들어온 상품 정보 ");
 		System.out.println(recPacket.RoomProduct.calendarList.size());
 		ScBuyRoomAck ack = null;
+
+		AccountDao ad = new AccountDao();
+
+		ad.exitUser(recPacket.uuid, 0);
 
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
@@ -246,15 +251,10 @@ class MethExitSyn implements ServerPacketMethod {
 
 		CsExitSyn respacket = (CsExitSyn) packet;
 
-	//	RoomDao roomExitDao = new RoomDao();
-		
-//		while(roomExitDao.getRoomInfo("*", "uuid"))
-//		{
-//			roomExitDao.exitRoom(respacket.room);
-//		}
-//		
-		
-		
+		AccountDao ad = new AccountDao();
+
+		ad.exitUser(respacket.room.userUUID, 1);
+
 		RoomDao roomExitDao = new RoomDao();
 		roomExitDao.exitRoom(respacket.room);
 

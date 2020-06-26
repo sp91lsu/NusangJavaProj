@@ -2,6 +2,9 @@ package data_p.product_p.room_p;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import data_p.product_p.ProductData;
 import data_p.product_p.TimeData;
@@ -13,6 +16,7 @@ public class RoomProduct extends ProductData {
 	public Integer personNum;
 	public String userUUID;
 	public ArrayList<Calendar> calendarList = new ArrayList<Calendar>();
+	public HashMap<Calendar, Bool> exitMap = new HashMap<Calendar, Bool>();
 
 	public RoomProduct(int id, String name, long price, int personNum) {
 		super(id, name, price);
@@ -34,7 +38,7 @@ public class RoomProduct extends ProductData {
 		isExit = true;
 	}
 
-	public RoomProduct getClone() {     
+	public RoomProduct getClone() {
 		RoomProduct clone = new RoomProduct(this.id, this.name, this.price, this.personNum);
 		clone.userUUID = userUUID;
 		clone.isExit = isExit;

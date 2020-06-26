@@ -47,7 +47,7 @@ public class RoomDao extends DBProcess {
 
 		try {
 			updateQuery(ETable.INVENTORY, "ID", "?",
-					"uuid = ? and startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
 			stmt = con.prepareStatement(query);
 			stmt.setInt(1, moveID);
@@ -71,7 +71,7 @@ public class RoomDao extends DBProcess {
 		try {
 
 			updateQuery(ETable.INVENTORY, "ISEXIT", "?",
-					"uuid = ? and startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
 			stmt = con.prepareStatement(query);
 			stmt.setInt(1, exitValue);
