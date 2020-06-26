@@ -48,7 +48,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		return instance;
 	}
 
-	UserData userData = null;
+	public UserData userData = null;
 	public Payment payment = new Payment();
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
@@ -56,7 +56,6 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public BaseFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		startFrame();
 	}
 
 	void startFrame() {
