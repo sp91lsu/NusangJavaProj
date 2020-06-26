@@ -15,6 +15,7 @@ import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
+import data_p.product_p.room_p.RoomProduct;
 import data_p.product_p.room_p.RoomTimeData;
 import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
@@ -202,12 +203,16 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 			if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
 				roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 				RoomDao roomDao2 = new RoomDao();
-				ack = new ScBuyRoomAck(EResult.SUCCESS);
-				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao2.getRoomInfo("*"));
-				MyServer.getInstance().broadCast(roomCast);
+
+				ArrayList<RoomProduct> roomList = roomDao2.getRoomInfo("*");
+
+				ack = new ScBuyRoomAck(EResult.SUCCESS, roomList);
+				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomList);
+
+				MyServer.getInstance().broadCast(client, roomCast);
 
 			} else {
-				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA);
+				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA, null);
 			}
 			client.sendPacket(ack);
 		} catch (Exception e) {
@@ -385,7 +390,7 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
 
 		LockerDao lockerDao = new LockerDao();
-
+		ScBuyLockerAck ack = null;
 		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
 
 			lockerDao = new LockerDao();
@@ -393,12 +398,13 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 			ArrayList<LockerData> lockerList = lockerDao.getLockerIDList();
 
 			ScBuyLockerCast lockerCast = new ScBuyLockerCast(EResult.SUCCESS, lockerList);
-
-			MyServer.getInstance().broadCast(lockerCast);
+			ack = new ScBuyLockerAck(EResult.SUCCESS, lockerList);
+			MyServer.getInstance().broadCast(client, lockerCast);
 		} else {
-			ScBuyLockerAck ack = new ScBuyLockerAck(EResult.FAIL);
-			client.sendPacket(ack);
+			ack = new ScBuyLockerAck(EResult.FAIL, null);
 		}
+
+		client.sendPacket(ack);
 
 	}
 }

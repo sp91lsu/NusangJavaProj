@@ -84,9 +84,11 @@ class MyServer {
 	}
 
 	// 전체알림
-	public synchronized void broadCast(PacketBase packet) {
+	public synchronized void broadCast(SocketClient client, PacketBase packet) {
 		for (SocketClient socketClient : clientList) {
-			socketClient.sendPacket(packet);
+			if (socketClient != client) {
+				socketClient.sendPacket(packet);
+			}
 		}
 	}
 

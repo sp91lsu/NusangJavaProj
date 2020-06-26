@@ -10,8 +10,9 @@ public class ScBuyRoomAck extends ResultPacketBase {
 
 	ArrayList<RoomProduct> roomList;
 
-	public ScBuyRoomAck(EResult eResult) {
+	public ScBuyRoomAck(EResult eResult, ArrayList<RoomProduct> roomList) {
 		super(eResult);
-		// TODO Auto-generated constructor stub
+
+		this.roomList = roomList;
 	}
 }

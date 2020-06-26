@@ -15,14 +15,7 @@ public interface Receivable {
 	void receive(PacketBase packet);
 }
 
-//결제
-class ReceiveVerifyAck implements Receivable {
-	@Override
-	public void receive(PacketBase packet) {
 
-		ScBuyRoomAck ack = (ScBuyRoomAck) packet;
-	}
-}
 
 //채팅 연결시도 응답 
 class ReceiveChatConnectAck implements Receivable {
