@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.UUID;
 
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
@@ -15,11 +16,11 @@ import oracle.net.aso.d;
 public class RoomDao extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
-		String[] calumArr = { "ID", "STARTDATE", "UUID", "ISEXIT" };
+		String[] calumArr = { "ID", "STARTDATE", "UUID", "ISEXIT", "PUID" };
 
 		String calumQuery = getColum(calumArr);
 		String calumNum = getColumNum(calumArr.length);
-
+		String puid = UUID.randomUUID().toString();
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
 			stmt = con.prepareStatement(query);
@@ -30,6 +31,7 @@ public class RoomDao extends DBProcess {
 				stmt.setTimestamp(2, timeStamp);
 				stmt.setString(3, userUUID);
 				stmt.setInt(4, 0);
+				stmt.setString(5, puid);
 				rs = stmt.executeQuery();
 			}
 
@@ -177,7 +179,6 @@ public class RoomDao extends DBProcess {
 			rs = getRS(ETable.INVENTORY, "*", "startdate >= sysdate and startdate < to_char(sysdate + 1,'yyyymmdd')");
 			cRoomList = resToList(rs);
 
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

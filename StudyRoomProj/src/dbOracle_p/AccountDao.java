@@ -156,11 +156,13 @@ public class AccountDao extends DBProcess {
 	}
 
 	public void exitUser(String uuid, int isExit) {
-		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = " + uuid);
+		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = ?");
 		try {
 			stmt = con.prepareStatement(query);
 
 			stmt.setInt(1, isExit);
+			stmt.setString(2, uuid);
+
 			rs = stmt.executeQuery();
 
 			rs.close();

@@ -42,7 +42,9 @@ public class LockerDao extends DBProcess {
 
 		try {
 			ResultSet rs = getRS(ETable.LOCKER, "*", "uuid = " + uuid);
-			while (rs.next()) {
+
+			stmt.setString(1,uuid);
+			if (rs.next()) {
 				return true;
 			}
 		} catch (SQLException e) {
