@@ -122,7 +122,7 @@ class MethChatConnectSyn implements ServerPacketMethod {
 
 		SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
 
-		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
+		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
 		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 
 		if (mc != null) {// && !sc.isChat

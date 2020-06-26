@@ -1112,8 +1112,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 				System.out.println("го╬л");
 //				System.out.println(BaseFrame.getInstance().userData.name);
 				ChatReqDialog dialog = new ChatReqDialog(this,sccAck);
-//				lbChatName.setText(BaseFrame.getInstance().userData.name);
-//				dialog.lbClientName.setText(BaseFrame.getInstance().userData.name);
+				lbChatName.setText(sccAck.userdata.name);
+				dialog.lbClientName.setText(sccAck.userdata.name);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
 			}
