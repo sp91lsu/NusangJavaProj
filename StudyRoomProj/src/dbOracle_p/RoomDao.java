@@ -67,7 +67,9 @@ public class RoomDao extends DBProcess {
 	public void exitRoom(RoomProduct room) {
 
 		int exitValue = room.isExit ? 1 : 0;
+
 		try {
+
 			updateQuery(ETable.INVENTORY, "ISEXIT", "?",
 					"uuid = ? and startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
@@ -165,20 +167,37 @@ public class RoomDao extends DBProcess {
 		return roomList;
 	}
 
-	// 현재 룸 정보 불러오기
-	public ArrayList<RoomProduct> currentRoomState() {
+	// 현재 룸 연장정보까지 불러오기
+	public ArrayList<RoomProduct> currentRoomList() {
+
 		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
+
+		// 현 시간부터 다음날 바로 전까지
 		try {
-			rs = getRS(ETable.INVENTORY, "*",
-					"startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+			rs = getRS(ETable.INVENTORY, "*", "startdate >= sysdate and startdate < to_char(sysdate + 1,'yyyymmdd')");
 			cRoomList = resToList(rs);
+
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return cRoomList;
+
 	}
 
-	// 내 룸 정보 불러오기
+	// 조건에 해당하는 룸 정보를 받을 수 있는지
+	public boolean hasGetRoom(int i) {
+		try {
+			rs = getRS(ETable.INVENTORY, "*", "startdate >= sysdate and startdate < to_char(sysdate + 1,'yyyymmdd')");
+
+			return rs.next();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public ArrayList<RoomProduct> resToList(ResultSet rs) {
 		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();

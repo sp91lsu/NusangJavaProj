@@ -196,7 +196,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			// 그 룸정보의 캘린더를 구해서
 			for (Calendar cal : roomInfo.calendarList) {
 
-				if (isSameTime(cal, current)) {
+				if (isSameTime(Calendar.HOUR_OF_DAY, cal, current)) {
 
 					cRoomList.add(roomInfo);
 				}
@@ -232,11 +232,16 @@ public class BaseFrame extends JFrame implements Receivable {
 	public long totTodayUseTime() {
 
 		int hour = 0;
+
+		// 현재 시간
 		Calendar current = Calendar.getInstance();
 
+		// 마지막 시간
 		current.add(Calendar.HOUR, 1);
 
+		// 오늘 예약한 상품
 		for (RoomProduct room : userData.myReservationList) {
+
 			for (Calendar time : room.calendarList) {
 
 				if (time.getTimeInMillis() <= current.getTimeInMillis()) {
@@ -260,7 +265,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
 
-				if (isSameTime(cal, current) && !product.isExit) {
+				if (isSameTime(Calendar.HOUR_OF_DAY, cal, current) && !product.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
@@ -269,49 +274,47 @@ public class BaseFrame extends JFrame implements Receivable {
 		return clone;
 	}
 
-	public boolean isSameTime(Calendar cal1, Calendar cal2) {
-		if (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
-				&& cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY)) {
-			return true;
+	public boolean isSameTime(int field, Calendar cal1, Calendar cal2) {
+
+		int last = Calendar.MONTH;
+
+		if (field >= Calendar.MONTH) {
+			last = Calendar.MONTH;
 		}
-		return false;
+		if (field >= Calendar.DATE) {
+			last = Calendar.DATE;
+		}
+		if (field >= Calendar.HOUR_OF_DAY) {
+			last = Calendar.HOUR_OF_DAY;
+		}
+
+		return cal1.get(last) == cal2.get(last);
 	}
 
 	public long getTodayRemainTime() {
 
 		// 오늘예약한 리스트만 가지고오기
 		Calendar current = Calendar.getInstance();
+		current.set(Calendar.HOUR_OF_DAY, -1);
+		long remainTime = 0;
 
-		ArrayList<Calendar> remainList = new ArrayList<Calendar>();
+		RoomProduct cRoom = getUsingRoom();
 
-		for (RoomProduct room : userData.myReservationList) {
+		if (cRoom != null) {// 오늘 총 예약한 리스트
+			for (Calendar cal : cRoom.calendarList) {
 
-			if (room.name == getUsingRoom().name) {
-
-				for (Calendar cal : room.calendarList) {
-
-					if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-							&& cal.get(Calendar.DATE) == current.get(Calendar.DATE)) {
-						Calendar copyCal = Calendar.getInstance();
-						copyCal.setTime(cal.getTime());
-						remainList.add(copyCal);
-					}
+				System.out.println("예약한 시간" + cal.getTimeInMillis());
+				System.out.println("현재 시간" + current.getTimeInMillis());
+				if (cal.getTimeInMillis() >= current.getTimeInMillis()) {
+					remainTime += 1000 * 60 * 60;
 				}
 			}
+
+			// 오늘 예약한 남은시간
+			return remainTime -= TimeUnit.MINUTES.toMillis(current.get(Calendar.MINUTE));
+		} else {
+			return 0;
 		}
-
-		// 오늘 예약한 마지막 시간 가지고 오기
-		Calendar end = remainList.get(0);
-
-		for (Calendar calendar : remainList) {
-			if (end.getTimeInMillis() < calendar.getTimeInMillis()) {
-				end = calendar;
-			}
-		}
-		end.add(Calendar.HOUR, 1);
-
-		// 오늘 예약한 남은시간
-		return end.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 	}
 }
 

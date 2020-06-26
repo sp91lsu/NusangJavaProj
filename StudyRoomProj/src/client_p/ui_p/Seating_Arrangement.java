@@ -119,7 +119,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		JPanel panel_9 = new JPanel();
 		north_center_center.add(panel_9);
 		panel_9.setLayout(new GridLayout(1, 0, 0, 0));
-		
+
 		lblNewLabel_7 = new JLabel("ÇöÀç ÁÂ¼®");
 		panel_9.add(lblNewLabel_7);
 		lblNewLabel_7.setVisible(false);
@@ -128,7 +128,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		lblNewLabel_8 = new JLabel(umgIc);
 		panel_9.add(lblNewLabel_8);
 		lblNewLabel_8.setVisible(false);
-		
+
 		JPanel north_center_west = new JPanel();
 		north_center.add(north_center_west, BorderLayout.WEST);
 
@@ -327,10 +327,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		for (JButton buttonColor : all) {
 			buttonColor.setBackground(Color.green);
 			buttonColor.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+
 					for (JButton jbtt : all) {
 						if (e.getSource().equals(jbtt)) {
 							jbtt.setBackground(Color.cyan);
@@ -338,7 +338,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							jbtt.setBackground(Color.green);
 						}
 					}
-					
+
 				}
 			});
 		}
@@ -364,11 +364,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					jButton.setBackground(Color.blue);
 					lblNewLabel_7.setVisible(true);
 					lblNewLabel_8.setVisible(true);
-					
+
 				}
 			}
 		}
-		
+
 	}
 
 	public void setBtnColor() {
@@ -377,7 +377,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 			for (Calendar cal : room.calendarList) {
 
-				if (BaseFrame.getInstance().isSameTime(cal, Calendar.getInstance())) {
+				if (BaseFrame.getInstance().isSameTime(Calendar.HOUR_OF_DAY, cal, Calendar.getInstance())) {
 
 					for (JButton jButton2 : all) {
 						if (jButton2.getText().equals(room.name)) {
@@ -400,7 +400,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		}
 	}
-	
+
 	@Override
 	public void receive(PacketBase packet) {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
