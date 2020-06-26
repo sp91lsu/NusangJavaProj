@@ -71,7 +71,7 @@ class MethLoginSyn implements ServerPacketMethod {
 
 				userData.setMyRoom(accountDao.findUserRoom(userData.uuid));
 
-				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getRoomInfo("*"), lockerDao.getLockerIDList());
+				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getReservationListNonExit(), lockerDao.getLockerIDList());
 			} else {
 				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null, null);
 
@@ -204,7 +204,7 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 				roomDao.insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 				RoomDao roomDao2 = new RoomDao();
 
-				ArrayList<RoomProduct> roomList = roomDao2.getRoomInfo("*");
+				ArrayList<RoomProduct> roomList = roomDao2.getReservationListNonExit();
 
 				ack = new ScBuyRoomAck(EResult.SUCCESS, roomList);
 				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomList);
@@ -268,7 +268,7 @@ class MethExitSyn implements ServerPacketMethod {
 		if (findLockerDao.findUserLocker(respacket.room.userUUID)) {
 			LockerDao lockerDao = new LockerDao();
 
-			if (!lockerDao.deleteLocker(respacket.room.userUUID)) {
+			if (!lockerDao.exitLocker(respacket.room.userUUID)) {
 				ack = new ScExitAck(EResult.FAIL);
 			} else {
 				ack = new ScExitAck(EResult.SUCCESS);
@@ -284,7 +284,7 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 		RoomDao roomDao = new RoomDao();
 
 		try {
-			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getRoomInfo("*"));
+			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getReservationListNonExit());
 			client.sendPacket(roomCast);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -434,29 +434,3 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 	}
 }
 
-//class MethDuplicateIDSyn implements ServerPacketMethod {
-//
-//	@Override
-//	public void receive(SocketClient client, PacketBase packet) {
-//
-//		CsDuplicateIDSyn resPacket = (CsDuplicateIDSyn) packet;
-//
-//		ScDuplicateIDAck ack;
-//
-//		qo.findQuery(ETable.ACCOUNT, "id", "id = " + resPacket.id);
-//
-//		try {
-//			ResultSet res = DBProcess.getInstance().findData(qo);
-//
-//			if (res.next()) {
-//				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
-//			} else {
-//				ack = new ScDuplicateIDAck(EResult.SUCCESS);
-//			}
-//		} catch (SQLException e) {
-//			ack = new ScDuplicateIDAck(EResult.FAIL);
-//			e.printStackTrace();
-//		}
-//	}
-//
-//}

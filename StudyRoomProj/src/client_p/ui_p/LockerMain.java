@@ -29,8 +29,6 @@ class LockerBtn {
 	}
 }
 
-
-
 public class LockerMain extends JPanel implements ActionListener {
 
 	ArrayList<LockerBtn> list = new ArrayList<LockerBtn>();
@@ -116,6 +114,17 @@ public class LockerMain extends JPanel implements ActionListener {
 				listBtn.setBackground(null);
 			}
 
+		}
+	}
+
+	public void updateLocker(ArrayList<LockerData> lockerList) {
+		for (LockerData lockerData : lockerList) {
+			for (LockerBtn lockerbtn : list) {
+				if (lockerbtn.data.id.equals(lockerData.id)) {
+					lockerbtn.btn.setBackground(null);
+					lockerbtn.btn.setEnabled(false);
+				}
+			}
 		}
 	}
 }

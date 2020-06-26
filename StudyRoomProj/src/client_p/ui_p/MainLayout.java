@@ -30,7 +30,7 @@ public class MainLayout extends JPanel implements Receivable {
 	private JButton button_6;
 	private JButton button_9;
 	private JButton button_5;
-
+	long todayRemainTime;
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,8 +55,7 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-                BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
-
+               // BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 			}
 		});
 
@@ -67,7 +66,7 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
-                BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
+               // BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 			}
 		});
 
@@ -126,7 +125,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_7);
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (BaseFrame.getInstance().getUsingRoom() != null) {
+				if (todayRemainTime > 0) {
 					TimeFrame time = new TimeFrame();
 				} else {
 					System.out.println("현재 이용중인 방이 없음.");
@@ -176,7 +175,7 @@ public class MainLayout extends JPanel implements Receivable {
 	}
 
 	public void openPage() {
-		long remain = BaseFrame.getInstance().getTodayRemainTime();
+		 todayRemainTime = BaseFrame.getInstance().getTodayRemainTime();
 		RoomProduct reserRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
 
 		if (BaseFrame.getInstance().getUsingRoom() != null) {
@@ -191,9 +190,9 @@ public class MainLayout extends JPanel implements Receivable {
 			button_5.setEnabled(false);
 			button_9.setEnabled(false);
 		}
-		System.out.println("오늘 남은 시간" + remain);
+		System.out.println("오늘 남은 시간" + todayRemainTime);
 
-		if (remain > 0)// 예약했으면
+		if (todayRemainTime > 0)// 예약했으면
 		{
 			button_1.setEnabled(false);// 개인룸 이용 버튼 비활성화
 			button_2.setEnabled(false);// 단체석 이용버튼 비활성화

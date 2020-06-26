@@ -132,41 +132,24 @@ public class RoomDao extends DBProcess {
 		return roomTDList;
 	}
 
-	// 재고 모든 정보 불러오기
 	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
 
 		rs = getRS(ETable.INVENTORY, keys);
 
-		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+		ArrayList<RoomProduct> roomList = resToList(rs);
 
-		while (rs.next()) {
-
-			int roomID = rs.getInt("ID");
-			if (DataManager.getInstance().roomMap.containsKey(roomID)) {
-
-				ArrayList<Calendar> timeList = new ArrayList<Calendar>();
-
-				Timestamp time = rs.getTimestamp("STARTDATE");
-				RoomProduct room = null;
-				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
-				room = new RoomProduct(roomModel.id, roomModel.name, roomModel.price, rs.getInt("PERSONNUM"));
-
-				if (rs.getInt("ISEXIT") == 1) {
-					room.isExit = true;
-				}
-
-				Calendar cal = Calendar.getInstance();
-
-				cal.setTimeInMillis(time.getTime());
-				timeList.add(cal);
-				room.setDate(rs.getString("UUID"), timeList);
-				roomList.add(room);
-			}
-		}
-
-		System.out.println("룸 리스트 갯수" + roomList.size());
-		rs.close();
 		return roomList;
+	}
+
+	// 퇴실 제외한 예약정보 불러오기(클라에서 예약 정보 뿌려주기위함 )
+	public ArrayList<RoomProduct> getReservationListNonExit() {
+		try {
+			return getRoomInfo("*", "ISEXIT = 0");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	// 현재 룸 연장정보까지 불러오기
@@ -231,6 +214,7 @@ public class RoomDao extends DBProcess {
 
 				roomMap.get(roomID).calendarList.add(cal);
 			}
+			rs.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -142,7 +142,6 @@ class SocketClient extends Thread {
 				return;
 			}
 		}
-
 //		close();
 	}
 

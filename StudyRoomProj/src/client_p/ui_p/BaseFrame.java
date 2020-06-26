@@ -19,6 +19,7 @@ import data_p.user_p.UserData;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScBuyLockerAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
@@ -80,6 +81,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, (Receivable) signUpFrame);
+		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -123,15 +125,17 @@ public class BaseFrame extends JFrame implements Receivable {
 			if (packetAck.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().view("LoginMain");
 
-				for (LockerData data : packetAck.lockerList) {// 구매한 라커 번호
-					System.out.println("data" + data);
-					for (LockerBtn lockerbtn : getLockerMain().list) {
-						if (lockerbtn.data.id.equals(data.id)) {
-							lockerbtn.btn.setBackground(null);
-							lockerbtn.btn.setEnabled(false);
-						}
-					}
-				}
+				getLockerMain().updateLocker(packetAck.lockerList);
+			} else {
+				System.out.println("사물함 결제 실패");
+			}
+		} else if (packet.getClass() == ScBuyLockerAck.class) {
+			ScBuyLockerAck packetAck = (ScBuyLockerAck) packet;
+			if (packetAck.eResult == EResult.SUCCESS) {
+				BaseFrame.getInstance().view("LoginMain");
+
+				getLockerMain().updateLocker(packetAck.lockerList);
+
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -227,34 +231,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		return (ReservationMain) jPanelArrl.get(4);
 	}
 
-	// 오늘 총 이용시간
-	public long totTodayUseTime() {
-
-		int hour = 0;
-
-		// 현재 시간
-		Calendar current = Calendar.getInstance();
-
-		// 마지막 시간
-		current.add(Calendar.HOUR, 1);
-
-		// 오늘 예약한 상품
-		for (RoomProduct room : userData.myReservationList) {
-
-			for (Calendar time : room.calendarList) {
-
-				if (time.getTimeInMillis() <= current.getTimeInMillis()) {
-
-					hour++;
-				}
-			}
-		}
-		// 오늘 누적 시간만 밀리세컨즈로
-		long hourMilli = TimeUnit.HOURS.toMillis(hour);
-
-		return hourMilli - getTodayRemainTime();
-	}
-
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 
@@ -302,25 +278,23 @@ public class BaseFrame extends JFrame implements Receivable {
 
 		// 오늘예약한 리스트만 가지고오기
 		Calendar current = Calendar.getInstance();
-		current.set(Calendar.HOUR_OF_DAY, -1);
-		long remainTime = 0;
 
-		RoomProduct cRoom = checkMyReserRoom(Calendar.DATE);
-		if (cRoom != null) {// 오늘 총 예약한 리스트
-			for (Calendar cal : cRoom.calendarList) {
+		Calendar last = null;
+		for (RoomProduct room : userData.myReservationList) {
 
-				System.out.println("예약한 시간" + cal.getTimeInMillis());
-				System.out.println("현재 시간" + current.getTimeInMillis());
-				if (cal.getTimeInMillis() >= current.getTimeInMillis()) {
-					remainTime += 1000 * 60 * 60;
+			if (room != null) {// 오늘 총 예약한 리스트
+				for (Calendar cal : room.calendarList) {
+					if (isSameTime(Calendar.DATE, cal, current)) {
+						if (last == null || last.getTimeInMillis() < cal.getTimeInMillis()) {
+							last = cal;
+						}
+					}
 				}
 			}
-
-			// 오늘 예약한 남은시간
-			return remainTime -= TimeUnit.MINUTES.toMillis(current.get(Calendar.MINUTE));
-		} else {
-			return 0;
 		}
+		System.out.println("마지막 끝나는 시간" + last.getTime());
+		// 오늘 예약한 남은시간
+		return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - current.getTimeInMillis();
 	}
 }
 

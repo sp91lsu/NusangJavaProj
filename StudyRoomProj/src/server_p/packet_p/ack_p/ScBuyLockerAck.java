@@ -8,12 +8,12 @@ import packetBase_p.ResultPacketBase;
 
 public class ScBuyLockerAck extends ResultPacketBase {
 
-	ArrayList<LockerData> lockerData = new ArrayList<LockerData>();
+	public ArrayList<LockerData> lockerList = new ArrayList<LockerData>();
 
-	public ScBuyLockerAck(EResult eResult, ArrayList<LockerData> lockerData) {
+	public ScBuyLockerAck(EResult eResult, ArrayList<LockerData> lockerList) {
 		super(eResult);
 		// TODO Auto-generated constructor stub
-		this.lockerData = lockerData;
+		this.lockerList = lockerList;
 	}
 
 }

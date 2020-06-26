@@ -41,9 +41,9 @@ public class LockerDao extends DBProcess {
 	public boolean findUserLocker(String uuid) {
 
 		try {
-			ResultSet rs = getRS(ETable.LOCKER, "*", "uuid = " + uuid);
+			ResultSet rs = getRS(ETable.LOCKER, "*", "uuid = ? and ISEXIT = 0");
 
-			stmt.setString(1,uuid);
+			stmt.setString(1, uuid);
 			if (rs.next()) {
 				return true;
 			}
@@ -58,7 +58,7 @@ public class LockerDao extends DBProcess {
 
 		ArrayList<LockerData> list = new ArrayList<LockerData>();
 		try {
-			ResultSet rs = getRS(ETable.LOCKER, "*");
+			ResultSet rs = getRS(ETable.LOCKER, "*", "ISEXIT = 0");
 
 			while (rs.next()) {
 				for (LockerData data : DataManager.getInstance().lockerList) {
@@ -78,12 +78,12 @@ public class LockerDao extends DBProcess {
 		return list;
 	}
 
-	public boolean deleteLocker(String uuid) {
-		deleteQuery(ETable.LOCKER, "uuid = " + uuid);
+	public boolean exitLocker(String uuid) {
+		updateQuery(ETable.LOCKER, "ISEXIT", "1", "uuid = ?");
 
 		try {
 			stmt = con.prepareStatement(query);
-
+			stmt.setString(1, uuid);
 			rs = stmt.executeQuery();
 
 			close();

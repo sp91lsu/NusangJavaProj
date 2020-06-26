@@ -139,7 +139,7 @@ public class AccountDao extends DBProcess {
 		return userList;
 	}
 
-	// 오늘 현재시간부터 나중 예약한 룸정보 불러오기
+	// 예약한 룸정보 불러오기
 	public ArrayList<RoomProduct> findUserRoom(String uuid) {
 		RoomDao roomDao = new RoomDao();
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
