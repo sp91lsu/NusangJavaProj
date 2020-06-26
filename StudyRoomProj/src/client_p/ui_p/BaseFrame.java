@@ -56,7 +56,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	void startFrame() {
+	public void startFrame() {
 		payment.setVisible(false);
 		addToBaseFrame(new LoginMain());
 		addToBaseFrame(new MainLayout());
