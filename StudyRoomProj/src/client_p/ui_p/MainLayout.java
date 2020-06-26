@@ -15,6 +15,7 @@ import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
+import data_p.product_p.LockerData;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
@@ -69,6 +70,14 @@ public class MainLayout extends JPanel implements Receivable {
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("LockerMain");
+				for (LockerData data : BaseFrame.getInstance().lockerlist) {
+					for (LockerBtn btn : BaseFrame.getInstance().getLockerMain().list) {
+						if(data.name.equals(btn.data.name))
+						{
+							btn.btn.setEnabled(false);
+						}
+					}
+				}
 			}});
 
 		JButton button_4 = new JButton("1:1 °í°´¹®ÀÇ");
@@ -170,7 +179,5 @@ public class MainLayout extends JPanel implements Receivable {
 				System.out.println("Åð½Ç ½ÇÆÐ");
 			}
 		}
-		
-		
 	}
 }

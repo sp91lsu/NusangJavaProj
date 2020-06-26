@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.sun.xml.internal.ws.api.message.Packet;
+
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
@@ -33,7 +35,9 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
-	public ELoginType loginType = ELoginType.MOBILE;
+	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
+	
+	public ELoginType loginType = ELoginType.KIOSK;
 	private static BaseFrame instance;
 
 	public static BaseFrame getInstance() {

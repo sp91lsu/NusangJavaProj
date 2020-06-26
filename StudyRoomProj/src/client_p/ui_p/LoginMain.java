@@ -123,6 +123,7 @@ public class LoginMain extends JPanel implements Receivable {
 			}
 			BaseFrame.getInstance().roomInfoList = ack.roomList;
 			// BaseFrame.getInstance().updateInfo(ack.roomList);
+			BaseFrame.getInstance().lockerlist = ack.lockerList;
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
