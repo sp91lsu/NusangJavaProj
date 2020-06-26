@@ -3,7 +3,6 @@ package manager_p;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,7 +33,6 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
-import client_p.ui_p.BaseFrame;
 import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.room_p.RoomProduct;
@@ -54,7 +52,6 @@ import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
-import javax.swing.table.TableModel;
 
 public class ManagerWindow extends JFrame implements Receivable {
 	private JTable table_1;
@@ -1073,7 +1070,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				text = "[관리자]: "+textField.getText() + "\n";
-				textArea.append(text);
+//				textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
 				
@@ -1095,7 +1092,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 				if (!textField.getText().equals("")) {
 					
 					text = "[관리자]: "+textField.getText() + "\n";
-					textArea.append(text);
+//					textArea.append(text);
 					chatSyn.setText(text);
 					ClientNet.getInstance().sendPacket(chatSyn);
 					
@@ -1131,6 +1128,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		if(packet.getClass() == ScChatBroadCast.class) {
 			ScChatBroadCast scChat = (ScChatBroadCast)packet;
 			textArea.setText(textArea.getText()+"\n"+scChat.getText());
+			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 		}
 		
 		//현재 이용중 고객
