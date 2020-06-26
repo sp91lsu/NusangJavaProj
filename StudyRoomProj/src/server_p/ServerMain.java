@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ class MyServer {
 	}
 
 	// 클라이언트 리스트
-
+	public String managerIp = "/192.168.0.63";
 	ArrayList<SocketClient> clientList = new ArrayList<SocketClient>();
 
 	// 클라이언트 리스트 돌려서 패킷 받아서 처리하는 클래스

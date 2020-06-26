@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.sun.xml.internal.ws.api.message.Packet;
 
 import client_p.ClientNet;
 import client_p.PacketMap;
@@ -36,7 +35,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
-	
+
 	public ELoginType loginType = ELoginType.KIOSK;
 	private static BaseFrame instance;
 
@@ -44,7 +43,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		if (instance == null) {
 			instance = new BaseFrame();
 		}
-
 		return instance;
 	}
 
@@ -106,6 +104,14 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
 			roomInfoList = roomInfoCast.roomList;
 
+			for (JButton all : getSeatingArrUI().all) {// 모든버튼
+				for (RoomProduct room : getCurrentRoomList()) {
+					if (all.getText().equals(room.name)) {
+						all.setBackground(Color.red);
+					}
+				}
+			}
+
 			if (payment.isVisible()) {
 				payment.updatePayment();
 			}
@@ -118,9 +124,9 @@ public class BaseFrame extends JFrame implements Receivable {
 				BaseFrame.getInstance().view("LoginMain");
 
 				for (LockerData data : packetAck.lockerList) {// 구매한 라커 번호
+					System.out.println("data" + data);
 					for (LockerBtn lockerbtn : getLockerMain().list) {
 						if (lockerbtn.data.id.equals(data.id)) {
-							System.out.println("들어오냐");
 							lockerbtn.btn.setBackground(null);
 							lockerbtn.btn.setEnabled(false);
 						}
@@ -136,7 +142,6 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public void updateInfo(ArrayList<RoomProduct> roomList) {
 		roomInfoList = roomList;
-
 	}
 
 	// 현재 룸 정보 결제를 위해 시간 넣기
@@ -177,6 +182,28 @@ public class BaseFrame extends JFrame implements Receivable {
 		return valueList;
 	}
 
+	// 현재 이용중인 룸 리스트 (payment, reservationMain) 에서 사용하는 함수
+	public ArrayList<RoomProduct> getCurrentRoomList() {
+
+		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
+
+		Calendar current = Calendar.getInstance();
+		System.out.println("서버에서 받은 룸정보 ");
+		// 서버에서 계속 갱신되는 정보 돌려서
+		for (RoomProduct roomInfo : roomInfoList) {
+
+			// 그 룸정보의 캘린더를 구해서
+			for (Calendar cal : roomInfo.calendarList) {
+
+				if (isSameTime(Calendar.HOUR_OF_DAY, cal, current)) {
+
+					cRoomList.add(roomInfo);
+				}
+			}
+		}
+		return cRoomList;
+	}
+
 	public Seating_Arrangement getSeatingArrUI() {
 		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
 		sa.setBtnColor();
@@ -204,11 +231,16 @@ public class BaseFrame extends JFrame implements Receivable {
 	public long totTodayUseTime() {
 
 		int hour = 0;
+
+		// 현재 시간
 		Calendar current = Calendar.getInstance();
 
+		// 마지막 시간
 		current.add(Calendar.HOUR, 1);
 
+		// 오늘 예약한 상품
 		for (RoomProduct room : userData.myReservationList) {
+
 			for (Calendar time : room.calendarList) {
 
 				if (time.getTimeInMillis() <= current.getTimeInMillis()) {
@@ -232,7 +264,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
 
-				if (isSameTime(cal, current) && !product.isExit) {
+				if (isSameTime(Calendar.HOUR_OF_DAY, cal, current) && !product.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
@@ -241,49 +273,47 @@ public class BaseFrame extends JFrame implements Receivable {
 		return clone;
 	}
 
-	public boolean isSameTime(Calendar cal1, Calendar cal2) {
-		if (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
-				&& cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY)) {
-			return true;
+	public boolean isSameTime(int field, Calendar cal1, Calendar cal2) {
+
+		int last = Calendar.MONTH;
+
+		if (field >= Calendar.MONTH) {
+			last = Calendar.MONTH;
 		}
-		return false;
+		if (field >= Calendar.DATE) {
+			last = Calendar.DATE;
+		}
+		if (field >= Calendar.HOUR_OF_DAY) {
+			last = Calendar.HOUR_OF_DAY;
+		}
+
+		return cal1.get(last) == cal2.get(last);
 	}
 
 	public long getTodayRemainTime() {
 
 		// 오늘예약한 리스트만 가지고오기
 		Calendar current = Calendar.getInstance();
+		current.set(Calendar.HOUR_OF_DAY, -1);
+		long remainTime = 0;
 
-		ArrayList<Calendar> remainList = new ArrayList<Calendar>();
+		RoomProduct cRoom = getUsingRoom();
 
-		for (RoomProduct room : userData.myReservationList) {
+		if (cRoom != null) {// 오늘 총 예약한 리스트
+			for (Calendar cal : cRoom.calendarList) {
 
-			if (room.name == getUsingRoom().name) {
-
-				for (Calendar cal : room.calendarList) {
-
-					if (cal.get(Calendar.MONTH) == current.get(Calendar.MONTH)
-							&& cal.get(Calendar.DATE) == current.get(Calendar.DATE)) {
-						Calendar copyCal = Calendar.getInstance();
-						copyCal.setTime(cal.getTime());
-						remainList.add(copyCal);
-					}
+				System.out.println("예약한 시간" + cal.getTimeInMillis());
+				System.out.println("현재 시간" + current.getTimeInMillis());
+				if (cal.getTimeInMillis() >= current.getTimeInMillis()) {
+					remainTime += 1000 * 60 * 60;
 				}
 			}
+
+			// 오늘 예약한 남은시간
+			return remainTime -= TimeUnit.MINUTES.toMillis(current.get(Calendar.MINUTE));
+		} else {
+			return 0;
 		}
-
-		// 오늘 예약한 마지막 시간 가지고 오기
-		Calendar end = remainList.get(0);
-
-		for (Calendar calendar : remainList) {
-			if (end.getTimeInMillis() < calendar.getTimeInMillis()) {
-				end = calendar;
-			}
-		}
-		end.add(Calendar.HOUR, 1);
-
-		// 오늘 예약한 남은시간
-		return end.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 	}
 }
 
