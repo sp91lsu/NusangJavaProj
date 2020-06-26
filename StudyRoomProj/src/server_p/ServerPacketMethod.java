@@ -120,8 +120,7 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-		String managerIp = "/192.168.0.63";
-		SocketClient sc = MyServer.getInstance().findClient(managerIp);
+		SocketClient sc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS);
 		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
@@ -247,8 +246,17 @@ class MethExitSyn implements ServerPacketMethod {
 
 		CsExitSyn respacket = (CsExitSyn) packet;
 
-		RoomDao roomDao = new RoomDao();
-		roomDao.exitRoom(respacket.room);
+	//	RoomDao roomExitDao = new RoomDao();
+		
+//		while(roomExitDao.getRoomInfo("*", "uuid"))
+//		{
+//			roomExitDao.exitRoom(respacket.room);
+//		}
+//		
+		
+		
+		RoomDao roomExitDao = new RoomDao();
+		roomExitDao.exitRoom(respacket.room);
 
 		LockerDao findLockerDao = new LockerDao();
 		ScExitAck ack;
@@ -291,8 +299,7 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,
 					roomDao.rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
 //			String managerIp = "/192.168.100.27";
-			String managerIp = "/192.168.0.63";
-			SocketClient mc = MyServer.getInstance().findClient(managerIp);
+			SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
 			client.sendPacket(ack);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -351,8 +358,7 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
 
-		String managerIp = "/192.168.0.63";
-		SocketClient mc = MyServer.getInstance().findClient(managerIp);
+		SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
 
 		SmMemSearchAck ack = null;
 		AccountDao accountDao = new AccountDao();
