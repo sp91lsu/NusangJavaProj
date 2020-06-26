@@ -140,8 +140,8 @@ public class MainLayout extends JPanel implements Receivable {
 				InfoFrame info = new InfoFrame();
 			}
 		});
-
-		button_9 = new JButton();
+		
+		button_9 = new JButton("Åð½Ç");
 		button_9.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		panel.add(button_9);
 
@@ -150,12 +150,26 @@ public class MainLayout extends JPanel implements Receivable {
 				ExitFrame exitframe = new ExitFrame(button_9.getText());
 			}
 		});
+		
+		JButton button_10 = new JButton("·Î±×¾Æ¿ô");
+		button_10.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		button_10.setBounds(325, 622, 238, 94);
+		button_10.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LogoutPopFrame logout = new LogoutPopFrame();
+			}
+		});
+		add(button_10);
 
 		JLabel lblNewLabel = new JLabel("·Î±×ÀÎ ÈÄ È­¸é");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 35));
 		lblNewLabel.setBounds(261, 10, 396, 107);
 		add(lblNewLabel);
+		
+		
 	}
 
 	public void openPage() {
