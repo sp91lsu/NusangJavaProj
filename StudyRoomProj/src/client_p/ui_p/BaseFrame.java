@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.sun.xml.internal.ws.api.message.Packet;
 
 import client_p.ClientNet;
 import client_p.PacketMap;
@@ -36,7 +35,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
-	
+
 	public ELoginType loginType = ELoginType.KIOSK;
 	private static BaseFrame instance;
 
@@ -44,7 +43,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		if (instance == null) {
 			instance = new BaseFrame();
 		}
-
 		return instance;
 	}
 
@@ -107,6 +105,14 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
 			roomInfoList = roomInfoCast.roomList;
 
+			for (JButton all : getSeatingArrUI().all) {// 모든버튼
+				for (RoomProduct room : getCurrentRoomList()) {
+					if (all.getText().equals(room.name)) {
+						all.setBackground(Color.red);
+					}
+				}
+			}
+
 			if (payment.isVisible()) {
 				payment.updatePayment();
 			}
@@ -119,9 +125,9 @@ public class BaseFrame extends JFrame implements Receivable {
 				BaseFrame.getInstance().view("LoginMain");
 
 				for (LockerData data : packetAck.lockerList) {// 구매한 라커 번호
+					System.out.println("data" + data);
 					for (LockerBtn lockerbtn : getLockerMain().list) {
 						if (lockerbtn.data.id.equals(data.id)) {
-							System.out.println("들어오냐");
 							lockerbtn.btn.setBackground(null);
 							lockerbtn.btn.setEnabled(false);
 						}
@@ -137,7 +143,6 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public void updateInfo(ArrayList<RoomProduct> roomList) {
 		roomInfoList = roomList;
-
 	}
 
 	// 현재 룸 정보 결제를 위해 시간 넣기
@@ -176,6 +181,28 @@ public class BaseFrame extends JFrame implements Receivable {
 			}
 		}
 		return valueList;
+	}
+
+	// 현재 이용중인 룸 리스트 (payment, reservationMain) 에서 사용하는 함수
+	public ArrayList<RoomProduct> getCurrentRoomList() {
+
+		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
+
+		Calendar current = Calendar.getInstance();
+		System.out.println("서버에서 받은 룸정보 ");
+		// 서버에서 계속 갱신되는 정보 돌려서
+		for (RoomProduct roomInfo : roomInfoList) {
+
+			// 그 룸정보의 캘린더를 구해서
+			for (Calendar cal : roomInfo.calendarList) {
+
+				if (isSameTime(cal, current)) {
+
+					cRoomList.add(roomInfo);
+				}
+			}
+		}
+		return cRoomList;
 	}
 
 	public Seating_Arrangement getSeatingArrUI() {
