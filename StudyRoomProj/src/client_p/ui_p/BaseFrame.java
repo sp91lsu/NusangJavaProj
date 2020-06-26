@@ -12,6 +12,7 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
+import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import packetBase_p.ELoginType;
@@ -113,9 +114,9 @@ public class BaseFrame extends JFrame implements Receivable {
 			if (packetAck.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().view("LoginMain");
 
-				for (Integer id : packetAck.lockerDList) {// 구매한 라커 번호
+				for (LockerData data : packetAck.lockerList) {// 구매한 라커 번호
 					for (LockerBtn lockerbtn : getLockerMain().list) {
-						if (lockerbtn.data.id.equals(id)) {
+						if (lockerbtn.data.id.equals(data.id)) {
 							System.out.println("들어오냐");
 							lockerbtn.btn.setBackground(null);
 							lockerbtn.btn.setEnabled(false);
