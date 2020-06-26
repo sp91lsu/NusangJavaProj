@@ -55,6 +55,7 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
+                BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 
 			}
 		});
@@ -66,6 +67,7 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
+                BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 			}
 		});
 
