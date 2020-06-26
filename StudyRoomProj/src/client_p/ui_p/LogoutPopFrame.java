@@ -23,7 +23,7 @@ public class LogoutPopFrame extends JFrame{
 		jb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				BaseFrame.getInstance().view("LoginMain");
 				dispose();
 			}
 		});
