@@ -53,9 +53,6 @@ public class InfoFrame extends JFrame {
 				textArea.setText("이용자 ID : " + id + "\n구매한 좌석/룸 정보 : " + "좌석/룸 명 : "+data.name + " / " + 
 						"금액 : " + data.price + "원" + "\n구매한 시간 : " + date + "\n");
 			}
-			
-			
-			
 		}
 
 		scrollPane_1.setViewportView(textArea);
