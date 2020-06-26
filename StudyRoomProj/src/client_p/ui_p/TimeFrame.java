@@ -18,7 +18,7 @@ public class TimeFrame extends JFrame {
 	String seatingName = BaseFrame.getInstance().getUsingRoom().name;
 
 	public TimeFrame() {
-		
+
 		setBounds(100, 100, 500, 500);
 		getContentPane().setLayout(null);
 
@@ -30,7 +30,7 @@ public class TimeFrame extends JFrame {
 
 		String remaingTime = showRemainTime();
 		JLabel lblNewLabel = new JLabel("<html>ÀÌ¿ëÀÚ ID : " + id + "<br>ÈÞ´ëÆù¹øÈ£ : " + phoneNum + "<br>ÀÌ¿ë ÁßÀÎ ÁÂ¼®/·ë : "
-				+ seatingName +"<br>ÀÜ¿© ½Ã°£ : " + remaingTime + "<html>");
+				+ seatingName + "<br>ÀÜ¿© ½Ã°£ : " + remaingTime + "<html>");
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 24));
 		lblNewLabel.setBounds(51, 98, 387, 183);
@@ -46,7 +46,8 @@ public class TimeFrame extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}});
+			}
+		});
 
 		setVisible(true);
 	}
@@ -55,8 +56,8 @@ public class TimeFrame extends JFrame {
 
 		long remain = BaseFrame.getInstance().getTodayRemainTime();
 		long remainHour = TimeUnit.MILLISECONDS.toHours(remain);
-		long remainMinute = 60 - TimeUnit.MILLISECONDS.toMinutes(remain)*10/60;
-		
+		long remainMinute = TimeUnit.MILLISECONDS.toMinutes(remain) % 60;
+
 		return remainHour + "½Ã°£" + remainMinute + "ºÐ";
 	}
 }

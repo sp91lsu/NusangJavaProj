@@ -34,7 +34,7 @@ public class InfoFrame extends JFrame {
 
 		long totUseTimeMinute = BaseFrame.getInstance().totTodayUseTime();
 		long hour = TimeUnit.MILLISECONDS.toHours(totUseTimeMinute);
-		long minute = TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute)*10/60;
+		long minute = TimeUnit.MILLISECONDS.toMinutes(totUseTimeMinute) % 60;
 		System.out.println(totUseTimeMinute);
 		System.out.println(minute);
 		contentLabel = new JLabel("이용자 정보");
@@ -48,7 +48,7 @@ public class InfoFrame extends JFrame {
 			String dateList = date.format(roomProduct.calendarList.get(0).getTime());
 
 			contentLabel.setText("<html>이용자 ID : " + id + "<br>현재 이용 중인 내역<br>이용중인 좌석/룸 : " + roomProduct.name
-					+ "<br>선택한 첫 시간 : " + dateList + "<br>누적 이용 시간 : " +hour+ "시간" + minute + "분" + "<html>");
+					+ "<br>선택한 첫 시간 : " + dateList + "<br>누적 이용 시간 : " + hour + "시간" + minute + "분" + "<html>");
 			setVisible(true);
 		} else {
 
@@ -64,7 +64,7 @@ public class InfoFrame extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-				
+
 					jd.dispose();
 
 				}
