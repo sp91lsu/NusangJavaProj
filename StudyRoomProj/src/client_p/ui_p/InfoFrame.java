@@ -36,6 +36,7 @@ public class InfoFrame extends JFrame {
 	public InfoFrame() {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 		String date = "";
+		
 		setBounds(100, 100, 550, 650);
 		getContentPane().setLayout(null);
 
@@ -49,8 +50,8 @@ public class InfoFrame extends JFrame {
 
 			for (Calendar cal : data.calendarList) {
 				date = sdf.format(cal.getTime());
-				textArea.setText("이용자 ID : " + id + "\n구매한 좌석/룸 정보 : " + data.name + ", " + 
-						data.price + "\n구매한 시간 : " + date + "\n");
+				textArea.setText("이용자 ID : " + id + "\n구매한 좌석/룸 정보 : " + "좌석/룸 명 : "+data.name + " / " + 
+						"금액 : " + data.price + "원" + "\n구매한 시간 : " + date + "\n");
 			}
 			
 			
