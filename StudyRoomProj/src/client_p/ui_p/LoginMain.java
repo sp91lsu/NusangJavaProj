@@ -113,11 +113,7 @@ public class LoginMain extends JPanel implements Receivable,MouseListener{
 		signUpBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
-				BaseFrame.getInstance().signUpFrame.label_1.setText("한글로 입력하세요");
-				BaseFrame.getInstance().signUpFrame.label_2.setText("영문,숫자로 조합된 8자리를 입력하세요");
-				BaseFrame.getInstance().signUpFrame.label_3.setText("입력한 비밀번호와 같게 입력하세요");
-				BaseFrame.getInstance().signUpFrame.label_4.setText("'-'는 제외하고 입력하세요");
-				BaseFrame.getInstance().signUpFrame.label_5.setText("영문,숫자로 조합된 8자리를 입력하세요");
+				BaseFrame.getInstance().signUpFrame.textFieldSet();
 				
 			}
 		});
