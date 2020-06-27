@@ -31,6 +31,7 @@ public class MainLayout extends JPanel implements Receivable {
 	private JButton button_9;
 	private JButton button_5;
 	long todayRemainTime;
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +56,7 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-               // BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 			}
 		});
 
@@ -66,7 +67,7 @@ public class MainLayout extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
-               // BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 			}
 		});
 
@@ -141,7 +142,7 @@ public class MainLayout extends JPanel implements Receivable {
 				InfoFrame info = new InfoFrame();
 			}
 		});
-		
+
 		button_9 = new JButton("Åð½Ç");
 		button_9.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		panel.add(button_9);
@@ -151,12 +152,12 @@ public class MainLayout extends JPanel implements Receivable {
 				ExitFrame exitframe = new ExitFrame(button_9.getText());
 			}
 		});
-		
+
 		JButton button_10 = new JButton("·Î±×¾Æ¿ô");
 		button_10.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		button_10.setBounds(325, 622, 238, 94);
 		button_10.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				LogoutPopFrame logout = new LogoutPopFrame();
@@ -170,12 +171,11 @@ public class MainLayout extends JPanel implements Receivable {
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 35));
 		lblNewLabel.setBounds(261, 10, 396, 107);
 		add(lblNewLabel);
-		
-		
+
 	}
 
-	public void openPage() {
-		 todayRemainTime = BaseFrame.getInstance().getTodayRemainTime();
+	public void updatePage() {
+		todayRemainTime = BaseFrame.getInstance().getTodayRemainTime();
 		RoomProduct reserRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
 
 		if (BaseFrame.getInstance().getUsingRoom() != null) {

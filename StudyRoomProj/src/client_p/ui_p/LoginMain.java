@@ -129,7 +129,7 @@ public class LoginMain extends JPanel implements Receivable {
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
 				passwordField.setText("");
 				
-				BaseFrame.getInstance().openMainLayout().openPage();
+				BaseFrame.getInstance().openMainLayout();
 				
 				chkroominfo = new CheckRoomInfo();
 				chkroominfo.start();

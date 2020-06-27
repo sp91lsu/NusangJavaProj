@@ -223,8 +223,10 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	public MainLayout openMainLayout() {
+		MainLayout layout =	(MainLayout) jPanelArrl.get(1);
 		BaseFrame.getInstance().view("MainLayout");
-		return (MainLayout) jPanelArrl.get(1);
+		layout.updatePage();
+		return layout;
 	}
 
 	public ReservationMain getReservationMain() {

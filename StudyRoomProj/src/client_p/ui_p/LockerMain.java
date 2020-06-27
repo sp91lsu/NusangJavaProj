@@ -90,7 +90,7 @@ public class LockerMain extends JPanel implements ActionListener {
 		infoPanel.add(cancelButton);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("MainLayout");
+				BaseFrame.getInstance().openMainLayout();
 			}
 		});
 
