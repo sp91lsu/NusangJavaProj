@@ -9,11 +9,10 @@ import packetBase_p.ResultPacketBase;
 
 public class ScRoomInfoBroadCast extends ResultPacketBase {
 
-	public ArrayList<RoomProduct> roomList;
-
-	public ScRoomInfoBroadCast(EResult eResult, ArrayList<RoomProduct> roomList) {
+	public ArrayList<RoomProduct> roomListAll;
+	public ScRoomInfoBroadCast(EResult eResult, ArrayList<RoomProduct> roomListAll) {
 		super(eResult);
-		this.roomList = roomList;
+		this.roomListAll = roomListAll;
 		// TODO Auto-generated constructor stub
 	}
 }

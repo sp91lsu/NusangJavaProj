@@ -83,7 +83,6 @@ class MethLoginSyn implements ServerPacketMethod {
 
 		client.sendPacket(ack);
 	}
-
 }
 
 class MethSignUpSyn implements ServerPacketMethod {
@@ -275,13 +274,13 @@ class MethExitSyn implements ServerPacketMethod {
 
 		if (lockerDao.findUserLocker(respacket.room.userUUID)) {
 			lockerDao.reset();
-			if (!lockerDao.exitLocker(respacket.room.userUUID)) {
-				ack = new ScExitAck(EResult.FAIL, null, null);
-			} else {
-				ack = new ScExitAck(EResult.SUCCESS, reserListAll, myReserList);
-			}
-			client.sendPacket(ack);
+			lockerDao.exitLocker(respacket.room.userUUID);
 		}
+
+		ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
+		MyServer.getInstance().broadCast(client, roomCast);
+		ack = new ScExitAck(EResult.SUCCESS, reserListAll, myReserList);
+		client.sendPacket(ack);
 	}
 }
 
@@ -397,7 +396,9 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 		CsBuyLockerSyn resPacket = (CsBuyLockerSyn) packet;
 
 		LockerDao lockerDao = new LockerDao();
+
 		ScBuyLockerAck ack = null;
+
 		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
 
 			lockerDao = new LockerDao();
@@ -405,8 +406,11 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 			ArrayList<LockerData> lockerList = lockerDao.getLockerIDList();
 
 			ScBuyLockerCast lockerCast = new ScBuyLockerCast(EResult.SUCCESS, lockerList);
+
 			ack = new ScBuyLockerAck(EResult.SUCCESS, lockerList);
+
 			MyServer.getInstance().broadCast(client, lockerCast);
+
 		} else {
 			ack = new ScBuyLockerAck(EResult.FAIL, null);
 		}
