@@ -3,6 +3,8 @@ package client_p.ui_p;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,13 +23,17 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
 
-public class LoginMain extends JPanel implements Receivable {
+public class LoginMain extends JPanel implements Receivable,MouseListener{
 
 	private JTextField idTextF;
 	private JPasswordField passwordField;
 	CheckRoomInfo chkroominfo;
 	JCheckBox changeBox;
 	JLabel idLabel;
+	
+	String info = "등록한 ID 또는 휴대폰 번호를 입력하세요";
+	String idInfo = "등록한 ID를 입력하세요";
+	String phinfo = "등록한 휴대폰 번호를 입력하세요";
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -54,12 +60,13 @@ public class LoginMain extends JPanel implements Receivable {
 		add(idLabel);
 
 		idTextF = new JTextField();
-		idTextF.setText("등록한 ID 또는 휴대폰 번호를 입력하세요");
+		idTextF.setText(info);
 		idTextF.setToolTipText("");
 		idTextF.setFont(new Font("맑은 고딕", Font.ITALIC, 14));
 		idTextF.setBounds(300, 156, 328, 55);
 		add(idTextF);
 		idTextF.setColumns(10);
+		idTextF.addMouseListener(this);
 
 		changeBox = new JCheckBox("휴대폰 번호로 로그인하기");
 		changeBox.setBounds(300, 220, 300, 70);
@@ -69,10 +76,10 @@ public class LoginMain extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				if (changeBox.isSelected() == true) {
 					idLabel.setText("Phone");
-					idTextF.setText("등록한 휴대폰 번호를 입력하세요");
+					idTextF.setText(phinfo);
 				} else {
 					idLabel.setText("ID");
-					idTextF.setText("등록한 ID를 입력하세요");
+					idTextF.setText(idInfo);
 				}
 
 			}
@@ -139,5 +146,37 @@ public class LoginMain extends JPanel implements Receivable {
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		idTextF=(JTextField) e.getSource();
+		String idfield = idTextF.getText();
+		
+		if(idfield.equals(info)||idfield.equals(idInfo)
+				||idfield.equals(phinfo))
+		{
+			idTextF.setText("");
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
 	}
 }
