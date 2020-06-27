@@ -6,7 +6,6 @@ public enum EResult {
 	FAIL(-202), //실패
 	NOT_FOUND_DATA(-1000), // 데이터 찾을 수 없음
 	DUPLICATEED_ID(-1001), // 중복 된 아이디
-	
 	;
 
 	int value;

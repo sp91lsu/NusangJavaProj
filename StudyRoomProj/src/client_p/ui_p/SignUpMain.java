@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
@@ -32,11 +33,11 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	JPasswordField passwordField;
 	JPasswordField check_passwordField;
 	
-	JDialog jd,jd2;
+	JDialog jd,jd2,hpDialog;
 	String text="";
 	JLabel label_1,label_2,label_3,label_4,label_5;
-	JLabel jl,jl2;
-	JButton jb,jb2;
+	JLabel jl,jl2,hpLabel;
+	JButton jb,jb2,hpButton;
 	JButton signUpBtn;
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
@@ -129,6 +130,13 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				idChk();
 			}});
 		
+		JButton pwChkBtn = new JButton("핸드폰 중복체크");
+		pwChkBtn.setBounds(477, 318, 140, 33);
+		mainPane.add(pwChkBtn);
+		pwChkBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				phChk();
+			}});
 		
 		passwordField = new JPasswordField();//비밀번호
 		passwordField.setBounds(269, 219, 191, 33);
@@ -166,15 +174,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		label_5.setBounds(594, 164, 267, 33);
 		mainPane.add(label_5);
 		
-		JButton pwChkBtn = new JButton("핸드폰 중복체크");
-		pwChkBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		pwChkBtn.setBounds(477, 318, 140, 33);
-		mainPane.add(pwChkBtn);
-
 		setVisible(false);
 	}
 	
@@ -182,7 +181,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	@Override
 	public void receive(PacketBase packet) {
 		
-		if (packet.getClass() == ScSignUpAck.class) {
+		if (packet.getClass() == ScSignUpAck.class) {//로그인 확인
 			ScSignUpAck ack = (ScSignUpAck) packet;
 
 			if (ack.eResult == EResult.SUCCESS) {
@@ -226,10 +225,12 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				jd.getContentPane().add(jb);
 				jd.setVisible(true);
 			}
-		}else if(packet.getClass() == ScDuplicateIDAck.class) {
-			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
 			
-			if(ack.eResult == EResult.SUCCESS) {
+		} 
+		else if (packet.getClass() == ScDuplicateIDAck.class) {//중복확인
+			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
+
+			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {//id성공
 				jd2 = new JDialog();
 				jd2.setBounds(50, 50, 150, 150);
 				jd2.getContentPane().setLayout(new GridLayout(2, 1));
@@ -242,7 +243,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 							jd2.setVisible(false);
 							setVisible(true);
 							signUpBtn.setEnabled(true);
-							
+
 						}
 					}
 				});
@@ -250,7 +251,29 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				jd2.getContentPane().add(jl2);
 				jd2.getContentPane().add(jb2);
 				jd2.setVisible(true);
-			}else if(ack.eResult == EResult.DUPLICATEED_ID){
+			}
+			if ((ack.eResult == EResult.SUCCESS) && ack.is_hp) {//핸드폰성공
+				hpDialog = new JDialog();
+				hpDialog.setBounds(50, 50, 150, 150);
+				hpDialog.getContentPane().setLayout(new GridLayout(2, 1));
+				hpLabel = new JLabel("사용 가능한 핸드폰 입니다.");
+				hpButton = new JButton("확인");
+				hpButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton bbb = (JButton) e.getSource();
+						if (bbb.getText().equals("확인")) {
+							jd2.setVisible(false);
+							setVisible(true);
+							signUpBtn.setEnabled(true);
+
+						}
+					}
+				});
+
+				hpDialog.getContentPane().add(hpLabel);
+				hpDialog.getContentPane().add(hpButton);
+				hpDialog.setVisible(true);
+			} else if ((ack.eResult == EResult.DUPLICATEED_ID) && !ack.is_hp) {// id중복
 				jd2 = new JDialog();
 				jd2.setBounds(50, 50, 150, 150);
 				jd2.getContentPane().setLayout(new GridLayout(2, 1));
@@ -270,7 +293,31 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				jd2.getContentPane().add(jl2);
 				jd2.getContentPane().add(jb2);
 				jd2.setVisible(true);
+			} else if ((ack.eResult == EResult.DUPLICATEED_ID) && ack.is_hp) {// hp중복
+				jd2 = new JDialog();
+				jd2.setBounds(50, 50, 150, 150);
+				jd2.getContentPane().setLayout(new GridLayout(2, 1));
+				jl2 = new JLabel("중복된 핸드폰 입니다.");
+				jb2 = new JButton("확인");
+				jb2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JButton bbb = (JButton) e.getSource();
+						if (bbb.getText().equals("확인")) {
+							jd2.setVisible(false);
+							setVisible(true);
+							signUpBtn.setEnabled(false);
+						}
+					}
+				});
+
+				jd2.getContentPane().add(jl2);
+				jd2.getContentPane().add(jb2);
+				jd2.setVisible(true);
 			}
+		}
+		else
+		{
+			
 		}
 		
 	}
@@ -343,9 +390,10 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		id = idTextField.getText();
 		if(id.matches(engNum)&&id.matches(engNum1)&&id.length()<9)
 		{
-			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText());
+			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(),false);
 			ClientNet.getInstance().sendPacket(packet);
-		}else {
+		}
+		else {
 			JDialog chkJd = new JDialog();
 			chkJd.setBounds(100, 100, 200, 200);
 			chkJd.getContentPane().setLayout(new GridLayout(2,1));
@@ -367,7 +415,28 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	
 	void phChk()
 	{
-		
+		phoneNum = phoneNumTextField.getText();
+		if(phoneNum.matches(phoneChk))
+		{
+			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(),true);
+			ClientNet.getInstance().sendPacket(packet);
+		}
+		else {
+			JDialog chkph = new JDialog();
+			chkph.setBounds(100, 100, 200, 200);
+			chkph.getContentPane().setLayout(new GridLayout(2,1));
+			JLabel chkLb = new JLabel("정확한 핸드폰 형식을 입력하세요");
+			chkph.getContentPane().add(chkLb);
+			JButton hpchkBt = new JButton("확인");
+			chkph.getContentPane().add(hpchkBt);
+			hpchkBt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					chkph.dispose();
+				}
+			});
+			chkph.setVisible(true);
+		}
 	}
 	
 	@Override
