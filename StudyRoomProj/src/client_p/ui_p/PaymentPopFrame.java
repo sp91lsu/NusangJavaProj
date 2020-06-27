@@ -3,8 +3,6 @@ package client_p.ui_p;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
-import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,14 +13,10 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
-import data_p.product_p.LockerData;
-import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
-import server_p.packet_p.ack_p.ScExitAck;
-import server_p.packet_p.broadCast.ScBuyLockerCast;
 
 public class PaymentPopFrame extends JFrame implements Receivable {
 	RoomProduct room;

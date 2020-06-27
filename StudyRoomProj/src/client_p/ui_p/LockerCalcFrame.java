@@ -10,14 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
-import client_p.Receivable;
 import client_p.packet_p.syn_p.CsBuyLockerSyn;
-import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.user_p.UserData;
-import packetBase_p.EResult;
-import packetBase_p.PacketBase;
-import server_p.packet_p.broadCast.ScBuyLockerCast;
 
 public class LockerCalcFrame extends JFrame {
 

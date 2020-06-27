@@ -1,29 +1,20 @@
 package client_p.ui_p;
 
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
-import com.sun.org.apache.bcel.internal.generic.SIPUSH;
-
-import client_p.Receivable;
-import data_p.product_p.room_p.RoomProduct;
-import packetBase_p.PacketBase;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
+import javax.swing.SwingConstants;
+
+import data_p.product_p.room_p.RoomProduct;
 
 public class InfoFrame extends JFrame {
 

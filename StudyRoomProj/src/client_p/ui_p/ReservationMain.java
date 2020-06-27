@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import client_p.ui_p.Payment.MyCheckBox;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 

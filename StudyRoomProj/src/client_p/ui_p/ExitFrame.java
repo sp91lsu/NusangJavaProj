@@ -10,13 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
 import client_p.ClientNet;
-import client_p.Receivable;
 import client_p.packet_p.syn_p.CsExitSyn;
 import data_p.product_p.room_p.RoomProduct;
-import packetBase_p.EResult;
-import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScExitAck;
 
 public class ExitFrame extends JFrame {
 
@@ -41,12 +38,10 @@ public class ExitFrame extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
-//				
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
-			}
-		});
+			}});
 		getContentPane().add(okButton);
 
 		JButton cancleButton = new JButton("√Îº“");
@@ -55,10 +50,8 @@ public class ExitFrame extends JFrame {
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}
-		});
+			}});
 		getContentPane().add(cancleButton);
 		setVisible(true);
 	}
-
 }

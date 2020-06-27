@@ -1,6 +1,9 @@
 package client_p.ui_p;
 
-import java.awt.TextArea;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,19 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import com.sun.javafx.embed.swing.Disposer;
-
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
-import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
-import server_p.packet_p.syn_p.ScChatSyn;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.GridLayout;
 
 public class ClientChatFrame extends JPanel implements Receivable {
 
@@ -147,5 +142,4 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 	}
-
 }
