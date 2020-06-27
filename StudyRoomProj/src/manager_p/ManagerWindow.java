@@ -3,6 +3,7 @@ package manager_p;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,11 +34,12 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
-import client_p.ui_p.LockerMain;
 import client_p.ui_p.Seating_Arrangement;
+import data_p.ExcelRead_PriceExcel;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.product_p.room_p.RoomTimeData;
 import data_p.user_p.UserData;
+import manager_p.panel_p.SetPrice;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
@@ -65,13 +67,10 @@ public class ManagerWindow extends JFrame implements Receivable {
 	
 	String text = "";
 	CsChatSyn chatSyn;
-	private final static String newline = "\n";
 	private JTextArea textArea;
 	private JTable table_5;
 	private JTable table_6;
 	private JScrollPane scrollPane_3_1;
-	private JPanel panel;
-	private JTable table_2;
 	private String contentsCurrMem[][];
 	private DefaultTableModel dTable;
 	private DefaultTableModel dTable2;
@@ -83,13 +82,11 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private String idxNameMemS;
 	private String contentsMemS;
 	private JLabel lbSearch;
-	private JLabel lbSearch_2;
 	private String searchList[] = new String[] {"ÀÌ¸§","ID","ÈÞ´ëÆù ¹øÈ£"};
 	private DefaultTableModel dTable3;
 	private JScrollPane scrollPane_3_2;
 	private JComboBox comboBox;
 	private ArrayList<UserData> searchedUDs;
-	private ArrayList<RoomProduct> allRoomList;
 	private ArrayList<RoomTimeData> rTimeDList;
 	private DefaultTableModel dTable5;
 	private String headerResvs[];
@@ -98,12 +95,15 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private JScrollPane scrollPane_12;
 	private JLabel lbChatName;
 	private JScrollPane scrollPane_Chat;
+	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
+	
+	SetPrice pnl_SetPrice = new SetPrice();
 	
 	public static void main(String[] args) {
 		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
 					ManagerWindow mww = new ManagerWindow();
 					PacketMap.getInstance().map.put(SMChatConnectSyn.class, mww); // Ã¤ÆÃ ¿¬°á ¿äÃ»¿¡ ´ëÇÑ ÀÀ´ä
 					PacketMap.getInstance().map.put(ScChatBroadCast.class, mww);
@@ -115,19 +115,19 @@ public class ManagerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, mww);
 					PacketMap.getInstance().map.put(ScBuyLockerCast.class, mww);
 					PacketMap.getInstance().map.put(SmGiveMeResvRoomAck.class, mww);
-					ClientNet.getInstance().start();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
+//					ClientNet.getInstance().start();
+					mww.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	
 	public ManagerWindow() {
 
-		System.out.println("»ý¼º!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		setVisible(true);
+		System.out.println("ManagerWindow ½ÇÇà");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 100, 1000, 800);
 		JPanel contentPane = new JPanel();
@@ -136,7 +136,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setToolTipText("");
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		tabbedPane.addChangeListener(new ChangeListener() {
@@ -149,7 +148,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	    });
 
 		panel_5 = new JPanel();
-		tabbedPane.addTab("\uD68C\uC6D0\uAD00\uB9AC", null, panel_5, null);
+		tabbedPane.addTab("È¸¿ø°ü¸®", panel_5);
 		GridBagLayout gbl_panel_5 = new GridBagLayout();
 		gbl_panel_5.columnWidths = new int[] { 197, 0, 30, 0 };
 		gbl_panel_5.rowHeights = new int[] { 30, 0, 30, 0 };
@@ -391,249 +390,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		seating_Arrangement.setPreferredSize(size);// »çÀÌÁî Á¤º¸¸¦ °¡Áö°í ÀÖ´Â
 		scrollPane_7.setViewportView(seating_Arrangement);
 
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("\uC0AC\uBB3C\uD568 \uAD00\uB9AC", null, panel_2, null);
-
-		JPanel panel_1_1 = new JPanel();
-		panel_2.add(panel_1_1);
-		GridBagLayout gbl_panel_1_1 = new GridBagLayout();
-		gbl_panel_1_1.columnWidths = new int[] { 337, 618, 0 };
-		gbl_panel_1_1.rowHeights = new int[] { 717, 0 };
-		gbl_panel_1_1.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1_1.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-		panel_1_1.setLayout(gbl_panel_1_1);
 		
-		JPanel panel_7_1_1 = new JPanel();
-		GridBagConstraints gbc_panel_7_1_1 = new GridBagConstraints();
-		gbc_panel_7_1_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_7_1_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_7_1_1.gridx = 0;
-		gbc_panel_7_1_1.gridy = 0;
-		panel_1_1.add(panel_7_1_1, gbc_panel_7_1_1);
-		GridBagLayout gbl_panel_7_1_1 = new GridBagLayout();
-		gbl_panel_7_1_1.columnWidths = new int[]{112, 0};
-		gbl_panel_7_1_1.rowHeights = new int[]{88, 0, 30, 0, 30, 0, 30, 0, 30, 0, 87, 0, 0, 0};
-		gbl_panel_7_1_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_7_1_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_7_1_1.setLayout(gbl_panel_7_1_1);
-		
-		JLabel lblNewLabel_6_1 = new JLabel("\uC0AC\uBB3C\uD568 \uC815\uBCF4");
-		lblNewLabel_6_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.PLAIN, 35));
-		GridBagConstraints gbc_lblNewLabel_6_1 = new GridBagConstraints();
-		gbc_lblNewLabel_6_1.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel_6_1.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_6_1.gridx = 0;
-		gbc_lblNewLabel_6_1.gridy = 1;
-		panel_7_1_1.add(lblNewLabel_6_1, gbc_lblNewLabel_6_1);
-		
-		JPanel panel_23 = new JPanel();
-		GridBagConstraints gbc_panel_23 = new GridBagConstraints();
-		gbc_panel_23.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_23.fill = GridBagConstraints.BOTH;
-		gbc_panel_23.gridx = 0;
-		gbc_panel_23.gridy = 3;
-		panel_7_1_1.add(panel_23, gbc_panel_23);
-		
-		JLabel lblNewLabel_7_2_1 = new JLabel(" \uC0AC\uBB3C\uD568 ");
-		lblNewLabel_7_2_1.setFont(new Font("»õ±¼¸²", Font.BOLD, 20));
-		panel_23.add(lblNewLabel_7_2_1);
-		
-		JLabel lblNewLabel_7_2_2 = new JLabel("1\uBC88");
-		lblNewLabel_7_2_2.setFont(new Font("»õ±¼¸²", Font.BOLD, 20));
-		panel_23.add(lblNewLabel_7_2_2);
-		
-		JPanel panel_16_2 = new JPanel();
-		GridBagConstraints gbc_panel_16_2 = new GridBagConstraints();
-		gbc_panel_16_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_16_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_16_2.gridx = 0;
-		gbc_panel_16_2.gridy = 5;
-		panel_7_1_1.add(panel_16_2, gbc_panel_16_2);
-		GridBagLayout gbl_panel_16_2 = new GridBagLayout();
-		gbl_panel_16_2.columnWidths = new int[]{210, 0, 0};
-		gbl_panel_16_2.rowHeights = new int[]{0, 0};
-		gbl_panel_16_2.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_16_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_16_2.setLayout(gbl_panel_16_2);
-		
-		JLabel lblNewLabel_7_2 = new JLabel(" \uC0AC\uBB3C\uD568 \uC0AC\uC6A9\uC790 \uC774\uB984:");
-		lblNewLabel_7_2.setFont(new Font("»õ±¼¸²", Font.BOLD, 20));
-		GridBagConstraints gbc_lblNewLabel_7_2 = new GridBagConstraints();
-		gbc_lblNewLabel_7_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_7_2.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_7_2.gridx = 0;
-		gbc_lblNewLabel_7_2.gridy = 0;
-		panel_16_2.add(lblNewLabel_7_2, gbc_lblNewLabel_7_2);
-		
-		JLabel lbLockUser = new JLabel("");
-		GridBagConstraints gbc_lbLockUser = new GridBagConstraints();
-		gbc_lbLockUser.anchor = GridBagConstraints.WEST;
-		gbc_lbLockUser.gridx = 1;
-		gbc_lbLockUser.gridy = 0;
-		panel_16_2.add(lbLockUser, gbc_lbLockUser);
-		
-		JPanel panel_16 = new JPanel();
-		GridBagConstraints gbc_panel_16 = new GridBagConstraints();
-		gbc_panel_16.fill = GridBagConstraints.BOTH;
-		gbc_panel_16.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_16.gridx = 0;
-		gbc_panel_16.gridy = 7;
-		panel_7_1_1.add(panel_16, gbc_panel_16);
-		GridBagLayout gbl_panel_16 = new GridBagLayout();
-		gbl_panel_16.columnWidths = new int[]{210, 0, 0};
-		gbl_panel_16.rowHeights = new int[]{0, 0};
-		gbl_panel_16.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_16.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_16.setLayout(gbl_panel_16);
-		
-		JLabel lblNewLabel_7 = new JLabel("\uC0AC\uBB3C\uD568 \uC774\uC6A9\uC5EC\uBD80:");
-		lblNewLabel_7.setFont(new Font("»õ±¼¸²", Font.BOLD, 20));
-		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_7.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_7.gridx = 0;
-		gbc_lblNewLabel_7.gridy = 0;
-		panel_16.add(lblNewLabel_7, gbc_lblNewLabel_7);
-		
-		JLabel lbLockIsUsing = new JLabel("");
-		GridBagConstraints gbc_lbLockIsUsing = new GridBagConstraints();
-		gbc_lbLockIsUsing.anchor = GridBagConstraints.WEST;
-		gbc_lbLockIsUsing.gridx = 1;
-		gbc_lbLockIsUsing.gridy = 0;
-		panel_16.add(lbLockIsUsing, gbc_lbLockIsUsing);
-		
-		JPanel panel_16_1 = new JPanel();
-		GridBagConstraints gbc_panel_16_1 = new GridBagConstraints();
-		gbc_panel_16_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_16_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_16_1.gridx = 0;
-		gbc_panel_16_1.gridy = 9;
-		panel_7_1_1.add(panel_16_1, gbc_panel_16_1);
-		GridBagLayout gbl_panel_16_1 = new GridBagLayout();
-		gbl_panel_16_1.columnWidths = new int[]{210, 0, 0};
-		gbl_panel_16_1.rowHeights = new int[]{0, 0};
-		gbl_panel_16_1.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_16_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_16_1.setLayout(gbl_panel_16_1);
-		
-		JLabel lblNewLabel_7_1 = new JLabel("\uC0AC\uBB3C\uD568 \uBE44\uBC00\uBC88\uD638:");
-		lblNewLabel_7_1.setFont(new Font("»õ±¼¸²", Font.BOLD, 20));
-		GridBagConstraints gbc_lblNewLabel_7_1 = new GridBagConstraints();
-		gbc_lblNewLabel_7_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_7_1.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_7_1.gridx = 0;
-		gbc_lblNewLabel_7_1.gridy = 0;
-		panel_16_1.add(lblNewLabel_7_1, gbc_lblNewLabel_7_1);
-		
-		JLabel lbLockPw = new JLabel("");
-		GridBagConstraints gbc_lbLockPw = new GridBagConstraints();
-		gbc_lbLockPw.anchor = GridBagConstraints.WEST;
-		gbc_lbLockPw.gridx = 1;
-		gbc_lbLockPw.gridy = 0;
-		panel_16_1.add(lbLockPw, gbc_lbLockPw);
-
-		JPanel panel_11 = new JPanel();
-		GridBagConstraints gbc_panel_11 = new GridBagConstraints();
-		gbc_panel_11.fill = GridBagConstraints.VERTICAL;
-		gbc_panel_11.gridx = 1;
-		gbc_panel_11.gridy = 0;
-		panel_1_1.add(panel_11, gbc_panel_11);
-		GridBagLayout gbl_panel_11 = new GridBagLayout();
-		gbl_panel_11.columnWidths = new int[] { 39, 173, 136, 145, 15, 0 };
-		gbl_panel_11.rowHeights = new int[] { 150, 0, 0, 0, 0 };
-		gbl_panel_11.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_11.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel_11.setLayout(gbl_panel_11);
-
-		JButton btnNewButton_4_1_1 = new JButton("\uC0AC\uBB3C\uD568 1\uBC88");
-		btnNewButton_4_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_4_1_1.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1_1.setFont(new Font("»õ±¼¸²", Font.BOLD, 25));
-		GridBagConstraints gbc_btnNewButton_4_1_1 = new GridBagConstraints();
-		gbc_btnNewButton_4_1_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4_1_1.gridx = 1;
-		gbc_btnNewButton_4_1_1.gridy = 1;
-		panel_11.add(btnNewButton_4_1_1, gbc_btnNewButton_4_1_1);
-
-		JButton btnNewButton_4_1 = new JButton("\uC0AC\uBB3C\uD568 2\uBC88");
-		btnNewButton_4_1.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_1 = new GridBagConstraints();
-		gbc_btnNewButton_4_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4_1.gridx = 2;
-		gbc_btnNewButton_4_1.gridy = 1;
-		panel_11.add(btnNewButton_4_1, gbc_btnNewButton_4_1);
-
-		JButton btnNewButton_4_2 = new JButton("\uC0AC\uBB3C\uD568 3\uBC88");
-		btnNewButton_4_2.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_2.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_2 = new GridBagConstraints();
-		gbc_btnNewButton_4_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4_2.gridx = 3;
-		gbc_btnNewButton_4_2.gridy = 1;
-		panel_11.add(btnNewButton_4_2, gbc_btnNewButton_4_2);
-
-		JButton btnNewButton_4_1_2 = new JButton("\uC0AC\uBB3C\uD568 4\uBC88");
-		btnNewButton_4_1_2.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1_2.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_1_2 = new GridBagConstraints();
-		gbc_btnNewButton_4_1_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4_1_2.gridx = 1;
-		gbc_btnNewButton_4_1_2.gridy = 2;
-		panel_11.add(btnNewButton_4_1_2, gbc_btnNewButton_4_1_2);
-
-		JButton btnNewButton_4_3 = new JButton("\uC0AC\uBB3C\uD568 5\uBC88");
-		btnNewButton_4_3.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_3.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_3 = new GridBagConstraints();
-		gbc_btnNewButton_4_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4_3.gridx = 2;
-		gbc_btnNewButton_4_3.gridy = 2;
-		panel_11.add(btnNewButton_4_3, gbc_btnNewButton_4_3);
-
-		JButton btnNewButton_4_1_3 = new JButton("\uC0AC\uBB3C\uD568 6\uBC88");
-		btnNewButton_4_1_3.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1_3.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_1_3 = new GridBagConstraints();
-		gbc_btnNewButton_4_1_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_4_1_3.gridx = 3;
-		gbc_btnNewButton_4_1_3.gridy = 2;
-		panel_11.add(btnNewButton_4_1_3, gbc_btnNewButton_4_1_3);
-
-		JButton btnNewButton_4_1_4 = new JButton("\uC0AC\uBB3C\uD568 7\uBC88");
-		btnNewButton_4_1_4.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1_4.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_1_4 = new GridBagConstraints();
-		gbc_btnNewButton_4_1_4.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_4_1_4.gridx = 1;
-		gbc_btnNewButton_4_1_4.gridy = 3;
-		panel_11.add(btnNewButton_4_1_4, gbc_btnNewButton_4_1_4);
-
-		JButton btnNewButton_4_1_5 = new JButton("\uC0AC\uBB3C\uD568 8\uBC88");
-		btnNewButton_4_1_5.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1_5.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_1_5 = new GridBagConstraints();
-		gbc_btnNewButton_4_1_5.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_4_1_5.gridx = 2;
-		gbc_btnNewButton_4_1_5.gridy = 3;
-		panel_11.add(btnNewButton_4_1_5, gbc_btnNewButton_4_1_5);
-
-		JButton btnNewButton_4_1_6 = new JButton("\uC0AC\uBB3C\uD568 9\uBC88");
-		btnNewButton_4_1_6.setPreferredSize(new Dimension(170, 126));
-		btnNewButton_4_1_6.setFont(new Font("»õ±¼¸²", Font.BOLD, 26));
-		GridBagConstraints gbc_btnNewButton_4_1_6 = new GridBagConstraints();
-		gbc_btnNewButton_4_1_6.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_4_1_6.gridx = 3;
-		gbc_btnNewButton_4_1_6.gridy = 3;
-		panel_11.add(btnNewButton_4_1_6, gbc_btnNewButton_4_1_6);
-
-		Dimension size1 = new Dimension();// »çÀÌÁî¸¦ ÁöÁ¤ÇÏ±â À§ÇÑ °´Ã¼ »ý¼º
-		size1.setSize(900, 1000);// °´Ã¼ÀÇ »çÀÌÁî¸¦ ÁöÁ¤
-		LockerMain lockerMain = new LockerMain();
-		lockerMain.setPreferredSize(size1);
 		
 		
 		
@@ -670,116 +427,12 @@ public class ManagerWindow extends JFrame implements Receivable {
 		scrollPane_12.setViewportView(table);
 		
 
-		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("\uC694\uAE08 \uAD00\uB9AC", null, panel_4, null);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[] { 300, 0, 300, 0 };
-		gbl_panel_4.rowHeights = new int[] { 0, 0, 0, 0 };
-		gbl_panel_4.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_4.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		panel_4.setLayout(gbl_panel_4);
-
-		JPanel panel_10_2 = new JPanel();
-		GridBagConstraints gbc_panel_10_2 = new GridBagConstraints();
-		gbc_panel_10_2.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_10_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_10_2.gridx = 1;
-		gbc_panel_10_2.gridy = 1;
-		panel_4.add(panel_10_2, gbc_panel_10_2);
-		GridBagLayout gbl_panel_10_2 = new GridBagLayout();
-		gbl_panel_10_2.columnWidths = new int[] { 0, 0 };
-		gbl_panel_10_2.rowHeights = new int[] { 0, 510, 0, 0 };
-		gbl_panel_10_2.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_10_2.rowWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
-		panel_10_2.setLayout(gbl_panel_10_2);
-
-		JLabel lblNewLabel_1_2 = new JLabel("\uB2F9\uC77C \uB9E4\uCD9C");
-		lblNewLabel_1_2.setFont(new Font("ÈÞ¸Õ¸ðÀ½T", Font.BOLD, 40));
-		GridBagConstraints gbc_lblNewLabel_1_2 = new GridBagConstraints();
-		gbc_lblNewLabel_1_2.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_1_2.gridx = 0;
-		gbc_lblNewLabel_1_2.gridy = 0;
-		panel_10_2.add(lblNewLabel_1_2, gbc_lblNewLabel_1_2);
-
-		JScrollPane scrollPane_6_2 = new JScrollPane();
-		scrollPane_6_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		GridBagConstraints gbc_scrollPane_6_2 = new GridBagConstraints();
-		gbc_scrollPane_6_2.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_6_2.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_6_2.gridx = 0;
-		gbc_scrollPane_6_2.gridy = 1;
-		panel_10_2.add(scrollPane_6_2, gbc_scrollPane_6_2);
 		
 		
+		tabbedPane.add("¿ä±Ý °ü¸®", pnl_SetPrice);
+
 		
-		//´çÀÏ¸ÅÃâ
-		String header5[] = { "ÀÌ¿ë¼®", "ÀÌ¿ë°´", "±Ý¾×" };
-		String contents5[][] = { { "»þ¿ö½Ç", "2", "30000" }, { "ÀÏ¹Ý1", "3", "34003" }, { "¤·¤©¤§¤§", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "»þ¿ö½Ç", "2", "30000" }, { "ÀÏ¹Ý1", "3", "34003" }, { "¤·¤©¤§¤§", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "»þ¿ö½Ç", "2", "30000" }, { "ÀÏ¹Ý1", "3", "34003" }, { "¤·¤©¤§¤§", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "»þ¿ö½Ç", "2", "30000" }, { "ÀÏ¹Ý1", "3", "34003" }, { "¤·¤©¤§¤§", "4", "34534" },
-				{ "dfeb", "5", "234767" }, { "»þ¿ö½Ç", "2", "30000" }, { "ÀÏ¹Ý1", "3", "34003" }, { "¤·¤©¤§¤§", "4", "34534" },
-				{ "dfeb", "5", "234767" }, };
-		table_2 = new JTable(contents5, header5);
-		table_2.setRowHeight(27);
-		table_2.setFillsViewportHeight(true);
-		table_2.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
-		scrollPane_6_2.setViewportView(table_2);
 		
-
-		JPanel panel_12_2 = new JPanel();
-		GridBagConstraints gbc_panel_12_2 = new GridBagConstraints();
-		gbc_panel_12_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_12_2.gridx = 0;
-		gbc_panel_12_2.gridy = 2;
-		panel_10_2.add(panel_12_2, gbc_panel_12_2);
-		panel_12_2.setLayout(new GridLayout(1, 3, 0, 0));
-
-		JPanel panel_13_2 = new JPanel();
-		panel_12_2.add(panel_13_2);
-		GridBagLayout gbl_panel_13_2 = new GridBagLayout();
-		gbl_panel_13_2.columnWidths = new int[] { 150, 0 };
-		gbl_panel_13_2.rowHeights = new int[] { 0, 56, 0, 0 };
-		gbl_panel_13_2.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_13_2.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		panel_13_2.setLayout(gbl_panel_13_2);
-
-		JLabel lblNewLabel_2_2 = new JLabel("\uB2F9\uC77C \uB9E4\uCD9C");
-		lblNewLabel_2_2.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
-		GridBagConstraints gbc_lblNewLabel_2_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2_2.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_2_2.gridx = 0;
-		gbc_lblNewLabel_2_2.gridy = 1;
-		panel_13_2.add(lblNewLabel_2_2, gbc_lblNewLabel_2_2);
-
-		JPanel panel_14_2 = new JPanel();
-		panel_12_2.add(panel_14_2);
-		panel_14_2.setLayout(new GridLayout(2, 1, 0, 0));
-
-		JLabel lblNewLabel_3_2 = new JLabel("\uCD1D \uAE08\uC561");
-		lblNewLabel_3_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_2.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
-		panel_14_2.add(lblNewLabel_3_2);
-
-		JLabel lblNewLabel_4_3 = new JLabel("2000");
-		lblNewLabel_4_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_4_3.setFont(new Font("ÈÞ¸Õ¸ÅÁ÷Ã¼", Font.BOLD, 30));
-		panel_14_2.add(lblNewLabel_4_3);
-
-		JPanel panel_15_2 = new JPanel();
-		panel_12_2.add(panel_15_2);
-		panel_15_2.setLayout(new GridLayout(2, 1, 0, 0));
-
-		JLabel lblNewLabel_5_2 = new JLabel("\uCD1D \uC774\uC6A9\uAC1D");
-		lblNewLabel_5_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5_2.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
-		panel_15_2.add(lblNewLabel_5_2);
-
-		JLabel lblNewLabel_4_1_2 = new JLabel("2000");
-		lblNewLabel_4_1_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_4_1_2.setFont(new Font("ÈÞ¸Õ¸ÅÁ÷Ã¼", Font.BOLD, 30));
-		panel_15_2.add(lblNewLabel_4_1_2);
-
 		JPanel panel_9 = new JPanel();
 		tabbedPane.addTab("\uB9E4\uCD9C \uC870\uD68C", null, panel_9, null);
 		GridBagLayout gbl_panel_9 = new GridBagLayout();
@@ -1245,7 +898,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 			table.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
 			table.setFillsViewportHeight(true);
 			scrollPane_12.setViewportView(table);
-			
+			setVisible(false);
+			setVisible(true);
 		}
 		
 	}
