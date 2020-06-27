@@ -261,4 +261,18 @@ public class RoomDao extends DBProcess {
 		return roomList;
 	}
 
+	public int getNextTime(String uuid, int pid) throws SQLException {
+		query = "select (select  to_char(max(startdate),'hh24') from inventory where id = " + pid
+				+ " and startdate  > (select max(startdate) from inventory where id = " + pid + " and uuid = '" + uuid
+				+ "' ) and startdate < to_char(sysdate + 1, 'yyyymmdd')) - (select to_char(max(startdate),'hh24') from inventory where id = "
+				+ pid + " and uuid = '" + uuid + "') from dual";
+		stmt = con.prepareStatement(query);
+		rs = stmt.executeQuery();
+
+		if (rs.next()) {
+			return rs.getInt(0);
+		}
+		return 0;
+	}
+
 }
