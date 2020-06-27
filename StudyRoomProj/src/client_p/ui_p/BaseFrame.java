@@ -31,7 +31,7 @@ import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 enum EEnter {
-	SEATCHANGE, PRIVROOM, GROUPROOM
+	NONE, SEATCHANGE, PRIVROOM, GROUPROOM
 }
 
 public class BaseFrame extends JFrame implements Receivable {
@@ -212,6 +212,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
 		return sa;
 	}
+
 	public ClientChatFrame getClientChatFrame() {
 		return (ClientChatFrame) jPanelArrl.get(5);
 	}
@@ -221,6 +222,16 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	public MainLayout openMainLayout(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
+			ArrayList<LockerData> lockerList) {
+
+		updateData(reserAll, myReser, lockerList);
+		MainLayout layout = (MainLayout) jPanelArrl.get(1);
+		BaseFrame.getInstance().view("MainLayout");
+		layout.updatePage();
+		return layout;
+	}
+
+	public void updateData(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
 			ArrayList<LockerData> lockerList) {
 
 		if (reserAll != null) {
@@ -233,10 +244,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		if (lockerList != null) {
 			this.lockerlist = lockerList;
 		}
-		MainLayout layout = (MainLayout) jPanelArrl.get(1);
-		BaseFrame.getInstance().view("MainLayout");
-		layout.updatePage();
-		return layout;
+
 	}
 
 	public ReservationMain getReservationMain() {

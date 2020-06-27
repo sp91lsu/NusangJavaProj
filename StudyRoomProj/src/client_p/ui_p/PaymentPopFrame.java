@@ -15,6 +15,7 @@ import client_p.Receivable;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.ProductData;
 import data_p.product_p.room_p.RoomProduct;
+import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
@@ -69,6 +70,9 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 			jl.setText("결제완료");
 			BaseFrame.getInstance().userData.isExit = false;
 			BaseFrame.getInstance().openMainLayout(ack.roomList, ack.myReserList, null);
+			if(BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+				BaseFrame.getInstance().view("LoginMain");
+			}
 			BaseFrame.getInstance().payment.dispose();
 //			BaseFrame.getInstance().roomProduct.calendarList.clear();
 			BaseFrame.getInstance().payment.timeList.clear();

@@ -23,14 +23,14 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
 
-public class LoginMain extends JPanel implements Receivable,MouseListener{
+public class LoginMain extends JPanel implements Receivable, MouseListener {
 
 	private JTextField idTextF;
 	private JPasswordField passwordField;
 	CheckRoomInfo chkroominfo;
 	JCheckBox changeBox;
 	JLabel idLabel;
-	
+
 	String info = "등록한 ID 또는 휴대폰 번호를 입력하세요";
 	String idInfo = "등록한 ID를 입력하세요";
 	String phinfo = "등록한 휴대폰 번호를 입력하세요";
@@ -114,7 +114,7 @@ public class LoginMain extends JPanel implements Receivable,MouseListener{
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
 				BaseFrame.getInstance().signUpFrame.textFieldSet();
-				
+
 			}
 		});
 	}
@@ -123,11 +123,10 @@ public class LoginMain extends JPanel implements Receivable,MouseListener{
 	public void receive(PacketBase packet) {
 
 		ScLoginAck ack = (ScLoginAck) packet;
-
+		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().userData = ack.userdata;
 			System.out.println("내가 예약한 내용");
-			 BaseFrame.getInstance().getSeatingArrUI().btn_state(false);
+			BaseFrame.getInstance().getSeatingArrUI().btn_state(false);
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
@@ -138,7 +137,7 @@ public class LoginMain extends JPanel implements Receivable,MouseListener{
 				chkroominfo = new CheckRoomInfo();
 				chkroominfo.start();
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-				BaseFrame.getInstance().getSeatingArrUI().north_east.setEnabled(false);
+				BaseFrame.getInstance().updateData(ack.roomList, null, ack.lockerList);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 			}
 		}
@@ -146,33 +145,31 @@ public class LoginMain extends JPanel implements Receivable,MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		idTextF=(JTextField) e.getSource();
+		idTextF = (JTextField) e.getSource();
 		String idfield = idTextF.getText();
-		
-		if(idfield.equals(info)||idfield.equals(idInfo)
-				||idfield.equals(phinfo))
-		{
+
+		if (idfield.equals(info) || idfield.equals(idInfo) || idfield.equals(phinfo)) {
 			idTextF.setText("");
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+
 	}
 }

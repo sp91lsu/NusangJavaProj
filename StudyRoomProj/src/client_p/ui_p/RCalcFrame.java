@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
+import packetBase_p.ELoginType;
 
 public class RCalcFrame extends JFrame {
 
@@ -46,6 +47,7 @@ public class RCalcFrame extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().paymentPop.openPage(room);
+					
 				dispose();
 			}
 		});

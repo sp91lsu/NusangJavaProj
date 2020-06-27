@@ -21,6 +21,7 @@ import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import data_p.product_p.DataManager;
+import data_p.product_p.ProductData;
 import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
@@ -33,12 +34,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	static JLabel north_west;
 
 	int starttime = 0;
-	int endtime = 0;
+	int endtime = 1;
 	JPanel timeSelectPane;
 	JLabel lblNewLabel_7;
 	JLabel lblNewLabel_8;
 	JButton north_east;
-	EEnter enterType;
+	EEnter enterType = EEnter.NONE;
 	JComboBox dateCBox;
 	JComboBox monthCBox;
 	JComboBox yearCBox;
@@ -49,6 +50,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	int nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 	int setYear = Calendar.getInstance().get(Calendar.YEAR);
 	int setDate = Calendar.getInstance().get(Calendar.DATE);
+	int mobileSetDate = Calendar.getInstance().get(Calendar.DATE) + 1;
 	int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
 	ArrayList<JButton> solo = new ArrayList<JButton>();// 개인석
@@ -64,6 +66,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	}
 
 	public Seating_Arrangement() {
+
+		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+			setDate++;
+		}
 		setLayout(null);
 		// 상단 패널
 		JPanel panel_north = new JPanel();
@@ -80,7 +86,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		panel_north.add(north_east, BorderLayout.EAST);
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("MainLayout");
+				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+					BaseFrame.getInstance().view("LoginMain");
+				} else {
+					BaseFrame.getInstance().view("MainLayout");
+				}
 				BaseFrame.getInstance().getSeatingArrUI().group_state(true);
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(true);
 			}
@@ -206,7 +216,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		JButton roomBtn9 = new JButton("2인실-3");
 		roomBtn9.addActionListener(new BtnAct(roomBtn9));
-		roomBtn9.setBounds(710, 5, 160, 60);
+		roomBtn9.setBounds(710, 490, 160, 60);
 		panel_center.add(roomBtn9);
 		group.add(roomBtn9);
 
@@ -402,9 +412,16 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				selectMonth.set(Calendar.MONTH, setMonth - 1);
 				selectMonth.set(Calendar.YEAR, setYear);
 				int last = selectMonth.getActualMaximum(Calendar.DATE);
-				System.out.println("월 선택");
-				for (int i = 1; i <= last; i++) {
-					dateCBox.addItem(i);
+				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+					if (nowMonth == setMonth) {
+						for (int i = mobileSetDate; i <= last; i++) {
+							dateCBox.addItem(i);
+						}
+					} else {
+						for (int i = 1; i <= last; i++) {
+							dateCBox.addItem(i);
+						}
+					}
 				}
 				btn_state(false);
 			}
@@ -412,7 +429,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		// 일자 선택
 		Vector<Integer> dateCnt = new Vector<Integer>();
-		for (int i = 1; i <= 31; i++) {
+		for (int i = setDate; i <= 31; i++) {
 			dateCnt.add(i);
 		}
 		dateCBox = new JComboBox(dateCnt);
@@ -497,7 +514,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		comboList.add(dateCBox);
 
 	}
-	
+
 	public void monthCom_state() {
 		monthCBox.removeAllItems();
 		for (int i = nowHour; i <= 12; i++) {
@@ -559,6 +576,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			checkDate();
 			group_state(false);
 		} else {
+
 			timeSelectPane.setVisible(true);
 		}
 
@@ -686,18 +704,23 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			month = Calendar.getInstance().get(Calendar.MONTH);
 			date = Calendar.getInstance().get(Calendar.DATE);
 		}
-		if (starttime != 0) {
-			for (JButton seatBtn : all) {
-				seatBtn.setEnabled(true);
-			}
+
+		if (enterType == EEnter.PRIVROOM) {
+			group_state(false);
+			solo_state(true);
+		} else if (enterType == EEnter.GROUPROOM) {
+			group_state(true);
+			solo_state(false);
+		} else if (enterType == EEnter.NONE) {
+			btn_state(true);
 		}
 
 		Calendar start = Calendar.getInstance();
 		start.set(Calendar.YEAR, setYear);
 		start.set(Calendar.MONTH, month);
 		start.set(Calendar.DATE, date);
-
-		for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
+		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().roomInfoList;
+		for (RoomProduct roomInfo : roomList) {
 			for (Calendar cal : roomInfo.calendarList) {
 				// 시간비교 => 년/월/일 비교
 				if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, start)) {

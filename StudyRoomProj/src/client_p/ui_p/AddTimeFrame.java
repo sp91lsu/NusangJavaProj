@@ -92,7 +92,7 @@ public class AddTimeFrame extends JFrame {
 			}
 		}
 
-		extension = 24;
+		extension = 23-last.get(Calendar.HOUR_OF_DAY);
 		for (RoomProduct rp : BaseFrame.getInstance().roomInfoList) {
 			if (rp.name.equals(room.name)) {
 				for (Calendar calMe : rp.calendarList) {
@@ -111,9 +111,7 @@ public class AddTimeFrame extends JFrame {
 
 		if (extension > 0) {
 			extension -= 1;
-		} else if (extension == 24) {
-			extension = 0;
-		}
+		} 
 		System.out.println("연장할 수 있는 시간 " + extension);
 
 		return extension;
