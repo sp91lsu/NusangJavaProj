@@ -393,7 +393,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		phoneNum = phoneNumTextField.getText();
 		if(phoneNum.matches(phoneChk))
 		{
-			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(),true);
+			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(phoneNumTextField.getText(),true);
 			ClientNet.getInstance().sendPacket(packet);
 		}
 		else {
