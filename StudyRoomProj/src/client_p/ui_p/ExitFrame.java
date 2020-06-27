@@ -38,10 +38,12 @@ public class ExitFrame extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
+				room.isExit = true;
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
-			}});
+			}
+		});
 		getContentPane().add(okButton);
 
 		JButton cancleButton = new JButton("√Îº“");
@@ -50,7 +52,8 @@ public class ExitFrame extends JFrame {
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}});
+			}
+		});
 		getContentPane().add(cancleButton);
 		setVisible(true);
 	}

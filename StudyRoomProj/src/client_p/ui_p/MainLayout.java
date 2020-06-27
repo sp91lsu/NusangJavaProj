@@ -54,7 +54,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_1);
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("Seating_Arrangement");
+				BaseFrame.getInstance().openSeatingArrUI(EEnter.PRIVROOM);
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().startTime_state();
@@ -66,7 +66,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_2);
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("Seating_Arrangement");
+				BaseFrame.getInstance().openSeatingArrUI(EEnter.GROUPROOM);
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().startTime_state();
@@ -106,9 +106,8 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_5);
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().getSeatingArrUI().seatChange = true;
 				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-				BaseFrame.getInstance().getSeatingArrUI().openPage();
+				BaseFrame.getInstance().openSeatingArrUI(EEnter.SEATCHANGE);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				SeatChangePop frame = new SeatChangePop();
 			}
@@ -128,7 +127,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_7);
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (todayRemainTime > 0) {
+				if (BaseFrame.getInstance().getTodayRemainTime() > 0) {
 					TimeFrame time = new TimeFrame();
 				} else {
 					System.out.println("현재 이용중인 방이 없음.");
@@ -183,12 +182,14 @@ public class MainLayout extends JPanel implements Receivable {
 		if (BaseFrame.getInstance().getUsingRoom() != null) {
 
 			button_9.setText("퇴실");
+			button_5.setEnabled(true);
 		} else if (reserRoom != null) {
 			BaseFrame.getInstance().roomProduct = reserRoom;
 			button_5.setEnabled(false);
 			button_9.setText("예약 취소");
 		} else {
 			button_9.setText("퇴실");
+
 			button_5.setEnabled(false);
 			button_9.setEnabled(false);
 		}

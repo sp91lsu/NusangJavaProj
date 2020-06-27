@@ -49,7 +49,7 @@ public class UserData extends PacketData {
 
 	public RoomProduct getTodayRoom() {
 		for (RoomProduct room : myReservationList) {
-			if (room != null && !room.isExit) {// ø¿¥√ √— øπæ‡«— ∏ÆΩ∫∆Æ
+			if (room != null && !isExit) {// ø¿¥√ √— øπæ‡«— ∏ÆΩ∫∆Æ
 				for (Calendar cal : room.calendarList) {
 					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, Calendar.getInstance())) {
 						return room;

@@ -16,7 +16,7 @@ public class SeatChangeOkPop extends JFrame {
 
 	private JPanel contentPane;
 
-	public SeatChangeOkPop() {
+	public SeatChangeOkPop(int moveSeatID) {
 		setBounds(300, 300, 300, 200);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -33,7 +33,7 @@ public class SeatChangeOkPop extends JFrame {
 				dispose();
 				CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
 						BaseFrame.getInstance().getUsingRoom(),
-						BaseFrame.getInstance().getSeatingArrUI().moveSeatId);
+						moveSeatID);
 				ClientNet.getInstance().sendPacket(packet);
 			}});
 		btnNewButton.setBounds(59, 80, 105, 27);
