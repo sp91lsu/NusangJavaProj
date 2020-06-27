@@ -42,7 +42,9 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
 	
 	String korean = "[°¡-ÆR]*";
-	String engNum = "[a-zA-Z0-9].{7}";
+	String engNum = ".*[a-zA-Z].*";
+	String engNum1 = ".*[0-9].*";
+	
 	String passChk = "[a-zA-Z0-9].{7}";
 	String phoneChk = "010.[0-9].{6,7}";
 	String name,id,pass,phoneNum,pass2 = null; 
@@ -157,15 +159,23 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		mainPane.add(label_3);
 		
 		label_4 = new JLabel("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
-		label_4.setBounds(477, 320, 318, 33);
+		label_4.setBounds(631, 318, 178, 33);
 		mainPane.add(label_4);
 		
 		label_5 = new JLabel("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
 		label_5.setBounds(594, 164, 267, 33);
 		mainPane.add(label_5);
+		
+		JButton pwChkBtn = new JButton("ÇÚµåÆù Áßº¹Ã¼Å©");
+		pwChkBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		pwChkBtn.setBounds(477, 318, 140, 33);
+		mainPane.add(pwChkBtn);
 
 		setVisible(false);
-		
 	}
 	
 
@@ -279,7 +289,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
-			if (id.matches(engNum)) {
+			if (id.matches(engNum)&&id.matches(engNum1)) {
 				label_5.setText("ÀÔ·Â È®ÀÎ");
 			} else {
 				SignUpPop pop = new SignUpPop();
@@ -331,14 +341,18 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	
 	void idChk(){
 		id = idTextField.getText();
-		if (!id.matches(engNum)) {
+		if(id.matches(engNum)&&id.matches(engNum1)&&id.length()<9)
+		{
+			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText());
+			ClientNet.getInstance().sendPacket(packet);
+		}else {
 			JDialog chkJd = new JDialog();
 			chkJd.setBounds(100, 100, 200, 200);
-			chkJd.setLayout(new GridLayout(2,1));
+			chkJd.getContentPane().setLayout(new GridLayout(2,1));
 			JLabel chkLb = new JLabel("Á¤È®ÇÑ ID Çü½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä");
-			chkJd.add(chkLb);
+			chkJd.getContentPane().add(chkLb);
 			JButton chkBt = new JButton("È®ÀÎ");
-			chkJd.add(chkBt);
+			chkJd.getContentPane().add(chkBt);
 			chkBt.addActionListener(new ActionListener() {
 				
 				@Override
@@ -348,12 +362,14 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				}
 			});
 			chkJd.setVisible(true);
-		}else {
-			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText());
-			ClientNet.getInstance().sendPacket(packet);
 		}
 	}
-
+	
+	void phChk()
+	{
+		
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		JTextField jtf = (JTextField) e.getSource();
@@ -364,31 +380,26 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 
 	}
 
-
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }
