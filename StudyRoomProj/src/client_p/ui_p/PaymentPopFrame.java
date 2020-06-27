@@ -46,7 +46,6 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 						BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
 				BaseFrame.getInstance().getReservationMain().resetResInfo();
-				BaseFrame.getInstance().view("LoginMain");
 				dispose();
 			}
 		});
