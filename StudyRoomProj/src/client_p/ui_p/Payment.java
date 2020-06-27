@@ -1,7 +1,6 @@
 package client_p.ui_p;
 
 import java.awt.Color;
-import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,21 +14,13 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
-
-import client_p.Receivable;
 import data_p.product_p.DataManager;
-import data_p.product_p.TimeData;
-import data_p.product_p.room_p.RoomProduct;
-import javafx.scene.control.CheckBox;
-import packetBase_p.PacketBase;
 
 public class Payment extends JFrame {
 
@@ -293,12 +284,6 @@ public class Payment extends JFrame {
 	
 	public void updatePayment()
 	{
-//		JDialog jd = new JDialog();
-//		jd.setLayout(null);
-//		jd.setBounds(300, 300, 200, 200);
-//		JLabel jb = new JLabel("좌석현황이 업데이트되었습니다.");
-//		jd.add(jb);
-//		jd.setVisible(true);
 		JOptionPane.showMessageDialog(null, "좌석현황이 업데이트되었습니다.");
 		
 		resPossibleChk();
