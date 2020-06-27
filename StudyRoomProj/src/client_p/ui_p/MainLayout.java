@@ -118,7 +118,8 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_6);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().payment.openPage();
+//				BaseFrame.getInstance().payment.openPage();
+				AddTimeFrame frame = new AddTimeFrame();
 			}
 		});
 
