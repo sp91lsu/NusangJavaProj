@@ -134,22 +134,7 @@ public class AccountDao extends DBProcess {
 		return userList;
 	}
 
-	// 예약한 룸정보 불러오기
-	public ArrayList<RoomProduct> findUserRoom(String uuid) {
-		RoomDao roomDao = new RoomDao();
-		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
-		try {
-			ResultSet rs = roomDao.getRS(ETable.INVENTORY, "*", "uuid = '" + uuid + "'");
-			// Listener refused the connection with the following error:
-			roomList = roomDao.resToList(rs);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return roomList;
-	}
-
+	
 	public void exitUser(String uuid, int isExit) {
 		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = ?");
 		try {

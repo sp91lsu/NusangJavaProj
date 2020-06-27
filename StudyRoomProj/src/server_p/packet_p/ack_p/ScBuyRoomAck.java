@@ -8,11 +8,13 @@ import packetBase_p.ResultPacketBase;
 
 public class ScBuyRoomAck extends ResultPacketBase {
 
-	ArrayList<RoomProduct> roomList;
+	public ArrayList<RoomProduct> roomList;
+	public ArrayList<RoomProduct> myReserList;
 
-	public ScBuyRoomAck(EResult eResult, ArrayList<RoomProduct> roomList) {
+	public ScBuyRoomAck(EResult eResult, ArrayList<RoomProduct> roomList, ArrayList<RoomProduct> myReserList) {
 		super(eResult);
 
 		this.roomList = roomList;
+		this.myReserList = myReserList;
 	}
 }

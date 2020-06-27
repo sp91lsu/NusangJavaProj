@@ -161,7 +161,7 @@ public class RoomDao extends DBProcess {
 	}
 
 	// 퇴실 제외한 예약정보 불러오기(클라에서 예약 정보 뿌려주기위함 )
-	public ArrayList<RoomProduct> getReservationListNonExit() {
+	public ArrayList<RoomProduct> getReservationListAll() {
 		try {
 			return getRoomInfo("*", "ISEXIT = 0");
 		} catch (Exception e) {
@@ -245,4 +245,20 @@ public class RoomDao extends DBProcess {
 
 		return roomList;
 	}
+
+	// 예약한 룸정보 불러오기
+	public ArrayList<RoomProduct> findUserRoom(String uuid) {
+		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+		try {
+			ResultSet rs = getRS(ETable.INVENTORY, "*", "uuid = '" + uuid + "'");
+			// Listener refused the connection with the following error:
+			roomList = resToList(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return roomList;
+	}
+
 }
