@@ -367,7 +367,7 @@ public class ReservationMain extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					resetResInfo();
 
-					resPossibleChk(Integer.parseInt(datebtn.dateBtn.getText()));
+					//resPossibleChk(Integer.parseInt(datebtn.dateBtn.getText()));
 					dateChk = Integer.parseInt(datebtn.dateBtn.getText());
 
 					JButton btn = (JButton) e.getSource();

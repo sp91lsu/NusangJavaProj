@@ -194,6 +194,7 @@ public class MainLayout extends JPanel implements Receivable {
 		}
 		System.out.println("오늘 남은 시간" + todayRemainTime);
 
+		System.out.println("남은시간");
 		if (todayRemainTime > 0)// 예약했으면
 		{
 			button_1.setEnabled(false);// 개인룸 이용 버튼 비활성화
@@ -230,6 +231,8 @@ public class MainLayout extends JPanel implements Receivable {
 			if (resPacket.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().openMainLayout(resPacket.reserListAll, resPacket.myReserList, null);
 				BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE).isExit = true;
+				BaseFrame.getInstance().userData.isExit = true;
+				updatePage();
 			} else if (resPacket.eResult == EResult.FAIL) {
 				System.out.println("퇴실 실패");
 			}
