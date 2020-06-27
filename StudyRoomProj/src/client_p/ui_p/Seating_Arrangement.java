@@ -30,16 +30,15 @@ import server_p.packet_p.ack_p.ScMoveSeatAck;
 
 public class Seating_Arrangement extends JPanel implements Receivable {
 
-	public boolean seatChange = false;
 	static JLabel north_west;
-	int moveSeatId;
 
 	int starttime = 0;
 	int endtime = 0;
+	JPanel timeSelectPane;
 	JLabel lblNewLabel_7;
 	JLabel lblNewLabel_8;
 	JButton north_east;
-
+	EEnter enterType;
 	JComboBox dateCBox;
 	JComboBox monthCBox;
 	JComboBox yearCBox;
@@ -80,8 +79,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		panel_north.add(north_east, BorderLayout.EAST);
 		north_east.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				seatChange = false;
-				System.out.println("좌석이동중이냐?" + seatChange);
 				BaseFrame.getInstance().view("MainLayout");
 				BaseFrame.getInstance().getSeatingArrUI().group_state(true);
 				BaseFrame.getInstance().getSeatingArrUI().solo_state(true);
@@ -362,7 +359,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 //////////////////////////////  예약날짜선택 버튼		
 
-		JPanel timeSelectPane = new JPanel();
+		timeSelectPane = new JPanel();
 		timeSelectPane.setBounds(10, 680, 860, 70);
 		add(timeSelectPane);
 		timeSelectPane.setLayout(null);
@@ -380,7 +377,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		yearCBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setYear = (int	) yearCBox.getSelectedItem();
+				setYear = (int) yearCBox.getSelectedItem();
 				btn_state(false);
 			}
 		});
@@ -502,7 +499,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	public void startTime_state() {
 		timeStartCBox.removeAllItems();
-		for (int i = nowHour + 1; i <= 23; i++) {
+		for (int i = nowHour; i <= 23; i++) {
 			timeStartCBox.addItem(i);
 		}
 	}
@@ -532,7 +529,9 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		}
 	}
 
-	public void openPage() {
+	public void openPage(EEnter enterType) {
+
+		this.enterType = enterType;
 		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
 		if (roomProduct != null) {
 			for (JButton jButton : all) {
@@ -543,6 +542,18 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			}
 		}
+
+		if (enterType == EEnter.SEATCHANGE) {
+			timeSelectPane.setVisible(false);
+			Calendar cal = Calendar.getInstance();
+			starttime = cal.get(Calendar.HOUR_OF_DAY);
+			endtime = cal.get(Calendar.HOUR_OF_DAY) + 1;
+			checkDate();
+			group_state(false);
+		} else {
+			timeSelectPane.setVisible(true);
+		}
+
 	}
 
 //	public void setBtnColor() {
@@ -577,7 +588,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public void receive(PacketBase packet) {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
-			String roomName = DataManager.getInstance().roomMap.get(moveSeatId).name;
 			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, null);
 			checkDate();
 		} else {
@@ -598,7 +608,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
 
 				if (roomData.name.equals(bt.getText())) {
-					if (!BaseFrame.getInstance().getSeatingArrUI().seatChange)// 좌석이동중이 아닐때
+					if (enterType != EEnter.SEATCHANGE)// 좌석이동중이 아닐때
 					{
 						// 페이지 여는 순간 현재 상품 복사
 						roomData.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
@@ -616,10 +626,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					{
 						for (RoomProduct room : DataManager.getInstance().roomMap.values()) {
 							if (room.name.equals(bt.getText())) {
-								moveSeatId = room.id;
+								SeatChangeOkPop frame = new SeatChangeOkPop(room.id);
+								break;
 							}
 						}
-						SeatChangeOkPop frame = new SeatChangeOkPop();
 					}
 				}
 			}

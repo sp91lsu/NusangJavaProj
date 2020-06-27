@@ -31,12 +31,15 @@ import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
+enum EEnter {
+	SEATCHANGE, PRIVROOM, GROUPROOM
+}
+
 public class BaseFrame extends JFrame implements Receivable {
 
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
-
 	public ELoginType loginType = ELoginType.KIOSK;
 	private static BaseFrame instance;
 
@@ -200,12 +203,16 @@ public class BaseFrame extends JFrame implements Receivable {
 		return cRoomList;
 	}
 
-	public Seating_Arrangement getSeatingArrUI() {
+	public void openSeatingArrUI(EEnter enterType) {
 		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
-//		sa.setBtnColor();
-		return sa;
+		view("Seating_Arrangement");
+		sa.openPage(enterType);
 	}
 
+	public Seating_Arrangement getSeatingArrUI() {
+		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
+		return sa;
+	}
 	public ClientChatFrame getClientChatFrame() {
 		return (ClientChatFrame) jPanelArrl.get(5);
 	}
@@ -250,11 +257,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		for (RoomProduct product : userData.myReservationList) {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
-				System.out.println(product.name);
-				System.out.println(cal.getTime());
-				System.out.println(current.getTime());
-				System.out.println(!product.isExit);
-				if (isSameTime(field, cal, current) && !product.isExit) {
+				if (isSameTime(field, cal, current) && !userData.isExit) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
@@ -319,6 +322,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 		return 0;
 	}
+
 }
 
 class CheckRoomInfo extends Thread {
