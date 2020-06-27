@@ -209,7 +209,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public Seating_Arrangement getSeatingArrUI() {
 		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
-		sa.setBtnColor();
+//		sa.setBtnColor();
 		return sa;
 	}
 

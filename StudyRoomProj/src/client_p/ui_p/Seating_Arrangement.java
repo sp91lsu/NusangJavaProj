@@ -545,33 +545,33 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		}
 	}
 
-	public void setBtnColor() {
-		for (RoomProduct room : BaseFrame.getInstance().roomInfoList) {
-
-			for (Calendar cal : room.calendarList) {
-
-				if (BaseFrame.getInstance().isSameTime(Calendar.HOUR_OF_DAY, cal, Calendar.getInstance())) {
-
-					for (JButton jButton2 : all) {
-						if (jButton2.getText().equals(room.name)) {
-							jButton2.setBackground(Color.red);
-							jButton2.setEnabled(false);
-						}
-					}
-				}
-			}
-		}
-
-		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
-		if (roomProduct != null) {
-			for (JButton jButton : all) {
-				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(Color.cyan);
-					jButton.setBackground(Color.green);
-				}
-			}
-		}
-	}
+//	public void setBtnColor() {
+//		for (RoomProduct room : BaseFrame.getInstance().roomInfoList) {
+//
+//			for (Calendar cal : room.calendarList) {
+//
+//				if (BaseFrame.getInstance().isSameTime(Calendar.HOUR_OF_DAY, cal, Calendar.getInstance())) {
+//
+//					for (JButton jButton2 : all) {
+//						if (jButton2.getText().equals(room.name)) {
+//							jButton2.setBackground(Color.red);
+//							jButton2.setEnabled(false);
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
+//		if (roomProduct != null) {
+//			for (JButton jButton : all) {
+//				if (roomProduct.name.equals(jButton.getText())) {
+//					jButton.setBackground(Color.cyan);
+//					jButton.setBackground(Color.green);
+//				}
+//			}
+//		}
+//	}
 
 	@Override
 	public void receive(PacketBase packet) {
@@ -579,7 +579,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		if (ack.eResult == EResult.SUCCESS) {
 			String roomName = DataManager.getInstance().roomMap.get(moveSeatId).name;
 			BaseFrame.getInstance().openMainLayout(ack.reserListAll,ack.myReserList,null);
-			setBtnColor();
+			checkDate(setMonth, setDate);
 		} else {
 
 		}
@@ -687,6 +687,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							System.out.println(cal.get(Calendar.HOUR_OF_DAY));
 							if (seatBtn.getText().equals(roomInfo.name)) {
 								seatBtn.setEnabled(false);
+								seatBtn.setBackground(Color.RED);
 							}
 						}
 					}
