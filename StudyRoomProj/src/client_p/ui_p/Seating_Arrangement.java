@@ -578,8 +578,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
 			String roomName = DataManager.getInstance().roomMap.get(moveSeatId).name;
-			BaseFrame.getInstance().openMainLayout(ack.reserListAll,ack.myReserList,null);
-			checkDate(setMonth, setDate);
+			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, null);
+			checkDate();
 		} else {
 
 		}
@@ -602,7 +602,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					{
 						// 페이지 여는 순간 현재 상품 복사
 						roomData.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
-						;
 
 						if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 							System.out.println("KIOSK");
@@ -612,7 +611,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							RCalcFrame rcalc = new RCalcFrame(roomData);
 						}
 
-						BaseFrame.getInstance().payment.resPossibleChk();
+						// BaseFrame.getInstance().payment.resPossibleChk();
 					} else// 좌석이동중일때
 					{
 						for (RoomProduct room : DataManager.getInstance().roomMap.values()) {
@@ -646,6 +645,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public void btn_state(boolean state) {
 		for (JButton allbtn : all) {
 			allbtn.setEnabled(state);
+			allbtn.setBackground(Color.GREEN);
 		}
 	}
 
@@ -653,20 +653,21 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	class SearchBtnAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {// 모바일
-				checkDate(setMonth, setDate);
-			}
-
-			else// 키오스크
-			{
-				Calendar cal = Calendar.getInstance();
-				checkDate(cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
-			}
+			checkDate();
 		}
 	}
 
-	void checkDate(int month, int date) {
+	void checkDate() {
+
+		int month = 0;
+		int date = 0;
+		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+			month = setMonth;
+			date = setDate;
+		} else {
+			month = Calendar.getInstance().get(Calendar.MONTH);
+			date = Calendar.getInstance().get(Calendar.DATE);
+		}
 		if (starttime != 0) {
 			for (JButton seatBtn : all) {
 				seatBtn.setEnabled(true);

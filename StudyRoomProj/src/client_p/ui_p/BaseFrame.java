@@ -106,14 +106,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
 			roomInfoList = roomInfoCast.roomListAll;
 
-			for (JButton all : getSeatingArrUI().all) {// 모든버튼
-				for (RoomProduct room : getCurrentRoomList()) {
-					if (all.getText().equals(room.name)) {
-						all.setBackground(Color.red);
-					}
-				}
-			}
-
+			getSeatingArrUI().checkDate();
 			if (payment.isVisible()) {
 				payment.updatePayment();
 			}
