@@ -8,9 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,28 +33,42 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public boolean seatChange = false;
 	static JLabel north_west;
 	int moveSeatId;
+
+	int starttime = 0;
+	int endtime = 0;
 	JLabel lblNewLabel_7;
 	JLabel lblNewLabel_8;
 	JButton north_east;
 
-	ArrayList<TimeData> timeList = new ArrayList<TimeData>();
+	JComboBox dateCBox;
+	JComboBox monthCBox;
+	JComboBox yearCBox;
+	JComboBox timeStartCBox;
+	JComboBox timeEndCbox;
+
+	int setMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+	int setYear = Calendar.getInstance().get(Calendar.YEAR);
+	int setDate = Calendar.getInstance().get(Calendar.DATE);
+	int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
 	ArrayList<JButton> solo = new ArrayList<JButton>();// 개인석
 	ArrayList<JButton> all = new ArrayList<JButton>();// 전체
+	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(500, 30, 900, 800);
+		frame.setBounds(200, 30, 900, 800);
 		frame.getContentPane().add(new Seating_Arrangement());
 		frame.setVisible(true);
 	}
 
 	public Seating_Arrangement() {
-		setLayout(new BorderLayout(0, 0));
+		setLayout(null);
 		// 상단 패널
 		JPanel panel_north = new JPanel();
-		add(panel_north, BorderLayout.NORTH);
+		panel_north.setBounds(10, 5, 860, 30);
+		add(panel_north);
 		panel_north.setLayout(new BorderLayout(0, 0));
 
 		this.north_west = new JLabel("2020-06-18  21:24");// 날자,시간
@@ -137,79 +153,80 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		// 중앙패널
 		JPanel panel_center = new JPanel();
-		add(panel_center, BorderLayout.CENTER);
+		panel_center.setBounds(10, 40, 860, 650);
+		add(panel_center);
 		panel_center.setLayout(null);
 
 		// 여기서부터 룸 버튼
 		JButton roomBtn1 = new JButton("샤워실");
 		roomBtn1.addActionListener(new BtnAct(roomBtn1));
-		roomBtn1.setBounds(0, 0, 300, 130);
+		roomBtn1.setBounds(0, 0, 300, 110);
 		panel_center.add(roomBtn1);
 		group.add(roomBtn1);
 
 		JButton roomBtn2 = new JButton("8인실");
 		roomBtn2.addActionListener(new BtnAct(roomBtn2));
-		roomBtn2.setBounds(300, 0, 250, 130);
+		roomBtn2.setBounds(300, 0, 250, 110);
 		panel_center.add(roomBtn2);
 		group.add(roomBtn2);
 
 		JButton roomBtn3 = new JButton("6인실-1");
 		roomBtn3.addActionListener(new BtnAct(roomBtn3));
-		roomBtn3.setBounds(550, 0, 160, 130);
+		roomBtn3.setBounds(550, 0, 160, 110);
 		panel_center.add(roomBtn3);
 		group.add(roomBtn3);
 
 		JButton roomBtn4 = new JButton("6인실-2");
 		roomBtn4.addActionListener(new BtnAct(roomBtn4));
-		roomBtn4.setBounds(710, 0, 160, 130);
+		roomBtn4.setBounds(710, 0, 160, 110);
 		panel_center.add(roomBtn4);
 		group.add(roomBtn4);
 
 		JButton roomBtn5 = new JButton("4인실-1");
 		roomBtn5.addActionListener(new BtnAct(roomBtn5));
-		roomBtn5.setBounds(710, 210, 160, 110);
+		roomBtn5.setBounds(710, 190, 160, 90);
 		panel_center.add(roomBtn5);
 		group.add(roomBtn5);
 
 		JButton roomBtn6 = new JButton("4인실-2");
 		roomBtn6.addActionListener(new BtnAct(roomBtn6));
-		roomBtn6.setBounds(710, 320, 160, 110);
+		roomBtn6.setBounds(710, 280, 160, 90);
 		panel_center.add(roomBtn6);
 		group.add(roomBtn6);
 
 		JButton roomBtn7 = new JButton("2인실-1");
 		roomBtn7.addActionListener(new BtnAct(roomBtn7));
-		roomBtn7.setBounds(710, 430, 160, 80);
+		roomBtn7.setBounds(710, 370, 160, 60);
 		panel_center.add(roomBtn7);
 		group.add(roomBtn7);
 
 		JButton roomBtn8 = new JButton("2인실-2");
 		roomBtn8.addActionListener(new BtnAct(roomBtn8));
-		roomBtn8.setBounds(710, 510, 160, 80);
+		roomBtn8.setBounds(710, 430, 160, 60);
 		panel_center.add(roomBtn8);
 		group.add(roomBtn8);
 
 		JButton roomBtn9 = new JButton("2인실-3");
 		roomBtn9.addActionListener(new BtnAct(roomBtn9));
-		roomBtn9.setBounds(710, 590, 160, 80);
+		roomBtn9.setBounds(710, 5, 160, 60);
 		panel_center.add(roomBtn9);
 		group.add(roomBtn9);
 
 		JButton roomBtn10 = new JButton("노래방");
 		roomBtn10.addActionListener(new BtnAct(roomBtn10));
-		roomBtn10.setBounds(0, 130, 160, 170);
+		roomBtn10.setBounds(0, 110, 160, 150);
 		panel_center.add(roomBtn10);
 		group.add(roomBtn10);
 
 		JButton roomBtn11 = new JButton("파티룸");
 		roomBtn11.addActionListener(new BtnAct(roomBtn11));
-		roomBtn11.setBounds(0, 300, 160, 175);
+		roomBtn11.setBounds(0, 260, 160, 155);
 		panel_center.add(roomBtn11);
 		group.add(roomBtn11);
 
 		// 매너존 패널
 		JPanel mannerzone_panel = new JPanel();
-		mannerzone_panel.setBounds(0, 475, 300, 250);
+		mannerzone_panel.setBounds(0, 415, 300, 250);
 		panel_center.add(mannerzone_panel);
 		mannerzone_panel.setLayout(null);
 
@@ -221,101 +238,101 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		JButton btnM_1 = new JButton("매너존-1");
 		btnM_1.addActionListener(new BtnAct(btnM_1));
-		btnM_1.setBounds(0, 0, 100, 90);
+		btnM_1.setBounds(0, 0, 100, 70);
 		mannerzone_panel.add(btnM_1);
 		solo.add(btnM_1);
 
 		JButton btnM_2 = new JButton("매너존-2");
 		btnM_2.addActionListener(new BtnAct(btnM_2));
-		btnM_2.setBounds(100, 0, 100, 90);
+		btnM_2.setBounds(100, 0, 100, 70);
 		mannerzone_panel.add(btnM_2);
 		solo.add(btnM_2);
 
 		JButton btnM_3 = new JButton("매너존-3");
 		btnM_3.addActionListener(new BtnAct(btnM_3));
-		btnM_3.setBounds(0, 160, 100, 90);
+		btnM_3.setBounds(0, 160, 100, 70);
 		mannerzone_panel.add(btnM_3);
 		solo.add(btnM_3);
 
 		JButton btnM_4 = new JButton("매너존-4");
 		btnM_4.addActionListener(new BtnAct(btnM_4));
-		btnM_4.setBounds(100, 160, 100, 90);
+		btnM_4.setBounds(100, 160, 100, 70);
 		mannerzone_panel.add(btnM_4);
 		solo.add(btnM_4);
 
 		JButton btnM_5 = new JButton("매너존-5");
 		btnM_5.addActionListener(new BtnAct(btnM_5));
-		btnM_5.setBounds(200, 160, 100, 90);
+		btnM_5.setBounds(200, 160, 100, 70);
 		mannerzone_panel.add(btnM_5);
 		solo.add(btnM_5);
 
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
-		normalzone_panel.setBounds(300, 200, 300, 250);
+		normalzone_panel.setBounds(300, 160, 300, 250);
 		panel_center.add(normalzone_panel);
 		normalzone_panel.setLayout(null);
 		// 일반실 라벨,버튼
 		JLabel label_normal = new JLabel("일반실");
 		label_normal.setFont(new Font("굴림", Font.PLAIN, 20));
-		label_normal.setBounds(120, 115, 70, 20);
+		label_normal.setBounds(120, 105, 70, 20);
 		normalzone_panel.add(label_normal);
 
 		JButton btnN_1 = new JButton("개인석-1");
 		btnN_1.addActionListener(new BtnAct(btnN_1));
-		btnN_1.setBounds(0, 0, 100, 90);
+		btnN_1.setBounds(0, 0, 100, 70);
 		normalzone_panel.add(btnN_1);
 		solo.add(btnN_1);
 
 		JButton btnN_2 = new JButton("개인석-2");
 		btnN_2.addActionListener(new BtnAct(btnN_2));
-		btnN_2.setBounds(100, 0, 100, 90);
+		btnN_2.setBounds(100, 0, 100, 70);
 		normalzone_panel.add(btnN_2);
 		solo.add(btnN_2);
 
 		JButton btnN_3 = new JButton("개인석-3");
 		btnN_3.addActionListener(new BtnAct(btnN_3));
-		btnN_3.setBounds(200, 0, 100, 90);
+		btnN_3.setBounds(200, 0, 100, 70);
 		normalzone_panel.add(btnN_3);
 		solo.add(btnN_3);
 
 		JButton btnN_4 = new JButton("개인석-4");
 		btnN_4.addActionListener(new BtnAct(btnN_4));
-		btnN_4.setBounds(0, 160, 100, 90);
+		btnN_4.setBounds(0, 160, 100, 70);
 		normalzone_panel.add(btnN_4);
 		solo.add(btnN_4);
 
 		JButton btnN_5 = new JButton("개인석-5");
 		btnN_5.addActionListener(new BtnAct(btnN_5));
-		btnN_5.setBounds(100, 160, 100, 90);
+		btnN_5.setBounds(100, 160, 100, 70);
 		normalzone_panel.add(btnN_5);
 		solo.add(btnN_5);
 
 		JButton btnN_6 = new JButton("개인석-6");
 		btnN_6.addActionListener(new BtnAct(btnN_6));
-		btnN_6.setBounds(200, 160, 100, 90);
+		btnN_6.setBounds(200, 160, 100, 70);
 		normalzone_panel.add(btnN_6);
 		solo.add(btnN_6);
 
 		// 휴게실
 		JPanel restzone_panel = new JPanel();
 		restzone_panel.setBackground(Color.ORANGE);
-		restzone_panel.setBounds(300, 535, 260, 190);
+		restzone_panel.setBounds(300, 455, 260, 190);
 		panel_center.add(restzone_panel);
 		restzone_panel.setLayout(null);
 		// 휴게실 안에 들어갈것은 여기서
 		JLabel label_rest = new JLabel("휴게실");
 		label_rest.setFont(new Font("굴림", Font.PLAIN, 20));
-		label_rest.setBounds(100, 100, 70, 20);
+		label_rest.setBounds(100, 90, 70, 20);
 		restzone_panel.add(label_rest);
 
 		JPanel locker = new JPanel();
 		locker.setBackground(Color.LIGHT_GRAY);
-		locker.setBounds(560, 535, 30, 190);
+		locker.setBounds(560, 455, 30, 190);
 		panel_center.add(locker);
 		locker.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("<html>사<br>물<br>함<html>");
-		lblNewLabel.setBounds(0, 60, 32, 79);
+		lblNewLabel.setBounds(5, 60, 32, 79);
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 20));
 		locker.add(lblNewLabel);
 
@@ -342,6 +359,165 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			});
 		}
+
+//////////////////////////////  예약날짜선택 버튼		
+
+		JPanel timeSelectPane = new JPanel();
+		timeSelectPane.setBounds(10, 680, 860, 70);
+		add(timeSelectPane);
+		timeSelectPane.setLayout(null);
+
+		// 년도 선택
+		Vector<Integer> yearCnt = new Vector<Integer>();
+		for (int i = 2020; i <= 2021; i++) {
+			yearCnt.add(i);
+		}
+		yearCBox = new JComboBox(yearCnt);
+		yearCBox.setBounds(12, 28, 83, 33);
+		yearCBox.setSelectedItem(setYear);
+		timeSelectPane.add(yearCBox);
+
+		yearCBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setYear = (int) yearCBox.getSelectedItem();
+				btn_state(false);
+			}
+		});
+
+		// 월 선택 + 일자 생성
+		Vector<Integer> monthCnt = new Vector<Integer>();
+		for (int i = 1; i <= 12; i++) {
+			monthCnt.add(i);
+		}
+		monthCBox = new JComboBox(monthCnt);
+		monthCBox.setBounds(136, 28, 41, 33);
+		monthCBox.setSelectedItem(setMonth);
+		timeSelectPane.add(monthCBox);
+		monthCBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dateCBox.removeAllItems();
+				setMonth = (int) monthCBox.getSelectedItem();
+//				System.out.println(monthCBox.getSelectedItem());
+				Calendar selectMonth = Calendar.getInstance();
+				selectMonth.set(Calendar.MONTH, setMonth - 1);
+				selectMonth.set(Calendar.YEAR, setYear);
+				int last = selectMonth.getActualMaximum(Calendar.DATE);
+				System.out.println("월 선택");
+				for (int i = 1; i <= last; i++) {
+					dateCBox.addItem(i);
+				}
+				btn_state(false);
+			}
+		});
+
+		// 일자 선택
+		Vector<Integer> dateCnt = new Vector<Integer>();
+		for (int i = 1; i <= 31; i++) {
+			dateCnt.add(i);
+		}
+		dateCBox = new JComboBox(dateCnt);
+		dateCBox.setBounds(219, 28, 41, 33);
+		timeSelectPane.add(dateCBox);
+		dateCBox.setSelectedItem(setDate);
+		dateCBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (dateCBox.getSelectedItem() != null) {
+					setDate = (int) dateCBox.getSelectedItem();
+				}
+				btn_state(false);
+				System.out.println("일자선택(셋데이트는??)>>" + setDate);
+			}
+		});
+
+		// 시작 시간 선택
+		timeStartCBox = new JComboBox();
+		timeStartCBox.setBounds(313, 28, 83, 33);
+		timeSelectPane.add(timeStartCBox);
+		for (int i = 0; i <= 23; i++) {
+			timeStartCBox.addItem(i);
+		}
+		timeStartCBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (timeStartCBox.getSelectedItem() != null) {
+					starttime = (int) timeStartCBox.getSelectedItem();
+				}
+				timeEndCbox.removeAllItems();
+				for (int i = starttime + 1; i <= 24; i++) {
+					timeEndCbox.addItem(i);
+				}
+				btn_state(false);
+			}
+		});
+
+		timeEndCbox = new JComboBox();
+		timeEndCbox.setBounds(428, 28, 83, 33);
+		timeSelectPane.add(timeEndCbox);
+		for (int i = 1; i <= 24; i++) {
+			timeEndCbox.addItem(i);
+		}
+		timeEndCbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (timeEndCbox.getSelectedItem() != null) {
+					endtime = (int) timeEndCbox.getSelectedItem();
+				}
+				btn_state(false);
+			}
+		});
+
+		JButton searchButton = new JButton("검색");
+		searchButton.setBounds(544, 30, 91, 28);
+		timeSelectPane.add(searchButton);
+		searchButton.addActionListener(new SearchBtnAct());
+
+		JLabel yearL = new JLabel("년");
+		yearL.setBounds(107, 28, 29, 33);
+		timeSelectPane.add(yearL);
+
+		JLabel monthL = new JLabel("월");
+		monthL.setBounds(189, 28, 29, 33);
+		timeSelectPane.add(monthL);
+
+		JLabel dateL = new JLabel("일");
+		dateL.setBounds(272, 28, 29, 33);
+		timeSelectPane.add(dateL);
+
+		JLabel timeSelecL = new JLabel("~");
+		timeSelecL.setBounds(408, 28, 29, 33);
+		timeSelectPane.add(timeSelecL);
+
+		JButton payButton = new JButton("결제");
+		payButton.setBounds(669, 21, 141, 40);
+		timeSelectPane.add(payButton);
+
+		comboList.add(monthCBox);
+		comboList.add(yearCBox);
+		comboList.add(dateCBox);
+
+	}
+
+	public void startTime_state() {
+		timeStartCBox.removeAllItems();
+		for (int i = nowHour + 1; i <= 23; i++) {
+			timeStartCBox.addItem(i);
+		}
+	}
+
+//	public void combo_setNowD() {
+//		System.out.println("작동하니???");
+//		yearCBox.setSelectedItem(setYear);
+//		monthCBox.setSelectedItem(setMonth);
+//		dateCBox.setSelectedItem(setDate);
+//	}
+
+	public void combo_state(boolean state) {
+		for (JComboBox box : comboList) {
+			box.setEnabled(state);
+		}
 	}
 
 	public void group_state(boolean state) {// 그룹버튼 활성/비활성
@@ -364,15 +540,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					jButton.setBackground(Color.blue);
 					lblNewLabel_7.setVisible(true);
 					lblNewLabel_8.setVisible(true);
-
 				}
 			}
 		}
-
 	}
 
 	public void setBtnColor() {
-
 		for (RoomProduct room : BaseFrame.getInstance().roomInfoList) {
 
 			for (Calendar cal : room.calendarList) {
@@ -397,7 +570,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					jButton.setBackground(Color.green);
 				}
 			}
-
 		}
 	}
 
@@ -406,7 +578,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
 			String roomName = DataManager.getInstance().roomMap.get(moveSeatId).name;
-			BaseFrame.getInstance().view("LoginMain");
+			BaseFrame.getInstance().openMainLayout(ack.reserListAll,ack.myReserList,null);
 			setBtnColor();
 		} else {
 
@@ -429,15 +601,15 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					if (!BaseFrame.getInstance().getSeatingArrUI().seatChange)// 좌석이동중이 아닐때
 					{
 						// 페이지 여는 순간 현재 상품 복사
-						BaseFrame.getInstance().roomProduct = roomData;
+						roomData.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
+						;
 
 						if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 							System.out.println("KIOSK");
-							BaseFrame.getInstance().payment.openPage();
+							RCalcFrame rcalc = new RCalcFrame(roomData);
 						} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 							System.out.println("MOBILE");
-							BaseFrame.getInstance().view("ReservationMain");
-							BaseFrame.getInstance().getReservationMain().init(roomData.name);
+							RCalcFrame rcalc = new RCalcFrame(roomData);
 						}
 
 						BaseFrame.getInstance().payment.resPossibleChk();
@@ -449,6 +621,74 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							}
 						}
 						SeatChangeOkPop frame = new SeatChangeOkPop();
+					}
+				}
+			}
+		}
+	}
+
+	public ArrayList<Calendar> createBuyData() {
+		ArrayList<Calendar> calList = new ArrayList<Calendar>();
+
+		for (int i = starttime; i < endtime; i++) {
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.MONTH, setMonth - 1);
+			cal.set(Calendar.DATE, setDate);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			cal.set(Calendar.HOUR_OF_DAY, i);
+			calList.add(cal);
+		}
+		return calList;
+	}
+
+	public void btn_state(boolean state) {
+		for (JButton allbtn : all) {
+			allbtn.setEnabled(state);
+		}
+	}
+
+	// 검색버튼 눌렀을 때 실행 작업(예약 데이터와 비교하여 좌석버튼 활성화)
+	class SearchBtnAct implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {// 모바일
+				checkDate(setMonth, setDate);
+			}
+
+			else// 키오스크
+			{
+				Calendar cal = Calendar.getInstance();
+				checkDate(cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+			}
+		}
+	}
+
+	void checkDate(int month, int date) {
+		if (starttime != 0) {
+			for (JButton seatBtn : all) {
+				seatBtn.setEnabled(true);
+			}
+		}
+
+		Calendar start = Calendar.getInstance();
+		start.set(Calendar.YEAR, setYear);
+		start.set(Calendar.MONTH, month);
+		start.set(Calendar.DATE, date);
+
+		for (RoomProduct roomInfo : BaseFrame.getInstance().roomInfoList) {
+			for (Calendar cal : roomInfo.calendarList) {
+				// 시간비교 => 년/월/일 비교
+				if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, start)) {
+					for (JButton seatBtn : all) {
+						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {
+							System.out.println(cal.get(Calendar.HOUR_OF_DAY));
+							if (seatBtn.getText().equals(roomInfo.name)) {
+								seatBtn.setEnabled(false);
+							}
+						}
 					}
 				}
 			}

@@ -25,6 +25,7 @@ import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 
 public class PaymentPopFrame extends JFrame implements Receivable {
+	RoomProduct room;
 
 	public PaymentPopFrame() {
 
@@ -53,6 +54,11 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 
 		setVisible(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public void openPage(RoomProduct room) {
+		setVisible(true);
+		this.room = room;
 	}
 
 	@Override

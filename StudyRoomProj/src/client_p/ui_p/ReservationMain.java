@@ -198,7 +198,7 @@ public class ReservationMain extends JPanel {
 		reservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().setCurrentRoomInfo(timeList);
-				RCalcFrame rcalc = new RCalcFrame();
+//				RCalcFrame rcalc = new RCalcFrame();
 
 				setMonth = nowMonth;
 
@@ -392,7 +392,6 @@ public class ReservationMain extends JPanel {
 				}
 			}
 		}
-
 	}
 
 	// 시간을 선택하는 동시에 예약하는 데이터값을 센드할 곳(timeList)에 저장

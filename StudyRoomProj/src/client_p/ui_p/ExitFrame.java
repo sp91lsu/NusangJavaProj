@@ -41,7 +41,7 @@ public class ExitFrame extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
-				room.isExit = true;
+//				
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();

@@ -227,6 +227,7 @@ public class MainLayout extends JPanel implements Receivable {
 			ScExitAck resPacket = (ScExitAck) packet;
 			if (resPacket.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().openMainLayout(resPacket.reserListAll, resPacket.myReserList, null);
+				BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE).isExit = true;
 			} else if (resPacket.eResult == EResult.FAIL) {
 				System.out.println("Επ½Η ½ΗΖΠ");
 			}
