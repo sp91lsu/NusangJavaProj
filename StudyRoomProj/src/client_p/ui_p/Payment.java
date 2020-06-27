@@ -284,8 +284,7 @@ public class Payment extends JFrame {
 	
 	public void updatePayment()
 	{
-		JOptionPane.showMessageDialog(null, "좌석현황이 업데이트되었습니다.");
-		
+//		JOptionPane.showMessageDialog(null, "좌석현황이 업데이트되었습니다.");
 		resPossibleChk();
 		System.out.println("중간에 예약함");
 	}
