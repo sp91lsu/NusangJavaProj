@@ -380,7 +380,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		yearCBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setYear = (int) yearCBox.getSelectedItem();
+				setYear = (int	) yearCBox.getSelectedItem();
 				btn_state(false);
 			}
 		});
