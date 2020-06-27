@@ -25,6 +25,7 @@ public class AddTimeFrame extends JFrame {
 	int endTime;
 	int timeChoice = 0;
 	int extension;
+	Calendar last;
 
 	public static void main(String[] args) {
 		AddTimeFrame frame = new AddTimeFrame();
@@ -52,7 +53,7 @@ public class AddTimeFrame extends JFrame {
 		payButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				timeChoice();
+				sendPacket();
 			}
 		});
 
@@ -61,7 +62,7 @@ public class AddTimeFrame extends JFrame {
 		contentPane.add(cancelButton);
 
 		Vector<Integer> timeCnt = new Vector<Integer>();
-		for (int i = 1; i <= extension; i++) {
+		for (int i = 1; i <= timeChoice(); i++) {
 			timeCnt.add(i);
 		}
 		JComboBox timeSelectCom = new JComboBox(timeCnt);
@@ -72,6 +73,7 @@ public class AddTimeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (timeSelectCom.getSelectedItem() != null)
 					timeChoice = (int) timeSelectCom.getSelectedItem();
+
 			}
 		});
 
@@ -79,11 +81,11 @@ public class AddTimeFrame extends JFrame {
 
 	}
 
-	public void timeChoice() {
+	public int timeChoice() {
 
 		RoomProduct room = BaseFrame.getInstance().getUsingRoom();
 		ArrayList<Calendar> myCalList = room.calendarList;
-		Calendar last = myCalList.get(0);
+		last = myCalList.get(0);
 		for (Calendar cal : BaseFrame.getInstance().getUsingRoom().calendarList) {
 			if (last.getTimeInMillis() < cal.getTimeInMillis()) {
 				last = cal;
@@ -107,20 +109,31 @@ public class AddTimeFrame extends JFrame {
 			}
 		}
 
+		if (extension > 0) {
+			extension -= 1;
+		} else if (extension == 24) {
+			extension = 0;
+		}
 		System.out.println("연장할 수 있는 시간 " + extension);
-//		RoomProduct roomProduct = room.getClone();
-//		myCalList = new ArrayList<Calendar>();
-//		for (int i = 1; i <= timeChoice; i++) {
-//			Calendar cal = Calendar.getInstance();
-//			cal.set(Calendar.MINUTE, 0);
-//			cal.set(Calendar.SECOND, 0);
-//			cal.set(Calendar.MILLISECOND, 0);
-//			cal.set(Calendar.HOUR_OF_DAY, last.get(Calendar.HOUR_OF_DAY) + i);
-//			myCalList.add(cal);
-//		}
-//		roomProduct.calendarList = myCalList;
-		//CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
-		//ClientNet.getInstance().sendPacket(packet);
+
+		return extension;
 	}
 
+	public void sendPacket() {
+		RoomProduct room = BaseFrame.getInstance().getUsingRoom();
+		ArrayList<Calendar> myCalList = room.calendarList;
+		RoomProduct roomProduct = room.getClone();
+		myCalList = new ArrayList<Calendar>();
+		for (int i = 1; i <= timeChoice; i++) {
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			cal.set(Calendar.HOUR_OF_DAY, last.get(Calendar.HOUR_OF_DAY) + i);
+			myCalList.add(cal);
+		}
+		roomProduct.calendarList = myCalList;
+		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
+		ClientNet.getInstance().sendPacket(packet);
+	}
 }
