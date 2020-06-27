@@ -249,7 +249,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 			}
 			if ((ack.eResult == EResult.SUCCESS) && ack.is_hp) {//핸드폰성공
 				hpDialog = new JDialog();
-				hpDialog.setBounds(50, 50, 150, 150);
+				hpDialog.setBounds(50, 50, 200, 150);
 				hpDialog.getContentPane().setLayout(new GridLayout(2, 1));
 				hpLabel = new JLabel("사용 가능한 핸드폰 입니다.");
 				hpButton = new JButton("확인");
@@ -257,8 +257,9 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 					public void actionPerformed(ActionEvent e) {
 						JButton bbb = (JButton) e.getSource();
 						if (bbb.getText().equals("확인")) {
-							jd2.setVisible(false);
+							hpDialog.setVisible(false);
 							setVisible(true);
+							
 						}
 					}
 				});
@@ -287,7 +288,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				jd2.setVisible(true);
 			} else if ((ack.eResult == EResult.DUPLICATEED_ID) && ack.is_hp) {// hp중복
 				jd2 = new JDialog();
-				jd2.setBounds(50, 50, 150, 150);
+				jd2.setBounds(50, 50, 200, 150);
 				jd2.getContentPane().setLayout(new GridLayout(2, 1));
 				jl2 = new JLabel("중복된 핸드폰 입니다.");
 				jb2 = new JButton("확인");
