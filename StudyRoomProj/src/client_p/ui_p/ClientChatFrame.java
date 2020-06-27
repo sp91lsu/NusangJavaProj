@@ -42,15 +42,15 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		window.getContentPane().add(new ClientChatFrame());
 		window.setVisible(true);
 	}
-	
+
 	public ClientChatFrame() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{454, 0};
-		gridBagLayout.rowHeights = new int[]{570, 126, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 454, 0 };
+		gridBagLayout.rowHeights = new int[] { 570, 126, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
@@ -58,10 +58,10 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
 		add(scrollPane, gbc_scrollPane);
-		
+
 		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
-		
+
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -69,26 +69,26 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gbc_panel.gridy = 1;
 		add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{336, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[] { 336, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 0, 0 };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-		
+
 		keyChat = new TextField();
 		keyChat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text = "["+BaseFrame.getInstance().userData.name+"]: "+keyChat.getText() + "\n";
-				//textArea.append(text);
+				text = "[" + BaseFrame.getInstance().userData.name + "]: " + keyChat.getText() + "\n";
+				// textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
-				
+
 				keyChat.setText("");
-				
+
 				keyChat.selectAll();
 				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-				
+
 			}
 		});
 		keyChat.setColumns(10);
@@ -98,7 +98,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gbc_keyChat.gridx = 0;
 		gbc_keyChat.gridy = 0;
 		panel.add(keyChat, gbc_keyChat);
-		
+
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -106,29 +106,29 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gbc_panel_1.gridy = 0;
 		panel.add(panel_1, gbc_panel_1);
 		panel_1.setLayout(new GridLayout(2, 1, 0, 0));
-		
+
 		JButton sendButton = new JButton("전송");
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text = "["+BaseFrame.getInstance().userData.name+"]: "+keyChat.getText() + "\n";
-				//textArea.append(text);
+				text = "[" + BaseFrame.getInstance().userData.name + "]: " + keyChat.getText() + "\n";
+				// textArea.append(text);
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
-			
+
 				keyChat.setText("");
-				
+
 				keyChat.selectAll();
 				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 			}
 		});
 		panel_1.add(sendButton);
-		
+
 		JButton exitButton = new JButton("종료");
 		exitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("MainLayout");
+				BaseFrame.getInstance().openMainLayout(null, null, null);
 			}
 		});
 		panel_1.add(exitButton);
@@ -147,6 +147,5 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 	}
-	
 
 }

@@ -123,7 +123,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-				BaseFrame.getInstance().view("LoginMain");
+				BaseFrame.getInstance().openMainLayout(null, null, packetAck.lockerList);
 
 				getLockerMain().updateLocker(packetAck.lockerList);
 			} else {
@@ -132,8 +132,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScBuyLockerAck.class) {
 			ScBuyLockerAck packetAck = (ScBuyLockerAck) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-				BaseFrame.getInstance().view("LoginMain");
-
+				BaseFrame.getInstance().openMainLayout(null, null, packetAck.lockerList);
 				getLockerMain().updateLocker(packetAck.lockerList);
 
 			} else {
@@ -222,8 +221,20 @@ public class BaseFrame extends JFrame implements Receivable {
 		return (LockerMain) jPanelArrl.get(6);
 	}
 
-	public MainLayout openMainLayout() {
-		MainLayout layout =	(MainLayout) jPanelArrl.get(1);
+	public MainLayout openMainLayout(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
+			ArrayList<LockerData> lockerList) {
+
+		if (reserAll != null) {
+			roomInfoList = reserAll;
+		}
+		if (myReser != null) {
+			System.out.println(userData);
+			userData.myReservationList = myReser;
+		}
+		if (lockerList != null) {
+			this.lockerlist = lockerList;
+		}
+		MainLayout layout = (MainLayout) jPanelArrl.get(1);
 		BaseFrame.getInstance().view("MainLayout");
 		layout.updatePage();
 		return layout;

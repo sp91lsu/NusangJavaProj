@@ -45,10 +45,6 @@ public class ExitFrame extends JFrame {
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
-				BaseFrame.getInstance().view("MainLayout");
-				System.out.println("유저데이터변경전:" + BaseFrame.getInstance().userData);
-				BaseFrame.getInstance().userData = null;
-				System.out.println("유저데이터변경후:" + BaseFrame.getInstance().userData);
 			}
 		});
 		getContentPane().add(okButton);

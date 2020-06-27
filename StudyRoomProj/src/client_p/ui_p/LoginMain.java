@@ -61,22 +61,21 @@ public class LoginMain extends JPanel implements Receivable {
 		idTextF.setBounds(300, 156, 328, 55);
 		add(idTextF);
 		idTextF.setColumns(10);
-		
+
 		changeBox = new JCheckBox("휴대폰 번호로 로그인하기");
 		changeBox.setBounds(300, 220, 300, 70);
 		changeBox.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(changeBox.isSelected() == true) {
+				if (changeBox.isSelected() == true) {
 					idLabel.setText("Phone");
 					idTextF.setText("등록한 휴대폰 번호를 입력하세요");
-				}else {
+				} else {
 					idLabel.setText("ID");
 					idTextF.setText("등록한 ID를 입력하세요");
 				}
-				
-				
+
 			}
 		});
 		add(changeBox);
@@ -98,7 +97,8 @@ public class LoginMain extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), !changeBox.isSelected());
 				ClientNet.getInstance().sendPacket(packet);
-			}});
+			}
+		});
 
 		JButton signUpBt = new JButton("회원가입");
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -107,7 +107,8 @@ public class LoginMain extends JPanel implements Receivable {
 		signUpBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().signUpFrame.setVisible(true);
-			}});
+			}
+		});
 	}
 
 	@Override
@@ -118,19 +119,13 @@ public class LoginMain extends JPanel implements Receivable {
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().userData = ack.userdata;
 			System.out.println("내가 예약한 내용");
-			for (RoomProduct room : BaseFrame.getInstance().userData.myReservationList) {
-				System.out.println(room);
-			}
-			BaseFrame.getInstance().roomInfoList = ack.roomList;
-			// BaseFrame.getInstance().updateInfo(ack.roomList);
-			BaseFrame.getInstance().lockerlist = ack.lockerList;
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
 				passwordField.setText("");
-				
-				BaseFrame.getInstance().openMainLayout();
-				
+
+				BaseFrame.getInstance().openMainLayout(ack.roomList, null, ack.lockerList);
+
 				chkroominfo = new CheckRoomInfo();
 				chkroominfo.start();
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
