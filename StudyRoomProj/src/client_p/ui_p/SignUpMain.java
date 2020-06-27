@@ -38,7 +38,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	JLabel label_1,label_2,label_3,label_4,label_5;
 	JLabel jl,jl2,hpLabel;
 	JButton jb,jb2,hpButton;
-	JButton signUpBtn;
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
 	
@@ -104,7 +103,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		textList.add(phoneNumTextField);
 		phoneNumTextField.addMouseListener(this);
 		
-		signUpBtn = new JButton("회원가입");
+		JButton signUpBtn = new JButton("회원가입");
 		signUpBtn.setBounds(192, 368, 140, 42);
 		mainPane.add(signUpBtn);
 		signUpBtn.addActionListener(new ActionListener() {
@@ -204,7 +203,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 				jd.getContentPane().add(jb);
 				jd.setVisible(true);
 			}else if(ack.eResult == EResult.DUPLICATEED_ID) {
-				signUpBtn.setEnabled(false);
 				jd = new JDialog();
 				jd.setBounds(50, 50, 150, 150);
 				jd.getContentPane().setLayout(new GridLayout(2, 1));
@@ -216,7 +214,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 						if (bbb.getText().equals("확인")) {
 							jd.setVisible(false);
 							setVisible(true);
-							
 						}
 					}
 				});
@@ -242,8 +239,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 						if (bbb.getText().equals("확인")) {
 							jd2.setVisible(false);
 							setVisible(true);
-							signUpBtn.setEnabled(true);
-
 						}
 					}
 				});
@@ -264,8 +259,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 						if (bbb.getText().equals("확인")) {
 							jd2.setVisible(false);
 							setVisible(true);
-							signUpBtn.setEnabled(true);
-
 						}
 					}
 				});
@@ -285,7 +278,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 						if (bbb.getText().equals("확인")) {
 							jd2.setVisible(false);
 							setVisible(true);
-							signUpBtn.setEnabled(false);
 						}
 					}
 				});
@@ -305,7 +297,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 						if (bbb.getText().equals("확인")) {
 							jd2.setVisible(false);
 							setVisible(true);
-							signUpBtn.setEnabled(false);
 						}
 					}
 				});
@@ -367,7 +358,6 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		} catch (Exception e) {
 			
 		}
-
 	}
 
 	public void textFieldSet() {//회원가입 텍스트 필드,라벨내용 초기화
@@ -394,22 +384,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 			ClientNet.getInstance().sendPacket(packet);
 		}
 		else {
-			JDialog chkJd = new JDialog();
-			chkJd.setBounds(100, 100, 200, 200);
-			chkJd.getContentPane().setLayout(new GridLayout(2,1));
-			JLabel chkLb = new JLabel("정확한 ID 형식을 입력하세요");
-			chkJd.getContentPane().add(chkLb);
-			JButton chkBt = new JButton("확인");
-			chkJd.getContentPane().add(chkBt);
-			chkBt.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					chkJd.dispose();
-					
-				}
-			});
-			chkJd.setVisible(true);
+			fail("정확한ID");
 		}
 	}
 	
@@ -422,21 +397,23 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 			ClientNet.getInstance().sendPacket(packet);
 		}
 		else {
-			JDialog chkph = new JDialog();
-			chkph.setBounds(100, 100, 200, 200);
-			chkph.getContentPane().setLayout(new GridLayout(2,1));
-			JLabel chkLb = new JLabel("정확한 핸드폰 형식을 입력하세요");
-			chkph.getContentPane().add(chkLb);
-			JButton hpchkBt = new JButton("확인");
-			chkph.getContentPane().add(hpchkBt);
-			hpchkBt.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					chkph.dispose();
-				}
-			});
-			chkph.setVisible(true);
+			fail("정확한 핸드폰");
 		}
+	}
+	void fail(String type)
+	{
+		JDialog chkJd = new JDialog();
+		chkJd.setBounds(100, 100, 200, 200);
+		chkJd.getContentPane().setLayout(new GridLayout(2,1));
+		JLabel chkLb = new JLabel(type+" 형식을 입력하세요");
+		chkJd.getContentPane().add(chkLb);
+		JButton chkBt = new JButton("확인");
+		chkJd.getContentPane().add(chkBt);
+		chkBt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				chkJd.dispose();
+			}});
+		chkJd.setVisible(true);
 	}
 	
 	@Override
