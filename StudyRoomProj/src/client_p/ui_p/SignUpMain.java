@@ -41,6 +41,14 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
 	
+	String korean = "[°¡-ÆR]*";
+	String engNum = "[a-zA-Z0-9].{7}";
+	String passChk = "[a-zA-Z0-9].{7}";
+	String phoneChk = "010.[0-9].{6,7}";
+	String name,id,pass,phoneNum,pass2 = null; 
+	
+	
+	
 	public SignUpMain(){
 		setBounds(100, 100, 900, 1000);
 		JPanel mainPane = new JPanel();
@@ -116,8 +124,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		mainPane.add(idChkBtn);
 		idChkBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText());
-				ClientNet.getInstance().sendPacket(packet);
+				idChk();
 			}});
 		
 		
@@ -258,53 +265,47 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 		
 	}
 
-	void check()
-	{
+	void check() {
 		
-		String korean = "[°¡-ÆR]*";
-		String engNum = "[a-zA-Z0-9]*.{7}";
-		String passChk = "[a-zA-Z0-9]*.{7}";
-		String phoneChk = "010.[0-9]*.{6,7}";
-		String name = nameTextField.getText();
-		String id = idTextField.getText();
-		String pass = passwordField.getText();
-		String phoneNum = phoneNumTextField.getText();
-		String pass2 = check_passwordField.getText();
-		
+		name = nameTextField.getText();
+		id = idTextField.getText();
+		pass = passwordField.getText();
+		phoneNum = phoneNumTextField.getText();
+		pass2 = check_passwordField.getText();
 		try {
-			
-				if(name.matches(korean)) {
-					label_1.setText("ÀÔ·Â È®ÀÎ");
-				}else {
-					SignUpPop pop = new SignUpPop();
-					return;
-				}
-				if(id.matches(engNum)) {
-					label_5.setText("ÀÔ·Â È®ÀÎ");
-				}else {
-					SignUpPop pop = new SignUpPop();
-					return;
-				}
-				if(pass.matches(passChk)) {
-					label_2.setText("ÀÔ·Â È®ÀÎ");
-				}else {
-					SignUpPop pop = new SignUpPop();
-					return;
-				}
-				if(phoneNum.matches(phoneChk)) {
-					label_4.setText("ÀÔ·Â È®ÀÎ");
-				}else {
-					SignUpPop pop = new SignUpPop();
-					return;
-				}
-				if(pass.matches(pass2)) {
-					label_3.setText("ÀÔ·Â È®ÀÎ");
-				}else {
-					SignUpPop pop = new SignUpPop();
-					return;
-				}
-			
-			CsSignUpSyn packet =new CsSignUpSyn(nameTextField.getText(), idTextField.getText(), passwordField.getText(), phoneNumTextField.getText(), "", "");
+			if (name.matches(korean)) {
+				label_1.setText("ÀÔ·Â È®ÀÎ");
+			} else {
+				SignUpPop pop = new SignUpPop();
+				return;
+			}
+			if (id.matches(engNum)) {
+				label_5.setText("ÀÔ·Â È®ÀÎ");
+			} else {
+				SignUpPop pop = new SignUpPop();
+				return;
+			}
+			if (pass.matches(passChk)) {
+				label_2.setText("ÀÔ·Â È®ÀÎ");
+			} else {
+				SignUpPop pop = new SignUpPop();
+				return;
+			}
+			if (phoneNum.matches(phoneChk)) {
+				label_4.setText("ÀÔ·Â È®ÀÎ");
+			} else {
+				SignUpPop pop = new SignUpPop();
+				return;
+			}
+			if (pass.matches(pass2)) {
+				label_3.setText("ÀÔ·Â È®ÀÎ");
+			} else {
+				SignUpPop pop = new SignUpPop();
+				return;
+			}
+
+			CsSignUpSyn packet = new CsSignUpSyn(nameTextField.getText(), idTextField.getText(),
+					passwordField.getText(), phoneNumTextField.getText(), "", "");
 			ClientNet.getInstance().sendPacket(packet);
 		} catch (Exception e) {
 			
@@ -312,6 +313,46 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener{
 
 	}
 
+	public void textFieldSet() {//È¸¿ø°¡ÀÔ ÅØ½ºÆ® ÇÊµå,¶óº§³»¿ë ÃÊ±âÈ­
+		for (JTextField text : textList) {
+			text.setText("");
+		}
+		
+		for (JPasswordField pText : pTextList) {
+			pText.setText("");
+		}
+		
+		label_1.setText("ÇÑ±Û·Î ÀÔ·ÂÇÏ¼¼¿ä");
+		label_2.setText("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		label_3.setText("ÀÔ·ÂÇÑ ºñ¹Ð¹øÈ£¿Í °°°Ô ÀÔ·ÂÇÏ¼¼¿ä");
+		label_4.setText("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
+		label_5.setText("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+	}
+	
+	void idChk(){
+		id = idTextField.getText();
+		if (!id.matches(engNum)) {
+			JDialog chkJd = new JDialog();
+			chkJd.setBounds(100, 100, 200, 200);
+			chkJd.setLayout(new GridLayout(2,1));
+			JLabel chkLb = new JLabel("Á¤È®ÇÑ ID Çü½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+			chkJd.add(chkLb);
+			JButton chkBt = new JButton("È®ÀÎ");
+			chkJd.add(chkBt);
+			chkBt.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					chkJd.dispose();
+					
+				}
+			});
+			chkJd.setVisible(true);
+		}else {
+			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText());
+			ClientNet.getInstance().sendPacket(packet);
+		}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
