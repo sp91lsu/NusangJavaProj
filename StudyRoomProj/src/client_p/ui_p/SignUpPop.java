@@ -16,7 +16,7 @@ public class SignUpPop extends JFrame {
 		jdd.setBounds(50, 50, 100, 100);
 		jdd.setLayout(new GridLayout(2, 1));
 		
-		JLabel jll = new JLabel("정보를 입력하세요");
+		JLabel jll = new JLabel("정확한 정보를  입력하세요");
 		jdd.add(jll);
 		
 		JButton jbb = new JButton("확인");
