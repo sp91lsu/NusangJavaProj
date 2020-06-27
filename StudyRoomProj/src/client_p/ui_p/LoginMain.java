@@ -119,6 +119,7 @@ public class LoginMain extends JPanel implements Receivable {
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().userData = ack.userdata;
 			System.out.println("내가 예약한 내용");
+			 BaseFrame.getInstance().getSeatingArrUI().btn_state(false);
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
