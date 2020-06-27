@@ -59,26 +59,4 @@ public class UserData extends PacketData {
 		}
 		return null;
 	}
-
-	public RoomProduct getTodayLast() {
-		Calendar current = Calendar.getInstance();
-		Calendar last = null;
-		RoomProduct room = getTodayRoom().getClone();
-		if (room != null) {
-			for (Calendar cal : room.calendarList) {
-				if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, current)) {
-					if (last == null) {
-						last = cal;
-					}
-					if (last.getTimeInMillis() < cal.getTimeInMillis()) {
-						last = cal;
-					}
-				}
-			}
-		}
-
-		room.calendarList = new ArrayList<Calendar>();
-		room.calendarList.add(last);
-		return room;
-	}
 }

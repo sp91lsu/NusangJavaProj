@@ -1,5 +1,8 @@
 package client_p.ui_p;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
@@ -10,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import client_p.ClientNet;
+import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
 
 public class AddTimeFrame extends JFrame {
@@ -18,6 +23,8 @@ public class AddTimeFrame extends JFrame {
 
 	int startTime;
 	int endTime;
+	int timeChoice = 0;
+	int extension;
 
 	public static void main(String[] args) {
 		AddTimeFrame frame = new AddTimeFrame();
@@ -42,42 +49,78 @@ public class AddTimeFrame extends JFrame {
 		JButton payButton = new JButton("결제");
 		payButton.setBounds(91, 188, 110, 43);
 		contentPane.add(payButton);
+		payButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timeChoice();
+			}
+		});
 
 		JButton cancelButton = new JButton("취소");
 		cancelButton.setBounds(243, 188, 110, 43);
 		contentPane.add(cancelButton);
 
 		Vector<Integer> timeCnt = new Vector<Integer>();
-		for (int i = 1; i <= 24; i++) {
+		for (int i = 1; i <= extension; i++) {
 			timeCnt.add(i);
 		}
 		JComboBox timeSelectCom = new JComboBox(timeCnt);
 		timeSelectCom.setBounds(185, 112, 73, 31);
 		contentPane.add(timeSelectCom);
+		timeSelectCom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (timeSelectCom.getSelectedItem() != null)
+					timeChoice = (int) timeSelectCom.getSelectedItem();
+			}
+		});
 
 		setVisible(true);
-		 timeChoice() ;
+
 	}
 
 	public void timeChoice() {
 
-		RoomProduct lastRoom = BaseFrame.getInstance().userData.getTodayLast();
+		RoomProduct room = BaseFrame.getInstance().getUsingRoom();
+		ArrayList<Calendar> myCalList = room.calendarList;
+		Calendar last = myCalList.get(0);
+		for (Calendar cal : BaseFrame.getInstance().getUsingRoom().calendarList) {
+			if (last.getTimeInMillis() < cal.getTimeInMillis()) {
+				last = cal;
+			}
+		}
 
-		Calendar startCal = lastRoom.calendarList.get(0);
-
-		System.out.println("내가 이용하고 있는 룸 " + lastRoom.name);
-		for (RoomProduct comRoom : BaseFrame.getInstance().roomInfoList) {
-
-			if (comRoom.id == lastRoom.id) {
-				for (Calendar cal : comRoom.calendarList) {
-
-					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, startCal, cal)
-							&& startCal.getTimeInMillis() < cal.getTimeInMillis()) {
-						System.out.println("내 마지막 시간 뒤에 누군가가 있따" + cal.getTime());
+		extension = 24;
+		for (RoomProduct rp : BaseFrame.getInstance().roomInfoList) {
+			if (rp.name.equals(room.name)) {
+				for (Calendar calMe : rp.calendarList) {
+					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, Calendar.getInstance(), calMe)) {
+						int end = calMe.get(Calendar.HOUR_OF_DAY);
+						int start = last.get(Calendar.HOUR_OF_DAY);
+						if (start < end) {
+							if (extension > end - start) {
+								extension = end - start;
+							}
+						}
 					}
 				}
 			}
 		}
+
+		System.out.println("연장할 수 있는 시간 " + extension);
+//		RoomProduct roomProduct = room.getClone();
+//		myCalList = new ArrayList<Calendar>();
+//		for (int i = 1; i <= timeChoice; i++) {
+//			Calendar cal = Calendar.getInstance();
+//			cal.set(Calendar.MINUTE, 0);
+//			cal.set(Calendar.SECOND, 0);
+//			cal.set(Calendar.MILLISECOND, 0);
+//			cal.set(Calendar.HOUR_OF_DAY, last.get(Calendar.HOUR_OF_DAY) + i);
+//			myCalList.add(cal);
+//		}
+//		roomProduct.calendarList = myCalList;
+		//CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
+		//ClientNet.getInstance().sendPacket(packet);
 	}
 
 }

@@ -9,7 +9,6 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsCloseSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
-import client_p.packet_p.syn_p.CsGetExtensionValueSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -44,7 +43,6 @@ public class PacketMap {
 		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); //사물함 구매
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); //중복아이디 확인 
 		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); //예약룸  
-		map.put(CsGetExtensionValueSyn.class, new MethGetExtensionValueSyn()); //시간연장값 가지고오기   
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {

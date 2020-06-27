@@ -46,6 +46,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	JComboBox timeEndCbox;
 
 	int setMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+	int nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 	int setYear = Calendar.getInstance().get(Calendar.YEAR);
 	int setDate = Calendar.getInstance().get(Calendar.DATE);
 	int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -384,7 +385,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		// 월 선택 + 일자 생성
 		Vector<Integer> monthCnt = new Vector<Integer>();
-		for (int i = 1; i <= 12; i++) {
+		for (int i = nowMonth; i <= 12; i++) {
 			monthCnt.add(i);
 		}
 		monthCBox = new JComboBox(monthCnt);
@@ -495,6 +496,13 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		comboList.add(yearCBox);
 		comboList.add(dateCBox);
 
+	}
+	
+	public void monthCom_state() {
+		monthCBox.removeAllItems();
+		for (int i = nowHour; i <= 12; i++) {
+			monthCBox.addItem(i);
+		}
 	}
 
 	public void startTime_state() {

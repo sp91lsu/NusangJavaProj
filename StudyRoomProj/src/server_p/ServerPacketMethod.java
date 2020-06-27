@@ -10,7 +10,6 @@ import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
-import client_p.packet_p.syn_p.CsGetExtensionValueSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -34,7 +33,6 @@ import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
-import server_p.packet_p.ack_p.ScGetExtexsionAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -322,22 +320,6 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 	}
 }
 
-class MethGetExtensionValueSyn implements ServerPacketMethod {
-
-	public void receive(SocketClient client, PacketBase packet) {
-		CsGetExtensionValueSyn resPacket = (CsGetExtensionValueSyn) packet;
-		RoomDao roomDao = new RoomDao();
-		int value = 0;
-		try {
-			value = roomDao.getNextTime(resPacket.uuid, resPacket.pid);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		ScGetExtexsionAck ack = new ScGetExtexsionAck(EResult.SUCCESS, value);
-		client.sendPacket(ack);
-	}
-}
 
 //현재 이용중 고객 조회
 class MethMsCurrMemListSyn implements ServerPacketMethod {
