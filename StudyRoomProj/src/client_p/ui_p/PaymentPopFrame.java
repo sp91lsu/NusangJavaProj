@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import data_p.product_p.ProductData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
@@ -37,7 +38,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 //
 //					//System.out.println(cal.getTime());
 //				}
-				CsBuyRoomSyn packet = new CsBuyRoomSyn(BaseFrame.getInstance().roomProduct,
+				CsBuyRoomSyn packet = new CsBuyRoomSyn(room,
 						BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
 				BaseFrame.getInstance().getReservationMain().resetResInfo();
