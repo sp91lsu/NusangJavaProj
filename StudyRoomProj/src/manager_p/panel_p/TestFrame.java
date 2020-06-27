@@ -15,7 +15,6 @@ public class TestFrame extends JFrame {
 	JTabbedPane tabbedPane = new JTabbedPane();
 	LockerRoom pnl_Locker = new LockerRoom();
 	SetPrice pnl_SetPrice = new SetPrice();
-	hgr ef = new hgr();
 	
 
 	public static void main(String[] args) {
@@ -37,7 +36,6 @@ public class TestFrame extends JFrame {
 		setBounds(40, 100, 1000, 800);
 		getContentPane().add(tabbedPane);
 		tabbedPane.add("사물함", pnl_Locker);
-		tabbedPane.add("사물함2", ef);
 		tabbedPane.add("요금 관리", pnl_SetPrice);
 	
 //		JPanel contentPane = new JPanel(new BorderLayout());;

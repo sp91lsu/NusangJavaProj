@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,12 +19,14 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
-import data_p.ExcelRead_SeatExcel;
+import data_p.ExcelRead_PriceExcel;
+import data_p.ExcelWriter_1cel_Price;
+import data_p.ExcelWriter_UpdateColumn;
 
 public class SetPrice extends JPanel {
 	JFrame tfram;
 	private String header[] = { "이용석", "시간당 금액", "단위" };
-	private String contents[][] = new String [new ExcelRead_SeatExcel().rowDataArr(1).size()][header.length];
+	private String contents[][] = new String [new ExcelRead_PriceExcel().rowDataArr(1,"DataTable/RoomData2.xlsx").size()][header.length];
 	private DefaultTableModel tableModel;
 	private JTable table;
 	
@@ -80,10 +83,10 @@ public class SetPrice extends JPanel {
 		gbc_scrollPane_6_2.gridy = 1;
 		panel_10_2.add(scrollPane_6_2, gbc_scrollPane_6_2);
 		
-		ExcelRead_SeatExcel seatEx = new ExcelRead_SeatExcel();
-		for (int i = 0; i < new ExcelRead_SeatExcel().rowDataArr(1).size(); i++) {
-			contents[i][0] = seatEx.rowDataArr(1).get(i);
-			contents[i][1] = seatEx.rowDataArr(2).get(i);
+		ExcelRead_PriceExcel seatEx = new ExcelRead_PriceExcel();
+		for (int i = 0; i < new ExcelRead_PriceExcel().rowDataArr(1,"DataTable/RoomData2.xlsx").size(); i++) {
+			contents[i][0] = seatEx.rowDataArr(1,"DataTable/RoomData2.xlsx").get(i);
+			contents[i][1] = seatEx.rowDataArr(2,"DataTable/RoomData2.xlsx").get(i);
 			contents[i][2] = "원";
 		}
 		System.out.println(contents[2][1]);
@@ -113,14 +116,18 @@ public class SetPrice extends JPanel {
 		
 		JButton btn_SetPrice = new JButton("적용");
 		btn_SetPrice.addActionListener(new ActionListener() {
-			
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int columCnt = table.getColumnCount();
-				int rowCnt = table.getRowCount();
-				for (int i = 0; i < columCnt; i++) {
-					
+				int columCnt = header.length;
+				int rowCnt = contents.length;
+				for (int i = 1; i <= columCnt-1; i++) {
+					ArrayList<String> arr = new ArrayList<String>();
+					for (int j = 0; j < rowCnt; j++) {
+						System.out.println((String) table.getValueAt(j, i));
+						arr.add((String) table.getValueAt(j, i));
+					}
+					System.out.println(i+"번쨰 arr 사이즈"+arr.size());
+					new ExcelWriter_UpdateColumn(arr, i);
 				}
 			}
 		});

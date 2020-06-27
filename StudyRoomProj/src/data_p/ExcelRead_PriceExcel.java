@@ -12,13 +12,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelRead_PriceExcel {
 	
-	public ArrayList<String> rowDataArr(int column){
+	public ArrayList<String> rowDataArr(int column,String dataPath){
 		ArrayList<String> arr = new ArrayList<String>();
 		FileInputStream fis;
 		XSSFWorkbook workbook;
 		XSSFSheet sheet;
 		try {
-			fis = new FileInputStream("DataTable/RoomData.xlsx");
+			fis = new FileInputStream(dataPath);
 			workbook=new XSSFWorkbook(fis);
 		
 		int rowindex=0;
@@ -73,7 +73,7 @@ public class ExcelRead_PriceExcel {
 
 	public static void main(String[] args) {
 		
-		ArrayList<String> s = new ExcelRead_PriceExcel().rowDataArr(2);
+		ArrayList<String> s = new ExcelRead_PriceExcel().rowDataArr(2,"DataTable/RoomData2.xlsx");
 		System.out.println(s.size());
 		System.out.println(s.get(0));
 	}

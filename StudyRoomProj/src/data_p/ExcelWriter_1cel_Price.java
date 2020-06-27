@@ -11,20 +11,19 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelWriter_PriceExcel {
+public class ExcelWriter_1cel_Price {
 	double roomID;
 	int pirce;
 
-	public ExcelWriter_PriceExcel(int roomID, int price) {
+	public ExcelWriter_1cel_Price(int roomID, int price) {
 		super();
 		this.roomID = roomID;
 		this.pirce = price;
-		ee();
 	}
 		
 	void ee() {
         try {
-        	File file = new File("DataTable/RoomData.xlsx");
+        	File file = new File("DataTable/RoomData2.xlsx");
         	
         	// ¿¢¼¿ ÆÄÀÏ ¿ÀÇÂ
         	XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
@@ -82,7 +81,7 @@ public class ExcelWriter_PriceExcel {
 	}
 
 	public static void main(String[] args) {
-		new ExcelWriter_PriceExcel(1001, 2000);
+		new ExcelWriter_1cel_Price(1002, 6000).ee();
 		
 	}
 

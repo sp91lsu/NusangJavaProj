@@ -889,11 +889,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 			
 			dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
 			table = new JTable(dTable5);
-//			table.getColumn("이용석").setPreferredWidth(100);
-//			table.getColumn("예약자").setPreferredWidth(100);
-//			table.getColumn("예약시간").setPreferredWidth(400);
-//			table.setCellSelectionEnabled(true);
-//			table.setColumnSelectionAllowed(true);
 			table.setRowHeight(27);
 			table.setFont(new Font("새굴림", Font.PLAIN, 25));
 			table.setFillsViewportHeight(true);
@@ -904,34 +899,3 @@ public class ManagerWindow extends JFrame implements Receivable {
 		
 	}
 }
-
-//class CardSwitch implements ActionListener {
-//
-//	CardLayout card;
-//	JPanel jp;
-//
-//	public CardSwitch(JPanel parentPanel, CardLayout cardLay) {
-//		this.card = cardLay;
-//		this.jp = parentPanel;
-//	}
-//
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		String str = e.getActionCommand();
-//		switch (str) {
-//		case "현재 이용중 고객":
-//			card.show(jp, "scrollPane_3");
-//			break;
-//		case "전체 고객":
-//			card.show(jp, "scrollPane_3_1");
-//			break;
-////		case " 검색":
-////			card.show(jp, "scrollPane_5");
-////			break;
-//
-//		default:
-//			break;
-//		}
-//	}
-//
-//}
