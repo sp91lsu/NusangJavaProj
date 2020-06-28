@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsChatSyn;
 import manager_p.ack_p.MsChatConnectAck;
+import manager_p.panel_p.Chatting;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
 public class ChatReqDialog extends JDialog {
@@ -29,7 +31,7 @@ public class ChatReqDialog extends JDialog {
 		dialog.setVisible(true);
 	}
 
-	public ChatReqDialog(ManagerWindow mw,SMChatConnectSyn smc) {
+	public ChatReqDialog(ManagerWindow mw ,SMChatConnectSyn smc) {
 		this.mw = mw;
 		this.smc = smc;
 //		userName = smc.name;
@@ -64,7 +66,7 @@ public class ChatReqDialog extends JDialog {
 						packet.setCip(smc.clientIp);
 						packet.setManagerIp(smc.managerIp);
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
-						mw.chatSyn =csc;
+						mw.pnl_Chatting.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
 						mw.tabbedPane.setSelectedIndex(6);
 					}
