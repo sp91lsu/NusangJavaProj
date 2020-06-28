@@ -237,6 +237,10 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		ArrayList<RoomProduct> myReserList = roomDao.findUserRoom(recPacket.userUUID, false);
 		ArrayList<RoomProduct> myExitList = roomDao.findUserRoom(recPacket.userUUID, true);
 		ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList, myExitList);
+
+		ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
+
+		MyServer.getInstance().broadCast(client, roomCast);
 		client.sendPacket(ack);
 	}
 }

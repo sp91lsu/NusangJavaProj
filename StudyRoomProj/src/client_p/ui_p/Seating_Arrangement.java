@@ -672,7 +672,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					for (RoomObj seatBtn : all) {
 						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {
 							System.out.println(cal.get(Calendar.HOUR_OF_DAY));
-							if (roomInfo.equals(seatBtn.room.id)) {
+							if (roomInfo.id.equals(seatBtn.room.id)) {
 								seatBtn.setState(EState.USE);
 							}
 						}
