@@ -55,8 +55,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openSeatingArrUI(EEnter.PRIVROOM);
-				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-				BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().group_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().startTime_state();
 			}
 		});
@@ -67,8 +67,8 @@ public class MainLayout extends JPanel implements Receivable {
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openSeatingArrUI(EEnter.GROUPROOM);
-				BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
-				BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().solo_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().startTime_state();
 			}
 		});
@@ -106,7 +106,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_5);
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().getSeatingArrUI().group_state(false);
+				//BaseFrame.getInstance().getSeatingArrUI().group_state(false);
 				BaseFrame.getInstance().openSeatingArrUI(EEnter.SEATCHANGE);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				SeatChangePop frame = new SeatChangePop();
@@ -237,6 +237,6 @@ public class MainLayout extends JPanel implements Receivable {
 			} else if (resPacket.eResult == EResult.FAIL) {
 				System.out.println("Επ½Η ½ΗΖΠ");
 			}
-		} 
+		}
 	}
 }

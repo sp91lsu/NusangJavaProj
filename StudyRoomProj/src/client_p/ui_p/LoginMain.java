@@ -126,7 +126,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {
 			System.out.println("내가 예약한 내용");
-			BaseFrame.getInstance().getSeatingArrUI().btn_state(false);
+			//BaseFrame.getInstance().getSeatingArrUI().btn_state(false);
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");

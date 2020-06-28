@@ -44,4 +44,8 @@ public class RoomProduct extends ProductData {
 		clone.isExit = isExit;
 		return clone;
 	}
+
+	public boolean compareID(int id) {
+		return this.id.equals(id);
+	}
 }

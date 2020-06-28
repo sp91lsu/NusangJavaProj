@@ -108,7 +108,9 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
 			roomInfoList = roomInfoCast.roomListAll;
 
-			getSeatingArrUI().checkDate();
+			if (getSeatingArrUI().isVisible()) {
+				openSeatingArrUI(EEnter.SEATCHANGE);
+			}
 			if (payment.isVisible()) {
 				payment.updatePayment();
 			}
@@ -292,6 +294,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public long getTodayRemainTime() {
 
+		System.out.println("유저 퇴실 여부 " + userData.isExit);
 		if (!userData.isExit) {// 오늘예약한 리스트만 가지고오기
 			Calendar current = Calendar.getInstance();
 
@@ -300,6 +303,7 @@ public class BaseFrame extends JFrame implements Receivable {
 
 			RoomProduct room = userData.getTodayRoom();
 
+			System.out.println("유저 오늘 방 정보 " + room);
 			if (room != null) {// 오늘 총 예약한 리스트
 				for (Calendar cal : room.calendarList) {
 					if (isSameTime(Calendar.DATE, cal, current)) {

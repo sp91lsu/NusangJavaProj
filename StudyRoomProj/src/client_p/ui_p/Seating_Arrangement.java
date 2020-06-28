@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.poi.hssf.record.EscherAggregate;
+
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
@@ -28,8 +30,55 @@ import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
+import sun.invoke.empty.Empty;
+
+enum EState {
+	INIT, EMPTY, USE, MY
+}
 
 public class Seating_Arrangement extends JPanel implements Receivable {
+
+	JPanel panel_center;
+
+	class RoomObj {
+
+		JButton btn;
+		RoomProduct room;
+		EState state;
+
+		public RoomObj(int id, JPanel panel) {
+			super();
+			room = DataManager.getInstance().roomMap.get(id);
+			this.btn = new JButton(room.name);
+			panel.add(btn);
+			btn.addActionListener(new BtnAct(this));
+			all.add(this);
+			setState(EState.EMPTY);
+		}
+
+		void setState(EState state) {
+
+			this.state = state;
+			switch (state) {
+			case EMPTY:
+				btn.setBackground(Color.green);
+				btn.setEnabled(true);
+				break;
+			case INIT:
+				btn.setBackground(Color.green);
+				btn.setEnabled(false);
+				break;
+			case MY:
+				btn.setBackground(Color.blue);
+				btn.setEnabled(false);
+				break;
+			case USE:
+				btn.setBackground(Color.red);
+				btn.setEnabled(false);
+				break;
+			}
+		}
+	}
 
 	static JLabel north_west;
 
@@ -52,10 +101,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	int setDate = Calendar.getInstance().get(Calendar.DATE);
 	int mobileSetDate = Calendar.getInstance().get(Calendar.DATE) + 1;
 	int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-	ArrayList<JButton> group = new ArrayList<JButton>();// 단체석
-	ArrayList<JButton> solo = new ArrayList<JButton>();// 개인석
-	ArrayList<JButton> all = new ArrayList<JButton>();// 전체
+	ArrayList<RoomObj> group = new ArrayList<RoomObj>();// 단체석
+	ArrayList<RoomObj> solo = new ArrayList<RoomObj>();// 개인석
+	ArrayList<RoomObj> all = new ArrayList<RoomObj>();// 전체
 	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
+
+	JButton selectBtn;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -91,8 +142,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				} else {
 					BaseFrame.getInstance().view("MainLayout");
 				}
-				BaseFrame.getInstance().getSeatingArrUI().group_state(true);
-				BaseFrame.getInstance().getSeatingArrUI().solo_state(true);
+				group_state(EState.EMPTY);
+				solo_state(EState.EMPTY);
 			}
 		});
 
@@ -160,76 +211,54 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		north_center.add(north_center_east, BorderLayout.EAST);
 
 		// 중앙패널
-		JPanel panel_center = new JPanel();
+		panel_center = new JPanel();
 		panel_center.setBounds(10, 40, 860, 650);
 		add(panel_center);
 		panel_center.setLayout(null);
 
 		// 여기서부터 룸 버튼
-		JButton roomBtn1 = new JButton("샤워실");
-		roomBtn1.addActionListener(new BtnAct(roomBtn1));
-		roomBtn1.setBounds(0, 0, 300, 110);
-		panel_center.add(roomBtn1);
+		RoomObj roomBtn1 = new RoomObj(1019, panel_center);
+		roomBtn1.btn.setBounds(0, 0, 300, 110);
 		group.add(roomBtn1);
 
-		JButton roomBtn2 = new JButton("8인실");
-		roomBtn2.addActionListener(new BtnAct(roomBtn2));
-		roomBtn2.setBounds(300, 0, 250, 110);
-		panel_center.add(roomBtn2);
+		RoomObj roomBtn2 = new RoomObj(1018, panel_center);
+		roomBtn2.btn.setBounds(300, 0, 250, 110);
 		group.add(roomBtn2);
 
-		JButton roomBtn3 = new JButton("6인실-1");
-		roomBtn3.addActionListener(new BtnAct(roomBtn3));
-		roomBtn3.setBounds(550, 0, 160, 110);
-		panel_center.add(roomBtn3);
+		RoomObj roomBtn3 = new RoomObj(1016, panel_center);
+		roomBtn3.btn.setBounds(550, 0, 160, 110);
 		group.add(roomBtn3);
 
-		JButton roomBtn4 = new JButton("6인실-2");
-		roomBtn4.addActionListener(new BtnAct(roomBtn4));
-		roomBtn4.setBounds(710, 0, 160, 110);
-		panel_center.add(roomBtn4);
+		RoomObj roomBtn4 = new RoomObj(1017, panel_center);
+		roomBtn4.btn.setBounds(710, 0, 160, 110);
 		group.add(roomBtn4);
 
-		JButton roomBtn5 = new JButton("4인실-1");
-		roomBtn5.addActionListener(new BtnAct(roomBtn5));
-		roomBtn5.setBounds(710, 190, 160, 90);
-		panel_center.add(roomBtn5);
+		RoomObj roomBtn5 = new RoomObj(1014, panel_center);
+		roomBtn5.btn.setBounds(710, 190, 160, 90);
 		group.add(roomBtn5);
 
-		JButton roomBtn6 = new JButton("4인실-2");
-		roomBtn6.addActionListener(new BtnAct(roomBtn6));
-		roomBtn6.setBounds(710, 280, 160, 90);
-		panel_center.add(roomBtn6);
+		RoomObj roomBtn6 = new RoomObj(1015, panel_center);
+		roomBtn6.btn.setBounds(710, 280, 160, 90);
 		group.add(roomBtn6);
 
-		JButton roomBtn7 = new JButton("2인실-1");
-		roomBtn7.addActionListener(new BtnAct(roomBtn7));
-		roomBtn7.setBounds(710, 370, 160, 60);
-		panel_center.add(roomBtn7);
+		RoomObj roomBtn7 = new RoomObj(1011, panel_center);
+		roomBtn7.btn.setBounds(710, 370, 160, 60);
 		group.add(roomBtn7);
 
-		JButton roomBtn8 = new JButton("2인실-2");
-		roomBtn8.addActionListener(new BtnAct(roomBtn8));
-		roomBtn8.setBounds(710, 430, 160, 60);
-		panel_center.add(roomBtn8);
+		RoomObj roomBtn8 = new RoomObj(1012, panel_center);
+		roomBtn8.btn.setBounds(710, 430, 160, 60);
 		group.add(roomBtn8);
 
-		JButton roomBtn9 = new JButton("2인실-3");
-		roomBtn9.addActionListener(new BtnAct(roomBtn9));
-		roomBtn9.setBounds(710, 490, 160, 60);
-		panel_center.add(roomBtn9);
+		RoomObj roomBtn9 = new RoomObj(1013, panel_center);
+		roomBtn9.btn.setBounds(710, 490, 160, 60);
 		group.add(roomBtn9);
 
-		JButton roomBtn10 = new JButton("노래방");
-		roomBtn10.addActionListener(new BtnAct(roomBtn10));
-		roomBtn10.setBounds(0, 110, 160, 150);
-		panel_center.add(roomBtn10);
+		RoomObj roomBtn10 = new RoomObj(1020, panel_center);
+		roomBtn10.btn.setBounds(0, 110, 160, 150);
 		group.add(roomBtn10);
 
-		JButton roomBtn11 = new JButton("파티룸");
-		roomBtn11.addActionListener(new BtnAct(roomBtn11));
-		roomBtn11.setBounds(0, 260, 160, 155);
-		panel_center.add(roomBtn11);
+		RoomObj roomBtn11 = new RoomObj(1021, panel_center);
+		roomBtn11.btn.setBounds(0, 260, 160, 155);
 		group.add(roomBtn11);
 
 		// 매너존 패널
@@ -244,34 +273,24 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		label_manner.setBounds(120, 115, 70, 20);
 		mannerzone_panel.add(label_manner);
 
-		JButton btnM_1 = new JButton("매너존-1");
-		btnM_1.addActionListener(new BtnAct(btnM_1));
-		btnM_1.setBounds(0, 0, 100, 70);
-		mannerzone_panel.add(btnM_1);
+		RoomObj btnM_1 = new RoomObj(1006, mannerzone_panel);
+		btnM_1.btn.setBounds(0, 0, 100, 70);
 		solo.add(btnM_1);
 
-		JButton btnM_2 = new JButton("매너존-2");
-		btnM_2.addActionListener(new BtnAct(btnM_2));
-		btnM_2.setBounds(100, 0, 100, 70);
-		mannerzone_panel.add(btnM_2);
+		RoomObj btnM_2 = new RoomObj(1007, mannerzone_panel);
+		btnM_2.btn.setBounds(100, 0, 100, 70);
 		solo.add(btnM_2);
 
-		JButton btnM_3 = new JButton("매너존-3");
-		btnM_3.addActionListener(new BtnAct(btnM_3));
-		btnM_3.setBounds(0, 160, 100, 70);
-		mannerzone_panel.add(btnM_3);
+		RoomObj btnM_3 = new RoomObj(1008, mannerzone_panel);
+		btnM_3.btn.setBounds(0, 160, 100, 70);
 		solo.add(btnM_3);
 
-		JButton btnM_4 = new JButton("매너존-4");
-		btnM_4.addActionListener(new BtnAct(btnM_4));
-		btnM_4.setBounds(100, 160, 100, 70);
-		mannerzone_panel.add(btnM_4);
+		RoomObj btnM_4 = new RoomObj(1009, mannerzone_panel);
+		btnM_4.btn.setBounds(100, 160, 100, 70);
 		solo.add(btnM_4);
 
-		JButton btnM_5 = new JButton("매너존-5");
-		btnM_5.addActionListener(new BtnAct(btnM_5));
-		btnM_5.setBounds(200, 160, 100, 70);
-		mannerzone_panel.add(btnM_5);
+		RoomObj btnM_5 = new RoomObj(1010, mannerzone_panel);
+		btnM_5.btn.setBounds(200, 160, 100, 70);
 		solo.add(btnM_5);
 
 		// 일반석 패널
@@ -285,40 +304,28 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		label_normal.setBounds(120, 105, 70, 20);
 		normalzone_panel.add(label_normal);
 
-		JButton btnN_1 = new JButton("개인석-1");
-		btnN_1.addActionListener(new BtnAct(btnN_1));
-		btnN_1.setBounds(0, 0, 100, 70);
-		normalzone_panel.add(btnN_1);
+		RoomObj btnN_1 = new RoomObj(1000, normalzone_panel);
+		btnN_1.btn.setBounds(0, 0, 100, 70);
 		solo.add(btnN_1);
 
-		JButton btnN_2 = new JButton("개인석-2");
-		btnN_2.addActionListener(new BtnAct(btnN_2));
-		btnN_2.setBounds(100, 0, 100, 70);
-		normalzone_panel.add(btnN_2);
+		RoomObj btnN_2 = new RoomObj(1001, normalzone_panel);
+		btnN_2.btn.setBounds(100, 0, 100, 70);
 		solo.add(btnN_2);
 
-		JButton btnN_3 = new JButton("개인석-3");
-		btnN_3.addActionListener(new BtnAct(btnN_3));
-		btnN_3.setBounds(200, 0, 100, 70);
-		normalzone_panel.add(btnN_3);
+		RoomObj btnN_3 = new RoomObj(1002, normalzone_panel);
+		btnN_3.btn.setBounds(200, 0, 100, 70);
 		solo.add(btnN_3);
 
-		JButton btnN_4 = new JButton("개인석-4");
-		btnN_4.addActionListener(new BtnAct(btnN_4));
-		btnN_4.setBounds(0, 160, 100, 70);
-		normalzone_panel.add(btnN_4);
+		RoomObj btnN_4 = new RoomObj(1003, normalzone_panel);
+		btnN_4.btn.setBounds(0, 160, 100, 70);
 		solo.add(btnN_4);
 
-		JButton btnN_5 = new JButton("개인석-5");
-		btnN_5.addActionListener(new BtnAct(btnN_5));
-		btnN_5.setBounds(100, 160, 100, 70);
-		normalzone_panel.add(btnN_5);
+		RoomObj btnN_5 = new RoomObj(1004, normalzone_panel);
+		btnN_5.btn.setBounds(100, 160, 100, 70);
 		solo.add(btnN_5);
 
-		JButton btnN_6 = new JButton("개인석-6");
-		btnN_6.addActionListener(new BtnAct(btnN_6));
-		btnN_6.setBounds(200, 160, 100, 70);
-		normalzone_panel.add(btnN_6);
+		RoomObj btnN_6 = new RoomObj(1005, normalzone_panel);
+		btnN_6.btn.setBounds(200, 160, 100, 70);
 		solo.add(btnN_6);
 
 		// 휴게실
@@ -347,26 +354,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		SetNowTime now_time = new SetNowTime(north_west);
 		now_time.start();
 		setVisible(true);
-		all.addAll(solo);
-		all.addAll(group);
-		for (JButton buttonColor : all) {
-			buttonColor.setBackground(Color.green);
-			buttonColor.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					for (JButton jbtt : all) {
-						if (e.getSource().equals(jbtt)) {
-							jbtt.setBackground(Color.cyan);
-						} else {
-							jbtt.setBackground(Color.green);
-						}
-					}
-
-				}
-			});
-		}
 
 //////////////////////////////  예약날짜선택 버튼		
 
@@ -386,10 +373,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		timeSelectPane.add(yearCBox);
 
 		yearCBox.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setYear = (int) yearCBox.getSelectedItem();
-				btn_state(false);
+				btn_state(EState.INIT);
 			}
 		});
 
@@ -423,7 +411,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 						}
 					}
 				}
-				btn_state(false);
+				btn_state(EState.INIT);
 			}
 		});
 
@@ -442,7 +430,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				if (dateCBox.getSelectedItem() != null) {
 					setDate = (int) dateCBox.getSelectedItem();
 				}
-				btn_state(false);
+				btn_state(EState.INIT);
 				System.out.println("일자선택(셋데이트는??)>>" + setDate);
 			}
 		});
@@ -464,7 +452,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				for (int i = starttime + 1; i <= 24; i++) {
 					timeEndCbox.addItem(i);
 				}
-				btn_state(false);
+				btn_state(EState.INIT);
 			}
 		});
 
@@ -480,7 +468,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				if (timeEndCbox.getSelectedItem() != null) {
 					endtime = (int) timeEndCbox.getSelectedItem();
 				}
-				btn_state(false);
+				btn_state(EState.INIT);
 			}
 		});
 
@@ -542,15 +530,15 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		}
 	}
 
-	public void group_state(boolean state) {// 그룹버튼 활성/비활성
-		for (JButton button : group) {
-			button.setEnabled(state);
+	public void group_state(EState state) {// 그룹버튼 활성/비활성
+		for (RoomObj button : group) {
+			button.setState(state);
 		}
 	}
 
-	public void solo_state(boolean state) {// 그룹버튼 활성/비활성
-		for (JButton button : solo) {
-			button.setEnabled(state);
+	public void solo_state(EState state) {// 그룹버튼 활성/비활성
+		for (RoomObj button : solo) {
+			button.setState(state);
 		}
 	}
 
@@ -558,20 +546,26 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		System.out.println("입장 타입" + enterType);
 		this.enterType = enterType;
+
+		roomState();
+
+		if (enterType == EEnter.SEATCHANGE) {
+			checkDate();
+			mySeatCheck();
+		}
+	}
+
+	void mySeatCheck() {
 		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
 		if (roomProduct != null) {
-			for (JButton jButton : all) {
-				if (roomProduct.name.equals(jButton.getText())) {
-					jButton.setBackground(Color.blue);
+			for (RoomObj jButton : all) {
+				if (roomProduct.id.equals(jButton.room.id)) {
+					jButton.setState(EState.MY);
 					lblNewLabel_7.setVisible(true);
 					lblNewLabel_8.setVisible(true);
 				}
 			}
 		}
-
-		if (enterType == EEnter.SEATCHANGE)
-			roomState();
-
 	}
 
 	@Override
@@ -579,49 +573,44 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, null);
-			checkDate();
 		} else {
 
 		}
 	}
 
 	class BtnAct implements ActionListener {
-		JButton bt;
 
-		public BtnAct(JButton bt) {
-			this.bt = bt;
+		RoomObj roomObj;
+
+		BtnAct(RoomObj roomObj) {
+			this.roomObj = roomObj;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			for (RoomProduct roomData : DataManager.getInstance().roomMap.values()) {
+			roomState();
+			checkDate();
+			JButton select = (JButton) e.getSource();
+			select.setBackground(Color.cyan);
 
-				if (roomData.name.equals(bt.getText())) {
-					if (enterType != EEnter.SEATCHANGE)// 좌석이동중이 아닐때
-					{
-						// 페이지 여는 순간 현재 상품 복사
-						roomData.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
+			if (enterType != EEnter.SEATCHANGE)// 좌석이동중이 아닐때
+			{
+				// 페이지 여는 순간 현재 상품 복사
+				roomObj.room.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
 
-						if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
-							System.out.println("KIOSK");
-							RCalcFrame rcalc = new RCalcFrame(roomData);
-						} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-							System.out.println("MOBILE");
-							RCalcFrame rcalc = new RCalcFrame(roomData);
-						}
-
-						// BaseFrame.getInstance().payment.resPossibleChk();
-					} else// 좌석이동중일때
-					{
-						for (RoomProduct room : DataManager.getInstance().roomMap.values()) {
-							if (room.name.equals(bt.getText())) {
-								SeatChangeOkPop frame = new SeatChangeOkPop(room.id);
-								break;
-							}
-						}
-					}
+				if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
+					System.out.println("KIOSK");
+					RCalcFrame rcalc = new RCalcFrame(roomObj.room);
+				} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+					System.out.println("MOBILE");
+					RCalcFrame rcalc = new RCalcFrame(roomObj.room);
 				}
+
+				// BaseFrame.getInstance().payment.resPossibleChk();
+			} else// 좌석이동중일때
+			{
+				SeatChangeOkPop frame = new SeatChangeOkPop(roomObj.room.id);
 			}
 		}
 	}
@@ -642,10 +631,9 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		return calList;
 	}
 
-	public void btn_state(boolean state) {
-		for (JButton allbtn : all) {
-			allbtn.setEnabled(state);
-			allbtn.setBackground(Color.GREEN);
+	public void btn_state(EState state) {
+		for (RoomObj allbtn : all) {
+			allbtn.setState(state);
 		}
 	}
 
@@ -653,13 +641,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	class SearchBtnAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			roomState();
 			checkDate();
 		}
 	}
 
 	void checkDate() {
-
-		roomState();
 
 		int month = 0;
 		int date = 0;
@@ -676,17 +663,17 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		start.set(Calendar.MONTH, month);
 		start.set(Calendar.DATE, date);
 
+		// 시간이 맞물리면 빨간색 처리
 		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().roomInfoList;
 		for (RoomProduct roomInfo : roomList) {
 			for (Calendar cal : roomInfo.calendarList) {
 				// 시간비교 => 년/월/일 비교
 				if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, start)) {
-					for (JButton seatBtn : all) {
+					for (RoomObj seatBtn : all) {
 						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {
 							System.out.println(cal.get(Calendar.HOUR_OF_DAY));
-							if (seatBtn.getText().equals(roomInfo.name)) {
-								seatBtn.setEnabled(false);
-								seatBtn.setBackground(Color.RED);
+							if (roomInfo.equals(seatBtn.room.id)) {
+								seatBtn.setState(EState.USE);
 							}
 						}
 					}
@@ -699,17 +686,17 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		switch (enterType) {
 		case GROUPROOM:
-			group_state(true);
-			solo_state(false);
+			group_state(EState.EMPTY);
+			solo_state(EState.INIT);
 			timeSelectPane.setVisible(true);
 			break;
 		case NONE:
-			btn_state(true);
+			btn_state(EState.EMPTY);
 			timeSelectPane.setVisible(true);
 			break;
 		case PRIVROOM:
-			group_state(false);
-			solo_state(true);
+			group_state(EState.INIT);
+			solo_state(EState.EMPTY);
 			timeSelectPane.setVisible(true);
 			break;
 		case SEATCHANGE:
@@ -717,7 +704,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			starttime = cal.get(Calendar.HOUR_OF_DAY);
 			endtime = cal.get(Calendar.HOUR_OF_DAY) + 1;
 			timeSelectPane.setVisible(false);
-			solo_state(true);
+			solo_state(EState.EMPTY);
 			break;
 		default:
 			break;
