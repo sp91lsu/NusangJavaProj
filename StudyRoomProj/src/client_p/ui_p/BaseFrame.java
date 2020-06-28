@@ -231,7 +231,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public LockerMain openLockerMain() {
 		LockerMain lockerMain = getLockerMain();
 		view("LockerMain");
-		lockerMain.updateLocker(lockerlist);
+		lockerMain.updateLocker();
 
 		return lockerMain;
 	}
