@@ -25,8 +25,8 @@ import server_p.packet_p.ack_p.ScLoginAck;
 
 public class LoginMain extends JPanel implements Receivable, MouseListener {
 
-	private JTextField idTextF;
-	private JPasswordField passwordField;
+	JTextField idTextF;
+	JPasswordField passwordField;
 	CheckRoomInfo chkroominfo;
 	JCheckBox changeBox;
 	JLabel idLabel;
@@ -129,16 +129,16 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 			// BaseFrame.getInstance().getSeatingArrUI().btn_state(false);
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
-				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
-				passwordField.setText("");
-				
 				BaseFrame.getInstance().openMainLayout(ack.roomList, null, null, ack.lockerList);
 
 				chkroominfo = new CheckRoomInfo();
 				chkroominfo.start();
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 				BaseFrame.getInstance().updateData(ack.roomList, null, null, ack.lockerList);
-				BaseFrame.getInstance().openSeatingArrUI(EEnter.NONE);
+				
+				ReservationInfoMain rif = new ReservationInfoMain();
+				idTextF.setText(info);
+				passwordField.setText("");
 			}
 		}
 	}
