@@ -56,8 +56,6 @@ public class MainLayout extends JPanel implements Receivable {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openSeatingArrUI(EEnter.PRIVROOM);
-				// BaseFrame.getInstance().getSeatingArrUI().group_state(false);
-				// BaseFrame.getInstance().getSeatingArrUI().combo_state(false);
 				BaseFrame.getInstance().getSeatingArrUI().startTime_state();
 			}
 		});
@@ -172,13 +170,14 @@ public class MainLayout extends JPanel implements Receivable {
 
 	public void updatePage() {
 		todayRemainTime = BaseFrame.getInstance().getTodayRemainTime();
-		RoomProduct reserRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
-
-		if (BaseFrame.getInstance().getUsingRoom() != null) {
+		RoomProduct reserRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE); // 오늘 이용할 방 리스트
+		RoomProduct usingRoom = BaseFrame.getInstance().getUsingRoom(); // 지금 이용중인 방
+		if (usingRoom != null) {
 
 			button_9.setText("퇴실");
-			button_5.setEnabled(true);
 			button_3.setEnabled(true);
+			button_5.setEnabled(usingRoom.personNum == 1);
+			
 		} else if (reserRoom != null) {
 			BaseFrame.getInstance().roomProduct = reserRoom;
 			button_5.setEnabled(false);
