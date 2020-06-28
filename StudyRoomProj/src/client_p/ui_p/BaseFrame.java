@@ -1,11 +1,17 @@
 package client_p.ui_p;
 
 import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client_p.ClientNet;
@@ -115,9 +121,22 @@ public class BaseFrame extends JFrame implements Receivable {
 				getSeatingArrUI().checkDate();
 			}
 
-//			if (rCalcFrame.isVisible()) {
-//
-//			}
+			if (rCalcFrame.isVisible()) {
+				JDialog jd = new JDialog();
+				jd.setBounds(500, 500, 150, 150);
+				jd.getContentPane().setLayout(new GridLayout(2, 1));
+				JLabel jl = new JLabel("좌석현황이 변경되었습니다.");
+				JButton jb = new JButton("확인");
+				jd.getContentPane().add(jl);
+				jd.getContentPane().add(jb);
+				jd.setVisible(true);
+				rCalcFrame.setVisible(false);
+				jb.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						jd.dispose();
+					}
+				});
+			}
 			
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
