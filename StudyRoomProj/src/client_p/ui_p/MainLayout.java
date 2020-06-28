@@ -183,7 +183,7 @@ public class MainLayout extends JPanel implements Receivable {
 		} else if (reserRoom != null) {
 			button_5.setEnabled(false);
 			button_3.setEnabled(false);
-			button_7.setEnabled(false);
+			button_7.setEnabled(true);
 			button_9.setText("예약 취소");
 		} else {
 			button_9.setText("퇴실");

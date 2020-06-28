@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
@@ -24,7 +25,7 @@ public class TimeFrame extends JFrame {
 
 	public TimeFrame() {
 
-		RoomProduct usingRoom = BaseFrame.getInstance().getUsingRoom();
+		RoomProduct usingRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
 		if (usingRoom != null) {
 			seatingName = usingRoom.name;
 		}
