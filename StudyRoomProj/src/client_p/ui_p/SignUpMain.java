@@ -48,7 +48,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 	String passChk = "[a-zA-Z0-9].{7}";
 	String phoneChk = "010.[0-9].{6,7}";
 	String name, id, pass, phoneNum, pass2 = null;
-	Boolean idchk,hpchk;
+	Boolean idchk=false,hpchk=false;
 
 	public SignUpMain() {
 		setBounds(100, 100, 900, 1000);
@@ -107,8 +107,12 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		mainPane.add(signUpBtn);
 		signUpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				check();
+				if(!idchk||!hpchk) {
+					infoChk();
+				}else {
+					
+					check();
+				}
 			}
 		});
 
@@ -196,7 +200,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 						JButton bbb = (JButton) e.getSource();
 						if (bbb.getText().equals("확인")) {
 							jd.setVisible(false);
-							jd.dispose();
+							dispose();
 						}
 					}
 				});
@@ -278,7 +282,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
-			
+		
 			if (idchk && hpchk) {
 				CsSignUpSyn packet = new CsSignUpSyn(nameTextField.getText(), idTextField.getText(),
 						passwordField.getText(), phoneNumTextField.getText(), "", "");
@@ -289,6 +293,26 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		} catch (Exception e) {
 
 		}
+	}
+	
+	public void infoChk() {
+		JDialog chkJd = new JDialog();
+		chkJd.setBounds(100, 100, 300, 200);
+		chkJd.setLayout(new GridLayout(2,1));
+		JLabel jll = new JLabel("ID 와 휴대폰 번호 중복검사를 진행하세요");
+		chkJd.add(jll);
+		JButton jbt = new JButton("확인");
+		chkJd.add(jbt);
+		jbt.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				chkJd.dispose();
+				
+			}
+		});
+		chkJd.setVisible(true);
 	}
 
 	public void textFieldSet() {// 회원가입 텍스트 필드,라벨내용 초기화
@@ -315,7 +339,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 			idchk=true;
 		} else {
 			fail("정확한ID");
-			idchk=false;
+			
 		}
 	}
 
@@ -327,7 +351,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 			hpchk=true;
 		} else {
 			fail("정확한 핸드폰");
-			hpchk=false;
+			
 		}
 	}
 
