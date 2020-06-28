@@ -120,8 +120,8 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
-
+				updateData(null, null, null, packetAck.lockerList);
+				openLockerMain().updateLocker(lockerlist);
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -229,10 +229,15 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	public LockerMain openLockerMain() {
-		LockerMain lockerMain = (LockerMain) jPanelArrl.get(6);
+		LockerMain lockerMain = getLockerMain();
 		view("LockerMain");
 		lockerMain.updateLocker(lockerlist);
 
+		return lockerMain;
+	}
+
+	public LockerMain getLockerMain() {
+		LockerMain lockerMain = (LockerMain) jPanelArrl.get(6);
 		return lockerMain;
 	}
 
