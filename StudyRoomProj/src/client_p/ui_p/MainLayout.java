@@ -155,6 +155,7 @@ public class MainLayout extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				LogoutPopFrame logout = new LogoutPopFrame();
+				BaseFrame.getInstance().getLoginMain().logSet();
 				logout.setVisible(true);
 			}
 		});

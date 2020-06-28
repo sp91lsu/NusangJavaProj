@@ -236,6 +236,11 @@ public class BaseFrame extends JFrame implements Receivable {
 	public ClientChatFrame getClientChatFrame() {
 		return (ClientChatFrame) jPanelArrl.get(5);
 	}
+	
+	public LoginMain getLoginMain() {
+		return (LoginMain) jPanelArrl.get(0);
+	}
+	
 
 	public LockerMain openLockerMain() {
 		LockerMain lockerMain = getLockerMain();

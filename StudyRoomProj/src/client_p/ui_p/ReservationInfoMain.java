@@ -52,6 +52,7 @@ public class ReservationInfoMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
 			}
 		});

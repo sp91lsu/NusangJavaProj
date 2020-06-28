@@ -137,10 +137,14 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 				BaseFrame.getInstance().updateData(ack.roomList, null, null, ack.lockerList);
 				
 				ReservationInfoMain rif = new ReservationInfoMain();
-				idTextF.setText(info);
-				passwordField.setText("");
+				
 			}
 		}
+	}
+	
+	public void logSet() {
+		idTextF.setText(info);
+		passwordField.setText("");
 	}
 
 	@Override

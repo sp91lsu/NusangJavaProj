@@ -135,6 +135,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 					BaseFrame.getInstance().view("LoginMain");
+					BaseFrame.getInstance().getLoginMain().logSet();
 				} else {
 					BaseFrame.getInstance().view("MainLayout");
 				}
