@@ -25,14 +25,14 @@ import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
-import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 enum EEnter {
-	NONE, SEATCHANGE, PRIVROOM, GROUPROOM
+	MOBILE, SEATCHANGE, PRIVROOM, GROUPROOM
 }
 
 public class BaseFrame extends JFrame implements Receivable {
@@ -40,7 +40,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
-	public ELoginType loginType = ELoginType.KIOSK;
+	public ELoginType loginType = ELoginType.MOBILE;
 	private static BaseFrame instance;
 
 	public static BaseFrame getInstance() {
@@ -219,6 +219,11 @@ public class BaseFrame extends JFrame implements Receivable {
 		Seating_Arrangement sa = (Seating_Arrangement) jPanelArrl.get(2);
 		view("Seating_Arrangement");
 		sa.openPage(enterType);
+		if (loginType == ELoginType.MOBILE) {
+			sa.north_east.setText("로그아웃");
+		} else if (loginType == ELoginType.KIOSK) {
+			sa.north_east.setText("뒤로가기");
+		}
 	}
 
 	public Seating_Arrangement getSeatingArrUI() {

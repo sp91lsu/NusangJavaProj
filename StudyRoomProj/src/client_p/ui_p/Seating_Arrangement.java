@@ -92,7 +92,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	JLabel lblNewLabel_7;
 	JLabel lblNewLabel_8;
 	JButton north_east;
-	EEnter enterType = EEnter.NONE;
+	EEnter enterType = EEnter.MOBILE;
 	JComboBox dateCBox;
 	JComboBox monthCBox;
 	JComboBox yearCBox;
@@ -695,7 +695,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			solo_state(EState.INIT);
 			timeSelectPane.setVisible(true);
 			break;
-		case NONE:
+		case MOBILE:
 			btn_state(EState.EMPTY);
 			timeSelectPane.setVisible(true);
 			break;
