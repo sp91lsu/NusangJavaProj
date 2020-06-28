@@ -108,7 +108,8 @@ public class BaseFrame extends JFrame implements Receivable {
 			roomInfoList = roomInfoCast.roomListAll;
 
 			if (getSeatingArrUI().isVisible()) {
-				openSeatingArrUI(EEnter.SEATCHANGE);
+				getSeatingArrUI().roomState();
+				getSeatingArrUI().checkDate();
 			}
 			if (payment.isVisible()) {
 				payment.updatePayment();
