@@ -96,7 +96,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	int nowMonth;
 	int setYear;
 	int setDate;
-	int mobileSetDate;
+	int nowMaxDate;
 	int nowHour;
 	ArrayList<RoomObj> group = new ArrayList<RoomObj>();// 단체석
 	ArrayList<RoomObj> solo = new ArrayList<RoomObj>();// 개인석
@@ -368,7 +368,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		yearCBox.setBounds(12, 28, 83, 33);
 		yearCBox.setSelectedItem(setYear);
 		timeSelectPane.add(yearCBox);
-
+		yearCBox.setEnabled(BaseFrame.getInstance().loginType == ELoginType.MOBILE);
 		yearCBox.addActionListener(new ActionListener() {
 
 			@Override
@@ -386,6 +386,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		monthCBox = new JComboBox(monthCnt);
 		monthCBox.setBounds(136, 28, 41, 33);
 		monthCBox.setSelectedItem(setMonth);
+		monthCBox.setEnabled(BaseFrame.getInstance().loginType == ELoginType.MOBILE);
 		timeSelectPane.add(monthCBox);
 		monthCBox.addActionListener(new ActionListener() {
 			@Override
@@ -399,7 +400,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				int last = selectMonth.getActualMaximum(Calendar.DATE);
 				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 					if (nowMonth == setMonth) {
-						for (int i = mobileSetDate; i <= last; i++) {
+						for (int i = nowMaxDate; i <= last; i++) {
 							dateCBox.addItem(i);
 						}
 					} else {
@@ -421,6 +422,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		dateCBox.setBounds(219, 28, 41, 33);
 		timeSelectPane.add(dateCBox);
 		dateCBox.setSelectedItem(setDate);
+		dateCBox.setEnabled(BaseFrame.getInstance().loginType == ELoginType.MOBILE);
 		dateCBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -490,9 +492,9 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		timeSelecL.setBounds(408, 28, 29, 33);
 		timeSelectPane.add(timeSelecL);
 
-		JButton payButton = new JButton("결제");
-		payButton.setBounds(669, 21, 141, 40);
-		timeSelectPane.add(payButton);
+//		JButton payButton = new JButton("결제");
+//		payButton.setBounds(669, 21, 141, 40);
+//		timeSelectPane.add(payButton);
 
 		comboList.add(monthCBox);
 		comboList.add(yearCBox);
@@ -620,6 +622,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		for (int i = starttime; i < endtime; i++) {
 			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, setYear);
 			cal.set(Calendar.MONTH, setMonth - 1);
 			cal.set(Calendar.DATE, setDate);
 			cal.set(Calendar.MINUTE, 0);
@@ -648,30 +651,25 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	void checkDate() {
 
-		int month = 0;
-		int date = 0;
-		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-			month = setMonth;
-			date = setDate;
-		} else {
-			month = Calendar.getInstance().get(Calendar.MONTH);
-			date = Calendar.getInstance().get(Calendar.DATE);
-		}
-
 		Calendar start = Calendar.getInstance();
 		start.set(Calendar.YEAR, setYear);
-		start.set(Calendar.MONTH, month);
-		start.set(Calendar.DATE, date);
+		start.set(Calendar.MONTH, setMonth - 1);
+		start.set(Calendar.DATE, setDate);
 
 		// 시간이 맞물리면 빨간색 처리
 		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().roomInfoList;
 		for (RoomProduct roomInfo : roomList) {
 			for (Calendar cal : roomInfo.calendarList) {
+				System.out.println("cal" + cal.getTime());
+				System.out.println("start" + start.getTime());
 				// 시간비교 => 년/월/일 비교
-				if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, start)) {
+				if (BaseFrame.getInstance().isSameTime(Calendar.YEAR, cal, start)
+						&& BaseFrame.getInstance().isSameTime(Calendar.MONTH, cal, start)
+						&& BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, start)) {
+
 					for (RoomObj seatBtn : all) {
 						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {
-							System.out.println(cal.get(Calendar.HOUR_OF_DAY));
+							// System.out.println(cal.get(Calendar.HOUR_OF_DAY));
 							if (roomInfo.id.equals(seatBtn.room.id)) {
 								seatBtn.setState(EState.USE);
 							}
@@ -680,7 +678,9 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			}
 		}
-		mySeatCheck();
+		if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
+			mySeatCheck();
+		}
 	}
 
 	void roomState() {
@@ -717,7 +717,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		setYear = Calendar.getInstance().get(Calendar.YEAR);
 		setDate = Calendar.getInstance().get(Calendar.DATE);
-		mobileSetDate = Calendar.getInstance().get(Calendar.DATE) + 1;
+		nowMaxDate = Calendar.getInstance().get(Calendar.DATE) + 1;
 		nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 	}
 }

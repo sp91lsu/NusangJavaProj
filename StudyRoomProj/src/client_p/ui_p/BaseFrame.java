@@ -272,8 +272,11 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public boolean isSameTime(int field, Calendar cal1, Calendar cal2) {
 
-		int last = Calendar.MONTH;
+		int last = Calendar.YEAR;
 
+		if (field >= Calendar.YEAR) {
+			last = Calendar.YEAR;
+		}
 		if (field >= Calendar.MONTH) {
 			last = Calendar.MONTH;
 		}
