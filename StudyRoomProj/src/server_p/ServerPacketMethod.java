@@ -274,15 +274,17 @@ class MethExitSyn implements ServerPacketMethod {
 		LockerDao lockerDao = new LockerDao();
 		lockerDao.exitLocker(respacket.room.userUUID);
 
-		LockerDao lockerDao2 = new LockerDao();
-		ArrayList<LockerData> lockerList = lockerDao2.getLockerIDList();
-//		if (lockerDao.findUserLocker(respacket.room.userUUID)) {
-//			lockerDao.reset();
-//		
-//		}
+		lockerDao.reset();
+		ArrayList<LockerData> lockerList = lockerDao.getLockerIDList();
 
 		ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
+		roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
+
+		ScBuyLockerCast locakerCast = new ScBuyLockerCast(EResult.SUCCESS, lockerList);
+
 		MyServer.getInstance().broadCast(client, roomCast);
+		MyServer.getInstance().broadCast(client, locakerCast);
+		
 		ack = new ScExitAck(EResult.SUCCESS, reserListAll, myReserList, myExitList, lockerList);
 		client.sendPacket(ack);
 	}
