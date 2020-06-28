@@ -205,9 +205,8 @@ public class MainLayout extends JPanel implements Receivable {
 			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 			button_9.setEnabled(false);
 		}
-		
-		if(BaseFrame.getInstance().userData.locker != null)
-		{
+
+		if (BaseFrame.getInstance().userData.locker != null) {
 			button_3.setEnabled(false);
 		}
 	}
@@ -234,6 +233,7 @@ public class MainLayout extends JPanel implements Receivable {
 			if (resPacket.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().openMainLayout(resPacket.reserListAll, resPacket.myReserList,
 						resPacket.myExitList, resPacket.lockerList);
+				BaseFrame.getInstance().userData.locker = null;
 				updatePage();
 			} else if (resPacket.eResult == EResult.FAIL) {
 				System.out.println("퇴실 실패");
