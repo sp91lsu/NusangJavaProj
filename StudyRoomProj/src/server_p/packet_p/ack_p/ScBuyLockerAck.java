@@ -15,6 +15,7 @@ public class ScBuyLockerAck extends ResultPacketBase {
 		super(eResult);
 		// TODO Auto-generated constructor stub
 		this.lockerList = lockerList;
+		this.myLocker = myLocker;
 	}
 
 }

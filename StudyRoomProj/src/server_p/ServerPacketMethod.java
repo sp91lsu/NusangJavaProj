@@ -416,7 +416,7 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 		if (lockerDao.insertLocker(resPacket.uuid, resPacket.locker)) {
 
-			lockerDao = new LockerDao();
+			lockerDao.reset();
 
 			ArrayList<LockerData> lockerList = lockerDao.getLockerIDList();
 
