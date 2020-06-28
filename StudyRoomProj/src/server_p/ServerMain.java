@@ -56,6 +56,7 @@ class MyServer {
 					System.out.println("클라이언트 접속 대기");
 					Socket client = server.accept(); // 클라이언트 접속
 
+					duplicateClientChk(client);
 					System.out.println(client.getInetAddress() + "접속");
 
 					SocketClient pClient = new SocketClient(client);
@@ -65,6 +66,14 @@ class MyServer {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+		}
+	}
+
+	void duplicateClientChk(Socket client) {
+		for (SocketClient socketClient : clientList) {
+			if (socketClient.socket.getInetAddress().toString().equals(client.getInetAddress().toString())) {
+				socketClient.close();
 			}
 		}
 	}
@@ -126,11 +135,11 @@ class SocketClient extends Thread {
 
 	// 클라이언트 리스트 돌려서 함수 실행
 	public void run() {
-
 		while (socket.isConnected() && !socket.isClosed()) {
 
 			try {
 				if (is.available() > 0) {
+
 					System.out.println("데이터 들어옴");
 					pMap.receivePacket(this, (PacketBase) dis.readObject());
 				}
