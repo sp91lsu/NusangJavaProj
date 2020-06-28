@@ -47,7 +47,9 @@ public class SetPrice extends JPanel {
 			table.setFillsViewportHeight(true);
 			table.setFont(new Font("새굴림", Font.PLAIN, 25));
 			scrollPane_6_2.setViewportView(table);
+			
 		}
+		System.out.println(this.getClass().getTypeName()+": "+dataPath+" 불러오기 완료");
 	}
 	
 	//입력된 0열 1열을 엑셀 1열 2열에 덮어쓰기 <WRITE>
