@@ -17,20 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.poi.hssf.record.EscherAggregate;
-
-import client_p.ClientNet;
 import client_p.Receivable;
-import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import data_p.product_p.DataManager;
-import data_p.product_p.ProductData;
-import data_p.product_p.TimeData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
-import sun.invoke.empty.Empty;
 
 enum EState {
 	INIT, EMPTY, USE, MY, DIM
@@ -121,7 +114,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	}
 
 	public Seating_Arrangement() {
-
 		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 			setDate++;
 		}
@@ -603,13 +595,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				// 페이지 여는 순간 현재 상품 복사
 				roomObj.room.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
 
-				if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
-					System.out.println("KIOSK");
-					RCalcFrame rcalc = new RCalcFrame(roomObj.room);
-				} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-					System.out.println("MOBILE");
-					RCalcFrame rcalc = new RCalcFrame(roomObj.room);
-				}
+				BaseFrame.getInstance().rCalcFrame.openPage(roomObj.room);
 
 				// BaseFrame.getInstance().payment.resPossibleChk();
 			} else// 좌석이동중일때

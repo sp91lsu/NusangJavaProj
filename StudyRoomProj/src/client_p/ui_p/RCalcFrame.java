@@ -12,7 +12,6 @@ import javax.swing.SwingConstants;
 
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
-import packetBase_p.ELoginType;
 
 public class RCalcFrame extends JFrame {
 
@@ -24,9 +23,15 @@ public class RCalcFrame extends JFrame {
 		// RCalcFrame frame = new RCalcFrame();
 	}
 
-	public RCalcFrame(RoomProduct room) {
-		userData = BaseFrame.getInstance().userData;
+	public void openPage(RoomProduct room) {
+		setVisible(true);
 		this.room = room;
+		userData = BaseFrame.getInstance().userData;
+		contentLabel.setText(getDateFormat());
+	}
+
+	public RCalcFrame() {
+
 		setBounds(710, 100, 500, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -42,12 +47,12 @@ public class RCalcFrame extends JFrame {
 		contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentLabel.setBounds(37, 125, 409, 220);
 		getContentPane().add(contentLabel);
-		contentLabel.setText(getDateFormat());
+		
 		JButton okButton = new JButton("예약 및 결제");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().paymentPop.openPage(room);
-					
+
 				dispose();
 			}
 		});
@@ -63,7 +68,7 @@ public class RCalcFrame extends JFrame {
 		});
 		getContentPane().add(cancleButton);
 
-		setVisible(true);
+		setVisible(false);
 	}
 
 	String getDateFormat() {

@@ -39,7 +39,7 @@ public class ReservationInfoMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				BaseFrame.getInstance().openSeatingArrUI(EEnter.NONE);
+				BaseFrame.getInstance().openSeatingArrUI(EEnter.MOBILE);
 				dispose();
 			}
 		});

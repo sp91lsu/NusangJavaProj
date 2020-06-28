@@ -55,6 +55,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
 	public RoomProduct roomProduct;
+	public RCalcFrame rCalcFrame = new RCalcFrame();
 
 	public BaseFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,9 +115,10 @@ public class BaseFrame extends JFrame implements Receivable {
 				getSeatingArrUI().checkDate();
 			}
 
-//			if (payment.isVisible()) {
-//				payment.updatePayment();
+//			if (rCalcFrame.isVisible()) {
+//
 //			}
+			
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
