@@ -420,14 +420,18 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 			ArrayList<LockerData> lockerList = lockerDao.getLockerIDList();
 
+			lockerDao.reset();
+
+			LockerData locker = lockerDao.findUserLocker(resPacket.uuid);
+
 			ScBuyLockerCast lockerCast = new ScBuyLockerCast(EResult.SUCCESS, lockerList);
 
-			ack = new ScBuyLockerAck(EResult.SUCCESS, lockerList);
+			ack = new ScBuyLockerAck(EResult.SUCCESS, lockerList, locker);
 
 			MyServer.getInstance().broadCast(client, lockerCast);
 
 		} else {
-			ack = new ScBuyLockerAck(EResult.FAIL, null);
+			ack = new ScBuyLockerAck(EResult.FAIL, null, null);
 		}
 
 		client.sendPacket(ack);

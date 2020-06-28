@@ -128,6 +128,8 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScBuyLockerAck.class) {
 			ScBuyLockerAck packetAck = (ScBuyLockerAck) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
+
+				userData.locker = packetAck.myLocker;
 				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
 			} else {
