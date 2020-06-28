@@ -556,6 +556,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	public void openPage(EEnter enterType) {
 
+		System.out.println("입장 타입" + enterType);
 		this.enterType = enterType;
 		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
 		if (roomProduct != null) {
@@ -568,47 +569,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			}
 		}
 
-		if (enterType == EEnter.SEATCHANGE) {
-			timeSelectPane.setVisible(false);
-			Calendar cal = Calendar.getInstance();
-			starttime = cal.get(Calendar.HOUR_OF_DAY);
-			endtime = cal.get(Calendar.HOUR_OF_DAY) + 1;
-			checkDate();
-			group_state(false);
-		} else {
-
-			timeSelectPane.setVisible(true);
-		}
+		if (enterType == EEnter.SEATCHANGE)
+			roomState();
 
 	}
-
-//	public void setBtnColor() {
-//		for (RoomProduct room : BaseFrame.getInstance().roomInfoList) {
-//
-//			for (Calendar cal : room.calendarList) {
-//
-//				if (BaseFrame.getInstance().isSameTime(Calendar.HOUR_OF_DAY, cal, Calendar.getInstance())) {
-//
-//					for (JButton jButton2 : all) {
-//						if (jButton2.getText().equals(room.name)) {
-//							jButton2.setBackground(Color.red);
-//							jButton2.setEnabled(false);
-//						}
-//					}
-//				}
-//			}
-//		}
-//
-//		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
-//		if (roomProduct != null) {
-//			for (JButton jButton : all) {
-//				if (roomProduct.name.equals(jButton.getText())) {
-//					jButton.setBackground(Color.cyan);
-//					jButton.setBackground(Color.green);
-//				}
-//			}
-//		}
-//	}
 
 	@Override
 	public void receive(PacketBase packet) {
@@ -695,6 +659,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	void checkDate() {
 
+		roomState();
+
 		int month = 0;
 		int date = 0;
 		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
@@ -705,20 +671,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			date = Calendar.getInstance().get(Calendar.DATE);
 		}
 
-		if (enterType == EEnter.PRIVROOM) {
-			group_state(false);
-			solo_state(true);
-		} else if (enterType == EEnter.GROUPROOM) {
-			group_state(true);
-			solo_state(false);
-		} else if (enterType == EEnter.NONE) {
-			btn_state(true);
-		}
-
 		Calendar start = Calendar.getInstance();
 		start.set(Calendar.YEAR, setYear);
 		start.set(Calendar.MONTH, month);
 		start.set(Calendar.DATE, date);
+
 		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().roomInfoList;
 		for (RoomProduct roomInfo : roomList) {
 			for (Calendar cal : roomInfo.calendarList) {
@@ -735,6 +692,35 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					}
 				}
 			}
+		}
+	}
+
+	void roomState() {
+
+		switch (enterType) {
+		case GROUPROOM:
+			group_state(true);
+			solo_state(false);
+			timeSelectPane.setVisible(true);
+			break;
+		case NONE:
+			btn_state(true);
+			timeSelectPane.setVisible(true);
+			break;
+		case PRIVROOM:
+			group_state(false);
+			solo_state(true);
+			timeSelectPane.setVisible(true);
+			break;
+		case SEATCHANGE:
+			Calendar cal = Calendar.getInstance();
+			starttime = cal.get(Calendar.HOUR_OF_DAY);
+			endtime = cal.get(Calendar.HOUR_OF_DAY) + 1;
+			timeSelectPane.setVisible(false);
+			solo_state(true);
+			break;
+		default:
+			break;
 		}
 	}
 }
