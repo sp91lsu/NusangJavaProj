@@ -33,7 +33,7 @@ import server_p.packet_p.ack_p.ScMoveSeatAck;
 import sun.invoke.empty.Empty;
 
 enum EState {
-	INIT, EMPTY, USE, MY
+	INIT, EMPTY, USE, MY, DIM
 }
 
 public class Seating_Arrangement extends JPanel implements Receivable {
@@ -74,6 +74,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				break;
 			case USE:
 				btn.setBackground(Color.red);
+				btn.setEnabled(false);
+				break;
+			case DIM:
+				btn.setBackground(new Color(150, 150, 150));
 				btn.setEnabled(false);
 				break;
 			}
@@ -551,7 +555,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		if (enterType == EEnter.SEATCHANGE) {
 			checkDate();
-			mySeatCheck();
+			group_state(EState.DIM);
 		}
 	}
 
@@ -680,6 +684,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			}
 		}
+		mySeatCheck();
 	}
 
 	void roomState() {
