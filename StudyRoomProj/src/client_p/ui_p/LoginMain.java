@@ -131,7 +131,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 
 				idTextF.setText(" or 핸드폰번호 입력( '-' 없이 입력)");
 				passwordField.setText("");
-
+				
 				BaseFrame.getInstance().openMainLayout(ack.roomList, null, null, ack.lockerList);
 
 				chkroominfo = new CheckRoomInfo();
