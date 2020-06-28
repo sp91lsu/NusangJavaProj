@@ -52,7 +52,7 @@ public class RCalcFrame extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().paymentPop.openPage(room);
-
+				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
 			}
 		});
