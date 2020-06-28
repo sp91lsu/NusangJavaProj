@@ -205,6 +205,11 @@ public class MainLayout extends JPanel implements Receivable {
 			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 			button_9.setEnabled(false);
 		}
+		
+		if(BaseFrame.getInstance().userData.locker != null)
+		{
+			button_3.setEnabled(false);
+		}
 	}
 
 	public void is_reservation() {

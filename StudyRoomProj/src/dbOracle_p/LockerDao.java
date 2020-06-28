@@ -38,7 +38,7 @@ public class LockerDao extends DBProcess {
 		return true;
 	}
 
-	public boolean findUserLocker(String uuid) {
+	public LockerData findUserLocker(String uuid) {
 
 		try {
 			findQuery(ETable.LOCKER, "*", "uuid = ? and ISEXIT = 0");
@@ -46,13 +46,22 @@ public class LockerDao extends DBProcess {
 			stmt.setString(1, uuid);
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				return true;
+
+				for (LockerData locker : DataManager.getInstance().lockerList) {
+					if (locker.id == rs.getInt("id")) {
+						LockerData data = new LockerData(locker.id, locker.name, locker.price);
+						data.setPW(rs.getString("pw"));
+						return locker;
+					}
+
+				}
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	public ArrayList<LockerData> getLockerIDList() {

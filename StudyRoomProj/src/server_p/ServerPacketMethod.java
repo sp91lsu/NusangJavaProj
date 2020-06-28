@@ -72,7 +72,7 @@ class MethLoginSyn implements ServerPacketMethod {
 
 				userData.setReserRoom(roomDao.findUserRoom(userData.uuid, false));
 				userData.setExitRoom(roomDao.findUserRoom(userData.uuid, true));
-
+				userData.locker = lockerDao.findUserLocker(userData.uuid);
 				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getReservationListAll(),
 						lockerDao.getLockerIDList());
 			} else {
@@ -303,7 +303,8 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 		ArrayList<LockerData> lockerList = locker.getLockerIDList();
 		try {
-			ScUpdateRoomInfoAck roomAck = new ScUpdateRoomInfoAck(EResult.SUCCESS, reserAll, myReserList, exitList, lockerList);
+			ScUpdateRoomInfoAck roomAck = new ScUpdateRoomInfoAck(EResult.SUCCESS, reserAll, myReserList, exitList,
+					lockerList);
 
 			client.sendPacket(roomAck);
 		} catch (Exception e) {

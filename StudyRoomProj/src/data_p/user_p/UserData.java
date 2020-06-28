@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import client_p.ui_p.BaseFrame;
 import data_p.PacketData;
+import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 
 public class UserData extends PacketData {
@@ -20,6 +21,7 @@ public class UserData extends PacketData {
 
 	public ArrayList<RoomProduct> exitList = new ArrayList<RoomProduct>();
 	public ArrayList<RoomProduct> myReservationList = new ArrayList<RoomProduct>();
+	public LockerData locker;
 
 	//
 	public UserData(String uuid, String name, String id, String pw, String phone, String birth, String cType) {
