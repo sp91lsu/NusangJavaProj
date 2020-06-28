@@ -94,7 +94,7 @@ class MethSignUpSyn implements ServerPacketMethod {
 
 			AccountDao ad = new AccountDao();
 
-			if (ad.duplicateIDChk(recPacket.id)) {
+			if (ad.duplicateIDChk("id", recPacket.id)) {
 				ack = new ScSignUpAck(EResult.DUPLICATEED_ID, "");
 			} else {
 				ad.reset();
@@ -319,7 +319,6 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 	}
 }
 
-
 //현재 이용중 고객 조회
 class MethMsCurrMemListSyn implements ServerPacketMethod {
 
@@ -429,16 +428,18 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 		AccountDao ad = new AccountDao();
 
 		ScDuplicateIDAck ack;
+
+		String idOrPhone = resPacket.is_hp ? "phone" : "id";
 		try {
-			if (ad.duplicateIDChk(resPacket.id)) {
-				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID);
+			if (ad.duplicateIDChk(idOrPhone, resPacket.id)) {
+				ack = new ScDuplicateIDAck(EResult.DUPLICATEED_ID, resPacket.is_hp);
 			} else {
-				ack = new ScDuplicateIDAck(EResult.SUCCESS);
+				ack = new ScDuplicateIDAck(EResult.SUCCESS, resPacket.is_hp);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ack = new ScDuplicateIDAck(EResult.FAIL);
+			ack = new ScDuplicateIDAck(EResult.FAIL, resPacket.is_hp);
 		}
 
 		client.sendPacket(ack);

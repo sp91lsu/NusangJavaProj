@@ -75,10 +75,10 @@ public class AccountDao extends DBProcess {
 		return un;
 	}
 
-	public boolean duplicateIDChk(String id) throws SQLException {
+	public boolean duplicateIDChk(String idOrPhone, String id) throws SQLException {
 
 		boolean hasID = false;
-		findQuery(ETable.ACCOUNT, "*", "id = ?");
+		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ?");
 
 		stmt.setString(1, id);
 		rs = stmt.executeQuery();
@@ -134,7 +134,6 @@ public class AccountDao extends DBProcess {
 		return userList;
 	}
 
-	
 	public void exitUser(String uuid, int isExit) {
 		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = ?");
 		try {
