@@ -96,7 +96,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private JLabel lbChatName;
 	private JScrollPane scrollPane_Chat;
 	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
-	
+			
+			 
 	SetPrice pnl_SetPrice = new SetPrice();
 	
 	public static void main(String[] args) {
@@ -436,9 +437,10 @@ public class ManagerWindow extends JFrame implements Receivable {
 		JPanel panel_9 = new JPanel();
 		tabbedPane.addTab("\uB9E4\uCD9C \uC870\uD68C", null, panel_9, null);
 		GridBagLayout gbl_panel_9 = new GridBagLayout();
-		gbl_panel_9.columnWidths = new int[] { 31, 575, 122, 575, 0, 0 };
+		int widthP9 = 400;
+		gbl_panel_9.columnWidths = new int[] { 30, widthP9, 30,widthP9, 30};
 		gbl_panel_9.rowHeights = new int[] { 0, 780, 0, 0 };
-		gbl_panel_9.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_9.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0 };
 		gbl_panel_9.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		panel_9.setLayout(gbl_panel_9);
 
@@ -504,7 +506,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		panel_13.setLayout(gbl_panel_13);
 
 		JLabel lblNewLabel_2 = new JLabel("\uB2F9\uC77C \uB9E4\uCD9C");
-		lblNewLabel_2.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
+		lblNewLabel_2.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_2.gridx = 0;
@@ -516,7 +518,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		panel_14.setLayout(new GridLayout(2, 1, 0, 0));
 
 		JLabel lblNewLabel_3 = new JLabel("\uCD1D \uAE08\uC561");
-		lblNewLabel_3.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
+		lblNewLabel_3.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_14.add(lblNewLabel_3);
 
@@ -531,7 +533,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 
 		JLabel lblNewLabel_5 = new JLabel("\uCD1D \uC774\uC6A9\uAC1D");
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
+		lblNewLabel_5.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		panel_15.add(lblNewLabel_5);
 
 		JLabel lblNewLabel_4_1 = new JLabel("2000");
@@ -591,7 +593,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		panel_13_1.setLayout(gbl_panel_13_1);
 
 		JLabel lblNewLabel_2_1 = new JLabel("\uC6D4\uAC04 \uB9E4\uCD9C");
-		lblNewLabel_2_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
+		lblNewLabel_2_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_1.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_2_1.gridx = 0;
@@ -604,7 +606,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 
 		JLabel lblNewLabel_3_1 = new JLabel("\uCD1D \uAE08\uC561");
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
+		lblNewLabel_3_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		panel_14_1.add(lblNewLabel_3_1);
 
 		JLabel lblNewLabel_4_2 = new JLabel("2000");
@@ -618,7 +620,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 
 		JLabel lblNewLabel_5_1 = new JLabel("\uCD1D \uC774\uC6A9\uAC1D");
 		lblNewLabel_5_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 30));
+		lblNewLabel_5_1.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		panel_15_1.add(lblNewLabel_5_1);
 
 		JLabel lblNewLabel_4_1_1 = new JLabel("2000");
