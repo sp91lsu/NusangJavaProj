@@ -25,6 +25,7 @@ import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
+import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
@@ -83,6 +84,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, (Receivable) signUpFrame);
 		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
+		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, (Receivable) this);
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -111,9 +113,10 @@ public class BaseFrame extends JFrame implements Receivable {
 				getSeatingArrUI().roomState();
 				getSeatingArrUI().checkDate();
 			}
-			if (payment.isVisible()) {
-				payment.updatePayment();
-			}
+
+//			if (payment.isVisible()) {
+//				payment.updatePayment();
+//			}
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
@@ -127,6 +130,17 @@ public class BaseFrame extends JFrame implements Receivable {
 			if (packetAck.eResult == EResult.SUCCESS) {
 				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
+			} else {
+				System.out.println("사물함 결제 실패");
+			}
+		} else if (packet.getClass() == ScUpdateRoomInfoAck.class) {
+			ScUpdateRoomInfoAck packetAck = (ScUpdateRoomInfoAck) packet;
+			if (packetAck.eResult == EResult.SUCCESS) {
+
+				updateData(packetAck.roomListAll, packetAck.myReserList, packetAck.myExitList, packetAck.lockerList);
+				if (getMainLayout().isVisible()) {
+					openMainLayout(null, null, null, null);
+				}
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -230,6 +244,10 @@ public class BaseFrame extends JFrame implements Receivable {
 		BaseFrame.getInstance().view("MainLayout");
 		layout.updatePage();
 		return layout;
+	}
+
+	public MainLayout getMainLayout() {
+		return (MainLayout) jPanelArrl.get(1);
 	}
 
 	public void updateData(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
@@ -342,8 +360,7 @@ class CheckRoomInfo extends Thread {
 			while (true) {
 				Calendar cal = Calendar.getInstance();
 				if (cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0) {
-					CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().roomProduct,
-							BaseFrame.getInstance().userData.uuid);
+					CsUpdateRoomSyn packet = new CsUpdateRoomSyn(BaseFrame.getInstance().userData.uuid);
 					ClientNet.getInstance().sendPacket(packet);
 				}
 				sleep(800);

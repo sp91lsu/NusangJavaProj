@@ -13,6 +13,7 @@ import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
+import client_p.packet_p.syn_p.CsUpdateRoomSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
@@ -34,6 +35,7 @@ import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
+import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
@@ -290,10 +292,20 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
 		RoomDao roomDao = new RoomDao();
+		LockerDao locker = new LockerDao();
+		CsUpdateRoomSyn resPacket = (CsUpdateRoomSyn) packet;
 
+		ArrayList<RoomProduct> myReserList = roomDao.findUserRoom(resPacket.uuid, false);
+		roomDao.reset();
+		ArrayList<RoomProduct> exitList = roomDao.findUserRoom(resPacket.uuid, true);
+		roomDao.reset();
+		ArrayList<RoomProduct> reserAll = roomDao.getReservationListAll();
+
+		ArrayList<LockerData> lockerList = locker.getLockerIDList();
 		try {
-			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomDao.getReservationListAll());
-			client.sendPacket(roomCast);
+			ScUpdateRoomInfoAck roomAck = new ScUpdateRoomInfoAck(EResult.SUCCESS, reserAll, myReserList, exitList, lockerList);
+
+			client.sendPacket(roomAck);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
