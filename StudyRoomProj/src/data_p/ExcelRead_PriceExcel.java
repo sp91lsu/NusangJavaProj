@@ -73,7 +73,7 @@ public class ExcelRead_PriceExcel {
 
 	public static void main(String[] args) {
 		
-		ArrayList<String> s = new ExcelRead_PriceExcel().rowDataArr(2,"DataTable/RoomData2.xlsx");
+		ArrayList<String> s = new ExcelRead_PriceExcel().rowDataArr(2,"DataTable/RoomData.xlsx");
 		System.out.println(s.size());
 		System.out.println(s.get(0));
 	}

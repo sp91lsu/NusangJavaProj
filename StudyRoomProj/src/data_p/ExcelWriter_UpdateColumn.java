@@ -13,20 +13,22 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelWriter_UpdateColumn {
-	double roomID;
+	int roomID;
 	int columnIdx;
 	ArrayList<String> columnValueArr = new ArrayList<String>();
+	String dataPath;
 
-	public ExcelWriter_UpdateColumn(ArrayList<String> columnValueArr, int columnIdx) {
+	public ExcelWriter_UpdateColumn(ArrayList<String> columnValueArr, int columnIdx, String dataPath) {
 		super();
 		this.columnValueArr = columnValueArr;
 		this.columnIdx = columnIdx;
+		this.dataPath = dataPath;
 		ee();
 	}
 
 	void ee() {
 		try {
-			File file = new File("DataTable/RoomData2.xlsx");
+			File file = new File(dataPath);
 
 			// ¿¢¼¿ ÆÄÀÏ ¿ÀÇÂ
 			XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
@@ -46,7 +48,7 @@ public class ExcelWriter_UpdateColumn {
 
 				XSSFCell cell = (XSSFCell) row.getCell(columnIdx);
 				if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
-					int cv = Integer.parseInt(columnValueArr.get(cnt++));
+					double cv = Double.parseDouble(columnValueArr.get(cnt++));
 					row.getCell(columnIdx).setCellValue(cv);
 				} else {
 					row.getCell(columnIdx).setCellValue(columnValueArr.get(cnt++)); 
@@ -60,6 +62,8 @@ public class ExcelWriter_UpdateColumn {
 			System.out.println("FileNotFoundException >> " + fe.toString());
 		} catch (IOException ie) {
 			System.out.println("IOException >> " + ie.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -69,7 +73,7 @@ public class ExcelWriter_UpdateColumn {
 		for (int i = 0; i < 23; i++) {
 			co.add(""+(i+1000));
 		}
-		new ExcelWriter_UpdateColumn(co, 0);
+		new ExcelWriter_UpdateColumn(co, 0,"DataTable/RoomData.xlsx");
 
 	}
 
