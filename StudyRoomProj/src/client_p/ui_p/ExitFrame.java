@@ -41,6 +41,7 @@ public class ExitFrame extends JFrame {
 				room.isExit = true;
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
+				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
 			}
 		});

@@ -38,7 +38,7 @@ public class TimeFrame extends JFrame {
 					"<br>비밀번호 : "+ lockerInfo.pw +"<html>";
 		}
 
-		JLabel titleLabel = new JLabel("잔여 시간 확인");
+		JLabel titleLabel = new JLabel("당일 구매 정보");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		titleLabel.setBounds(60, 10, 360, 70);
@@ -46,7 +46,7 @@ public class TimeFrame extends JFrame {
 
 		String remaingTime = showRemainTime();
 		JLabel lblNewLabel = new JLabel("<html>이용자 ID : " + id + "<br>휴대폰번호 : " + 
-				phoneNum + "<br>이용 중인 좌석/룸 : " + seatingName + "<br>잔여 시간 : " + 
+				phoneNum + "<br>이용 중인 좌석/룸 : " + seatingName + "<br>남은 이용 시간 : " + 
 				remaingTime + "<br>사물함 이용 정보 : " + locker +  "<html>");
 		
 		lblNewLabel.setBackground(Color.WHITE);

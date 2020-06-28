@@ -24,6 +24,7 @@ public class LogoutPopFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("LoginMain");
+				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
 			}
 		});

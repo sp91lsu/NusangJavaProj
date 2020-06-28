@@ -115,7 +115,7 @@ public class MainLayout extends JPanel implements Receivable {
 			}
 		});
 
-		JButton button_7 = new JButton("잔여 시간");
+		JButton button_7 = new JButton("당일 구매 정보");
 		button_7.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_7);
 		button_7.addActionListener(new ActionListener() {
@@ -128,7 +128,7 @@ public class MainLayout extends JPanel implements Receivable {
 			}
 		});
 
-		JButton button_8 = new JButton("내 이용내역");
+		JButton button_8 = new JButton("이용 내역 조회");
 		button_8.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_8);
 		button_8.addActionListener(new ActionListener() {
@@ -155,7 +155,6 @@ public class MainLayout extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				LogoutPopFrame logout = new LogoutPopFrame();
-				BaseFrame.getInstance().getLoginMain().logSet();
 				logout.setVisible(true);
 			}
 		});
