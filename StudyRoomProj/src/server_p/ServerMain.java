@@ -142,7 +142,7 @@ class SocketClient extends Thread {
 				return;
 			}
 		}
-//		close();
+		close();
 	}
 
 	void sendPacket(PacketBase packet) {
@@ -160,10 +160,12 @@ class SocketClient extends Thread {
 
 	public void close() {
 
-		System.out.println(socket.getInetAddress() + "종료");
-		MyServer.getInstance().clientList.remove(this);
-		System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
+		if (MyServer.getInstance().clientList.contains(this)) {
+			MyServer.getInstance().clientList.remove(this);
+			System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
+		}
 		if (!socket.isClosed()) {
+			System.out.println(socket.getInetAddress() + "종료");
 			try {
 				socket.close();
 			} catch (IOException e) {

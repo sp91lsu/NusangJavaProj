@@ -24,7 +24,6 @@ public class AddTimeFrame extends JFrame {
 	int startTime;
 	int endTime;
 	int timeChoice = 0;
-	int extension;
 	Calendar last;
 
 	public static void main(String[] args) {
@@ -61,11 +60,11 @@ public class AddTimeFrame extends JFrame {
 		JButton cancelButton = new JButton("취소");
 		cancelButton.setBounds(243, 188, 110, 43);
 		cancelButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				
+
 			}
 		});
 		contentPane.add(cancelButton);
@@ -93,17 +92,24 @@ public class AddTimeFrame extends JFrame {
 	public int timeChoice() {
 
 		RoomProduct room = BaseFrame.getInstance().getUsingRoom();
-		ArrayList<Calendar> myCalList = room.calendarList;
+		ArrayList<Calendar> myCalList = new ArrayList<Calendar>();
+
+		for (Calendar reserCal : room.calendarList) {
+			Calendar buf = Calendar.getInstance();
+			buf.setTimeInMillis(reserCal.getTimeInMillis());
+			myCalList.add(buf);
+		}
+
 		last = myCalList.get(0);
-		for (Calendar cal : BaseFrame.getInstance().getUsingRoom().calendarList) {
+		for (Calendar cal : myCalList) {
 			if (last.getTimeInMillis() < cal.getTimeInMillis()) {
 				last = cal;
 			}
 		}
 
-		extension = 23-last.get(Calendar.HOUR_OF_DAY);
+		int extension = 23 - last.get(Calendar.HOUR_OF_DAY);
 		for (RoomProduct rp : BaseFrame.getInstance().roomInfoList) {
-			if (rp.name.equals(room.name)) {
+			if (rp.id.equals(room.id)) {
 				for (Calendar calMe : rp.calendarList) {
 					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, Calendar.getInstance(), calMe)) {
 						int end = calMe.get(Calendar.HOUR_OF_DAY);
@@ -120,7 +126,7 @@ public class AddTimeFrame extends JFrame {
 
 		if (extension > 0) {
 			extension -= 1;
-		} 
+		}
 		System.out.println("연장할 수 있는 시간 " + extension);
 
 		return extension;
