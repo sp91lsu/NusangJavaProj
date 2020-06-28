@@ -116,9 +116,9 @@ public class LockerMain extends JPanel implements ActionListener {
 		}
 	}
 
-	public void updateLocker(ArrayList<LockerData> lockerList) {
+	public void updateLocker() {
 
-		for (LockerData lockerData : lockerList) {
+		for (LockerData lockerData : BaseFrame.getInstance().lockerlist) {
 			for (LockerBtn lockerbtn : list) {
 				if (lockerbtn.data.id.equals(lockerData.id)) {
 					lockerbtn.btn.setBackground(null);
