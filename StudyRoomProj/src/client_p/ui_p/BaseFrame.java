@@ -75,7 +75,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) jPanelArrl.get(0)); // 로그인
 		PacketMap.getInstance().map.put(ScSignUpAck.class, (Receivable) signUpFrame); // 회원가입
 		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// 결제
-		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, (Receivable) jPanelArrl.get(5));
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
@@ -113,9 +112,6 @@ public class BaseFrame extends JFrame implements Receivable {
 			}
 			if (payment.isVisible()) {
 				payment.updatePayment();
-			}
-			if (getReservationMain().isVisible()) {
-				getReservationMain().updateReservationMain();
 			}
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;

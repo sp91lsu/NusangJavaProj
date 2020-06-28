@@ -534,7 +534,6 @@ public class ReservationMain extends JPanel {
 	
 	public void updateReservationMain()
 	{
-		JOptionPane.showMessageDialog(null, "좌석현황이 업데이트되었습니다.");
 		calPaneMain.removeAll();
 		makeCalendar();
 		resetResInfo();
