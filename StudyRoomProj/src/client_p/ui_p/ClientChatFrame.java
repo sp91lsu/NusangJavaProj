@@ -123,7 +123,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		exitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().openMainLayout(null, null, null);
+				BaseFrame.getInstance().openMainLayout(null, null, null, null);
 			}
 		});
 		panel_1.add(exitButton);

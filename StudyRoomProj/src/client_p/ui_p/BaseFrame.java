@@ -120,17 +120,15 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-				BaseFrame.getInstance().openMainLayout(null, null, packetAck.lockerList);
+				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
-				getLockerMain().updateLocker(packetAck.lockerList);
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
 		} else if (packet.getClass() == ScBuyLockerAck.class) {
 			ScBuyLockerAck packetAck = (ScBuyLockerAck) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-				BaseFrame.getInstance().openMainLayout(null, null, packetAck.lockerList);
-				getLockerMain().updateLocker(packetAck.lockerList);
+				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
 			} else {
 				System.out.println("사물함 결제 실패");
@@ -219,14 +217,18 @@ public class BaseFrame extends JFrame implements Receivable {
 		return (ClientChatFrame) jPanelArrl.get(5);
 	}
 
-	public LockerMain getLockerMain() {
-		return (LockerMain) jPanelArrl.get(6);
+	public LockerMain openLockerMain() {
+		LockerMain lockerMain = (LockerMain) jPanelArrl.get(6);
+		view("LockerMain");
+		lockerMain.updateLocker(lockerlist);
+
+		return lockerMain;
 	}
 
 	public MainLayout openMainLayout(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
-			ArrayList<LockerData> lockerList) {
+			ArrayList<RoomProduct> exitList, ArrayList<LockerData> lockerList) {
 
-		updateData(reserAll, myReser, lockerList);
+		updateData(reserAll, myReser, exitList, lockerList);
 		MainLayout layout = (MainLayout) jPanelArrl.get(1);
 		BaseFrame.getInstance().view("MainLayout");
 		layout.updatePage();
@@ -234,7 +236,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	}
 
 	public void updateData(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
-			ArrayList<LockerData> lockerList) {
+			ArrayList<RoomProduct> exitList, ArrayList<LockerData> lockerList) {
 
 		if (reserAll != null) {
 			roomInfoList = reserAll;
@@ -242,6 +244,9 @@ public class BaseFrame extends JFrame implements Receivable {
 		if (myReser != null) {
 			System.out.println(userData);
 			userData.myReservationList = myReser;
+		}
+		if (exitList != null) {
+			userData.exitList = exitList;
 		}
 		if (lockerList != null) {
 			this.lockerlist = lockerList;
@@ -266,7 +271,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		for (RoomProduct product : userData.myReservationList) {
 			for (int i = 0; i < product.calendarList.size(); i++) {
 				Calendar cal = product.calendarList.get(i);
-				if (isSameTime(field, cal, current) && !userData.isExit) {
+				if (isSameTime(field, cal, current)) {
 					clone = product.getClone();
 					clone.calendarList.add(cal);
 				}
@@ -294,41 +299,38 @@ public class BaseFrame extends JFrame implements Receivable {
 
 	public long getTodayRemainTime() {
 
-		System.out.println("유저 퇴실 여부 " + userData.isExit);
-		if (!userData.isExit) {// 오늘예약한 리스트만 가지고오기
-			Calendar current = Calendar.getInstance();
+		Calendar current = Calendar.getInstance();
 
-			Calendar last = null;
-			Calendar start = null;
+		Calendar last = null;
+		Calendar start = null;
 
-			RoomProduct room = userData.getTodayRoom();
+		RoomProduct room = userData.getTodayRoom();
 
-			System.out.println("유저 오늘 방 정보 " + room);
-			if (room != null) {// 오늘 총 예약한 리스트
-				for (Calendar cal : room.calendarList) {
-					if (isSameTime(Calendar.DATE, cal, current)) {
-						if (last == null) {
-							last = cal;
-							start = cal;
-						}
-						if (last.getTimeInMillis() < cal.getTimeInMillis()) {
-							last = cal;
-						}
-						if (start.getTimeInMillis() > cal.getTimeInMillis()) {
-							start = cal;
-						}
+		System.out.println("유저 오늘 방 정보 " + room);
+		if (room != null) {// 오늘 총 예약한 리스트
+			for (Calendar cal : room.calendarList) {
+				if (isSameTime(Calendar.DATE, cal, current)) {
+					if (last == null) {
+						last = cal;
+						start = cal;
+					}
+					if (last.getTimeInMillis() < cal.getTimeInMillis()) {
+						last = cal;
+					}
+					if (start.getTimeInMillis() > cal.getTimeInMillis()) {
+						start = cal;
 					}
 				}
 			}
+		}
 
-			if (start != null) {
-				System.out.println("마지막 끝나는 시간" + last.getTime());
-				// 오늘 예약한 남은시간
-				if (start.getTimeInMillis() < current.getTimeInMillis()) {
-					return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - current.getTimeInMillis();
-				} else {
-					return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - start.getTimeInMillis();
-				}
+		if (start != null) {
+			System.out.println("마지막 끝나는 시간" + last.getTime());
+			// 오늘 예약한 남은시간
+			if (start.getTimeInMillis() < current.getTimeInMillis()) {
+				return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - current.getTimeInMillis();
+			} else {
+				return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - start.getTimeInMillis();
 			}
 		}
 		return 0;

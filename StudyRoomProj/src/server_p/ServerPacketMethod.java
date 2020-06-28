@@ -68,7 +68,8 @@ class MethLoginSyn implements ServerPacketMethod {
 				RoomDao roomDao = new RoomDao();
 				LockerDao lockerDao = new LockerDao();
 
-				userData.setMyRoom(roomDao.findUserRoom(userData.uuid));
+				userData.setReserRoom(roomDao.findUserRoom(userData.uuid, false));
+				userData.setExitRoom(roomDao.findUserRoom(userData.uuid, true));
 
 				ack = new ScLoginAck(EResult.SUCCESS, userData, roomDao.getReservationListAll(),
 						lockerDao.getLockerIDList());
@@ -191,10 +192,6 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		System.out.println(recPacket.RoomProduct.calendarList.size());
 		ScBuyRoomAck ack = null;
 
-		AccountDao ad = new AccountDao();
-
-		ad.exitUser(recPacket.uuid, 0);
-
 		// 타임별로 룸 구매
 		RoomDao roomDao = new RoomDao();
 		try {
@@ -204,13 +201,14 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 				ArrayList<RoomProduct> roomList = roomDao.getReservationListAll();
 				roomDao.reset();
 
-				ack = new ScBuyRoomAck(EResult.SUCCESS, roomList, roomDao.findUserRoom(recPacket.uuid));
+				ack = new ScBuyRoomAck(EResult.SUCCESS, roomList, roomDao.findUserRoom(recPacket.uuid, false),
+						roomDao.findUserRoom(recPacket.uuid, true));
 				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomList);
 
 				MyServer.getInstance().broadCast(client, roomCast);
 
 			} else {
-				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA, null, null);
+				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA, null, null, null);
 			}
 			client.sendPacket(ack);
 		} catch (Exception e) {
@@ -236,8 +234,9 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		roomDao.reset();
 		ArrayList<RoomProduct> reserListAll = roomDao.getReservationListAll();
 		roomDao.reset();
-		ArrayList<RoomProduct> myReserList = roomDao.getReservationListAll();
-		ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList);
+		ArrayList<RoomProduct> myReserList = roomDao.findUserRoom(recPacket.userUUID, false);
+		ArrayList<RoomProduct> myExitList = roomDao.findUserRoom(recPacket.userUUID, true);
+		ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList, myExitList);
 		client.sendPacket(ack);
 	}
 }
@@ -255,30 +254,30 @@ class MethExitSyn implements ServerPacketMethod {
 
 		CsExitSyn respacket = (CsExitSyn) packet;
 
-		AccountDao ad = new AccountDao();
-
-		ad.exitUser(respacket.room.userUUID, 1);
-
 		RoomDao roomDao = new RoomDao();
 		roomDao.exitRoom(respacket.room);
 
 		roomDao.reset();
 		ArrayList<RoomProduct> reserListAll = roomDao.getReservationListAll();
 		roomDao.reset();
-		ArrayList<RoomProduct> myReserList = roomDao.getReservationListAll();
-
-		LockerDao lockerDao = new LockerDao();
+		ArrayList<RoomProduct> myReserList = roomDao.findUserRoom(respacket.room.userUUID, false);
+		ArrayList<RoomProduct> myExitList = roomDao.findUserRoom(respacket.room.userUUID, true);
 
 		ScExitAck ack;
 
-		if (lockerDao.findUserLocker(respacket.room.userUUID)) {
-			lockerDao.reset();
-			lockerDao.exitLocker(respacket.room.userUUID);
-		}
+		LockerDao lockerDao = new LockerDao();
+		lockerDao.exitLocker(respacket.room.userUUID);
+
+		LockerDao lockerDao2 = new LockerDao();
+		ArrayList<LockerData> lockerList = lockerDao2.getLockerIDList();
+//		if (lockerDao.findUserLocker(respacket.room.userUUID)) {
+//			lockerDao.reset();
+//		
+//		}
 
 		ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
 		MyServer.getInstance().broadCast(client, roomCast);
-		ack = new ScExitAck(EResult.SUCCESS, reserListAll, myReserList);
+		ack = new ScExitAck(EResult.SUCCESS, reserListAll, myReserList, myExitList, lockerList);
 		client.sendPacket(ack);
 	}
 }

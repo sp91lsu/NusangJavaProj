@@ -10,11 +10,14 @@ public class ScBuyRoomAck extends ResultPacketBase {
 
 	public ArrayList<RoomProduct> roomList;
 	public ArrayList<RoomProduct> myReserList;
+	public ArrayList<RoomProduct> exitList;
 
-	public ScBuyRoomAck(EResult eResult, ArrayList<RoomProduct> roomList, ArrayList<RoomProduct> myReserList) {
+	public ScBuyRoomAck(EResult eResult, ArrayList<RoomProduct> roomList, ArrayList<RoomProduct> myReserList,
+			ArrayList<RoomProduct> myExitList) {
 		super(eResult);
 
 		this.roomList = roomList;
 		this.myReserList = myReserList;
+		this.exitList = myExitList;
 	}
 }

@@ -209,7 +209,7 @@ public class RoomDao extends DBProcess {
 
 				int roomID = rs.getInt("ID");
 
-				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID);
+				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID).getClone();
 				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
 
 				Calendar current = Calendar.getInstance();
@@ -247,10 +247,12 @@ public class RoomDao extends DBProcess {
 	}
 
 	// 예약한 룸정보 불러오기
-	public ArrayList<RoomProduct> findUserRoom(String uuid) {
+	public ArrayList<RoomProduct> findUserRoom(String uuid, boolean isExit) {
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+
+		int isExitNum = isExit ? 1 : 0;
 		try {
-			ResultSet rs = getRS(ETable.INVENTORY, "*", "uuid = '" + uuid + "'");
+			ResultSet rs = getRS(ETable.INVENTORY, "*", "uuid = '" + uuid + "' and ISEXIT = " + isExitNum);
 			// Listener refused the connection with the following error:
 			roomList = resToList(rs);
 		} catch (SQLException e) {

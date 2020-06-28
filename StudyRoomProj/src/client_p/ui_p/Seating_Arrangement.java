@@ -572,7 +572,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public void receive(PacketBase packet) {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, null);
+			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, ack.myExitList, null);
 		} else {
 
 		}

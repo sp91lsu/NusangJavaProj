@@ -30,6 +30,7 @@ public class MainLayout extends JPanel implements Receivable {
 	private JButton button_6;
 	private JButton button_9;
 	private JButton button_5;
+	private JButton button_3;
 	long todayRemainTime;
 
 	public static void main(String[] args) {
@@ -73,19 +74,13 @@ public class MainLayout extends JPanel implements Receivable {
 			}
 		});
 
-		JButton button_3 = new JButton("»ç¹°ÇÔ ´ë¿©");
+		button_3 = new JButton("»ç¹°ÇÔ ´ë¿©");
 		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		panel.add(button_3);
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("LockerMain");
-				for (LockerData data : BaseFrame.getInstance().lockerlist) {
-					for (LockerBtn btn : BaseFrame.getInstance().getLockerMain().list) {
-						if (data.name.equals(btn.data.name)) {
-							btn.btn.setEnabled(false);
-						}
-					}
-				}
+				BaseFrame.getInstance().openLockerMain();
+
 			}
 		});
 
@@ -106,7 +101,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_5);
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//BaseFrame.getInstance().getSeatingArrUI().group_state(false);
+				// BaseFrame.getInstance().getSeatingArrUI().group_state(false);
 				BaseFrame.getInstance().openSeatingArrUI(EEnter.SEATCHANGE);
 				BaseFrame.getInstance().view("Seating_Arrangement");
 				SeatChangePop frame = new SeatChangePop();
@@ -183,13 +178,15 @@ public class MainLayout extends JPanel implements Receivable {
 
 			button_9.setText("Åð½Ç");
 			button_5.setEnabled(true);
+			button_3.setEnabled(true);
 		} else if (reserRoom != null) {
 			BaseFrame.getInstance().roomProduct = reserRoom;
 			button_5.setEnabled(false);
+			button_3.setEnabled(false);
 			button_9.setText("¿¹¾à Ãë¼Ò");
 		} else {
 			button_9.setText("Åð½Ç");
-
+			button_3.setEnabled(false);
 			button_5.setEnabled(false);
 			button_9.setEnabled(false);
 		}
@@ -230,9 +227,8 @@ public class MainLayout extends JPanel implements Receivable {
 		} else if (packet.getClass() == ScExitAck.class) {
 			ScExitAck resPacket = (ScExitAck) packet;
 			if (resPacket.eResult == EResult.SUCCESS) {
-				BaseFrame.getInstance().openMainLayout(resPacket.reserListAll, resPacket.myReserList, null);
-				BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE).isExit = true;
-				BaseFrame.getInstance().userData.isExit = true;
+				BaseFrame.getInstance().openMainLayout(resPacket.reserListAll, resPacket.myReserList,
+						resPacket.myExitList, resPacket.lockerList);
 				updatePage();
 			} else if (resPacket.eResult == EResult.FAIL) {
 				System.out.println("Åð½Ç ½ÇÆÐ");

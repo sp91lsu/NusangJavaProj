@@ -17,8 +17,8 @@ public class UserData extends PacketData {
 	public String phone; // 폰
 	public String birth; // 생일
 	public String cType; // 로그인 타입 (일반,관리자(데이터베이스에 있는 키값을 보내야 함))
-	public boolean isExit;
 
+	public ArrayList<RoomProduct> exitList = new ArrayList<RoomProduct>();
 	public ArrayList<RoomProduct> myReservationList = new ArrayList<RoomProduct>();
 
 	//
@@ -33,23 +33,26 @@ public class UserData extends PacketData {
 		this.cType = cType;
 	}
 
-	public UserData(String uuid, String name, String id, String phone, String birth, boolean isExit) {
+	public UserData(String uuid, String name, String id, String phone, String birth) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
 		this.id = id;
 		this.phone = phone;
 		this.birth = birth;
-		this.isExit = isExit;
 	}
 
-	public void setMyRoom(ArrayList<RoomProduct> myReservationList) {
+	public void setReserRoom(ArrayList<RoomProduct> myReservationList) {
 		this.myReservationList = myReservationList;
+	}
+
+	public void setExitRoom(ArrayList<RoomProduct> exitList) {
+		this.exitList = exitList;
 	}
 
 	public RoomProduct getTodayRoom() {
 		for (RoomProduct room : myReservationList) {
-			if (room != null && !isExit) {// 오늘 총 예약한 리스트
+			if (room != null) {// 오늘 총 예약한 리스트
 				for (Calendar cal : room.calendarList) {
 					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, Calendar.getInstance())) {
 						return room;

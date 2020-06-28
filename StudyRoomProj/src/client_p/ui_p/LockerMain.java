@@ -89,7 +89,7 @@ public class LockerMain extends JPanel implements ActionListener {
 		infoPanel.add(cancelButton);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().openMainLayout(null, null, null);
+				BaseFrame.getInstance().openMainLayout(null, null, null, null);
 			}
 		});
 
@@ -117,11 +117,15 @@ public class LockerMain extends JPanel implements ActionListener {
 	}
 
 	public void updateLocker(ArrayList<LockerData> lockerList) {
+
 		for (LockerData lockerData : lockerList) {
 			for (LockerBtn lockerbtn : list) {
 				if (lockerbtn.data.id.equals(lockerData.id)) {
 					lockerbtn.btn.setBackground(null);
 					lockerbtn.btn.setEnabled(false);
+				} else {
+					lockerbtn.btn.setBackground(new Color(150, 150, 150));
+					lockerbtn.btn.setEnabled(true);
 				}
 			}
 		}

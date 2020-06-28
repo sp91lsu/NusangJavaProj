@@ -37,20 +37,28 @@ public class InfoFrame extends JFrame {
 		getContentPane().add(scrollPane_1);
 
 		textArea = new JTextArea();
-		String text = "";
-		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().userData.myReservationList;
-		if (roomList.size() != 0) {
-			for (RoomProduct data : roomList) {
 
-				for (Calendar cal : data.calendarList) {
-					date = sdf.format(cal.getTime());
-					text += "이용자 ID : " + id + "\n구매한 좌석/룸 명 : " + data.name + " / " + "금액 : "
-							+ data.price + "원" + "\n구매한 시간 : " + date + "\n";
-				}
+		ArrayList<RoomProduct> exitList = BaseFrame.getInstance().userData.exitList;
+		ArrayList<RoomProduct> reserList = BaseFrame.getInstance().userData.myReservationList;
+
+		String text = "퇴실 현황\n";
+		for (RoomProduct data : exitList) {
+			for (Calendar cal : data.calendarList) {
+				date = sdf.format(cal.getTime());
+				text += "이용자 ID : " + id + "\n구매한 좌석/룸 명 : " + data.name + " / " + "금액 : " + data.price + "원"
+						+ "\n구매한 시간 : " + date + "\n";
 			}
-		} else {
-			text = "이용내역이없습니다.";
 		}
+
+		text += "예약 현황\n";
+		for (RoomProduct data : reserList) {
+			for (Calendar cal : data.calendarList) {
+				date = sdf.format(cal.getTime());
+				text += "이용자 ID : " + id + "\n구매한 좌석/룸 명 : " + data.name + " / " + "금액 : " + data.price + "원"
+						+ "\n구매한 시간 : " + date + "\n";
+			}
+		}
+
 		textArea.setText(text);
 		scrollPane_1.setViewportView(textArea);
 

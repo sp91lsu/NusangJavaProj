@@ -50,7 +50,7 @@ public class AccountDao extends DBProcess {
 		UserData userdata = null;
 		if (rs.next()) {
 			userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"), rs.getInt("isExit") == 1);
+					rs.getString("phone"), rs.getString("birth"));
 		}
 		rs.close();
 		return userdata;
@@ -98,7 +98,7 @@ public class AccountDao extends DBProcess {
 		while (rs.next()) {
 
 			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"), rs.getInt("isExit") == 1);
+					rs.getString("phone"), rs.getString("birth"));
 			userList.add(userdata);
 			System.out.println(userdata.uuid);
 		}
@@ -126,7 +126,7 @@ public class AccountDao extends DBProcess {
 
 		while (rs.next()) {
 			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"), rs.getInt("isExit") == 1);
+					rs.getString("phone"), rs.getString("birth"));
 			userList.add(userdata);
 		}
 
@@ -134,19 +134,4 @@ public class AccountDao extends DBProcess {
 		return userList;
 	}
 
-	public void exitUser(String uuid, int isExit) {
-		updateQuery(ETable.ACCOUNT, "ISEXIT", "? where uuid = ?");
-		try {
-
-			stmt.setInt(1, isExit);
-			stmt.setString(2, uuid);
-
-			rs = stmt.executeQuery();
-
-			rs.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
