@@ -43,7 +43,7 @@ public class AddTimeFrame extends JFrame {
 		titleL.setBounds(94, 10, 273, 54);
 		contentPane.add(titleL);
 
-		JLabel timeInfoL = new JLabel("시 까지 연장");
+		JLabel timeInfoL = new JLabel("시간 연장");
 		timeInfoL.setBounds(270, 112, 73, 31);
 		contentPane.add(timeInfoL);
 
@@ -54,11 +54,20 @@ public class AddTimeFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sendPacket();
+				dispose();
 			}
 		});
 
 		JButton cancelButton = new JButton("취소");
 		cancelButton.setBounds(243, 188, 110, 43);
+		cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 		contentPane.add(cancelButton);
 
 		Vector<Integer> timeCnt = new Vector<Integer>();
