@@ -70,7 +70,7 @@ class MyServer {
 		}
 	}
 
-	void duplicateClientChk(Socket client) {
+	synchronized void duplicateClientChk(Socket client) {
 		for (SocketClient socketClient : clientList) {
 			if (socketClient.socket.getInetAddress().toString().equals(client.getInetAddress().toString())) {
 				socketClient.close();

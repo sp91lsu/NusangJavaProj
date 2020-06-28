@@ -23,7 +23,7 @@ class LockerBtn {
 
 		this.data = data;
 		this.btn = btn;
-
+		btn.setBackground(new Color(139, 69, 19));
 		btn.setText(data.name);
 	}
 }
@@ -107,10 +107,10 @@ public class LockerMain extends JPanel implements ActionListener {
 			JButton listBtn = list.get(i).btn;
 
 			if (e.getSource().equals(listBtn)) {
-				listBtn.setBackground(Color.red);
+				listBtn.setBackground(new Color(255, 54, 54));
 				currentData = list.get(i).data;
 			} else {
-				listBtn.setBackground(null);
+				listBtn.setBackground(new Color(139, 69, 19));
 			}
 
 		}
@@ -125,7 +125,7 @@ public class LockerMain extends JPanel implements ActionListener {
 					lockerbtn.btn.setEnabled(false);
 					break;
 				} else {
-					lockerbtn.btn.setBackground(new Color(150, 150, 150));
+					lockerbtn.btn.setBackground(new Color(139, 69, 19));
 					lockerbtn.btn.setEnabled(true);
 				}
 			}

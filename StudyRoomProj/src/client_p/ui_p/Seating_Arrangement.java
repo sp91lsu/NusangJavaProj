@@ -54,23 +54,23 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			this.state = state;
 			switch (state) {
 			case EMPTY:
-				btn.setBackground(Color.green);
+				btn.setBackground(new Color(50, 205, 50));
 				btn.setEnabled(true);
 				break;
 			case INIT:
-				btn.setBackground(Color.green);
+				btn.setBackground(new Color(50, 205, 50));
 				btn.setEnabled(false);
 				break;
 			case MY:
-				btn.setBackground(Color.blue);
+				btn.setBackground(new Color(65, 105, 225));
 				btn.setEnabled(false);
 				break;
 			case USE:
-				btn.setBackground(Color.red);
+				btn.setBackground(new Color(255, 54, 54));
 				btn.setEnabled(false);
 				break;
 			case DIM:
-				btn.setBackground(new Color(150, 150, 150));
+				btn.setBackground(new Color(125, 125, 125));
 				btn.setEnabled(false);
 				break;
 			}
@@ -92,12 +92,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	JComboBox timeStartCBox;
 	JComboBox timeEndCbox;
 
-	int setMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-	int nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-	int setYear = Calendar.getInstance().get(Calendar.YEAR);
-	int setDate = Calendar.getInstance().get(Calendar.DATE);
-	int mobileSetDate = Calendar.getInstance().get(Calendar.DATE) + 1;
-	int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+	int setMonth;
+	int nowMonth;
+	int setYear;
+	int setDate;
+	int mobileSetDate;
+	int nowHour;
 	ArrayList<RoomObj> group = new ArrayList<RoomObj>();// 단체석
 	ArrayList<RoomObj> solo = new ArrayList<RoomObj>();// 개인석
 	ArrayList<RoomObj> all = new ArrayList<RoomObj>();// 전체
@@ -541,15 +541,24 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	public void openPage(EEnter enterType) {
 
+		timeSetting();
 		System.out.println("입장 타입" + enterType);
 		this.enterType = enterType;
 
-		roomState();
-
-		if (enterType == EEnter.SEATCHANGE) {
+		switch (enterType) {
+		case SEATCHANGE:
+			roomState();
 			checkDate();
 			group_state(EState.DIM);
+			break;
+		case MOBILE:
+			btn_state(EState.INIT);
+			break;
+		default:
+			roomState();
+			break;
 		}
+
 	}
 
 	void mySeatCheck() {
@@ -589,7 +598,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			roomState();
 			checkDate();
 			JButton select = (JButton) e.getSource();
-			select.setBackground(Color.cyan);
+			select.setBackground(new Color(135, 206, 250));
 
 			if (enterType != EEnter.SEATCHANGE)// 좌석이동중이 아닐때
 			{
@@ -701,5 +710,14 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		default:
 			break;
 		}
+	}
+
+	void timeSetting() {
+		setMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		setYear = Calendar.getInstance().get(Calendar.YEAR);
+		setDate = Calendar.getInstance().get(Calendar.DATE);
+		mobileSetDate = Calendar.getInstance().get(Calendar.DATE) + 1;
+		nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 	}
 }

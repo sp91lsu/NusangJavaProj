@@ -41,7 +41,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 //				}
 				CsBuyRoomSyn packet = new CsBuyRoomSyn(room, BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
-				BaseFrame.getInstance().getReservationMain().resetResInfo();
+				//BaseFrame.getInstance().getReservationMain().resetResInfo();
 				dispose();
 			}
 		});
@@ -71,9 +71,9 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 				BaseFrame.getInstance().view("LoginMain");
 			}
-			BaseFrame.getInstance().payment.dispose();
+		//	BaseFrame.getInstance().payment.dispose();
 //			BaseFrame.getInstance().roomProduct.calendarList.clear();
-			BaseFrame.getInstance().payment.timeList.clear();
+		//	BaseFrame.getInstance().payment.timeList.clear();
 		} else
 			jl.setText("결제실패");
 

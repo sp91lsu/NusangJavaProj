@@ -31,6 +31,7 @@ public class MainLayout extends JPanel implements Receivable {
 	private JButton button_9;
 	private JButton button_5;
 	private JButton button_3;
+	private JButton button_7;
 	long todayRemainTime;
 
 	public static void main(String[] args) {
@@ -115,7 +116,7 @@ public class MainLayout extends JPanel implements Receivable {
 			}
 		});
 
-		JButton button_7 = new JButton("당일 구매 정보");
+		button_7 = new JButton("당일 구매 정보");
 		button_7.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		panel.add(button_7);
 		button_7.addActionListener(new ActionListener() {
@@ -176,17 +177,19 @@ public class MainLayout extends JPanel implements Receivable {
 
 			button_9.setText("퇴실");
 			button_3.setEnabled(true);
+			button_7.setEnabled(true);
 			button_5.setEnabled(usingRoom.personNum == 1);
-			
+
 		} else if (reserRoom != null) {
-			BaseFrame.getInstance().roomProduct = reserRoom;
 			button_5.setEnabled(false);
 			button_3.setEnabled(false);
+			button_7.setEnabled(false);
 			button_9.setText("예약 취소");
 		} else {
 			button_9.setText("퇴실");
 			button_3.setEnabled(false);
 			button_5.setEnabled(false);
+			button_7.setEnabled(false);
 			button_9.setEnabled(false);
 		}
 		System.out.println("오늘 남은 시간" + todayRemainTime);
