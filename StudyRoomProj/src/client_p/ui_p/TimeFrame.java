@@ -11,12 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 
 public class TimeFrame extends JFrame {
 
 	String id = BaseFrame.getInstance().userData.id;
 	String phoneNum = BaseFrame.getInstance().userData.phone;
+	LockerData lockerInfo = BaseFrame.getInstance().userData.locker;
+	String locker;
 	String seatingName;
 
 	public TimeFrame() {
@@ -25,8 +28,15 @@ public class TimeFrame extends JFrame {
 		if (usingRoom != null) {
 			seatingName = usingRoom.name;
 		}
-		setBounds(100, 100, 500, 500);
+		setBounds(100, 100, 500, 600);
 		getContentPane().setLayout(null);
+		
+		if(lockerInfo == null) {
+			locker = "이용 내역 없음";
+		}else {
+			locker = "<html><br>" + lockerInfo.name +"<br>금액 : "+ lockerInfo.price +
+					"<br>비밀번호 : "+ lockerInfo.pw +"<html>";
+		}
 
 		JLabel titleLabel = new JLabel("잔여 시간 확인");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -35,18 +45,20 @@ public class TimeFrame extends JFrame {
 		getContentPane().add(titleLabel);
 
 		String remaingTime = showRemainTime();
-		JLabel lblNewLabel = new JLabel("<html>이용자 ID : " + id + "<br>휴대폰번호 : " + phoneNum + "<br>이용 중인 좌석/룸 : "
-				+ seatingName + "<br>잔여 시간 : " + remaingTime + "<html>");
+		JLabel lblNewLabel = new JLabel("<html>이용자 ID : " + id + "<br>휴대폰번호 : " + 
+				phoneNum + "<br>이용 중인 좌석/룸 : " + seatingName + "<br>잔여 시간 : " + 
+				remaingTime + "<br>사물함 이용 정보 : " + locker +  "<html>");
+		
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 24));
-		lblNewLabel.setBounds(51, 98, 387, 183);
+		lblNewLabel.setBounds(51, 70, 387, 400);
 		// lblNewLabel.setOpaque(true);
 		getContentPane().add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JButton btnNewButton = new JButton("확인");
 		btnNewButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
-		btnNewButton.setBounds(110, 340, 243, 71);
+		btnNewButton.setBounds(110, 450, 243, 71);
 		getContentPane().add(btnNewButton);
 
 		btnNewButton.addActionListener(new ActionListener() {
