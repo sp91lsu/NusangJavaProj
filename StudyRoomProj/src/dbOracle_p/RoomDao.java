@@ -1,3 +1,5 @@
+//roomdao
+
 package dbOracle_p;
 
 import java.sql.ResultSet;
@@ -11,14 +13,13 @@ import java.util.UUID;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.product_p.room_p.RoomTimeData;
-import data_p.sales_p.SalesData;
 import oracle.net.aso.d;
 
 public class RoomDao extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
 
-		updateExitRoom();
+		new RoomDao().updateExitRoom();
 
 		String[] calumArr = { "ID", "STARTDATE", "UUID", "ISEXIT", "PUID" };
 
@@ -39,11 +40,11 @@ public class RoomDao extends DBProcess {
 				rs = stmt.executeQuery();
 			}
 
-			close();
-
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			return false;
+		} finally {
+			close();
 		}
 		return true;
 	}
@@ -51,7 +52,7 @@ public class RoomDao extends DBProcess {
 	// 자리이동
 	public boolean moveSeat(String userUUID, RoomProduct originRoom, int moveID) {
 
-		updateExitRoom();
+		new RoomDao().updateExitRoom();
 		try {
 			updateQuery(ETable.INVENTORY, "ID", "?",
 					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
@@ -60,14 +61,16 @@ public class RoomDao extends DBProcess {
 			stmt.setString(2, userUUID);
 			stmt.executeUpdate();
 
-			close();
 		} catch (
 
 		SQLException e1) {
 			e1.printStackTrace();
 			return false;
+		} finally {
+			close();
 		}
 		return true;
+
 	}
 
 	public void updateExitRoom() {
@@ -78,17 +81,18 @@ public class RoomDao extends DBProcess {
 			stmt.setInt(1, 1);
 			stmt.executeUpdate();
 
-			reset();
 		} catch (
 
 		SQLException e1) {
 			e1.printStackTrace();
+		} finally {
+			close();
 		}
 	}
 
 	public void exitRoom(RoomProduct room) {
 
-		updateExitRoom();
+		new RoomDao().updateExitRoom();
 		int exitValue = room.isExit ? 1 : 0;
 
 		try {
@@ -100,11 +104,12 @@ public class RoomDao extends DBProcess {
 			stmt.setString(2, room.userUUID);
 			stmt.executeUpdate();
 
-			close();
 		} catch (
 
 		SQLException e1) {
 			e1.printStackTrace();
+		} finally {
+			close();
 		}
 	}
 
@@ -148,71 +153,25 @@ public class RoomDao extends DBProcess {
 				}
 			}
 		}
-		rs.close();
+		close();
 		return roomTDList;
 	}
-	
-//	SELECT substr(startdate,0,8) ,SUM(room_price), COUNT(*) 
-//	FROM 
-//
-//	(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id
-//	from inventory I , now_room_data R, account A
-//	where I.id = r.room_id AND substr(i.startdate,0,8) = '20/06/27' and i.uuid = a.uuid(+))
-//
-//	GROUP BY substr(startdate,0,8);
-	public ArrayList<SalesData> SalesDataArrL(String yyyy, String mm, String dd) throws Exception {
-		ArrayList<SalesData> sdArrL = new ArrayList<SalesData>();
-		query = "select id,uuid,substr(to_char(startdate),10,2) as hour from inventory " + "where TRUNC(startdate) "
-				+ "= TO_DATE('" + yyyy + "-" + mm + "-" + dd + "', 'YYYY-MM-DD')";
-		stmt = con.prepareStatement(query);
-		rs = stmt.executeQuery();
-		
-		
-		
-		
-		
 
-		ArrayList<RoomTimeData> roomTDList = new ArrayList<RoomTimeData>();
-		ArrayList<String> chk = new ArrayList<String>();
-		while (rs.next()) {
-			String roomN = DataManager.getInstance().roomName(rs.getString("ID"));
-			System.out.println(roomN);
-			String userN = new AccountDao().userName(rs.getString("uuid"));
-			System.out.println(userN);
-			String hour = rs.getString("hour");
-			System.out.println(hour);
-
-			if (roomTDList.size() == 0) {
-				RoomTimeData rtd = new RoomTimeData(roomN, userN);
-				rtd.hourList = new ArrayList<String>();
-				rtd.hourList.add(hour);
-				roomTDList.add(rtd);
-			}
-			for (int i = 0; i < roomTDList.size(); i++) {
-				RoomTimeData t = roomTDList.get(i);
-				// 기존에 있으면 추가하고
-				if (t.roomName.equals(roomN) && t.userName.equals(userN)) {
-					t.hourList.add(hour);
-					// 기존에 없으면 새로 만들고
-				} else {
-					RoomTimeData rtd = new RoomTimeData(roomN, userN);
-					rtd.hourList = new ArrayList<String>();
-					rtd.hourList.add(hour);
-					roomTDList.add(rtd);
-				}
-			}
+	public ArrayList<RoomProduct> getRoomInfo(String... keys) {
+		new RoomDao().updateExitRoom();
+		ArrayList<RoomProduct> roomList = null;
+		try {
+			rs = getRS(ETable.INVENTORY, keys);
+			roomList = resToList(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
 		}
-		rs.close();
-		return sdArrL;
-	}
-
-	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
-		updateExitRoom();
-		rs = getRS(ETable.INVENTORY, keys);
-
-		ArrayList<RoomProduct> roomList = resToList(rs);
 
 		return roomList;
+
 	}
 
 	// 퇴실 제외한 예약정보 불러오기(클라에서 예약 정보 뿌려주기위함 )
@@ -223,12 +182,13 @@ public class RoomDao extends DBProcess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		close();
 		return null;
 	}
 
 	// 현재 룸 연장정보까지 불러오기
 	public ArrayList<RoomProduct> currentRoomList() {
-		updateExitRoom();
+		new RoomDao().updateExitRoom();
 		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
 
 		// 현 시간부터 다음날 바로 전까지
@@ -313,23 +273,95 @@ public class RoomDao extends DBProcess {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 
 		return roomList;
 	}
 
-	public int getNextTime(String uuid, int pid) throws SQLException {
-		query = "select (select  to_char(max(startdate),'hh24') from inventory where id = " + pid
-				+ " and startdate  > (select max(startdate) from inventory where id = " + pid + " and uuid = '" + uuid
-				+ "' ) and startdate < to_char(sysdate + 1, 'yyyymmdd')) - (select to_char(max(startdate),'hh24') from inventory where id = "
-				+ pid + " and uuid = '" + uuid + "') from dual";
+	// 판매 기록 및 매출 조회
+//  SELECT substr(startdate,0,8) ,SUM(room_price), COUNT(*) 
+//  FROM 
+//
+//  (select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id
+//  from inventory I , now_room_data R, account A
+//  where I.id = r.room_id AND substr(i.startdate,0,8) = '20/06/27' and i.uuid = a.uuid(+))
+//
+//  GROUP BY substr(startdate,0,8);
+	public ArrayList<SalesData> SalesDataArrL(String year, String month, String day) throws Exception {
+		int dateSortN;
+		String dateStr = "";
+		if (month.equals("0") && day.equals("0")) {
+			dateSortN = 2;
+			dateStr = "20" + year + "년";
+		} else if (!month.equals("0") && day.equals("0")) {
+			dateSortN = 5;
+			dateStr = "20" + year + "년 " + month + "월";
+		} else {
+			dateSortN = 8;
+			dateStr = "20" + year + "년 " + month + "월 " + day + "일";
+		}
+
+		// 공통으로 들어가는 쿼리문
+		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id "
+				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
+				+ dateSortN + ") = '" + year + "/" + month + "/" + day + "' and i.uuid = a.uuid)"
+				+ "order by i.id, i.startdate;";
+
+		ArrayList<SalesData> sdArrL = new ArrayList<SalesData>();
+		ArrayList<SalesRecord> SalesRecordArrL = new ArrayList<SalesRecord>();
+		ArrayList<SalesBySeat> SaleBySeatArrL = new ArrayList<SalesBySeat>();
+		ArrayList<SalesTot> SalesTotArrL = new ArrayList<SalesTot>();
+
+		// ArrayList<SalesRecord>
+		query = primequery;
 		stmt = con.prepareStatement(query);
 		rs = stmt.executeQuery();
 
-		if (rs.next()) {
-			return rs.getInt(0);
-		}
-		return 0;
-	}
+		// 초기값
+		String rn = "", un = "", ui = "", bf = "";
+		int rp = 0;
+		ArrayList<String> hourList = new ArrayList<String>();
+		while (rs.next()) {
+			if (bf.equals("")) {
+				rn = rs.getString("room_name");
+				rp = Integer.parseInt(rs.getString("room_price"));
+				un = rs.getString("name");
+				ui = rs.getString("id_1");
+				bf = rs.getString("sort");
+			}
+			String hour = rs.getString("startdate").substring(10, 12) + "시";
+			hourList.add(hour);
+			//
+			if (!bf.equals(rs.getString("sort"))) {
+				SalesRecord record = new SalesRecord(dateStr, rn, rp, un, ui, hourList);
+				hourList = new ArrayList<String>();
+				SalesRecordArrL.add(record);
+			}
 
+			if (!rs.next())
+				break;
+
+			rn = rs.getString("room_name");
+			rp = Integer.parseInt(rs.getString("room_price"));
+			un = rs.getString("name");
+			ui = rs.getString("id_1");
+			bf = rs.getString("sort");
+		}
+
+		// ArrayList<SalesBySeat>
+		query = "SELECT room_name ,SUM(room_price), COUNT(*) \r\n" + "FROM" + primequery + "GROUP BY room_name;";
+		stmt = con.prepareStatement(query);
+		rs = stmt.executeQuery();
+
+		while (rs.next()) {
+			SalesBySeat seat = new SalesBySeat(dateStr, rs.getString("room_name"),
+					Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")));
+			SaleBySeatArrL.add(seat);
+		}
+
+		rs.close();
+		return sdArrL;
+	}
 }
