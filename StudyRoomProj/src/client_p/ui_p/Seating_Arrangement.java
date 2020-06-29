@@ -95,6 +95,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	int setMonth;
 	int nowMonth;
 	int setYear;
+	int nowYear;
 	int setDate;
 	int nowMaxDate;
 	int nowHour;
@@ -373,7 +374,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setYear = (int) yearCBox.getSelectedItem();
+				setYear = (int) yearCBox.getSelectedItem();	
+				monthCBox.removeAllItems();
+				if(yearCBox.getSelectedItem()!=null) {		
+						monthCBoxSetting();
+				}
+					
 				btn_state(EState.INIT);
 			}
 		});
@@ -392,14 +398,14 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dateCBox.removeAllItems();
-				setMonth = (int) monthCBox.getSelectedItem();
-//				System.out.println(monthCBox.getSelectedItem());
+				if(monthCBox.getSelectedItem()!=null)
+					setMonth = (int) monthCBox.getSelectedItem();
 				Calendar selectMonth = Calendar.getInstance();
 				selectMonth.set(Calendar.MONTH, setMonth - 1);
 				selectMonth.set(Calendar.YEAR, setYear);
 				int last = selectMonth.getActualMaximum(Calendar.DATE);
 				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-					if (nowMonth == setMonth) {
+					if (nowYear == setYear && nowMonth == setMonth) {
 						for (int i = nowMaxDate; i <= last; i++) {
 							dateCBox.addItem(i);
 						}
@@ -540,6 +546,20 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			button.setState(state);
 		}
 	}
+	
+	public void monthCBoxSetting() {
+		monthCBox.removeAllItems();
+		if(setYear == nowYear) {
+			for (int i = nowMonth; i <= 12; i++) {
+				monthCBox.addItem(i);
+			}
+		}
+		else {
+			for (int i = 1; i <= 12; i++) {
+				monthCBox.addItem(i);
+			}
+		}
+	}
 
 	public void openPage(EEnter enterType) {
 
@@ -555,6 +575,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			break;
 		case MOBILE:
 			btn_state(EState.INIT);
+			monthCBoxSetting();
+			yearCBox.setSelectedItem(nowYear);
 			break;
 		default:
 			roomState();
@@ -716,6 +738,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		setMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		nowMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		setYear = Calendar.getInstance().get(Calendar.YEAR);
+		nowYear = Calendar.getInstance().get(Calendar.YEAR);
 		setDate = Calendar.getInstance().get(Calendar.DATE);
 		nowMaxDate = Calendar.getInstance().get(Calendar.DATE) + 1;
 		nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
