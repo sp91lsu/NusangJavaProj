@@ -77,7 +77,7 @@ public class RoomDao2 extends DBProcess {
 			stmt.setInt(1, 1);
 			stmt.executeUpdate();
 
-			reset();
+			//reset();
 		} catch (
 
 		SQLException e1) {

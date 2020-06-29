@@ -38,13 +38,13 @@ public class PacketMap {
 		map.put(CsCloseSyn.class, new MethCloseSyn()); // 소켓 종료
 		map.put(CsExitSyn.class, new MethExitSyn()); // 소켓 종료
 		map.put(CsUpdateRoomSyn.class, new MethUpdateRoomSyn()); // 룸 정보 업데이
-		map.put(MsCurrMemListSyn.class, new MethMsCurrMemListSyn()); //현재 회원리스트
-		map.put(MsAllMemListSyn.class, new MethMsAllMemListSyn()); //현재 회원리스트
-		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); //회원 검색
-		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); //사물함 구매
-		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); //중복아이디 확인 
-		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); //예약룸  
-		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); //매출조회
+		map.put(MsCurrMemListSyn.class, new MethMsCurrMemListSyn()); // 현재 회원리스트
+		map.put(MsAllMemListSyn.class, new MethMsAllMemListSyn()); // 현재 회원리스트
+		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); // 회원 검색
+		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); // 사물함 구매
+		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); // 중복아이디 확인
+		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); // 예약룸
+		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {

@@ -23,11 +23,12 @@ import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.LockerDao;
 import dbOracle_p.RoomDao;
-import manager_p.ack_p.MsChatConnectAck;
+import manager_p.ack_p.SmChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
+import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyLockerAck;
@@ -43,6 +44,7 @@ import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmGiveMeResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
+import server_p.packet_p.ack_p.SmSalesInquiryAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
@@ -141,7 +143,7 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
-		MsChatConnectAck resPacket = (MsChatConnectAck) packet;
+		SmChatConnectAck resPacket = (SmChatConnectAck) packet;
 
 		SocketClient sc = MyServer.getInstance().findClient(resPacket.cIp);
 
@@ -450,21 +452,21 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 		client.sendPacket(ack);
 	}
 
-	class MethMsSalesInquirySyn implements ServerPacketMethod {
+}
 
-		public void receive(SocketClient client, PacketBase packet) {
-			MsSalesInquirySyn resPacket = (MsSalesInquirySyn) packet;
-			RoomDao roomDao = new RoomDao();
-			try {
-				SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS);
-//		         String managerIp = "/192.168.100.27";
-				client.sendPacket(ack);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+class MethMsSalesInquirySyn implements ServerPacketMethod {
 
+	public void receive(SocketClient client, PacketBase packet) {
+		MsSalesInquirySyn resPacket = (MsSalesInquirySyn) packet;
+		RoomDao roomDao = new RoomDao();
+		try {
+			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS);
+//	         String managerIp = "/192.168.100.27";
+			client.sendPacket(ack);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
 
+	}
 }
