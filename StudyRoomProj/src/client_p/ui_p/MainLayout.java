@@ -179,18 +179,21 @@ public class MainLayout extends JPanel implements Receivable {
 			button_3.setEnabled(true);
 			button_7.setEnabled(true);
 			button_5.setEnabled(usingRoom.personNum == 1);
-
+			button_6.setEnabled(true);// 좌석 연장 버튼 활성화
+			
 		} else if (reserRoom != null) {
 			button_5.setEnabled(false);
 			button_3.setEnabled(false);
 			button_7.setEnabled(true);
 			button_9.setText("예약 취소");
+			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 		} else {
 			button_9.setText("퇴실");
 			button_3.setEnabled(false);
 			button_5.setEnabled(false);
 			button_7.setEnabled(false);
 			button_9.setEnabled(false);
+			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 		}
 		System.out.println("오늘 남은 시간" + todayRemainTime);
 
@@ -199,12 +202,10 @@ public class MainLayout extends JPanel implements Receivable {
 		{
 			button_1.setEnabled(false);// 개인룸 이용 버튼 비활성화
 			button_2.setEnabled(false);// 단체석 이용버튼 비활성화
-			button_6.setEnabled(true);// 좌석 연장 버튼 활성화
 			button_9.setEnabled(true);
 		} else {
 			button_1.setEnabled(true);// 개인룸 이용 버튼 활성화
 			button_2.setEnabled(true);// 단체룸 이용 버튼 활성화
-			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 			button_9.setEnabled(false);
 		}
 
