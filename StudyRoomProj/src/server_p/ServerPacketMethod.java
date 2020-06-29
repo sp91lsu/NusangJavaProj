@@ -26,6 +26,7 @@ import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
+import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyLockerAck;
@@ -35,12 +36,13 @@ import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
-import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmGiveMeResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
+import server_p.packet_p.ack_p.SmSalesInquiryAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
@@ -324,10 +326,8 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 		MsGiveMeResvRoomSyn resPacket = (MsGiveMeResvRoomSyn) packet;
 		RoomDao roomDao = new RoomDao();
 		try {
-			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,
-					roomDao.rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
+			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,roomDao.rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
 //			String managerIp = "/192.168.100.27";
-			SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
 			client.sendPacket(ack);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -465,5 +465,22 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 		}
 
 		client.sendPacket(ack);
+	}
+}
+
+class MethMsSalesInquirySyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		MsSalesInquirySyn resPacket = (MsSalesInquirySyn) packet;
+		RoomDao roomDao = new RoomDao();
+		try {
+			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS);
+//			String managerIp = "/192.168.100.27";
+			client.sendPacket(ack);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }
