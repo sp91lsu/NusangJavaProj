@@ -11,10 +11,9 @@ import java.util.UUID;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.product_p.room_p.RoomTimeData;
-import data_p.sales_p.SalesData;
 import oracle.net.aso.d;
 
-public class RoomDao extends DBProcess {
+public class RoomDao2 extends DBProcess {
 
 	public boolean insertRoomInfo(String userUUID, RoomProduct room) {
 
@@ -150,60 +149,6 @@ public class RoomDao extends DBProcess {
 		}
 		rs.close();
 		return roomTDList;
-	}
-	
-//	SELECT substr(startdate,0,8) ,SUM(room_price), COUNT(*) 
-//	FROM 
-//
-//	(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id
-//	from inventory I , now_room_data R, account A
-//	where I.id = r.room_id AND substr(i.startdate,0,8) = '20/06/27' and i.uuid = a.uuid(+))
-//
-//	GROUP BY substr(startdate,0,8);
-	public ArrayList<SalesData> SalesDataArrL(String yyyy, String mm, String dd) throws Exception {
-		ArrayList<SalesData> sdArrL = new ArrayList<SalesData>();
-		query = "select id,uuid,substr(to_char(startdate),10,2) as hour from inventory " + "where TRUNC(startdate) "
-				+ "= TO_DATE('" + yyyy + "-" + mm + "-" + dd + "', 'YYYY-MM-DD')";
-		stmt = con.prepareStatement(query);
-		rs = stmt.executeQuery();
-		
-		
-		
-		
-		
-
-		ArrayList<RoomTimeData> roomTDList = new ArrayList<RoomTimeData>();
-		ArrayList<String> chk = new ArrayList<String>();
-		while (rs.next()) {
-			String roomN = DataManager.getInstance().roomName(rs.getString("ID"));
-			System.out.println(roomN);
-			String userN = new AccountDao().userName(rs.getString("uuid"));
-			System.out.println(userN);
-			String hour = rs.getString("hour");
-			System.out.println(hour);
-
-			if (roomTDList.size() == 0) {
-				RoomTimeData rtd = new RoomTimeData(roomN, userN);
-				rtd.hourList = new ArrayList<String>();
-				rtd.hourList.add(hour);
-				roomTDList.add(rtd);
-			}
-			for (int i = 0; i < roomTDList.size(); i++) {
-				RoomTimeData t = roomTDList.get(i);
-				// 기존에 있으면 추가하고
-				if (t.roomName.equals(roomN) && t.userName.equals(userN)) {
-					t.hourList.add(hour);
-					// 기존에 없으면 새로 만들고
-				} else {
-					RoomTimeData rtd = new RoomTimeData(roomN, userN);
-					rtd.hourList = new ArrayList<String>();
-					rtd.hourList.add(hour);
-					roomTDList.add(rtd);
-				}
-			}
-		}
-		rs.close();
-		return sdArrL;
 	}
 
 	public ArrayList<RoomProduct> getRoomInfo(String... keys) throws Exception {
