@@ -143,9 +143,10 @@ public class RoomDao extends DBProcess {
 				rtd.hourList.add(hour);
 				roomTDList.add(rtd);
 			}
-			for (int i = 0; i < roomTDList.size(); i++) {
+			int ss = roomTDList.size();
+			for (int i = 0; i < ss; i++) {
 				RoomTimeData t = roomTDList.get(i);
-				// 기존에 있으면 추가하고
+				// 기존에 있으면 추가a하고
 				if (t.roomName.equals(roomN) && t.userName.equals(userN)) {
 					t.hourList.add(hour);
 					// 기존에 없으면 새로 만들고
