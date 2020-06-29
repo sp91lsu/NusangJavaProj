@@ -18,6 +18,7 @@ import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
+import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.PacketBase;
 
 public class PacketMap {
@@ -43,6 +44,7 @@ public class PacketMap {
 		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); //사물함 구매
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); //중복아이디 확인 
 		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); //예약룸  
+		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); //매출조회
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {
