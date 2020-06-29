@@ -52,7 +52,7 @@ public class AccountDao extends DBProcess {
 			userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
 					rs.getString("phone"), rs.getString("birth"));
 		}
-		rs.close();
+		close();
 		return userdata;
 	}
 
@@ -84,7 +84,8 @@ public class AccountDao extends DBProcess {
 		rs = stmt.executeQuery();
 
 		hasID = rs.next();
-		rs.close();
+
+		close();
 
 		return hasID;
 	}
@@ -102,7 +103,7 @@ public class AccountDao extends DBProcess {
 			userList.add(userdata);
 			System.out.println(userdata.uuid);
 		}
-		rs.close();
+		close();
 		return userList;
 	}
 
@@ -130,7 +131,7 @@ public class AccountDao extends DBProcess {
 			userList.add(userdata);
 		}
 
-		rs.close();
+		close();
 		return userList;
 	}
 

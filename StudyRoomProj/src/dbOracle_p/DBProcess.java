@@ -113,20 +113,24 @@ public class DBProcess {
 		return cQuery;
 	}
 
-	public void reset() {
-		try {
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void reset() {
+//		try {
+//			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public void close() {
 
 		try {
-			stmt.close();
-			con.close();
+			if (stmt != null)
+				stmt.close();
+			if (con != null)
+				con.close();
+			if (rs != null)
+				rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

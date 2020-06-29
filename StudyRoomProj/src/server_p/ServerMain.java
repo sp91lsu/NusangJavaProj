@@ -56,8 +56,8 @@ class MyServer {
 
 					System.out.println("클라이언트 접속 대기");
 					Socket client = server.accept(); // 클라이언트 접속
-
-					duplicateClientChk(client);
+					System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
+				//	duplicateClientChk(client);
 					System.out.println(client.getInetAddress() + "접속");
 
 					SocketClient pClient = new SocketClient(client);
@@ -172,7 +172,6 @@ class SocketClient extends Thread {
 
 		if (MyServer.getInstance().clientList.contains(this)) {
 			MyServer.getInstance().clientList.remove(this);
-			System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
 		}
 		if (!socket.isClosed()) {
 			System.out.println(socket.getInetAddress() + "종료");

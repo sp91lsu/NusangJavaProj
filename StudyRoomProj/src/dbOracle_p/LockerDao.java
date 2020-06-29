@@ -29,11 +29,11 @@ public class LockerDao extends DBProcess {
 			stmt.setTimestamp(5, time);
 			rs = stmt.executeQuery();
 
-			close();
-
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			return false;
+		} finally {
+			close();
 		}
 		return true;
 	}
@@ -60,6 +60,8 @@ public class LockerDao extends DBProcess {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return null;
 	}
@@ -83,6 +85,8 @@ public class LockerDao extends DBProcess {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 
 		return list;
@@ -100,6 +104,8 @@ public class LockerDao extends DBProcess {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 
 		return true;
