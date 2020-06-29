@@ -13,7 +13,7 @@ public class SignUpPop extends JFrame {
 	public SignUpPop() {
 		
 		JDialog jdd = new JDialog();
-		jdd.setBounds(50, 50, 200, 200);
+		jdd.setBounds(50, 50, 300, 200);
 		jdd.setLayout(new GridLayout(2, 1));
 		
 		JLabel jll = new JLabel("정확한 정보를  입력하세요");

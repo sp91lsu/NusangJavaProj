@@ -191,7 +191,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 
 			if (ack.eResult == EResult.SUCCESS) {
 				jd = new JDialog();
-				jd.setBounds(50, 50, 150, 150);
+				jd.setBounds(100, 100, 200, 150);
 				jd.getContentPane().setLayout(new GridLayout(2, 1));
 				jl = new JLabel("회원가입 완료");
 				jb = new JButton("확인");
@@ -210,7 +210,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				jd.setVisible(true);
 			} else if (ack.eResult == EResult.DUPLICATEED_ID) {
 				jd = new JDialog();
-				jd.setBounds(50, 50, 150, 150);
+				jd.setBounds(100, 100, 200, 150);
 				jd.getContentPane().setLayout(new GridLayout(2, 1));
 				jl = new JLabel("ID 중복 확인을 해주세요");
 				jb = new JButton("확인");
@@ -373,7 +373,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 
 	void loginChk(String msg) {
 		jd2 = new JDialog();
-		jd2.setBounds(50, 50, 150, 150);
+		jd2.setBounds(100, 100, 200, 150);
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
 		jl2 = new JLabel(msg);
 		jb2 = new JButton("확인");
