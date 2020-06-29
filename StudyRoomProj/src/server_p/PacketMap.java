@@ -13,7 +13,7 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
-import manager_p.ack_p.MsChatConnectAck;
+import manager_p.ack_p.SmChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
@@ -30,7 +30,7 @@ public class PacketMap {
 		map.put(CsLoginSyn.class, new MethLoginSyn()); // 로그인
 		map.put(CsSignUpSyn.class, new MethSignUpSyn()); // 회원가입
 		map.put(CsChatConnectSyn.class, new MethChatConnectSyn()); // 채팅연결 요청
-		map.put(MsChatConnectAck.class, new MethMSChatConnectAck());
+		map.put(SmChatConnectAck.class, new MethMSChatConnectAck());
 		map.put(CsChatSyn.class, new MethCsChatSyn());
 		map.put(CsBuyRoomSyn.class, new MethBuyRoomSyn()); // 결제
 		map.put(CsMoveSeatSyn.class, new MethMoveSeatSyn()); // 자리이동

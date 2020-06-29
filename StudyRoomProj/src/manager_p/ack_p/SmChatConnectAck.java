@@ -2,13 +2,13 @@ package manager_p.ack_p;
 
 import packetBase_p.PacketBase;
 
-public class MsChatConnectAck extends PacketBase {
+public class SmChatConnectAck extends PacketBase {
 
 	public String managerIp;
 	public String cIp;
 	public boolean isConnect;
 
-	public MsChatConnectAck(boolean isConnect) {
+	public SmChatConnectAck(boolean isConnect) {
 		super();
 		this.isConnect = isConnect;
 	}

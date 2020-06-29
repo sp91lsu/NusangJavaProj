@@ -19,6 +19,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+
+import client_p.ClientNet;
+import manager_p.syn_p.MsCurrMemListSyn;
+import manager_p.syn_p.MsSalesInquirySyn;
+
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import java.awt.FlowLayout;
@@ -36,10 +41,12 @@ public class SalesInquiry extends JPanel {
 	private JComboBox comBox_Day;
 	private JCheckBox chBox_Month;
 	private JCheckBox chkBox_Day;
-	public Vector<Integer> yearList = new Vector<Integer>();
-	public Vector<Integer> monthList = new Vector<Integer>();
-	public Vector<Integer> dayList = new Vector<Integer>();
+	public Vector<String> yearList = new Vector<String>();
+	public Vector<String> monthList = new Vector<String>();
+	public Vector<String> dayList = new Vector<String>();
 	public Calendar today = Calendar.getInstance();
+	
+	String year,month,day;
 	
 	class ActionLister_SalesInq implements ActionListener{
 		String sort;
@@ -51,6 +58,11 @@ public class SalesInquiry extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch (sort) {
+			case "chkBox_Year":
+				if(!chkBox_Day.isSelected())
+				year = "0";
+				break;
+				
 			case "chkBox_Day":
 				if(chkBox_Day.isSelected()) {
 					comBox_Day.setEnabled(true);
@@ -62,7 +74,9 @@ public class SalesInquiry extends JPanel {
 				}else {
 					comBox_Day.setEnabled(false);
 					chBox_Month.setEnabled(true);
+					day = "0";
 				}
+				
 				
 				break;
 			case "chBox_Month":
@@ -70,39 +84,67 @@ public class SalesInquiry extends JPanel {
 					comBox_Month.setEnabled(true);
 				}else {
 					comBox_Month.setEnabled(false);
+					month = "0";
 				}
 				break;
+				
 			case "comBox_Year":
-				if((int)comBox_Year.getSelectedItem()!=today.get(Calendar.YEAR)) {
-					for (int i = 1; i <= 12; i++) {
-						monthList.add(i);
-					}
-				}else {
-					for (int i = 1; i <= today.get(Calendar.MONTH)+1; i++) {
-						monthList.add(i);
-					}
-				}
-				comBox_Month = new JComboBox<Integer>(monthList);
+//				monthList.removeAllElements();
+//				if((int)comBox_Year.getSelectedItem()!=today.get(Calendar.YEAR)) {
+//					System.out.println((int)comBox_Year.getSelectedItem()+"선택됨");
+//					for (int i = 1; i <= 12; i++) {
+//						monthList.add(i);
+//					}
+//					comBox_Month = new JComboBox<Integer>(monthList);
+//					comBox_Month.revalidate();
+//					comBox_Month.repaint();
+//				}else {
+//					for (int i = 1; i <= today.get(Calendar.MONTH)+1; i++) {
+//						monthList.add(i);
+//					}
+//					comBox_Month = new JComboBox<Integer>(monthList);
+//					comBox_Month.revalidate();
+//					comBox_Month.repaint();
+//				}
+//				System.out.println(monthList.size());
+				
+				year = comBox_Year.getSelectedItem().toString();
+				
 				break;
 				
 			case "comBox_Month":
-				if((int)comBox_Month.getSelectedItem()!=today.get(Calendar.MONTH)+1) {
-					int year = today.get(Calendar.YEAR);
-					int mon = today.get(Calendar.MONTH)+1;
-					int day = 1;
-					today.set(year,mon,1);
-					int last = today.getActualMaximum(Calendar.DAY_OF_MONTH);
-					for (int i = 1; i <= last; i++) {
-						dayList.add(i);
-					}
-				}else {
-					for (int i = 1; i <= today.get(Calendar.DATE); i++) {
-						dayList.add(i);
-					}
-				}
-				comBox_Day = new JComboBox<Integer>(dayList);
+//				dayList.removeAllElements();
+//				if((int)comBox_Month.getSelectedItem()!=1) {
+//					int year = (int)comBox_Year.getSelectedItem();
+//					int mon = (int)comBox_Month.getSelectedItem();
+//					int day = 1;
+//					today.set(year, mon-1, day);
+//					int last = today.getActualMaximum(Calendar.DAY_OF_MONTH);
+//					System.out.println(last);
+//					today = Calendar.getInstance();
+//					dayList = new Vector<Integer>();
+//					for (int i = 1; i <= last; i++) {
+//						dayList.add(i);
+//					}
+//					comBox_Day = new JComboBox<Integer>(dayList);
+//				}else {
+//					today = Calendar.getInstance();
+//					for (int i = 1; i <= today.get(Calendar.DATE); i++) {
+//						dayList.add(i);
+//					}
+//					comBox_Day = new JComboBox<Integer>(dayList);
+//				}
+				
+				month = comBox_Month.getSelectedItem().toString();
 				break;
-
+				
+			case "comBox_Day":
+				day = comBox_Day.getSelectedItem().toString();
+				
+			case "조회":
+				System.out.println(year+"/"+month+"/"+day);
+				MsSalesInquirySyn packet = new MsSalesInquirySyn(year, month, day);
+				ClientNet.getInstance().sendPacket(packet);
 			default:
 				break;
 			}
@@ -114,22 +156,33 @@ public class SalesInquiry extends JPanel {
 		//현재 시간 이전의
 		//해 리스트
 		for (int i = today.get(Calendar.YEAR); i >= 2000; i--) {
-			yearList.add(i);
+			yearList.add(""+i);
 		}
-		comBox_Year = new JComboBox<Integer>(yearList);
-		yearList.removeAllElements();
+		comBox_Year = new JComboBox<String>(yearList);
+		
 		//달 리스트
-		for (int i = 1; i <= today.get(Calendar.MONTH)+1; i++) {
-			monthList.add(i);
+//		for (int i = 1; i <= today.get(Calendar.MONTH)+1; i++) {
+//			monthList.add(i);
+//		}
+		for (int i = 1; i <= 12; i++) {
+			monthList.add(i<10?"0"+i:""+i);
 		}
-		comBox_Month = new JComboBox<Integer>(monthList);
-		monthList.removeAllElements();
+		comBox_Month = new JComboBox<String>(monthList);
+		
+		
 		//일 리스트
-		for (int i = 1; i <= today.get(Calendar.DATE); i++) {
-			dayList.add(i);
+//		for (int i = 1; i <= today.get(Calendar.DATE); i++) {
+//			dayList.add(i);
+//		}
+		for (int i = 1; i <= 31; i++) {
+			dayList.add(i<10?"0"+i:""+i);
 		}
-		comBox_Day = new JComboBox<Integer>(dayList);
-		dayList.removeAllElements();
+		comBox_Day = new JComboBox<String>(dayList);
+		
+		
+		year = ""+today.get(Calendar.YEAR);
+		month = "01";
+		day = "01";
 	}
 			
 	public SalesInquiry() {
@@ -204,7 +257,7 @@ public class SalesInquiry extends JPanel {
 		
 		JPanel panel_7 = new JPanel();
 		panel_4.add(panel_7);
-		
+		comBox_Year.addActionListener(new ActionLister_SalesInq("comBox_Year"));
 		panel_7.add(comBox_Year);
 		
 		JLabel lb_Year= new JLabel("년");
@@ -213,7 +266,6 @@ public class SalesInquiry extends JPanel {
 		
 		JPanel panel_7_1 = new JPanel();
 		panel_4.add(panel_7_1);
-		
 		comBox_Month.addActionListener(new ActionLister_SalesInq("comBox_Month"));
 		panel_7_1.add(comBox_Month);
 		
@@ -250,6 +302,7 @@ public class SalesInquiry extends JPanel {
 		panel_3.add(panel_6, gbc_panel_6);
 		
 		JButton btn_Inquiry = new JButton("조회");
+		btn_Inquiry.addActionListener(new ActionLister_SalesInq("조회"));
 		btn_Inquiry.setFont(new Font("굴림", Font.PLAIN, 32));
 		panel_6.add(btn_Inquiry);
 		

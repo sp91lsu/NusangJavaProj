@@ -105,7 +105,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, mww);
 					PacketMap.getInstance().map.put(ScBuyLockerCast.class, mww);
 					PacketMap.getInstance().map.put(SmGiveMeResvRoomAck.class, mww);
-					ClientNet.getInstance().start();
+//					ClientNet.getInstance().start();
 					mww.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -133,7 +133,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	        int sel = pane.getSelectedIndex();
 	        if(sel==4) {
 	        	pnl_SalesInquiry.today = Calendar.getInstance();
-	        	pnl_SalesInquiry.setDateList();
+//	        	pnl_SalesInquiry.setDateList();
 	        }
 			}
 	    });

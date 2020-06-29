@@ -21,7 +21,7 @@ import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.LockerDao;
 import dbOracle_p.RoomDao;
-import manager_p.ack_p.MsChatConnectAck;
+import manager_p.ack_p.SmChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
@@ -141,7 +141,7 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
-		MsChatConnectAck resPacket = (MsChatConnectAck) packet;
+		SmChatConnectAck resPacket = (SmChatConnectAck) packet;
 
 		SocketClient sc = MyServer.getInstance().findClient(resPacket.cIp);
 

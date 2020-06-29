@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsChatSyn;
-import manager_p.ack_p.MsChatConnectAck;
+import manager_p.ack_p.SmChatConnectAck;
 import manager_p.panel_p.Chatting;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
@@ -62,7 +62,7 @@ public class ChatReqDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
-						MsChatConnectAck packet = new MsChatConnectAck(true);
+						SmChatConnectAck packet = new SmChatConnectAck(true);
 						packet.setCip(smc.clientIp);
 						packet.setManagerIp(smc.managerIp);
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
@@ -80,7 +80,7 @@ public class ChatReqDialog extends JDialog {
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
-						MsChatConnectAck packet = new MsChatConnectAck(true);
+						SmChatConnectAck packet = new SmChatConnectAck(true);
 						ClientNet.getInstance().sendPacket(packet);
 					}
 				});
