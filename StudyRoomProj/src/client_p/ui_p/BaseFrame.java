@@ -255,17 +255,19 @@ public class BaseFrame extends JFrame implements Receivable {
 	public RoomProduct checkMyReserRoom(int field) {
 		Calendar current = Calendar.getInstance();
 		RoomProduct clone = null;
-
-		for (RoomProduct product : userData.myReservationList) {
-			for (int i = 0; i < product.calendarList.size(); i++) {
-				Calendar cal = product.calendarList.get(i);
-				if (isSameTime(field, cal, current)) {
-					if (clone == null) {
-						clone = product.getClone();
+		if (userData != null) {
+			for (RoomProduct product : userData.myReservationList) {
+				for (int i = 0; i < product.calendarList.size(); i++) {
+					Calendar cal = product.calendarList.get(i);
+					if (isSameTime(field, cal, current)) {
+						if (clone == null) {
+							clone = product.getClone();
+						}
+						clone.calendarList.add(cal);
 					}
-					clone.calendarList.add(cal);
 				}
 			}
+			
 		}
 		return clone;
 	}
