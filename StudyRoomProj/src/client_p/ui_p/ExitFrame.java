@@ -27,9 +27,8 @@ public class ExitFrame extends JFrame {
 
 		JLabel lblNewLabel = new JLabel(title + " 하시겠습니까???");
 		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 32));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(53, 48, 318, 135);
+		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 28));
+		lblNewLabel.setBounds(50, 50, 400, 135);
 		getContentPane().add(lblNewLabel);
 
 		JButton okButton = new JButton("확인");
