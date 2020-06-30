@@ -42,6 +42,7 @@ public class ExitFrame extends JFrame {
 				ClientNet.getInstance().sendPacket(packet);
 				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
+				BaseFrame.getInstance().getMainLayout().is_Exit=false;
 			}
 		});
 		getContentPane().add(okButton);
@@ -52,6 +53,7 @@ public class ExitFrame extends JFrame {
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				BaseFrame.getInstance().getMainLayout().is_Exit=false;
 			}
 		});
 		getContentPane().add(cancleButton);

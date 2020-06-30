@@ -64,6 +64,7 @@ public class TimeFrame extends JFrame {
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().getMainLayout().is_useData=false;
 				dispose();
 			}
 		});

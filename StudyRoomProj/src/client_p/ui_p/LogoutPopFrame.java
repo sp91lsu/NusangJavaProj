@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-
 public class LogoutPopFrame extends JFrame{
 
 	public LogoutPopFrame() {
@@ -31,8 +30,5 @@ public class LogoutPopFrame extends JFrame{
 		add(jb);
 
 		setVisible(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
-	
 }

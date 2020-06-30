@@ -21,10 +21,6 @@ public class InfoFrame extends JFrame {
 	JTextArea textArea;
 	String id = BaseFrame.getInstance().userData.id;
 
-	public static void main(String[] args) {
-		InfoFrame frame = new InfoFrame();
-	}
-
 	public InfoFrame() {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 		String date = "";
@@ -74,6 +70,7 @@ public class InfoFrame extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				BaseFrame.getInstance().getMainLayout().is_Info=false;
 			}
 		});
 		getContentPane().add(okButton);
