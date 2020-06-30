@@ -41,10 +41,8 @@ public class AccountDao extends DBProcess {
 	UserData rsToUser(ResultSet rs) {
 		UserData userData = null;
 		try {
-			if (rs.next()) {
-				userData = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-						rs.getString("phone"), rs.getString("birth"), rs.getString("cType"));
-			}
+			userData = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
+					rs.getString("phone"), rs.getString("birth"), rs.getString("cType"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,7 +69,8 @@ public class AccountDao extends DBProcess {
 	public void ipCheck(String uuid, String ip) {
 
 		try {
-			insertQuery(ETable.ACCOUNT, "ip", "?", "uuid = ?");
+			updateQuery(ETable.ACCOUNT, "ip", "?", "uuid = ?");
+			
 			stmt.setString(1, ip);
 			stmt.setString(2, uuid);
 			rs = stmt.executeQuery();
@@ -95,7 +94,7 @@ public class AccountDao extends DBProcess {
 	}
 
 	// 매니저찾기
-	public ArrayList<UserData> findUsers() throws Exception {
+	public ArrayList<UserData> findUsers(String query) throws Exception {
 
 		ArrayList<UserData> userList = new ArrayList<UserData>();
 		findQuery(ETable.ACCOUNT, "*");

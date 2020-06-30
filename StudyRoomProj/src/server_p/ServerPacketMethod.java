@@ -72,9 +72,7 @@ class MethLoginSyn implements ServerPacketMethod {
 
 				new AccountDao().ipCheck(userData.uuid, client.socket.getInetAddress().toString());
 				userData.setReserRoom(new RoomDao().findUserRoom(userData.uuid, false));
-				// roomDao.reset();
 				userData.setExitRoom(new RoomDao().findUserRoom(userData.uuid, true));
-				// roomDao.reset();
 				userData.locker = new LockerDao().findUserLocker(userData.uuid);
 				ack = new ScLoginAck(EResult.SUCCESS, userData, new RoomDao().getReservationListAll(),
 						new LockerDao().getLockerIDList());
@@ -126,6 +124,8 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	@Override
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
+
+		//new AccountDao().findUsers();
 
 		SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
 
