@@ -36,6 +36,7 @@ public class MainLayout extends JPanel implements Receivable {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
+		ClientNet.getInstance().start();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 900, 800);
 		frame.getContentPane().add(new MainLayout());
@@ -227,6 +228,11 @@ public class MainLayout extends JPanel implements Receivable {
 
 				BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
 				BaseFrame.getInstance().view("ClientChatFrame");
+				
+				
+				}else if(ack.eResult == EResult.NEGATIVE_CHAT) {
+					System.out.println("ㄴㄴㄴㄴ");
+					BaseFrame.getInstance().getClientChat().chatNegative();
 
 			} else {
 				System.out.println("거절당함");

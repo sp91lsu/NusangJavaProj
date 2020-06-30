@@ -88,6 +88,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, (Receivable) signUpFrame);
 		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, (Receivable) this);
+		
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -207,6 +208,11 @@ public class BaseFrame extends JFrame implements Receivable {
 	public LockerMain getLockerMain() {
 		LockerMain lockerMain = (LockerMain) jPanelArrl.get(5);
 		return lockerMain;
+	}
+	
+	public ClientChatFrame getClientChat() {
+		ClientChatFrame claChat = (ClientChatFrame)jPanelArrl.get(4);
+		return claChat;
 	}
 
 	public MainLayout openMainLayout(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
