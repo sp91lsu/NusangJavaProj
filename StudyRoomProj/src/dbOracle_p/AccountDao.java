@@ -14,9 +14,9 @@ import data_p.user_p.UserData;
 
 public class AccountDao extends DBProcess {
 
-	public void createAccount(UserData userData) {
+	public void createAccount(UserData userData, String ip) {
 
-		String[] calumArr = { "uuid", "name", "id", "pw", "birth", "phone", "ctype" };
+		String[] calumArr = { "uuid", "name", "id", "pw", "birth", "phone", "ctype", "ip" };
 
 		String calumQuery = getColum(calumArr);
 		String calumNum = getColumNum(calumArr.length);
@@ -30,7 +30,7 @@ public class AccountDao extends DBProcess {
 			stmt.setString(5, userData.birth);
 			stmt.setString(6, userData.phone);
 			stmt.setString(7, userData.cType);
-
+			stmt.setString(8, ip);
 			rs = stmt.executeQuery();
 			close();
 		} catch (SQLException e1) {

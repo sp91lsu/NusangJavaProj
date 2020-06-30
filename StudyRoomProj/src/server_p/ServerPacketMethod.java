@@ -106,7 +106,7 @@ class MethSignUpSyn implements ServerPacketMethod {
 				UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id,
 						recPacket.pw, recPacket.phone, recPacket.birth, recPacket.cType);
 
-				new AccountDao().createAccount(userData);
+				new AccountDao().createAccount(userData, client.socket.getInetAddress().toString());
 
 				ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
 			}
@@ -457,11 +457,12 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 class MethMsSalesInquirySyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
-		
+
 		MsSalesInquirySyn resPacket = (MsSalesInquirySyn) packet;
-		
+
 		try {
-			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS, new RoomDao().SalesData(resPacket.year, resPacket.month, resPacket.day) );
+			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS,
+					new RoomDao().SalesData(resPacket.year, resPacket.month, resPacket.day));
 //	         String managerIp = "/192.168.100.27";
 			client.sendPacket(ack);
 		} catch (Exception e) {
