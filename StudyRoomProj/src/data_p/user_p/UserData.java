@@ -36,13 +36,14 @@ public class UserData extends PacketData {
 		this.cType = cType;
 	}
 
-	public UserData(String uuid, String name, String id, String phone, String birth) {
+	public UserData(String uuid, String name, String id, String phone, String birth, String cType) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
 		this.id = id;
 		this.phone = phone;
 		this.birth = birth;
+		this.cType = cType;
 	}
 
 	public void setReserRoom(ArrayList<RoomProduct> myReservationList) {

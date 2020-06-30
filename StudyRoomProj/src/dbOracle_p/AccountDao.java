@@ -43,7 +43,7 @@ public class AccountDao extends DBProcess {
 		try {
 			if (rs.next()) {
 				userData = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-						rs.getString("phone"), rs.getString("birth"));
+						rs.getString("phone"), rs.getString("birth"), rs.getString("cType"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -60,8 +60,10 @@ public class AccountDao extends DBProcess {
 		stmt.setString(1, id);
 		stmt.setString(2, pw);
 		rs = stmt.executeQuery();
-
-		UserData userData = rsToUser(rs);
+		UserData userData = null;
+		if (rs.next()) {
+			userData = rsToUser(rs);
+		}
 		close();
 		return userData;
 	}
@@ -93,15 +95,18 @@ public class AccountDao extends DBProcess {
 	}
 
 	// 매니저찾기
-	public UserData findManager(String uuID) throws Exception {
-		findQuery(ETable.ACCOUNT, "*", "uuid = ?");
+	public ArrayList<UserData> findUsers() throws Exception {
 
-		stmt.setString(1, uuID);
+		ArrayList<UserData> userList = new ArrayList<UserData>();
+		findQuery(ETable.ACCOUNT, "*");
+
 		rs = stmt.executeQuery();
 
-		UserData userData = rsToUser(rs);
+		while (rs.next()) {
+			userList.add(rsToUser(rs));
+		}
 		close();
-		return userData;
+		return userList;
 	}
 
 	public String userName(String uuID) throws Exception {
@@ -146,8 +151,7 @@ public class AccountDao extends DBProcess {
 
 		while (rs.next()) {
 
-			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"));
+			UserData userdata = rsToUser(rs);
 			userList.add(userdata);
 			System.out.println(userdata.uuid);
 		}
@@ -174,8 +178,7 @@ public class AccountDao extends DBProcess {
 		}
 
 		while (rs.next()) {
-			UserData userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"));
+			UserData userdata = rsToUser(rs);
 			userList.add(userdata);
 		}
 
