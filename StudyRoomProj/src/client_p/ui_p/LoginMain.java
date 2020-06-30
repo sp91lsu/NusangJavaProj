@@ -30,7 +30,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 	CheckRoomInfo chkroominfo;
 	JCheckBox changeBox;
 	JLabel idLabel,logLabel;
-	JButton logInBtn;
+	JButton logInBtn, logChkButton;
 	JDialog logDialog;
 	String info = "등록한 ID 또는 휴대폰 번호를 입력하세요";
 	String idInfo = "등록한 ID를 입력하세요";
@@ -119,6 +119,15 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 
 			}
 		});
+		
+		logDialog = new JDialog();
+		logDialog.setBounds(250, 250, 300, 300);
+		logDialog.setLayout(new GridLayout(2,1));
+		logLabel = new JLabel("등록한 ID와 비밀번호를 입력하세요");
+		logDialog.add(logLabel);
+		logChkButton = new JButton("확인");
+		logDialog.add(logChkButton);
+		logDialog.setVisible(false);
 	}
 
 	@Override
@@ -176,13 +185,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 	}
 	
 	public void logTextChk() {//ack 가 Not Found Data 일 때 띄워주는 창
-		logDialog = new JDialog();
-		logDialog.setBounds(250, 250, 300, 300);
-		logDialog.setLayout(new GridLayout(2,1));
-		logLabel = new JLabel("등록한 ID와 비밀번호를 입력하세요");
-		logDialog.add(logLabel);
-		JButton logChkButton = new JButton("확인");
-		logDialog.add(logChkButton);
+		///////////작업중
 		logChkButton.addActionListener(new ActionListener() {
 			
 			@Override
