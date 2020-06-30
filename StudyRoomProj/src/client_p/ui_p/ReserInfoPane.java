@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import client_p.CalCal;
 import data_p.product_p.room_p.RoomProduct;
+import java.awt.BorderLayout;
 
 public class ReserInfoPane extends JFrame {
 
@@ -77,10 +78,10 @@ public class ReserInfoPane extends JFrame {
 		reserInfoScroll.setViewportView(infoPane);
 		infoPane.setBounds(10, 10, 150, 300);
 		GridBagLayout gbl_infoPane = new GridBagLayout();
-		gbl_infoPane.columnWidths = new int[] { 0, 0 };
-		gbl_infoPane.rowHeights = new int[] { 0, 0, 0 };
-		gbl_infoPane.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_infoPane.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gbl_infoPane.columnWidths = new int[]{0};
+		gbl_infoPane.rowHeights = new int[]{0};
+		gbl_infoPane.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_infoPane.rowWeights = new double[]{Double.MIN_VALUE};
 		infoPane.setLayout(gbl_infoPane);
 
 	}
@@ -130,7 +131,8 @@ public class ReserInfoPane extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			BaseFrame.getInstance().getSeatingArrUI().setTimeShow(cal, cal.get(Calendar.HOUR));
+			System.out.println(cal.getTime());
+			BaseFrame.getInstance().getSeatingArrUI().setTimeShow(cal, cal.get(Calendar.HOUR_OF_DAY));
 		}
 
 	}
