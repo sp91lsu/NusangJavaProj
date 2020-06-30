@@ -191,6 +191,15 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		jbt = new JButton("확인");
 		chkSignUp.getContentPane().add(jbt);
 		chkSignUp.setVisible(false);
+		
+		jd = new JDialog();
+		jd.setBounds(100, 100, 200, 150);
+		jd.getContentPane().setLayout(new GridLayout(2, 1));
+		jl = new JLabel("회원가입 완료");
+		jb = new JButton("확인");
+		jd.getContentPane().add(jl);
+		jd.getContentPane().add(jb);
+		jd.setVisible(false);
 	}
 
 	@Override
@@ -203,21 +212,13 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 				idchk = false;
 				hpchk = false;
 
-				jd = new JDialog();
-				jd.setBounds(100, 100, 200, 150);
-				jd.getContentPane().setLayout(new GridLayout(2, 1));
-				jl = new JLabel("회원가입 완료");
-				jb = new JButton("확인");
+				jd.setVisible(true);
 				jb.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						jd.setVisible(false);
 						dispose();
 					}
 				});
-
-				jd.getContentPane().add(jl);
-				jd.getContentPane().add(jb);
-				jd.setVisible(true);
 			}
 		} else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
@@ -252,35 +253,30 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		try {
 			if (name.matches(korean)) {
 				label_1.setText("입력 확인");
-				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (id.matches(engNum) && id.matches(engNum1)) {
 				label_5.setText("입력 확인");
-				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (pass.matches(passChk)) {
 				label_2.setText("입력 확인");
-				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (phoneNum.matches(phoneChk)) {
 				label_4.setText("입력 확인");
-				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (pass.matches(pass2)) {
 				label_3.setText("입력 확인");
-				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
