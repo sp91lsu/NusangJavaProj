@@ -318,7 +318,7 @@ public class RoomDao extends DBProcess {
 		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id "
 				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
 				+ dateSortN + ") = '" + year + "/" + month + "/" + day + "' and i.uuid = a.uuid)"
-				+ "order by i.id, i.startdate;";
+				+ "order by i.id, i.startdate";
 
 		
 		ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
@@ -371,7 +371,7 @@ public class RoomDao extends DBProcess {
 		
 		
 		// 2. ArrayList<SalesBySeat>
-			query = "SELECT room_name ,SUM(room_price), COUNT(*) \r\n" + "FROM" + primequery + "GROUP BY room_name;";
+			query = "SELECT room_name ,SUM(room_price), COUNT(*) \r\n" + "FROM" + primequery + "GROUP BY room_name";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
@@ -385,7 +385,7 @@ public class RoomDao extends DBProcess {
 		
 		// 3. ArrayList<SalesTot>
 			query = "SELECT substr(startdate,0,"+dateSortN+") ,SUM(room_price), COUNT(*) \r\n" + 
-					"FROM " + primequery + "GROUP BY substr(startdate,0,"+dateSortN+");";
+					"FROM " + primequery + "GROUP BY substr(startdate,0,"+dateSortN+")";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
