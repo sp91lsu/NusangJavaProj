@@ -1,9 +1,11 @@
 package manager_p;
 
+import client_p.ClientNet;
+
 public class ManagerMain {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		ClientNet.getInstance().start();
 		
 	}
 

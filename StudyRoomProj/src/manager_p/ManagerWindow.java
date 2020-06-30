@@ -98,7 +98,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void run() {
 				try {
 					ManagerWindow mww = new ManagerWindow();
-					ClientNet.getInstance().start();
 					mww.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

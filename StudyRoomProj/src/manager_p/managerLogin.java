@@ -30,6 +30,8 @@ public class managerLogin extends JFrame {
 				try {
 					managerLogin frame = new managerLogin();
 					frame.setVisible(true);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -149,5 +151,9 @@ public class managerLogin extends JFrame {
 		gbc_panel_3.gridx = 0;
 		gbc_panel_3.gridy = 4;
 		contentPane.add(panel_3, gbc_panel_3);
+		
+		setVisible(true);
+		
+		ManagerWindow mw = new ManagerWindow();
 	}
 }

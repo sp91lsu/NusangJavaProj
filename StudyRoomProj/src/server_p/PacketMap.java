@@ -13,6 +13,7 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
+import client_p.packet_p.syn_p.MsLoginSyn;
 import manager_p.ack_p.SmChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
@@ -45,6 +46,7 @@ public class PacketMap {
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); // 중복아이디 확인
 		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); // 예약룸
 		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
+		map.put(MsLoginSyn.class, new MethMsLoginSyn()); // 매니저 로그인
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {
