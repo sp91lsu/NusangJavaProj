@@ -1,43 +1,26 @@
 package client_p.ui_p;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import java.awt.Font;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JRadioButton;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-
-import data_p.product_p.room_p.RoomProduct;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Cursor;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import data_p.product_p.room_p.RoomProduct;
 
 public class ReserInfoPane extends JFrame {
 
