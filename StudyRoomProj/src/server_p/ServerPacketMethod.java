@@ -139,7 +139,7 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	}
 }
 
-// 관리자가 서버로 연결 응답
+//관리자가 서버로 연결 응답
 class MethMSChatConnectAck implements ServerPacketMethod {
 
 	@Override
@@ -152,9 +152,10 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 
 		if (sc != null) {
 			if (resPacket.isConnect) {
-				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp);
+				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp,
+						resPacket.isConnect);
 			} else {
-				scConnectAck = new ScChatConnectAck(EResult.FAIL, null, null);
+				scConnectAck = new ScChatConnectAck(EResult.FAIL, null, null, false);
 			}
 			sc.sendPacket(scConnectAck);
 		} else {
