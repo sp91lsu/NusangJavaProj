@@ -4,9 +4,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,22 +26,24 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
 
-public class managerLogin extends JFrame implements Receivable{
+public class managerLogin extends JFrame implements Receivable,MouseListener{
 
 	private JPanel contentPane;
 	private JTextField textField_1;
 	private JPasswordField passwordField;
 	private ManagerWindow mw;
-
-	/**
-	 * Launch the application.
-	 */
+	JLabel idLabel,logLabel;
+	JDialog logDialog;
+	private JButton logInBtn;
+	String info = "등록한 ID 또는 휴대폰 번호를 입력하세요";
+	String idInfo = "등록한 ID를 입력하세요";
+	String phinfo = "등록한 휴대폰 번호를 입력하세요";
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					managerLogin frame = new managerLogin();
-					frame.setVisible(true);
 					
 					
 				} catch (Exception e) {
@@ -147,9 +155,9 @@ public class managerLogin extends JFrame implements Receivable{
 		gbc_panel_2.gridy = 3;
 		contentPane.add(panel_2, gbc_panel_2);
 		
-		JButton btnNewButton = new JButton("\uB85C\uADF8\uC778");
-		btnNewButton.setFont(new Font("굴림", Font.BOLD, 30));
-		panel_2.add(btnNewButton);
+		logInBtn = new JButton("로그인");
+		logInBtn.setFont(new Font("굴림", Font.BOLD, 30));
+		panel_2.add(logInBtn);
 		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
@@ -162,10 +170,79 @@ public class managerLogin extends JFrame implements Receivable{
 		
 		mw = new ManagerWindow();
 	}
+	
+	class logChk extends Thread{
+		@Override
+		public void run() {//쓰레드 30초 줘서 로그인 버튼 비활성화
+			try {
+				for (int i = 30; i >= 0 ; i--) {
+					logInBtn.setEnabled(false);
+				}
+				sleep(30000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			logInBtn.setEnabled(true);
+		}
+	}
+	
+	public void logSet() {//작업진행 후 로그인 화면 왔을 때 텍스트 set
+		textField_1.setText(info);
+		passwordField.setText("");
+	}
+	
+	public void logTextChk() {//ack 가 Not Found Data 일 때 띄워주는 창
+		logDialog = new JDialog();
+		logDialog.setBounds(250, 250, 300, 300);
+		logDialog.setLayout(new GridLayout(2,1));
+		logLabel = new JLabel("등록한 ID와 비밀번호를 입력하세요");
+		logDialog.add(logLabel);
+		JButton logChkButton = new JButton("확인");
+		logDialog.add(logChkButton);
+		logChkButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				logDialog.dispose();
+				logSet();
+			}
+		});
+		logDialog.setVisible(true);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		textField_1 = (JTextField) e.getSource();
+		String idfield = textField_1.getText();
+
+		if (idfield.equals(info) || idfield.equals(idInfo) || idfield.equals(phinfo)) {
+			textField_1.setText("");
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
 
 	@Override
 	public void receive(PacketBase packet) {//로그인 응답 받는 부분
-
+		int cnt = 0;
 		ScLoginAck ack = (ScLoginAck) packet;
 //		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {//로그인 성공시
@@ -173,6 +250,7 @@ public class managerLogin extends JFrame implements Receivable{
 		}else if(ack.eResult == EResult.NOT_FOUND_DATA) {//로그인 실패시
 			//로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
 			logTextChk();
+			
 			cnt++;
 			if(cnt==3) {
 				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 "
