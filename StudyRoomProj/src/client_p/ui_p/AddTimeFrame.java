@@ -27,12 +27,7 @@ public class AddTimeFrame extends JFrame {
 	int timeChoice = 0;
 	Calendar last;
 
-	public static void main(String[] args) {
-		AddTimeFrame frame = new AddTimeFrame();
-	}
-
 	public AddTimeFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -80,6 +75,7 @@ public class AddTimeFrame extends JFrame {
 		for (int i = 1; i <= extension; i++) {
 			timeCnt.add(i);
 		}
+		
 		JComboBox timeSelectCom = new JComboBox(timeCnt);
 		timeSelectCom.setBounds(185, 112, 73, 31);
 		contentPane.add(timeSelectCom);
@@ -88,12 +84,9 @@ public class AddTimeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (timeSelectCom.getSelectedItem() != null)
 					timeChoice = (int) timeSelectCom.getSelectedItem();
-
 			}
 		});
-
 		setVisible(true);
-
 	}
 
 	public int timeChoice() {

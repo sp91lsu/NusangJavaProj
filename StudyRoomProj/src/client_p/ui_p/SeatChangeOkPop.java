@@ -41,12 +41,9 @@ public class SeatChangeOkPop extends JFrame {
 		
 		JButton btnNewButton2 = new JButton("√Îº“");
 		btnNewButton2.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				BaseFrame.getInstance().openMainLayout(null, null, null, null);
-				
 			}
 		});
 		btnNewButton2.setBounds(145, 80, 130, 50);

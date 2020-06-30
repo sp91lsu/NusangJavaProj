@@ -36,6 +36,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 	String idInfo = "등록한 ID를 입력하세요";
 	String phinfo = "등록한 휴대폰 번호를 입력하세요";
 	int cnt = 0;
+	boolean isLogin=false;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -73,7 +74,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		changeBox = new JCheckBox("휴대폰 번호로 로그인하기");//휴대폰번호로 로그인 전환 버튼
 		changeBox.setBounds(300, 220, 300, 70);
 		changeBox.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (changeBox.isSelected() == true) {
@@ -103,8 +103,11 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		add(logInBtn);
 		logInBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), !changeBox.isSelected());
-				ClientNet.getInstance().sendPacket(packet);
+				if(!isLogin) {
+					isLogin=true;
+					CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), !changeBox.isSelected());
+					ClientNet.getInstance().sendPacket(packet);
+				}
 			}
 		});
 
@@ -136,7 +139,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		ScLoginAck ack = (ScLoginAck) packet;
 		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {//로그인 성공시
-			
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
 
 				BaseFrame.getInstance().openMainLayout(ack.roomList, null, null, ack.lockerList);
@@ -150,25 +152,29 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 				ReservationInfoMain rif = new ReservationInfoMain();
 				
 			}
-		}else if(ack.eResult == EResult.NOT_FOUND_DATA) {//로그인 실패시
-			//로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
+			isLogin=false;
+		}
+		else if (ack.eResult == EResult.NOT_FOUND_DATA) {// 로그인 실패시
+			// 로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
 			logTextChk();
 			cnt++;
 			if (cnt == 3) {
-				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 "
+				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 " 
 						+ "<br>다시 실행 해주시기 바랍니다.<html>");
 				logChk log = new logChk();
 				log.start();
-				cnt=0;
-			}
-			else if (cnt==1)
-			{
+				cnt = 0;
+			} else if (cnt == 1) {
 				logLabel.setText("등록한 ID와 비밀번호를 입력하세요");
 			}
+			isLogin = false;
+		}
+		else {
+			System.out.println("로그인중 알수없는 에러");
 		}
 	}
 	
-	class logChk extends Thread{
+	class logChk extends Thread {
 		@Override
 		public void run() {// 쓰레드 30초 줘서 로그인 버튼 비활성화
 			try {
@@ -176,7 +182,8 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 					logInBtn.setEnabled(false);
 				}
 				sleep(3000);
-			} catch (Exception e) {
+			} 
+			catch (Exception e) {
 			}
 			logInBtn.setEnabled(true);
 		}
@@ -187,21 +194,16 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		passwordField.setText("");
 	}
 	
-	public void logTextChk() {//ack 가 Not Found Data 일 때 띄워주는 창
-		///////////작업중
+	public void logTextChk() {// ack 가 Not Found Data 일 때 띄워주는 창
 		logChkButton.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				logDialog.dispose();
 				logSet();
-				
 			}
 		});
 		logDialog.setVisible(true);
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		idTextF = (JTextField) e.getSource();
 		String idfield = idTextF.getText();
@@ -211,23 +213,8 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		}
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
-	}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 }
