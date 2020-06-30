@@ -90,6 +90,41 @@ class MethLoginSyn implements ServerPacketMethod {
 	}
 }
 
+class MethMsLoginSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+		CsLoginSyn recPacket = (CsLoginSyn) packet;
+
+		String idOrPhone = recPacket.isID == true ? "id" : "phone";
+
+		UserData userData = null;
+		ScLoginAck ack = null;
+		try {
+			userData = new AccountDao().loginUser(idOrPhone, recPacket.id, recPacket.pw);
+
+			if (userData != null) {
+
+				userData.setReserRoom(new RoomDao().findUserRoom(userData.uuid, false));
+				// roomDao.reset();
+				userData.setExitRoom(new RoomDao().findUserRoom(userData.uuid, true));
+				// roomDao.reset();
+				userData.locker = new LockerDao().findUserLocker(userData.uuid);
+				ack = new ScLoginAck(EResult.SUCCESS, userData, new RoomDao().getReservationListAll(),
+						new LockerDao().getLockerIDList());
+
+			} else {
+				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null, null);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		client.sendPacket(ack);
+
+	}
+}
+
 class MethSignUpSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
