@@ -25,18 +25,18 @@ public class TimeFrame extends JFrame {
 
 	public TimeFrame() {
 
-		RoomProduct usingRoom = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
+		RoomProduct usingRoom = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
 		if (usingRoom != null) {
 			seatingName = usingRoom.name;
 		}
 		setBounds(100, 100, 500, 600);
 		getContentPane().setLayout(null);
-		
-		if(lockerInfo == null) {
+
+		if (lockerInfo == null) {
 			locker = "이용 내역 없음";
-		}else {
-			locker = "<html><br>" + lockerInfo.name +"<br>금액 : "+ lockerInfo.price +
-					"<br>비밀번호 : "+ lockerInfo.pw +"<html>";
+		} else {
+			locker = "<html><br>" + lockerInfo.name + "<br>금액 : " + lockerInfo.price + "<br>비밀번호 : " + lockerInfo.pw
+					+ "<html>";
 		}
 
 		JLabel titleLabel = new JLabel("당일 구매 정보");
@@ -46,10 +46,9 @@ public class TimeFrame extends JFrame {
 		getContentPane().add(titleLabel);
 
 		String remaingTime = showRemainTime();
-		JLabel lblNewLabel = new JLabel("<html>이용자 ID : " + id + "<br>휴대폰번호 : " + 
-				phoneNum + "<br>이용 중인 좌석/룸 : " + seatingName + "<br>남은 이용 시간 : " + 
-				remaingTime + "<br>사물함 이용 정보 : " + locker +  "<html>");
-		
+		JLabel lblNewLabel = new JLabel("<html>이용자 ID : " + id + "<br>휴대폰번호 : " + phoneNum + "<br>이용 중인 좌석/룸 : "
+				+ seatingName + "<br>남은 이용 시간 : " + remaingTime + "<br>사물함 이용 정보 : " + locker + "<html>");
+
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 24));
 		lblNewLabel.setBounds(51, 70, 387, 400);
@@ -64,7 +63,7 @@ public class TimeFrame extends JFrame {
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().getMainLayout().is_useData=false;
+				BaseFrame.getInstance().getMainLayout().is_useData = false;
 				dispose();
 			}
 		});

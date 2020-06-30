@@ -50,7 +50,7 @@ public class AddTimeFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				sendPacket();
 				dispose();
-				BaseFrame.getInstance().getMainLayout().is_addTime=false;
+				BaseFrame.getInstance().getMainLayout().is_addTime = false;
 			}
 		});
 
@@ -61,7 +61,7 @@ public class AddTimeFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				BaseFrame.getInstance().getMainLayout().is_addTime=false;
+				BaseFrame.getInstance().getMainLayout().is_addTime = false;
 
 			}
 		});
@@ -77,7 +77,7 @@ public class AddTimeFrame extends JFrame {
 		for (int i = 1; i <= extension; i++) {
 			timeCnt.add(i);
 		}
-		
+
 		JComboBox timeSelectCom = new JComboBox(timeCnt);
 		timeSelectCom.setBounds(185, 112, 73, 31);
 		contentPane.add(timeSelectCom);
@@ -93,7 +93,7 @@ public class AddTimeFrame extends JFrame {
 
 	public int timeChoice() {
 
-		RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
+		RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
 		ArrayList<Calendar> myCalList = new ArrayList<Calendar>();
 
 		for (Calendar reserCal : room.calendarList) {

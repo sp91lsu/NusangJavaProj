@@ -102,13 +102,14 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	int setYear;
 	int nowYear;
 	int setDate;
+	int nowDate;
 	int nowMaxDate;
 	int nowHour;
 	ArrayList<RoomObj> group = new ArrayList<RoomObj>();// 단체석
 	ArrayList<RoomObj> solo = new ArrayList<RoomObj>();// 개인석
 	ArrayList<RoomObj> all = new ArrayList<RoomObj>();// 전체
 	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
-
+	JButton searchButton;
 	JButton selectBtn;
 
 	public static void main(String[] args) {
@@ -384,19 +385,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		yearCBox.setSelectedItem(setYear);
 		timeSelectPane.add(yearCBox);
 		yearCBox.setEnabled(BaseFrame.getInstance().loginType == ELoginType.MOBILE);
-		yearCBox.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setYear = (int) yearCBox.getSelectedItem();
-				monthCBox.removeAllItems();
-				if (yearCBox.getSelectedItem() != null) {
-					monthCBoxSetting();
-				}
-
-				btn_state(EState.INIT);
-			}
-		});
+		yearCBox.addActionListener(new yearAct());
 
 		// 월 선택 + 일자 생성
 		Vector<Integer> monthCnt = new Vector<Integer>();
@@ -494,7 +483,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			}
 		});
 
-		JButton searchButton = new JButton("검색");
+		searchButton = new JButton("검색");
 		searchButton.setBounds(544, 30, 91, 28);
 		timeSelectPane.add(searchButton);
 		searchButton.addActionListener(new SearchBtnAct());
@@ -565,10 +554,19 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	}
 
 	public void monthCBoxSetting() {
+
 		monthCBox.removeAllItems();
+
 		if (setYear == nowYear) {
-			for (int i = nowMonth; i <= 12; i++) {
-				monthCBox.addItem(i);
+			if (nowDate == Calendar.getInstance().getActualMaximum(Calendar.DATE)) {
+				setMonth = nowMonth + 1;
+				for (int i = setMonth; i <= 12; i++) {
+					monthCBox.addItem(i);
+				}
+			} else {
+				for (int i = nowMonth; i <= 12; i++) {
+					monthCBox.addItem(i);
+				}
 			}
 		} else {
 			for (int i = 1; i <= 12; i++) {
@@ -591,8 +589,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			break;
 		case MOBILE:
 			btn_state(EState.INIT);
-			monthCBoxSetting();
 			yearCBox.setSelectedItem(nowYear);
+			monthCBoxSetting();
 			reserInfoPane.OpenPage();
 			break;
 		default:
@@ -686,18 +684,20 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	class SearchBtnAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+
 			roomState();
 			checkDate();
+			if (BaseFrame.getInstance().checkMyReserRoom(getSetCalendar(), Calendar.DATE) != null) {
+				btn_state(EState.DISABLE);
+				System.out.println("그날 내가 예약했음");
+			}
 		}
+
 	}
 
 	void checkDate() {
 
-		Calendar start = Calendar.getInstance();
-		start.set(Calendar.YEAR, setYear);
-		start.set(Calendar.MONTH, setMonth - 1);
-		start.set(Calendar.DATE, setDate);
-
+		Calendar start = getSetCalendar();
 		// 시간이 맞물리면 빨간색 처리
 		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().roomInfoList;
 		for (RoomProduct roomInfo : roomList) {
@@ -722,6 +722,15 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			}
 		}
 
+	}
+
+	Calendar getSetCalendar() {
+		Calendar start = Calendar.getInstance();
+		start.set(Calendar.YEAR, setYear);
+		start.set(Calendar.MONTH, setMonth - 1);
+		start.set(Calendar.DATE, setDate);
+
+		return start;
 	}
 
 	void roomState() {
@@ -759,6 +768,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		setYear = Calendar.getInstance().get(Calendar.YEAR);
 		nowYear = Calendar.getInstance().get(Calendar.YEAR);
 		setDate = Calendar.getInstance().get(Calendar.DATE);
+		nowDate = Calendar.getInstance().get(Calendar.DATE);
 		nowMaxDate = Calendar.getInstance().get(Calendar.DATE) + 1;
 		nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 	}
@@ -769,8 +779,21 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		setDate = cal.get(Calendar.DATE);
 		starttime = hour;
 		endtime = starttime + 1;
-		roomState();
-		checkDate();
-		btn_state(EState.DISABLE);
+		searchButton.doClick();
+	}
+
+	class yearAct implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setYear = (int) yearCBox.getSelectedItem();
+			monthCBox.removeAllItems();
+			if (yearCBox.getSelectedItem() != null) {
+				monthCBoxSetting();
+			}
+
+			btn_state(EState.INIT);
+		}
+
 	}
 }

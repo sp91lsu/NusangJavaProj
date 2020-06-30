@@ -73,7 +73,6 @@ public class ReserInfoPane extends JPanel {
 
 	public void OpenPage() {
 
-		//setVisible(true);
 		userName = BaseFrame.getInstance().userData.name;
 		userId = BaseFrame.getInstance().userData.id;
 		userDataL.setText("<html>" + userId + "(" + userName + ")님" + "<br>환영합니다.");

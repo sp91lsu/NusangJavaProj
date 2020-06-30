@@ -258,17 +258,22 @@ public class BaseFrame extends JFrame implements Receivable {
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 
-		return checkMyReserRoom(Calendar.HOUR_OF_DAY);
+		return checkMyReserRoom(null, Calendar.HOUR_OF_DAY);
 	}
 
-	public RoomProduct checkMyReserRoom(int field) {
-		Calendar current = Calendar.getInstance();
+	public RoomProduct checkMyReserRoom(Calendar compCal, int field) {
+
+		if (compCal == null) {
+			compCal = Calendar.getInstance();
+		}
 		RoomProduct clone = null;
 		if (userData != null) {
 			for (RoomProduct product : userData.myReservationList) {
 				for (int i = 0; i < product.calendarList.size(); i++) {
 					Calendar cal = product.calendarList.get(i);
-					if (CalCal.isSameTime(field, cal, current)) {
+					if (CalCal.isSameTime(field, cal, compCal)) {
+						System.out.println("cal" + cal.getTime());
+						System.out.println("compCal" + compCal.getTime());
 						if (clone == null) {
 							clone = product.getClone();
 						}

@@ -36,13 +36,13 @@ public class ExitFrame extends JFrame {
 		okButton.setBounds(38, 227, 162, 70);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(Calendar.DATE);
+				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
 				room.isExit = true;
 				CsExitSyn packet = new CsExitSyn(room);
 				ClientNet.getInstance().sendPacket(packet);
 				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
-				BaseFrame.getInstance().getMainLayout().is_Exit=false;
+				BaseFrame.getInstance().getMainLayout().is_Exit = false;
 			}
 		});
 		getContentPane().add(okButton);
@@ -53,7 +53,7 @@ public class ExitFrame extends JFrame {
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				BaseFrame.getInstance().getMainLayout().is_Exit=false;
+				BaseFrame.getInstance().getMainLayout().is_Exit = false;
 			}
 		});
 		getContentPane().add(cancleButton);

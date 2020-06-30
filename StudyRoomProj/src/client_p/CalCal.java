@@ -28,20 +28,26 @@ public class CalCal {
 
 		int last = Calendar.YEAR;
 
+		boolean pass = false;
+
 		if (field >= Calendar.YEAR) {
 			last = Calendar.YEAR;
+			pass = cal1.get(last) == cal2.get(last);
 		}
-		if (field >= Calendar.MONTH) {
+		if (pass && field >= Calendar.MONTH) {
 			last = Calendar.MONTH;
+			pass = cal1.get(last) == cal2.get(last);
 		}
-		if (field >= Calendar.DATE) {
+		if (pass && field >= Calendar.DATE) {
 			last = Calendar.DATE;
+			pass = cal1.get(last) == cal2.get(last);
 		}
-		if (field >= Calendar.HOUR_OF_DAY) {
+		if (pass && field >= Calendar.HOUR_OF_DAY) {
 			last = Calendar.HOUR_OF_DAY;
+			pass = cal1.get(last) == cal2.get(last);
 		}
 
-		return cal1.get(last) == cal2.get(last);
+		return pass;
 	}
 
 }
