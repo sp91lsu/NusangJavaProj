@@ -123,7 +123,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		logDialog = new JDialog();
 		logDialog.setBounds(250, 250, 300, 300);
 		logDialog.setLayout(new GridLayout(2,1));
-		logLabel = new JLabel("등록한 ID와 비밀번호를 입력하세요");
+		logLabel = new JLabel();
 		logDialog.add(logLabel);
 		logChkButton = new JButton("확인");
 		logDialog.add(logChkButton);
@@ -154,26 +154,29 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 			//로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
 			logTextChk();
 			cnt++;
-			if(cnt==3) {
+			if (cnt == 3) {
 				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 "
 						+ "<br>다시 실행 해주시기 바랍니다.<html>");
 				logChk log = new logChk();
 				log.start();
-				cnt = 0;
+				cnt=0;
+			}
+			else if (cnt==1)
+			{
+				logLabel.setText("등록한 ID와 비밀번호를 입력하세요");
 			}
 		}
 	}
 	
 	class logChk extends Thread{
 		@Override
-		public void run() {//쓰레드 30초 줘서 로그인 버튼 비활성화
+		public void run() {// 쓰레드 30초 줘서 로그인 버튼 비활성화
 			try {
-				for (int i = 30; i >= 0 ; i--) {
+				for (int i = 30; i >= 0; i--) {
 					logInBtn.setEnabled(false);
 				}
-				sleep(30000);
+				sleep(3000);
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 			logInBtn.setEnabled(true);
 		}
