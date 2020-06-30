@@ -29,7 +29,7 @@ public class AccountDao extends DBProcess {
 			stmt.setString(4, userData.pw);
 			stmt.setString(5, userData.birth);
 			stmt.setString(6, userData.phone);
-			stmt.setString(7, userData.cType);
+			stmt.setInt(7, 0);
 			stmt.setString(8, ip);
 			rs = stmt.executeQuery();
 			close();
@@ -39,6 +39,21 @@ public class AccountDao extends DBProcess {
 		}
 	}
 
+	UserData rsToUser(ResultSet rs) {
+		UserData userData = null;
+		try {
+			if (rs.next()) {
+				userData = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
+						rs.getString("phone"), rs.getString("birth"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userData;
+	}
+
+	// 로그인해서 유저 데이터 반환
 	public UserData loginUser(String idOrPhone, String id, String pw) throws Exception {
 
 		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ? and pw = ?");
@@ -47,13 +62,33 @@ public class AccountDao extends DBProcess {
 		stmt.setString(2, pw);
 		rs = stmt.executeQuery();
 
-		UserData userdata = null;
-		if (rs.next()) {
-			userdata = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"));
-		}
+		UserData userData = rsToUser(rs);
 		close();
-		return userdata;
+		return userData;
+	}
+
+	// 유저찾기
+	public UserData findnUser(String uuID) throws Exception {
+		findQuery(ETable.ACCOUNT, "*", "uuid = ?");
+
+		stmt.setString(1, uuID);
+		rs = stmt.executeQuery();
+
+		UserData userData = rsToUser(rs);
+		close();
+		return userData;
+	}
+
+	// 매니저찾기
+	public UserData findManager(String uuID) throws Exception {
+		findQuery(ETable.ACCOUNT, "*", "uuid = ?");
+
+		stmt.setString(1, uuID);
+		rs = stmt.executeQuery();
+
+		UserData userData = rsToUser(rs);
+		close();
+		return userData;
 	}
 
 	public String userName(String uuID) throws Exception {
@@ -70,7 +105,7 @@ public class AccountDao extends DBProcess {
 				break;
 			}
 		}
-		rs.close();
+		close();
 
 		return un;
 	}
