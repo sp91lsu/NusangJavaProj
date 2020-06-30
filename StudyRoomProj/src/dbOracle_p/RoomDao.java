@@ -302,26 +302,23 @@ public class RoomDao extends DBProcess {
 	
 	public SalesData SalesData(String year, String month, String day) throws Exception {
 		int dateSortN;//날짜에 따라 달라지는 쿼리문 값
-		String dateStr = "";//판매 기록 스크롤패널에 들어갈 날짜정보
-		String dateQuery = "";
+		String dateStr = "";//날짜정보 담는 스트링
 		if (month.equals("0") && day.equals("0")) {
 			dateSortN = 2;
 			dateStr = "20" + year + "년";
-			dateQuery = "'" + year +"'";
 		} else if (!month.equals("0") && day.equals("0")) {
 			dateSortN = 5;
 			dateStr = "20" + year + "년 " + month + "월";
-			dateQuery = "'" + year + "/" + month +"'";
 		} else {
 			dateSortN = 8;
 			dateStr = "20" + year + "년 " + month + "월 " + day + "일";
-			dateQuery = "'" + year + "/" + month + "/" + day + "'";
 		}
 
 		// 공통으로 들어가는 쿼리문
-		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id, CONCAT(R.room_name,a.id) as sort "
+		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id "
 				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
-				+ dateSortN + ") = " + dateQuery + " and i.uuid = a.uuid) ";
+				+ dateSortN + ") = '" + year + "/" + month + "/" + day + "' and i.uuid = a.uuid)"
+				+ "order by i.id, i.startdate;";
 
 		
 		ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
@@ -331,7 +328,7 @@ public class RoomDao extends DBProcess {
 		
 		// 1. ArrayList<SalesRecord>
 			//쿼리문작성
-			query = primequery+ " order by i.id, i.startdate";
+			query = primequery;
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 	
@@ -374,7 +371,7 @@ public class RoomDao extends DBProcess {
 		
 		
 		// 2. ArrayList<SalesBySeat>
-			query = "SELECT room_name ,SUM(room_price), COUNT(*) " + "FROM " + primequery + "GROUP BY room_name";
+			query = "SELECT room_name ,SUM(room_price), COUNT(*) \r\n" + "FROM" + primequery + "GROUP BY room_name;";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
@@ -387,13 +384,12 @@ public class RoomDao extends DBProcess {
 		
 		
 		// 3. ArrayList<SalesTot>
-			query = "SELECT substr(startdate,0,"+dateSortN+") ,SUM(room_price), COUNT(*) " + 
-					"FROM " + primequery + "GROUP BY substr(startdate,0,"+dateSortN+")";
+			query = "SELECT substr(startdate,0,"+dateSortN+") ,SUM(room_price), COUNT(*) \r\n" + 
+					"FROM " + primequery + "GROUP BY substr(startdate,0,"+dateSortN+");";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
 				tot = new SalesTot(dateSortN, Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")) );
-				rs.close();
 
 		// 4. SalesData
 		SalesData sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
