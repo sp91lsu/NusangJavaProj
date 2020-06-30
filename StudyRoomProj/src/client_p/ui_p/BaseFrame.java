@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client_p.CalCal;
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
@@ -88,7 +89,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, (Receivable) signUpFrame);
 		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
 		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, (Receivable) this);
-		
+
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -199,6 +200,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		claChat.textArea.setText("");
 		return claChat;
 	}
+
 	public LoginMain getLoginMain() {
 		return (LoginMain) jPanelArrl.get(0);
 	}
@@ -215,7 +217,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		LockerMain lockerMain = (LockerMain) jPanelArrl.get(5);
 		return lockerMain;
 	}
-	
+
 	public MainLayout openMainLayout(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
 			ArrayList<RoomProduct> exitList, ArrayList<LockerData> lockerList) {
 
@@ -266,7 +268,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			for (RoomProduct product : userData.myReservationList) {
 				for (int i = 0; i < product.calendarList.size(); i++) {
 					Calendar cal = product.calendarList.get(i);
-					if (isSameTime(field, cal, current)) {
+					if (CalCal.isSameTime(field, cal, current)) {
 						if (clone == null) {
 							clone = product.getClone();
 						}
@@ -274,29 +276,9 @@ public class BaseFrame extends JFrame implements Receivable {
 					}
 				}
 			}
-			
+
 		}
 		return clone;
-	}
-
-	public boolean isSameTime(int field, Calendar cal1, Calendar cal2) {
-
-		int last = Calendar.YEAR;
-
-		if (field >= Calendar.YEAR) {
-			last = Calendar.YEAR;
-		}
-		if (field >= Calendar.MONTH) {
-			last = Calendar.MONTH;
-		}
-		if (field >= Calendar.DATE) {
-			last = Calendar.DATE;
-		}
-		if (field >= Calendar.HOUR_OF_DAY) {
-			last = Calendar.HOUR_OF_DAY;
-		}
-
-		return cal1.get(last) == cal2.get(last);
 	}
 
 	public long getTodayRemainTime() {
@@ -311,7 +293,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		System.out.println("유저 오늘 방 정보 " + room);
 		if (room != null) {// 오늘 총 예약한 리스트
 			for (Calendar cal : room.calendarList) {
-				if (isSameTime(Calendar.DATE, cal, current)) {
+				if (CalCal.isSameTime(Calendar.DATE, cal, current)) {
 					if (last == null) {
 						last = cal;
 						start = cal;

@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client_p.CalCal;
 import client_p.Receivable;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
@@ -32,6 +33,7 @@ enum EState {
 public class Seating_Arrangement extends JPanel implements Receivable {
 
 	JPanel panel_center;
+	ReserInfoPane reserInfoPane;
 
 	class RoomObj {
 
@@ -117,6 +119,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public Seating_Arrangement() {
 		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 			setDate++;
+			reserInfoPane = new ReserInfoPane();
 		}
 		setLayout(null);
 		// 상단 패널
@@ -210,142 +213,146 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		// 중앙패널
 		panel_center = new JPanel();
-		panel_center.setBounds(10, 40, 860, 650);
+		panel_center.setBounds(10, 40, 635, 650);
 		add(panel_center);
 		panel_center.setLayout(null);
 
 		// 여기서부터 룸 버튼
 		RoomObj roomBtn1 = new RoomObj(1019, panel_center);
-		roomBtn1.btn.setBounds(0, 0, 300, 110);
+		roomBtn1.btn.setBounds(0, 0, 220, 110);
 		group.add(roomBtn1);
 
 		RoomObj roomBtn2 = new RoomObj(1018, panel_center);
-		roomBtn2.btn.setBounds(300, 0, 250, 110);
+		roomBtn2.btn.setBounds(220, 0, 170, 110);
 		group.add(roomBtn2);
 
 		RoomObj roomBtn3 = new RoomObj(1016, panel_center);
-		roomBtn3.btn.setBounds(550, 0, 160, 110);
+		roomBtn3.btn.setBounds(390, 0, 120, 110);
 		group.add(roomBtn3);
 
 		RoomObj roomBtn4 = new RoomObj(1017, panel_center);
-		roomBtn4.btn.setBounds(710, 0, 160, 110);
+		roomBtn4.btn.setBounds(510, 0, 120, 110);
 		group.add(roomBtn4);
 
 		RoomObj roomBtn5 = new RoomObj(1014, panel_center);
-		roomBtn5.btn.setBounds(710, 190, 160, 90);
+		roomBtn5.btn.setBounds(515, 190, 120, 90);
 		group.add(roomBtn5);
 
 		RoomObj roomBtn6 = new RoomObj(1015, panel_center);
-		roomBtn6.btn.setBounds(710, 280, 160, 90);
+		roomBtn6.btn.setBounds(515, 280, 120, 90);
 		group.add(roomBtn6);
 
 		RoomObj roomBtn7 = new RoomObj(1011, panel_center);
-		roomBtn7.btn.setBounds(710, 370, 160, 60);
+		roomBtn7.btn.setBounds(515, 370, 120, 70);
 		group.add(roomBtn7);
 
 		RoomObj roomBtn8 = new RoomObj(1012, panel_center);
-		roomBtn8.btn.setBounds(710, 430, 160, 60);
+		roomBtn8.btn.setBounds(515, 440, 120, 70);
 		group.add(roomBtn8);
 
 		RoomObj roomBtn9 = new RoomObj(1013, panel_center);
-		roomBtn9.btn.setBounds(710, 490, 160, 60);
+		roomBtn9.btn.setBounds(515, 510, 120, 70);
 		group.add(roomBtn9);
 
 		RoomObj roomBtn10 = new RoomObj(1020, panel_center);
-		roomBtn10.btn.setBounds(0, 110, 160, 150);
+		roomBtn10.btn.setBounds(0, 110, 100, 150);
 		group.add(roomBtn10);
 
 		RoomObj roomBtn11 = new RoomObj(1021, panel_center);
-		roomBtn11.btn.setBounds(0, 260, 160, 155);
+		roomBtn11.btn.setBounds(0, 260, 100, 155);
 		group.add(roomBtn11);
 
 		// 매너존 패널
 		JPanel mannerzone_panel = new JPanel();
-		mannerzone_panel.setBounds(0, 415, 300, 250);
+		mannerzone_panel.setBounds(0, 415, 240, 250);
 		panel_center.add(mannerzone_panel);
 		mannerzone_panel.setLayout(null);
 
 		// 매너존 라벨,버튼
 		JLabel label_manner = new JLabel("매너존");
 		label_manner.setFont(new Font("굴림", Font.PLAIN, 20));
-		label_manner.setBounds(120, 115, 70, 20);
+		label_manner.setBounds(70, 110, 70, 20);
 		mannerzone_panel.add(label_manner);
 
 		RoomObj btnM_1 = new RoomObj(1006, mannerzone_panel);
-		btnM_1.btn.setBounds(0, 0, 100, 70);
+		btnM_1.btn.setBounds(0, 0, 80, 70);
 		solo.add(btnM_1);
 
 		RoomObj btnM_2 = new RoomObj(1007, mannerzone_panel);
-		btnM_2.btn.setBounds(100, 0, 100, 70);
+		btnM_2.btn.setBounds(80, 0, 80, 70);
 		solo.add(btnM_2);
 
 		RoomObj btnM_3 = new RoomObj(1008, mannerzone_panel);
-		btnM_3.btn.setBounds(0, 160, 100, 70);
+		btnM_3.btn.setBounds(0, 160, 80, 70);
 		solo.add(btnM_3);
 
 		RoomObj btnM_4 = new RoomObj(1009, mannerzone_panel);
-		btnM_4.btn.setBounds(100, 160, 100, 70);
+		btnM_4.btn.setBounds(80, 160, 80, 70);
 		solo.add(btnM_4);
 
 		RoomObj btnM_5 = new RoomObj(1010, mannerzone_panel);
-		btnM_5.btn.setBounds(200, 160, 100, 70);
+		btnM_5.btn.setBounds(160, 160, 80, 70);
 		solo.add(btnM_5);
 
 		// 일반석 패널
 		JPanel normalzone_panel = new JPanel();
-		normalzone_panel.setBounds(300, 160, 300, 250);
+		normalzone_panel.setBounds(210, 160, 240, 250);
 		panel_center.add(normalzone_panel);
 		normalzone_panel.setLayout(null);
 		// 일반실 라벨,버튼
 		JLabel label_normal = new JLabel("일반실");
 		label_normal.setFont(new Font("굴림", Font.PLAIN, 20));
-		label_normal.setBounds(120, 105, 70, 20);
+		label_normal.setBounds(80, 105, 70, 20);
 		normalzone_panel.add(label_normal);
 
 		RoomObj btnN_1 = new RoomObj(1000, normalzone_panel);
-		btnN_1.btn.setBounds(0, 0, 100, 70);
+		btnN_1.btn.setBounds(0, 0, 80, 70);
 		solo.add(btnN_1);
 
 		RoomObj btnN_2 = new RoomObj(1001, normalzone_panel);
-		btnN_2.btn.setBounds(100, 0, 100, 70);
+		btnN_2.btn.setBounds(80, 0, 80, 70);
 		solo.add(btnN_2);
 
 		RoomObj btnN_3 = new RoomObj(1002, normalzone_panel);
-		btnN_3.btn.setBounds(200, 0, 100, 70);
+		btnN_3.btn.setBounds(160, 0, 80, 70);
 		solo.add(btnN_3);
 
 		RoomObj btnN_4 = new RoomObj(1003, normalzone_panel);
-		btnN_4.btn.setBounds(0, 160, 100, 70);
+		btnN_4.btn.setBounds(0, 160, 80, 70);
 		solo.add(btnN_4);
 
 		RoomObj btnN_5 = new RoomObj(1004, normalzone_panel);
-		btnN_5.btn.setBounds(100, 160, 100, 70);
+		btnN_5.btn.setBounds(80, 160, 80, 70);
 		solo.add(btnN_5);
 
 		RoomObj btnN_6 = new RoomObj(1005, normalzone_panel);
-		btnN_6.btn.setBounds(200, 160, 100, 70);
+		btnN_6.btn.setBounds(160, 160, 80, 70);
 		solo.add(btnN_6);
+
+		for (RoomObj soloSeat : solo) {
+			soloSeat.btn.setFont(new Font("고딕", Font.BOLD, 11));
+		}
 
 		// 휴게실
 		JPanel restzone_panel = new JPanel();
 		restzone_panel.setBackground(Color.ORANGE);
-		restzone_panel.setBounds(300, 455, 260, 190);
+		restzone_panel.setBounds(240, 495, 150, 150);
 		panel_center.add(restzone_panel);
 		restzone_panel.setLayout(null);
 		// 휴게실 안에 들어갈것은 여기서
 		JLabel label_rest = new JLabel("휴게실");
 		label_rest.setFont(new Font("굴림", Font.PLAIN, 20));
-		label_rest.setBounds(100, 90, 70, 20);
+		label_rest.setBounds(55, 70, 70, 20);
 		restzone_panel.add(label_rest);
 
 		JPanel locker = new JPanel();
 		locker.setBackground(Color.LIGHT_GRAY);
-		locker.setBounds(560, 455, 30, 190);
+		locker.setBounds(390, 495, 30, 150);
 		panel_center.add(locker);
 		locker.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("<html>사<br>물<br>함<html>");
-		lblNewLabel.setBounds(5, 60, 32, 79);
+		lblNewLabel.setBounds(5, 30, 32, 79);
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 20));
 		locker.add(lblNewLabel);
 
@@ -374,12 +381,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setYear = (int) yearCBox.getSelectedItem();	
+				setYear = (int) yearCBox.getSelectedItem();
 				monthCBox.removeAllItems();
-				if(yearCBox.getSelectedItem()!=null) {		
-						monthCBoxSetting();
+				if (yearCBox.getSelectedItem() != null) {
+					monthCBoxSetting();
 				}
-					
+
 				btn_state(EState.INIT);
 			}
 		});
@@ -398,7 +405,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dateCBox.removeAllItems();
-				if(monthCBox.getSelectedItem()!=null)
+				if (monthCBox.getSelectedItem() != null)
 					setMonth = (int) monthCBox.getSelectedItem();
 				Calendar selectMonth = Calendar.getInstance();
 				selectMonth.set(Calendar.MONTH, setMonth - 1);
@@ -546,15 +553,14 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			button.setState(state);
 		}
 	}
-	
+
 	public void monthCBoxSetting() {
 		monthCBox.removeAllItems();
-		if(setYear == nowYear) {
+		if (setYear == nowYear) {
 			for (int i = nowMonth; i <= 12; i++) {
 				monthCBox.addItem(i);
 			}
-		}
-		else {
+		} else {
 			for (int i = 1; i <= 12; i++) {
 				monthCBox.addItem(i);
 			}
@@ -577,6 +583,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			btn_state(EState.INIT);
 			monthCBoxSetting();
 			yearCBox.setSelectedItem(nowYear);
+			//reserInfoPane.OpenPage();
 			break;
 		default:
 			roomState();
@@ -685,9 +692,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				System.out.println("cal" + cal.getTime());
 				System.out.println("start" + start.getTime());
 				// 시간비교 => 년/월/일 비교
-				if (BaseFrame.getInstance().isSameTime(Calendar.YEAR, cal, start)
-						&& BaseFrame.getInstance().isSameTime(Calendar.MONTH, cal, start)
-						&& BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, start)) {
+				if (CalCal.isSameTime(Calendar.YEAR, cal, start) && CalCal.isSameTime(Calendar.MONTH, cal, start)
+						&& CalCal.isSameTime(Calendar.DATE, cal, start)) {
 
 					for (RoomObj seatBtn : all) {
 						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {

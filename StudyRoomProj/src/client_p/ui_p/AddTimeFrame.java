@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import client_p.CalCal;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
@@ -125,7 +126,7 @@ public class AddTimeFrame extends JFrame {
 					int reserIdx = calMe.get(Calendar.HOUR_OF_DAY);
 
 					System.out.println("다음예약" + reserIdx);
-					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, last, calMe)) {
+					if (CalCal.isSameTime(Calendar.DATE, last, calMe)) {
 
 						if (lastIdx < reserIdx) {
 							if (next == null) {

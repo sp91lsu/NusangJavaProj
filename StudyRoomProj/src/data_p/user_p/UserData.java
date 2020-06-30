@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+import client_p.CalCal;
 import client_p.ui_p.BaseFrame;
 import data_p.PacketData;
 import data_p.product_p.LockerData;
@@ -56,7 +57,7 @@ public class UserData extends PacketData {
 		for (RoomProduct room : myReservationList) {
 			if (room != null) {// ø¿¥√ √— øπæ‡«— ∏ÆΩ∫∆Æ
 				for (Calendar cal : room.calendarList) {
-					if (BaseFrame.getInstance().isSameTime(Calendar.DATE, cal, Calendar.getInstance())) {
+					if (CalCal.isSameTime(Calendar.DATE, cal, Calendar.getInstance())) {
 						return room;
 					}
 				}
