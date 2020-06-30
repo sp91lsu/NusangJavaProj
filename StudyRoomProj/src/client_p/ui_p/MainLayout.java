@@ -232,7 +232,7 @@ public class MainLayout extends JPanel implements Receivable {
 				
 				}else if(ack.eResult == EResult.NEGATIVE_CHAT) {
 					BaseFrame.getInstance().openClientChatFrame().chatNegative();
-
+				}
 		} else if (packet.getClass() == ScExitAck.class) {
 			ScExitAck resPacket = (ScExitAck) packet;
 			if (resPacket.eResult == EResult.SUCCESS) {
