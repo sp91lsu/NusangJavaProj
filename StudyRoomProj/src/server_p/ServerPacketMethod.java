@@ -42,7 +42,7 @@ import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
-import server_p.packet_p.ack_p.SmGiveMeResvRoomAck;
+import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.ack_p.SmSalesInquiryAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
@@ -320,7 +320,7 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsGiveMeResvRoomSyn resPacket = (MsGiveMeResvRoomSyn) packet;
 		try {
-			SmGiveMeResvRoomAck ack = new SmGiveMeResvRoomAck(EResult.SUCCESS,
+			SmResvRoomAck ack = new SmResvRoomAck(EResult.SUCCESS,
 					new RoomDao().rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
 //			String managerIp = "/192.168.100.27";
 			SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
@@ -457,14 +457,14 @@ class MethDuplicateIDSyn implements ServerPacketMethod {
 class MethMsSalesInquirySyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
+		
 		MsSalesInquirySyn resPacket = (MsSalesInquirySyn) packet;
-		RoomDao roomDao = new RoomDao();
+		
 		try {
-			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS);
+			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS, new RoomDao().SalesData(resPacket.year, resPacket.month, resPacket.day) );
 //	         String managerIp = "/192.168.100.27";
 			client.sendPacket(ack);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

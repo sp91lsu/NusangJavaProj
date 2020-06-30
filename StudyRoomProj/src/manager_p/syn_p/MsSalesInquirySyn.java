@@ -3,7 +3,7 @@ package manager_p.syn_p;
 import packetBase_p.PacketBase;
 
 public class MsSalesInquirySyn extends PacketBase{
-	String year,month,day;
+	public String year,month,day;
 
 	public MsSalesInquirySyn(String year, String month, String day) {
 		this.year = year;

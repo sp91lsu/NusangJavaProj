@@ -21,15 +21,19 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
+import client_p.PacketMap;
+import client_p.Receivable;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsSalesInquirySyn;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.SmSalesInquiryAck;
 
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 
-public class SalesInquiry extends JPanel {
+public class SalesInquiry extends JPanel implements Receivable {
 	JFrame tfram;
 	private JScrollPane scrPane_SalesBySeat;
 	private JScrollPane scrPane_SalesRecord;
@@ -186,10 +190,9 @@ public class SalesInquiry extends JPanel {
 	}
 			
 	public SalesInquiry() {
+		PacketMap.getInstance().map.put(SmSalesInquiryAck.class, this);
 		setDateList();
-//		public SetPrice(TestFrame tfram) {
-//		this.tfram = tfram;
-//		this.tfram.tabbedPane.addTab("요금 관리", this);
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_9 = new JPanel();
@@ -444,6 +447,12 @@ public class SalesInquiry extends JPanel {
 		lb_TotSales.setHorizontalAlignment(SwingConstants.RIGHT);
 		lb_TotSales.setFont(new Font("휴먼매직체", Font.BOLD, 30));
 		panel_15_1.add(lb_TotSales);
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

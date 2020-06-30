@@ -44,7 +44,7 @@ import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
-import server_p.packet_p.ack_p.SmGiveMeResvRoomAck;
+import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.ack_p.SmSalesInquiryAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
@@ -98,15 +98,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void run() {
 				try {
 					ManagerWindow mww = new ManagerWindow();
-					
-					PacketMap.getInstance().map.put(SmCurrMemListAck.class, mww);
-					PacketMap.getInstance().map.put(SmAllMemListAck.class, mww);
-					PacketMap.getInstance().map.put(SmMemSearchAck.class, mww);
-//					PacketMap.getInstance().map.put(MsGiveMeResvRoomSyn.class, mww);
-					PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, mww);
-					PacketMap.getInstance().map.put(ScBuyLockerCast.class, mww);
-					PacketMap.getInstance().map.put(SmGiveMeResvRoomAck.class, mww);
-					PacketMap.getInstance().map.put(SmSalesInquiryAck.class, mww);
 					ClientNet.getInstance().start();
 					mww.setVisible(true);
 				} catch (Exception e) {
@@ -118,6 +109,14 @@ public class ManagerWindow extends JFrame implements Receivable {
 
 	
 	public ManagerWindow() {
+		PacketMap.getInstance().map.put(SmCurrMemListAck.class, this);
+		PacketMap.getInstance().map.put(SmAllMemListAck.class, this);
+		PacketMap.getInstance().map.put(SmMemSearchAck.class, this);
+		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
+		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
+		PacketMap.getInstance().map.put(SmResvRoomAck.class, this);
+		
+		
 		System.out.println("ManagerWindow 실행");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 100, 1000, 800);
@@ -528,8 +527,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 		}
 		
 		//예약관리 페이지로 이동시 재고 룸정보 받아오기
-		if(packet.getClass() == SmGiveMeResvRoomAck.class) {
-			SmGiveMeResvRoomAck ack = (SmGiveMeResvRoomAck) packet;
+		if(packet.getClass() == SmResvRoomAck.class) {
+			SmResvRoomAck ack = (SmResvRoomAck) packet;
 			rTimeDList = ack.rtd;
 			
 			System.out.println("rTimeDList 사이즈 "+rTimeDList.size());
