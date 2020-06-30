@@ -49,32 +49,28 @@ public class Chatting extends JPanel implements Receivable {
 		public ActionLister_Chatting(String sort) {
 			this.sort = sort;
 		}
+		
+		void send() {
+			text = "[包府磊]: "+textField.getText() + "\n";
+			chatSyn.setText(text);
+			ClientNet.getInstance().sendPacket(chatSyn);
+			
+			textField.setText("");
+			
+			textField.selectAll();
+			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch (sort) {
 			case "傈价":
 				if (!textField.getText().equals("")) {
-					text = "[包府磊]: "+textField.getText() + "\n";
-					chatSyn.setText(text);
-					ClientNet.getInstance().sendPacket(chatSyn);
-					
-					textField.setText("");
-					
-					textField.selectAll();
-					scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+					send();
 				}
 				break;
 			case "浚磐":
-				text = "[包府磊]: "+textField.getText() + "\n";
-//				textArea.append(text);
-				chatSyn.setText(text);
-				ClientNet.getInstance().sendPacket(chatSyn);
-				
-				textField.setText("");
-				
-				textField.selectAll();
-				scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+				send();
 				break;
 
 			default:

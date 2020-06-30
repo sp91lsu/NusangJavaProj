@@ -98,6 +98,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void run() {
 				try {
 					ManagerWindow mww = new ManagerWindow();
+					ClientNet.getInstance().start();
 					mww.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -108,6 +109,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 
 	
 	public ManagerWindow() {
+		System.out.println("ManagerWindow 실행");
+		
 		PacketMap.getInstance().map.put(SmCurrMemListAck.class, this);
 		PacketMap.getInstance().map.put(SmAllMemListAck.class, this);
 		PacketMap.getInstance().map.put(SmMemSearchAck.class, this);
@@ -115,8 +118,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
 		PacketMap.getInstance().map.put(SmResvRoomAck.class, this);
 		
-		
-		System.out.println("ManagerWindow 실행");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 100, 1000, 800);
 		JPanel contentPane = new JPanel();
@@ -277,8 +278,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		panel_6.add("scrollPane_3", scrollPane_3);
 
 		
-		contentsCurrMem = new String[][] { { "샤워실", "2", "30000","ef" }, { "일반1", "3", "34003","ef" }, { "ㅇㄹㄷㄷ", "4", "34534","ef" },
-				{ "dfeb", "5", "234767" ,"ef"},};
+		contentsCurrMem = new String[][] {};
 		dTable = new DefaultTableModel(contentsCurrMem, headerMem);
 		table_1 = new JTable(dTable);
 		table_1.setRowHeight(27);
@@ -422,12 +422,12 @@ public class ManagerWindow extends JFrame implements Receivable {
 		
 		tabbedPane.add("요금 관리", pnl_SetPrice);
 
-//		tabbedPane.addTab("매출 조회", pnl_SalesInquiry);
+		tabbedPane.addTab("매출 조회", pnl_SalesInquiry);
 		
 		tabbedPane.addTab("1:1 문의 채팅", pnl_Chatting);
 
 		
-		
+		System.out.println("ManagerWindow 준비완료.");
 	}
 
 	protected JPanel getPanel_6() {
@@ -549,8 +549,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 			table.setFont(new Font("새굴림", Font.PLAIN, 25));
 			table.setFillsViewportHeight(true);
 			scrollPane_12.setViewportView(table);
-			setVisible(false);
-			setVisible(true);
+			
 		}
 		
 	}

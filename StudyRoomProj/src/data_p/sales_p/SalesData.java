@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SalesData implements Serializable {
-	ArrayList<SalesRecord> SalesRecordArrL;
-	ArrayList<SalesBySeat> SaleBySeatArrL;
-	SalesTot SalesTot;
+	public ArrayList<SalesRecord> salesRecordArrL;
+	public ArrayList<SalesBySeat> saleBySeatArrL;
+	public SalesTot salesTot;
 	
 	public SalesData(ArrayList<SalesRecord> salesRecordArrL, ArrayList<SalesBySeat> saleBySeatArrL,
-			SalesTot SalesTot) {
-		SalesRecordArrL = salesRecordArrL;
-		SaleBySeatArrL = saleBySeatArrL;
-		SalesTot = SalesTot;
+			SalesTot salesTot) {
+		this.salesRecordArrL = salesRecordArrL;
+		this.saleBySeatArrL = saleBySeatArrL;
+		this.salesTot = salesTot;
 	}
 	
 	

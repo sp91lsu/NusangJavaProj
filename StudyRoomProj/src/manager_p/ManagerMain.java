@@ -6,7 +6,7 @@ public class ManagerMain {
 
 	public static void main(String[] args) {
 		ClientNet.getInstance().start();
-		
+		new managerLogin();
 	}
 
 }

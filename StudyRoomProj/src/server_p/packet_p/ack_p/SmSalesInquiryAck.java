@@ -6,7 +6,7 @@ import packetBase_p.ResultPacketBase;
 
 public class SmSalesInquiryAck extends ResultPacketBase  {
 
-	SalesData salesD;
+	public SalesData salesD;
 	public SmSalesInquiryAck(EResult eResult,SalesData salesD) {
 		super(eResult);
 		this.salesD = salesD;

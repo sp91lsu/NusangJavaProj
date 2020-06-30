@@ -68,7 +68,7 @@ public class ChatReqDialog extends JDialog {
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
 						mw.pnl_Chatting.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
-						mw.tabbedPane.setSelectedIndex(4);
+						mw.tabbedPane.setSelectedIndex(5);
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -81,6 +81,8 @@ public class ChatReqDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 						MsChatConnectAck packet = new MsChatConnectAck(false);
+						packet.setCip(smc.clientIp);
+						packet.setManagerIp(smc.managerIp);
 						ClientNet.getInstance().sendPacket(packet);
 					}
 				});

@@ -1,12 +1,12 @@
 package data_p.sales_p;
 
 public class SalesTot {
-	String date = "";
-	int sumTot = 0;
-	int cntTot = 0;
+	public int dateSortN = 0;
+	public int sumTot = 0;
+	public int cntTot = 0;
 	
-	public SalesTot(String date, int sumTot, int cntTot) {
-		this.date = date;
+	public SalesTot(int dateSortN, int sumTot, int cntTot) {
+		this.dateSortN = dateSortN;
 		this.sumTot = sumTot;
 		this.cntTot = cntTot;
 	}

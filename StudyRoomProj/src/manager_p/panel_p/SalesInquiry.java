@@ -1,6 +1,7 @@
 package manager_p.panel_p;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,19 +23,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
-import manager_p.syn_p.MsCurrMemListSyn;
+import data_p.sales_p.SalesBySeat;
+import data_p.sales_p.SalesRecord;
+import data_p.sales_p.SalesTot;
 import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmSalesInquiryAck;
-
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
 
 public class SalesInquiry extends JPanel implements Receivable {
 	JFrame tfram;
@@ -45,6 +47,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 	private JComboBox comBox_Day;
 	private JCheckBox chBox_Month;
 	private JCheckBox chkBox_Day;
+	
 	public Vector<String> yearList = new Vector<String>();
 	public Vector<String> monthList = new Vector<String>();
 	public Vector<String> dayList = new Vector<String>();
@@ -144,6 +147,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 				
 			case "comBox_Day":
 				day = comBox_Day.getSelectedItem().toString();
+				break;
 				
 			case "조회":
 				System.out.println(year+"/"+month+"/"+day);
@@ -451,8 +455,52 @@ public class SalesInquiry extends JPanel implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		// TODO Auto-generated method stub
+		SmSalesInquiryAck ack = (SmSalesInquiryAck) packet;
+		ArrayList<SalesRecord> sr = ack.salesD.salesRecordArrL;
+		ArrayList<SalesBySeat> sb = ack.salesD.saleBySeatArrL;
+		SalesTot st = ack.salesD.salesTot;
 		
+		//scrPane_SalesRecord
+			String [] header_Record = {"날짜","이용석","금액","이용자","이용자ID","이용시간"};
+			String contents_Records[][] = new String [sr.size()][header_Record.length];
+				for (int i = 0; i < sr.size(); i++) {
+					contents_Records[i][0] = sr.get(i).date;
+					contents_Records[i][1] = sr.get(i).room_name;
+					contents_Records[i][2] = sr.get(i).room_price_Tot+"";
+					contents_Records[i][3] = sr.get(i).user_name;
+					contents_Records[i][4] = sr.get(i).user_id;
+					String s = "";
+					for (String st1 : sr.get(i).hourList) {
+						s += st1+" ";
+					}
+					contents_Records[i][5] = s;
+				}
+			
+			DefaultTableModel tModel_Record = new DefaultTableModel(contents_Records,header_Record);
+			JTable table_Record = new JTable(tModel_Record);
+			table_Record.setRowHeight(27);
+			table_Record.setFillsViewportHeight(true);
+			table_Record.setFont(new Font("새굴림", Font.PLAIN, 25));
+			scrPane_SalesRecord.setViewportView(table_Record);
+		
+		//scrPane_SalesRecord
+			String [] header_Seat = {"날짜","이용석","합계 금액","이용객 수"};
+			String contents_Seat[][] = new String [sr.size()][header_Seat.length];
+				for (int i = 0; i < sr.size(); i++) {
+					contents_Seat[i][0] = sb.get(i).date;
+					contents_Seat[i][1] = sb.get(i).room_name;
+					contents_Seat[i][2] = sb.get(i).sum+"";
+					contents_Seat[i][3] = sb.get(i).cnt+"";
+				}
+			DefaultTableModel tModel_Seat = new DefaultTableModel(contents_Seat,header_Seat);
+			JTable table_Seat = new JTable(tModel_Seat);
+			table_Seat.setRowHeight(27);
+			table_Seat.setFillsViewportHeight(true);
+			table_Seat.setFont(new Font("새굴림", Font.PLAIN, 25));
+			scrPane_SalesBySeat.setViewportView(table_Seat);
+			
+		//SalesTot
+			lb_WhatSales.setText(st.dateSortN==2?"연 매출":st.dateSortN==5?"월 매출":st.dateSortN==8?"당일 매출":"");
 	}
 
 }
