@@ -227,11 +227,10 @@ public class MainLayout extends JPanel implements Receivable {
 			if (ack.eResult == EResult.SUCCESS) {
 
 				BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
-				BaseFrame.getInstance().view("ClientChatFrame");
+				BaseFrame.getInstance().openClientChatFrame();
 				
 				
 				}else if(ack.eResult == EResult.NEGATIVE_CHAT) {
-					System.out.println("いいいい");
 					BaseFrame.getInstance().openClientChatFrame().chatNegative();
 
 			} else {
