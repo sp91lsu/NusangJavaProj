@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import client_p.CalCal;
 import data_p.product_p.room_p.RoomProduct;
 
 public class ReserInfoPane extends JFrame {
@@ -86,15 +89,14 @@ public class ReserInfoPane extends JFrame {
 		setVisible(true);
 		infoPane.removeAll();
 		ButtonGroup bg = new ButtonGroup();
-//		Calendar 
 		int gridY = 0;
 		for (RoomProduct room : BaseFrame.getInstance().userData.myReservationList) {
 
 			for (Calendar cal : room.calendarList) {
-				
+
 				GridBagConstraints gc = new GridBagConstraints();
 				JCheckBox checkBox = new JCheckBox(room.name + " " + cal.getTime());
-				ReserObj ro = new ReserObj(checkBox, room);
+				ReserObj ro = new ReserObj(checkBox, room, cal);
 				reserList.add(ro);
 
 				gridY++;
@@ -108,10 +110,28 @@ public class ReserInfoPane extends JFrame {
 	class ReserObj {
 		JCheckBox cBox;
 		RoomProduct room;
+		Calendar cal;
 
-		ReserObj(JCheckBox cBox, RoomProduct room) {
+		ReserObj(JCheckBox cBox, RoomProduct room, Calendar cal) {
 			this.cBox = cBox;
 			this.room = room;
+			this.cal = cal;
+			cBox.addActionListener(new showReserSeatAct(cal));
 		}
+	}
+
+	class showReserSeatAct implements ActionListener {
+
+		Calendar cal;
+
+		showReserSeatAct(Calendar cal) {
+			this.cal = cal;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			BaseFrame.getInstance().getSeatingArrUI().setTimeShow(cal, cal.get(Calendar.HOUR));
+		}
+
 	}
 }

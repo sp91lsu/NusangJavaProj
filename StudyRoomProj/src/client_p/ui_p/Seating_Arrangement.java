@@ -583,7 +583,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			btn_state(EState.INIT);
 			monthCBoxSetting();
 			yearCBox.setSelectedItem(nowYear);
-			//reserInfoPane.OpenPage();
+			reserInfoPane.OpenPage();
 			break;
 		default:
 			roomState();
@@ -592,17 +592,20 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	}
 
-	void mySeatCheck() {
-		RoomProduct roomProduct = BaseFrame.getInstance().getUsingRoom();
-		if (roomProduct != null) {
-			for (RoomObj jButton : all) {
-				if (roomProduct.id.equals(jButton.room.id)) {
-					jButton.setState(EState.MY);
-					lblNewLabel_7.setVisible(true);
-					lblNewLabel_8.setVisible(true);
+	void mySeatCheck(RoomObj roomObj, Calendar pivotCal) {
+
+		for (RoomProduct room : BaseFrame.getInstance().userData.myReservationList) {
+			if (roomObj.room.id.equals(room.id)) {
+				for (Calendar cal : room.calendarList) {
+					if (CalCal.isSameTime(Calendar.HOUR_OF_DAY, pivotCal, cal)) {
+						roomObj.setState(EState.MY);
+						lblNewLabel_7.setVisible(true);
+						lblNewLabel_8.setVisible(true);
+					}
 				}
 			}
 		}
+
 	}
 
 	@Override
@@ -695,20 +698,20 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				if (CalCal.isSameTime(Calendar.YEAR, cal, start) && CalCal.isSameTime(Calendar.MONTH, cal, start)
 						&& CalCal.isSameTime(Calendar.DATE, cal, start)) {
 
-					for (RoomObj seatBtn : all) {
+					for (RoomObj roomObj : all) {
 						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {
 							// System.out.println(cal.get(Calendar.HOUR_OF_DAY));
-							if (roomInfo.id.equals(seatBtn.room.id)) {
-								seatBtn.setState(EState.USE);
+							if (roomInfo.id.equals(roomObj.room.id)) {
+								start.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+								roomObj.setState(EState.USE);
+								mySeatCheck(roomObj, start);
 							}
 						}
 					}
 				}
 			}
 		}
-		if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
-			mySeatCheck();
-		}
+
 	}
 
 	void roomState() {
@@ -748,5 +751,15 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		setDate = Calendar.getInstance().get(Calendar.DATE);
 		nowMaxDate = Calendar.getInstance().get(Calendar.DATE) + 1;
 		nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+	}
+
+	public void setTimeShow(Calendar cal, int hour) {
+		setYear = cal.get(Calendar.YEAR);
+		setMonth = cal.get(Calendar.MONTH) + 1;
+		setDate = cal.get(Calendar.DATE);
+		starttime = hour;
+		endtime = starttime + 1;
+		roomState();
+		checkDate();
 	}
 }
