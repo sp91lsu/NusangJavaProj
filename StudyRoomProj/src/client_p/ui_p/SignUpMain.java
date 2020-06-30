@@ -25,7 +25,7 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 
-public class SignUpMain extends JFrame implements Receivable, MouseListener {
+public class SignUpMain extends JFrame implements Receivable, MouseListener, ActionListener {
 
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
@@ -51,7 +51,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 	Boolean idchk = false, hpchk = false;
 
 	public SignUpMain() {
-		setBounds(100, 100, 900, 1000);
+		setBounds(100, 100, 900, 800);
 		JPanel mainPane = new JPanel();
 		setContentPane(mainPane);
 		mainPane.setLayout(null);
@@ -105,45 +105,22 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		JButton signUpBtn = new JButton("회원가입");
 		signUpBtn.setBounds(192, 368, 140, 42);
 		mainPane.add(signUpBtn);
-		signUpBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!idchk || !hpchk) {
-					infoChk();
-				} else {
-					check();
-				}
-			}
-		});
-
-		JButton cancelBtn = new JButton("취소");
-		cancelBtn.setBounds(494, 368, 140, 42);
-		mainPane.add(cancelBtn);
-		cancelBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-
-			}
-		});
+		signUpBtn.addActionListener(this);
 
 		JButton idChkBtn = new JButton("ID 중복확인");
 		idChkBtn.setBounds(477, 169, 105, 33);
 		mainPane.add(idChkBtn);
-		idChkBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!chkJd.isVisible())
-					idChk();
-			}
-		});
+		idChkBtn.addActionListener(this);
 
 		JButton pwChkBtn = new JButton("핸드폰 중복체크");
 		pwChkBtn.setBounds(477, 318, 140, 33);
 		mainPane.add(pwChkBtn);
-		pwChkBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!chkJd.isVisible())
-					phChk();
-			}
-		});
+		pwChkBtn.addActionListener(this);
+
+		JButton cancelBtn = new JButton("취소");
+		cancelBtn.setBounds(494, 368, 140, 42);
+		mainPane.add(cancelBtn);
+		cancelBtn.addActionListener(this);
 
 		passwordField = new JPasswordField();// 비밀번호
 		passwordField.setBounds(269, 219, 191, 33);
@@ -233,11 +210,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				jb = new JButton("확인");
 				jb.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						JButton bbb = (JButton) e.getSource();
-						if (bbb.getText().equals("확인")) {
-							jd.setVisible(false);
-							dispose();
-						}
+						jd.setVisible(false);
+						dispose();
 					}
 				});
 
@@ -245,8 +219,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				jd.getContentPane().add(jb);
 				jd.setVisible(true);
 			}
-		} 
-		else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인
+		} else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
 
 			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {// id성공
@@ -264,8 +237,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				jl2.setText("중복된 핸드폰 입니다.");
 				loginChk();
 			}
-		} 
-		else {
+		} else {
 			System.out.println("회원가입 예외에러");
 		}
 	}
@@ -330,27 +302,10 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 	public void infoChk() {
 		chkSignUp.setVisible(true);
 		jbt.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				chkSignUp.setVisible(false);
 			}
 		});
-	}
-
-	public void textFieldSet() {// 회원가입 텍스트 필드,라벨내용 초기화
-		for (JTextField text : textList) {
-			text.setText("");
-		}
-
-		for (JPasswordField pText : pTextList) {
-			pText.setText("");
-		}
-
-		label_1.setText("한글로 입력하세요");
-		label_2.setText("영문,숫자로 조합된 8자리이하로 입력하세요");
-		label_3.setText("입력한 비밀번호와 같게 입력하세요");
-		label_4.setText("영문,숫자로 조합된 8자리를 입력하세요");
-		label_5.setText("'-'는 제외하고 입력하세요");
 	}
 
 	void idChk() {
@@ -377,14 +332,27 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		jd2.setVisible(true);
 		jb2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JButton bbb = (JButton) e.getSource();
-				if (bbb.getText().equals("확인")) {
-					jd2.setVisible(false);
-				}
+				jd2.setVisible(false);
 			}
 		});
 	}
 
+	public void textFieldSet() {// 회원가입 텍스트 필드,라벨내용 초기화
+		for (JTextField text : textList) {
+			text.setText("");
+		}
+
+		for (JPasswordField pText : pTextList) {
+			pText.setText("");
+		}
+
+		label_1.setText("한글로 입력하세요");
+		label_2.setText("영문,숫자로 조합된 8자리이하로 입력하세요");
+		label_3.setText("영문,숫자로 조합된 8자리를 입력하세요");
+		label_4.setText("입력한 비밀번호와 같게 입력하세요");
+		label_5.setText("'-'는 제외하고 입력하세요");
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		JTextField jtf = (JTextField) e.getSource();
@@ -393,24 +361,35 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 			jtf.setText("");
 		}
 	}
+	
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
+	public void actionPerformed(ActionEvent e) {
+		JButton btn = (JButton) e.getSource();
+		if (btn.getText().equals("ID 중복확인")) {
+			if (!chkJd.isVisible())
+				idChk();
+		} 
+		else if (btn.getText().equals("핸드폰 중복체크")) {
+			if (!chkJd.isVisible())
+				phChk();
+		} 
+		else if (btn.getText().equals("취소")) {
+			dispose();
+		}
+		else if (btn.getText().equals("회원가입")) {
+			if (!idchk || !hpchk) {
+				infoChk();
+			} else {
+				check();
+			}
+		}
+		else {
+			System.out.println("버튼 입력 에러");
+		}
 	}
 }
