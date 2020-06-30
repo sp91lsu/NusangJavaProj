@@ -27,13 +27,10 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 
 enum EState {
-	INIT, EMPTY, USE, MY, DIM
+	INIT, EMPTY, USE, MY, DIM, DISABLE
 }
 
 public class Seating_Arrangement extends JPanel implements Receivable {
-
-	JPanel panel_center;
-	ReserInfoPane reserInfoPane;
 
 	class RoomObj {
 
@@ -75,11 +72,17 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				btn.setBackground(new Color(125, 125, 125));
 				btn.setEnabled(false);
 				break;
+			case DISABLE:
+				btn.setEnabled(false);
+				break;
 			}
 		}
 	}
 
 	static JLabel north_west;
+
+	JPanel panel_center;
+	JPanel panel_center_east;
 
 	int starttime = 0;
 	int endtime = 1;
@@ -93,7 +96,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	JComboBox yearCBox;
 	JComboBox timeStartCBox;
 	JComboBox timeEndCbox;
-
+	ReserInfoPane reserInfoPane;
 	int setMonth;
 	int nowMonth;
 	int setYear;
@@ -117,11 +120,9 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	}
 
 	public Seating_Arrangement() {
-		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-			setDate++;
-			reserInfoPane = new ReserInfoPane();
-		}
+
 		setLayout(null);
+
 		// 상단 패널
 		JPanel panel_north = new JPanel();
 		panel_north.setBounds(10, 5, 860, 30);
@@ -213,10 +214,16 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		// 중앙패널
 		panel_center = new JPanel();
-		panel_center.setBounds(10, 40, 635, 650);
+		panel_center.setBounds(10, 40, 890, 650);
 		add(panel_center);
 		panel_center.setLayout(null);
 
+		if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+			setDate++;
+			// 중앙오른쪽패널(예약현황창)
+			reserInfoPane = new ReserInfoPane();
+			panel_center.add(reserInfoPane, BorderLayout.EAST);
+		}
 		// 여기서부터 룸 버튼
 		RoomObj roomBtn1 = new RoomObj(1019, panel_center);
 		roomBtn1.btn.setBounds(0, 0, 220, 110);
@@ -408,8 +415,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				if (monthCBox.getSelectedItem() != null)
 					setMonth = (int) monthCBox.getSelectedItem();
 				Calendar selectMonth = Calendar.getInstance();
-				selectMonth.set(Calendar.MONTH, setMonth - 1);
 				selectMonth.set(Calendar.YEAR, setYear);
+				selectMonth.set(Calendar.MONTH, setMonth - 1);
+				selectMonth.set(Calendar.DATE, 1);
+				System.out.println(">>>셋몬쓰 뭐야??>>>" + setMonth);
 				int last = selectMonth.getActualMaximum(Calendar.DATE);
 				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 					if (nowYear == setYear && nowMonth == setMonth) {
@@ -417,6 +426,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							dateCBox.addItem(i);
 						}
 					} else {
+						System.out.println("여기로 가야 맞지!!!뭐야??>>" + selectMonth.getTime());
 						for (int i = 1; i <= last; i++) {
 							dateCBox.addItem(i);
 						}
@@ -753,7 +763,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 	}
 
-	public void setTimeShow(Calendar cal, int hour) {
+	public void setMyTimeShow(Calendar cal, int hour) {
 		setYear = cal.get(Calendar.YEAR);
 		setMonth = cal.get(Calendar.MONTH) + 1;
 		setDate = cal.get(Calendar.DATE);
@@ -761,5 +771,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		endtime = starttime + 1;
 		roomState();
 		checkDate();
+		btn_state(EState.DISABLE);
 	}
 }
