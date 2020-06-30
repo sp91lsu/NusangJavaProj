@@ -48,7 +48,6 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 		add(jb);
 
 		setVisible(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void openPage(RoomProduct room) {
