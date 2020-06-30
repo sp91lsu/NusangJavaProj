@@ -389,7 +389,7 @@ public class RoomDao extends DBProcess {
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
-				tot = new SalesTot(dateStr, Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")) );
+				tot = new SalesTot(dateSortN, Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")) );
 
 		// 4. SalesData
 		SalesData sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
