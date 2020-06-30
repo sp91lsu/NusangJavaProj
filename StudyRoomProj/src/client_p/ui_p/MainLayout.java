@@ -233,9 +233,6 @@ public class MainLayout extends JPanel implements Receivable {
 				}else if(ack.eResult == EResult.NEGATIVE_CHAT) {
 					BaseFrame.getInstance().openClientChatFrame().chatNegative();
 
-			} else {
-				System.out.println("거절당함");
-			}
 		} else if (packet.getClass() == ScExitAck.class) {
 			ScExitAck resPacket = (ScExitAck) packet;
 			if (resPacket.eResult == EResult.SUCCESS) {
