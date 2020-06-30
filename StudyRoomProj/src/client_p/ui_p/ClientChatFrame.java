@@ -31,7 +31,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	JFrame window;
 	CsChatSyn chatSyn = null;
 	private TextField keyChat;
-	private JTextArea textArea;
+	JTextArea textArea;
 	private JScrollPane scrollPane;
 	JDialog chatDialog;
 
@@ -123,11 +123,12 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openMainLayout(null, null, null, null);
-				chatSyn.setText("[" + BaseFrame.getInstance().userData.name + "] 님이 채팅을 종료 했습니다.");
-				ClientNet.getInstance().sendPacket(chatSyn);
+				if(chatSyn!=null) {
+					chatSyn.setText("[" + BaseFrame.getInstance().userData.name + "] 님이 채팅을 종료 했습니다.");
+					ClientNet.getInstance().sendPacket(chatSyn);
+				}
 				keyChat.setText("");
 				keyChat.selectAll();
-				textArea.setText("");
 			}
 		});
 		panel_1.add(exitButton);
@@ -162,7 +163,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				chatDialog.dispose();
-				BaseFrame.getInstance().getMainLayout();
+				BaseFrame.getInstance().openMainLayout(null, null, null, null);
 			}
 		});
 		chatDialog.add(chatButton);

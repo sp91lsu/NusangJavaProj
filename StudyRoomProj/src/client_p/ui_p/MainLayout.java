@@ -89,7 +89,7 @@ public class MainLayout extends JPanel implements Receivable {
 		panel.add(button_4);
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().view("ClientChatFrame");
+				BaseFrame.getInstance().openClientChatFrame();
 				CsChatConnectSyn packet = new CsChatConnectSyn(BaseFrame.getInstance().userData);
 				ClientNet.getInstance().sendPacket(packet);
 				System.out.println("패킷이 다시 올때까지 기다려야 함");// 다이얼로그 창 설정하기
@@ -232,7 +232,7 @@ public class MainLayout extends JPanel implements Receivable {
 				
 				}else if(ack.eResult == EResult.NEGATIVE_CHAT) {
 					System.out.println("ㄴㄴㄴㄴ");
-					BaseFrame.getInstance().getClientChat().chatNegative();
+					BaseFrame.getInstance().openClientChatFrame().chatNegative();
 
 			} else {
 				System.out.println("거절당함");

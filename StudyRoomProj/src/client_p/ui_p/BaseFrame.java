@@ -193,6 +193,12 @@ public class BaseFrame extends JFrame implements Receivable {
 		return (ClientChatFrame) jPanelArrl.get(4);
 	}
 
+	public ClientChatFrame openClientChatFrame() {
+		ClientChatFrame claChat = getClientChatFrame();
+		view("ClientChatFrame");
+		claChat.textArea.setText("");
+		return claChat;
+	}
 	public LoginMain getLoginMain() {
 		return (LoginMain) jPanelArrl.get(0);
 	}
@@ -210,11 +216,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		return lockerMain;
 	}
 	
-	public ClientChatFrame getClientChat() {
-		ClientChatFrame claChat = (ClientChatFrame)jPanelArrl.get(4);
-		return claChat;
-	}
-
 	public MainLayout openMainLayout(ArrayList<RoomProduct> reserAll, ArrayList<RoomProduct> myReser,
 			ArrayList<RoomProduct> exitList, ArrayList<LockerData> lockerList) {
 
