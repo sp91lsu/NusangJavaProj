@@ -1,6 +1,8 @@
 package data_p.sales_p;
 
-public class SalesBySeat {
+import java.io.Serializable;
+
+public class SalesBySeat implements Serializable {
 	public  String date = "";
 	public String room_name = "";
 	public int sum = 0;

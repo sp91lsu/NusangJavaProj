@@ -1,6 +1,8 @@
 package data_p.sales_p;
 
-public class SalesTot {
+import java.io.Serializable;
+
+public class SalesTot implements Serializable {
 	public int dateSortN = 0;
 	public int sumTot = 0;
 	public int cntTot = 0;

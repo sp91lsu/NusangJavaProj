@@ -1,8 +1,9 @@
 package data_p.sales_p;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SalesRecord {
+public class SalesRecord implements Serializable {
 
 	public String date = "";
 	public String room_name = "";
