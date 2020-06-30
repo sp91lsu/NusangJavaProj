@@ -46,7 +46,6 @@ public class PacketMap {
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); // 중복아이디 확인
 		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); // 예약룸
 		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
-		map.put(MsLoginSyn.class, new MethMsLoginSyn()); // 매니저 로그인
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {
