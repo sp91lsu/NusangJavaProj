@@ -6,10 +6,12 @@ public class MsLoginSyn extends PacketBase {
 
 	public String id;
 	public String pw;
+	public boolean isID;
 
-	public MsLoginSyn(String id, String pw) {
+	public MsLoginSyn(String id, String pw, boolean isID) {
 		this.id = id;
 		this.pw = pw;
+		this.isID = isID;
 	}
 
 }

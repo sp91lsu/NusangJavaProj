@@ -10,16 +10,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JPasswordField;
 
-public class managerLogin extends JFrame {
+import client_p.Receivable;
+import packetBase_p.EResult;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScLoginAck;
+
+public class managerLogin extends JFrame implements Receivable{
 
 	private JPanel contentPane;
 	private JTextField textField_1;
 	private JPasswordField passwordField;
+	private ManagerWindow mw;
 
 	/**
 	 * Launch the application.
@@ -154,6 +160,27 @@ public class managerLogin extends JFrame {
 		
 		setVisible(true);
 		
-		ManagerWindow mw = new ManagerWindow();
+		mw = new ManagerWindow();
+	}
+
+	@Override
+	public void receive(PacketBase packet) {//로그인 응답 받는 부분
+
+		ScLoginAck ack = (ScLoginAck) packet;
+//		BaseFrame.getInstance().userData = ack.userdata;
+		if (ack.eResult == EResult.SUCCESS) {//로그인 성공시
+			mw.setVisible(true);
+		}else if(ack.eResult == EResult.NOT_FOUND_DATA) {//로그인 실패시
+			//로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
+			logTextChk();
+			cnt++;
+			if(cnt==3) {
+				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 "
+						+ "<br>다시 실행 해주시기 바랍니다.<html>");
+				logChk log = new logChk();
+				log.start();
+				cnt = 0;
+			}
+		}
 	}
 }
