@@ -27,28 +27,28 @@ import server_p.packet_p.ack_p.ScSignUpAck;
 
 public class SignUpMain extends JFrame implements Receivable, MouseListener {
 
+	ArrayList<JTextField> textList = new ArrayList<JTextField>();
+	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
+
 	JTextField nameTextField;
 	JTextField idTextField;
 	JTextField phoneNumTextField;
 	JPasswordField passwordField;
 	JPasswordField check_passwordField;
 
-	JDialog jd,jd2;
-	String text = "";
-	JLabel label_1, label_2, label_3, label_4, label_5;
-	JLabel jl, jl2;
-	JButton jb, jb2;
-	ArrayList<JTextField> textList = new ArrayList<JTextField>();
-	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
+	JLabel jl, jl2, label_1, label_2, label_3, label_4, label_5;
+	JButton jb, jb2, jbt;
+	JDialog jd, jd2, chkJd, chkSignUp;
 
+	String text = "";
 	String korean = "[°¡-ÆR]*";
 	String engNum = ".*[a-zA-Z].*";
 	String engNum1 = ".*[0-9].*";
-
 	String passChk = "[a-zA-Z0-9].{7}";
 	String phoneChk = "010.[0-9].{6,7}";
 	String name, id, pass, phoneNum, pass2 = null;
-	Boolean idchk=false,hpchk=false;
+
+	Boolean idchk = false, hpchk = false;
 
 	public SignUpMain() {
 		setBounds(100, 100, 900, 1000);
@@ -61,13 +61,13 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		titleLabel.setBounds(268, 10, 380, 75);
 		mainPane.add(titleLabel);
 
-		JLabel idL = new JLabel("¾ÆÀÌµð");
-		idL.setBounds(129, 164, 77, 42);
-		mainPane.add(idL);
-
 		JLabel nameL = new JLabel("ÀÌ¸§");
 		nameL.setBounds(129, 112, 77, 42);
 		mainPane.add(nameL);
+
+		JLabel idL = new JLabel("¾ÆÀÌµð");
+		idL.setBounds(129, 164, 77, 42);
+		mainPane.add(idL);
 
 		JLabel pwL = new JLabel("ºñ¹Ð¹øÈ£");
 		pwL.setBounds(127, 205, 77, 42);
@@ -107,10 +107,9 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		mainPane.add(signUpBtn);
 		signUpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!idchk||!hpchk) {
+				if (!idchk || !hpchk) {
 					infoChk();
-				}else {
-					
+				} else {
 					check();
 				}
 			}
@@ -131,7 +130,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		mainPane.add(idChkBtn);
 		idChkBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				idChk();
+				if (!chkJd.isVisible())
+					idChk();
 			}
 		});
 
@@ -140,7 +140,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		mainPane.add(pwChkBtn);
 		pwChkBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				phChk();
+				if (!chkJd.isVisible())
+					phChk();
 			}
 		});
 
@@ -164,32 +165,67 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		label_1.setBounds(477, 123, 318, 33);
 		mainPane.add(label_1);
 
-		label_2 = new JLabel("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
-		label_2.setBounds(477, 216, 318, 33);
+		label_2 = new JLabel("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®ÀÌÇÏ·Î ÀÔ·ÂÇÏ¼¼¿ä");
+		label_2.setBounds(594, 164, 267, 33);
 		mainPane.add(label_2);
 
-		label_3 = new JLabel("ÀÔ·ÂÇÑ ºñ¹Ð¹øÈ£¿Í °°°Ô ÀÔ·ÂÇÏ¼¼¿ä");
-		label_3.setBounds(477, 268, 318, 33);
+		label_3 = new JLabel("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		label_3.setBounds(477, 216, 318, 33);
 		mainPane.add(label_3);
 
-		label_4 = new JLabel("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
-		label_4.setBounds(631, 318, 178, 33);
+		label_4 = new JLabel("ÀÔ·ÂÇÑ ºñ¹Ð¹øÈ£¿Í °°°Ô ÀÔ·ÂÇÏ¼¼¿ä");
+		label_4.setBounds(477, 268, 318, 33);
 		mainPane.add(label_4);
 
-		label_5 = new JLabel("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
-		label_5.setBounds(594, 164, 267, 33);
+		label_5 = new JLabel("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
+		label_5.setBounds(632, 318, 318, 33);
 		mainPane.add(label_5);
 
 		setVisible(false);
+
+		chkJd = new JDialog();
+		chkJd.setBounds(100, 100, 200, 200);
+		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
+
+		JLabel chkLb = new JLabel("Á¤È®ÇÑ Çü½ÄÀ¸·Î ÀÔ·ÂÇÏ¼¼¿ä");
+		chkJd.getContentPane().add(chkLb);
+		JButton chkBt = new JButton("È®ÀÎ");
+		chkJd.getContentPane().add(chkBt);
+		chkBt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				chkJd.setVisible(false);
+			}
+		});
+		chkJd.setVisible(false);
+
+		jd2 = new JDialog();
+		jd2.setBounds(100, 100, 200, 150);
+		jd2.getContentPane().setLayout(new GridLayout(2, 1));
+		jl2 = new JLabel();
+		jb2 = new JButton("È®ÀÎ");
+		jd2.getContentPane().add(jl2);
+		jd2.getContentPane().add(jb2);
+
+		chkSignUp = new JDialog();
+		chkSignUp.setBounds(100, 100, 300, 200);
+		chkSignUp.getContentPane().setLayout(new GridLayout(2, 1));
+		JLabel jll = new JLabel("ID ¿Í ÈÞ´ëÆù ¹øÈ£ Áßº¹°Ë»ç¸¦ ÁøÇàÇÏ¼¼¿ä");
+		chkSignUp.getContentPane().add(jll);
+		jbt = new JButton("È®ÀÎ");
+		chkSignUp.getContentPane().add(jbt);
+		chkSignUp.setVisible(false);
 	}
 
 	@Override
 	public void receive(PacketBase packet) {
 
-		if (packet.getClass() == ScSignUpAck.class) {// ·Î±×ÀÎ È®ÀÎ
+		if (packet.getClass() == ScSignUpAck.class) {
 			ScSignUpAck ack = (ScSignUpAck) packet;
 
-			if (ack.eResult == EResult.SUCCESS) {
+			if (ack.eResult == EResult.SUCCESS) {// È¸¿ø°¡ÀÔ ¼º°ø
+				idchk = false;
+				hpchk = false;
+
 				jd = new JDialog();
 				jd.setBounds(100, 100, 200, 150);
 				jd.getContentPane().setLayout(new GridLayout(2, 1));
@@ -208,39 +244,29 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				jd.getContentPane().add(jl);
 				jd.getContentPane().add(jb);
 				jd.setVisible(true);
-			} else if (ack.eResult == EResult.DUPLICATEED_ID) {
-				jd = new JDialog();
-				jd.setBounds(100, 100, 200, 150);
-				jd.getContentPane().setLayout(new GridLayout(2, 1));
-				jl = new JLabel("ID Áßº¹ È®ÀÎÀ» ÇØÁÖ¼¼¿ä");
-				jb = new JButton("È®ÀÎ");
-				jb.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JButton bbb = (JButton) e.getSource();
-						if (bbb.getText().equals("È®ÀÎ")) {
-							jd.dispose();
-						}
-					}
-				});
-
-				jd.getContentPane().add(jl);
-				jd.getContentPane().add(jb);
-				jd.setVisible(true);
 			}
-		} else if (packet.getClass() == ScDuplicateIDAck.class) {// Áßº¹È®ÀÎ
+		} 
+		else if (packet.getClass() == ScDuplicateIDAck.class) {// Áßº¹È®ÀÎ
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
 
 			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {// id¼º°ø
-				loginChk("»ç¿ë°¡´ÉÇÑ id ÀÔ´Ï´Ù");
+				idchk = true;
+				jl2.setText("»ç¿ë°¡´ÉÇÑ id ÀÔ´Ï´Ù");
+				loginChk();
 			} else if ((ack.eResult == EResult.SUCCESS) && ack.is_hp) {// ÇÚµåÆù¼º°ø
-				loginChk("»ç¿ë °¡´ÉÇÑ ÇÚµåÆù ÀÔ´Ï´Ù.");
+				hpchk = true;
+				jl2.setText("»ç¿ë °¡´ÉÇÑ ÇÚµåÆù ÀÔ´Ï´Ù.");
+				loginChk();
 			} else if ((ack.eResult == EResult.DUPLICATEED_ID) && !ack.is_hp) {// idÁßº¹
-				loginChk("Áßº¹µÈ ID ÀÔ´Ï´Ù.");
+				jl2.setText("Áßº¹µÈ ID ÀÔ´Ï´Ù.");
+				loginChk();
 			} else if ((ack.eResult == EResult.DUPLICATEED_ID) && ack.is_hp) {// hpÁßº¹
-				loginChk("Áßº¹µÈ ÇÚµåÆù ÀÔ´Ï´Ù.");
+				jl2.setText("Áßº¹µÈ ÇÚµåÆù ÀÔ´Ï´Ù.");
+				loginChk();
 			}
-		} else {
-
+		} 
+		else {
+			System.out.println("È¸¿ø°¡ÀÔ ¿¹¿Ü¿¡·¯");
 		}
 	}
 
@@ -254,35 +280,40 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		try {
 			if (name.matches(korean)) {
 				label_1.setText("ÀÔ·Â È®ÀÎ");
+				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (id.matches(engNum) && id.matches(engNum1)) {
 				label_5.setText("ÀÔ·Â È®ÀÎ");
+				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (pass.matches(passChk)) {
 				label_2.setText("ÀÔ·Â È®ÀÎ");
+				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (phoneNum.matches(phoneChk)) {
 				label_4.setText("ÀÔ·Â È®ÀÎ");
+				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
 			if (pass.matches(pass2)) {
 				label_3.setText("ÀÔ·Â È®ÀÎ");
+				System.out.println("l1");
 			} else {
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
-		
+
 			if (idchk && hpchk) {
 				CsSignUpSyn packet = new CsSignUpSyn(nameTextField.getText(), idTextField.getText(),
 						passwordField.getText(), phoneNumTextField.getText(), "", "");
@@ -291,28 +322,19 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 				hpchk = false;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
+			System.out.println("ÆÐÅÏ¸ÅÄ¡ ¿¡·¯");
 		}
 	}
-	
+
 	public void infoChk() {
-		JDialog chkJd = new JDialog();
-		chkJd.setBounds(100, 100, 300, 200);
-		chkJd.setLayout(new GridLayout(2,1));
-		JLabel jll = new JLabel("ID ¿Í ÈÞ´ëÆù ¹øÈ£ Áßº¹°Ë»ç¸¦ ÁøÇàÇÏ¼¼¿ä");
-		chkJd.add(jll);
-		JButton jbt = new JButton("È®ÀÎ");
-		chkJd.add(jbt);
+		chkSignUp.setVisible(true);
 		jbt.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				chkJd.dispose();
-				
+				chkSignUp.setVisible(false);
 			}
 		});
-		chkJd.setVisible(true);
 	}
 
 	public void textFieldSet() {// È¸¿ø°¡ÀÔ ÅØ½ºÆ® ÇÊµå,¶óº§³»¿ë ÃÊ±âÈ­
@@ -325,10 +347,10 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		}
 
 		label_1.setText("ÇÑ±Û·Î ÀÔ·ÂÇÏ¼¼¿ä");
-		label_2.setText("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		label_2.setText("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®ÀÌÇÏ·Î ÀÔ·ÂÇÏ¼¼¿ä");
 		label_3.setText("ÀÔ·ÂÇÑ ºñ¹Ð¹øÈ£¿Í °°°Ô ÀÔ·ÂÇÏ¼¼¿ä");
-		label_4.setText("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
-		label_5.setText("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		label_4.setText("¿µ¹®,¼ýÀÚ·Î Á¶ÇÕµÈ 8ÀÚ¸®¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		label_5.setText("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
 	}
 
 	void idChk() {
@@ -336,10 +358,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		if (id.matches(engNum) && id.matches(engNum1) && id.length() < 9) {
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(), false);
 			ClientNet.getInstance().sendPacket(packet);
-			idchk=true;
 		} else {
-			fail("Á¤È®ÇÑID");
-			
+			chkJd.setVisible(true);
 		}
 	}
 
@@ -348,48 +368,21 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener {
 		if (phoneNum.matches(phoneChk)) {
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(phoneNumTextField.getText(), true);
 			ClientNet.getInstance().sendPacket(packet);
-			hpchk=true;
 		} else {
-			fail("Á¤È®ÇÑ ÇÚµåÆù");
-			
+			chkJd.setVisible(true);
 		}
 	}
 
-	void fail(String type) {
-		JDialog chkJd = new JDialog();
-		chkJd.setBounds(100, 100, 200, 200);
-		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
-		JLabel chkLb = new JLabel(type + " Çü½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä");
-		chkJd.getContentPane().add(chkLb);
-		JButton chkBt = new JButton("È®ÀÎ");
-		chkJd.getContentPane().add(chkBt);
-		chkBt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				chkJd.dispose();
-			}
-		});
-		chkJd.setVisible(true);
-	}
-
-	void loginChk(String msg) {
-		jd2 = new JDialog();
-		jd2.setBounds(100, 100, 200, 150);
-		jd2.getContentPane().setLayout(new GridLayout(2, 1));
-		jl2 = new JLabel(msg);
-		jb2 = new JButton("È®ÀÎ");
+	void loginChk() {
+		jd2.setVisible(true);
 		jb2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JButton bbb = (JButton) e.getSource();
 				if (bbb.getText().equals("È®ÀÎ")) {
 					jd2.setVisible(false);
-					setVisible(true);
 				}
 			}
 		});
-
-		jd2.getContentPane().add(jl2);
-		jd2.getContentPane().add(jb2);
-		jd2.setVisible(true);
 	}
 
 	@Override
