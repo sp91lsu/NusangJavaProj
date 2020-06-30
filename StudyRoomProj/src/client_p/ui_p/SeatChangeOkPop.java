@@ -36,8 +36,21 @@ public class SeatChangeOkPop extends JFrame {
 						moveSeatID);
 				ClientNet.getInstance().sendPacket(packet);
 			}});
-		btnNewButton.setBounds(59, 80, 105, 27);
+		btnNewButton.setBounds(7, 80, 130, 50);
 		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton2 = new JButton("√Îº“");
+		btnNewButton2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				BaseFrame.getInstance().openMainLayout(null, null, null, null);
+				
+			}
+		});
+		btnNewButton2.setBounds(145, 80, 130, 50);
+		contentPane.add(btnNewButton2);
 		setVisible(true);
 	}
 }
