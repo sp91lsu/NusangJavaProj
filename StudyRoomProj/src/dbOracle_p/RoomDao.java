@@ -303,22 +303,26 @@ public class RoomDao extends DBProcess {
 	public SalesData SalesData(String year, String month, String day) throws Exception {
 		int dateSortN;//날짜에 따라 달라지는 쿼리문 값
 		String dateStr = "";//날짜정보 담는 스트링
+		String dateQuery = "";//쿼리에 담을 날짜정보
 		if (month.equals("0") && day.equals("0")) {
 			dateSortN = 2;
 			dateStr = "20" + year + "년";
+			dateQuery = "'"+"20";
 		} else if (!month.equals("0") && day.equals("0")) {
 			dateSortN = 5;
 			dateStr = "20" + year + "년 " + month + "월";
+			dateQuery = "'"+"20"+"/"+month+"'";
 		} else {
 			dateSortN = 8;
 			dateStr = "20" + year + "년 " + month + "월 " + day + "일";
+			dateQuery = "'"+"20"+"/"+month+"/"+year+"'";
 		}
 
 		// 공통으로 들어가는 쿼리문
-		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id "
+		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id, CONCAT(R.room_name,a.id) as sort "
 				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
-				+ dateSortN + ") = '" + year + "/" + month + "/" + day + "' and i.uuid = a.uuid)"
-				+ "order by i.id, i.startdate";
+				+ dateSortN + ") = " + dateQuery + "and i.uuid = a.uuid) ";
+				
 
 		
 		ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
@@ -328,7 +332,7 @@ public class RoomDao extends DBProcess {
 		
 		// 1. ArrayList<SalesRecord>
 			//쿼리문작성
-			query = primequery;
+			query = primequery+ "order by i.id, i.startdate";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 	
@@ -371,7 +375,7 @@ public class RoomDao extends DBProcess {
 		
 		
 		// 2. ArrayList<SalesBySeat>
-			query = "SELECT room_name ,SUM(room_price), COUNT(*) \r\n" + "FROM" + primequery + "GROUP BY room_name";
+			query = "SELECT room_name ,SUM(room_price), COUNT(*) " + "FROM " + primequery + "GROUP BY room_name";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
@@ -384,7 +388,7 @@ public class RoomDao extends DBProcess {
 		
 		
 		// 3. ArrayList<SalesTot>
-			query = "SELECT substr(startdate,0,"+dateSortN+") ,SUM(room_price), COUNT(*) \r\n" + 
+			query = "SELECT substr(startdate,0,"+dateSortN+") ,SUM(room_price), COUNT(*) " + 
 					"FROM " + primequery + "GROUP BY substr(startdate,0,"+dateSortN+")";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
