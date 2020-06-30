@@ -32,7 +32,7 @@ public class LockerMain extends JPanel implements ActionListener {
 
 	ArrayList<LockerBtn> list = new ArrayList<LockerBtn>();
 	LockerData currentData = null;
-
+	LockerPWFrame lp = new LockerPWFrame();
 	String lockerNum = "123";
 
 	public LockerMain() {
@@ -78,20 +78,12 @@ public class LockerMain extends JPanel implements ActionListener {
 		JButton pwSetting = new JButton("비밀번호 설정");
 		pwSetting.setBounds(200, 10, 120, 100);
 		infoPanel.add(pwSetting);
-		pwSetting.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				LockerPWFrame lp = new LockerPWFrame(currentData);
-			}
-		});
+		pwSetting.addActionListener(this);
 
 		JButton cancelButton = new JButton("취소");
 		cancelButton.setBounds(350, 10, 100, 100);
 		infoPanel.add(cancelButton);
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().openMainLayout(null, null, null, null);
-			}
-		});
+		cancelButton.addActionListener(this);
 
 		setVisible(true);
 	}
@@ -100,6 +92,14 @@ public class LockerMain extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton btn = (JButton) e.getSource();
 
+		if (btn.getText().equals("비밀번호 설정")) {
+			lp.openLockerPWFrame(currentData);
+		} 
+		else if (btn.getText().equals("취소")) {
+			BaseFrame.getInstance().openMainLayout(null, null, null, null);
+			lp.setVisible(false);
+		}
+		
 		lockerNum = btn.getText();
 
 		for (int i = 0; i < list.size(); i++) {
