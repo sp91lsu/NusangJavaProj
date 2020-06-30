@@ -238,6 +238,7 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		// RoomDao roomDao = new RoomDao();
 
 		new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
+		
 		// roomDao.reset();
 		ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
 		// roomDao.reset();
