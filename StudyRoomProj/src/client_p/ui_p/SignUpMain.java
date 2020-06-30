@@ -175,15 +175,15 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		});
 		chkJd.setVisible(false);
 
-		jd2 = new JDialog();
+		jd2 = new JDialog();//중복확인창
 		jd2.setBounds(100, 100, 200, 150);
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
 		jl2 = new JLabel();
-		jb2 = new JButton("확인");
 		jd2.getContentPane().add(jl2);
+		jb2 = new JButton("확인");
 		jd2.getContentPane().add(jb2);
 
-		chkSignUp = new JDialog();
+		chkSignUp = new JDialog();//회원가입 클릭시 유효검사 차
 		chkSignUp.setBounds(100, 100, 300, 200);
 		chkSignUp.getContentPane().setLayout(new GridLayout(2, 1));
 		JLabel jll = new JLabel("ID 와 휴대폰 번호 중복검사를 진행하세요");
@@ -192,12 +192,12 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		chkSignUp.getContentPane().add(jbt);
 		chkSignUp.setVisible(false);
 		
-		jd = new JDialog();
+		jd = new JDialog();//회원가입 완료창
 		jd.setBounds(100, 100, 200, 150);
 		jd.getContentPane().setLayout(new GridLayout(2, 1));
 		jl = new JLabel("회원가입 완료");
-		jb = new JButton("확인");
 		jd.getContentPane().add(jl);
+		jb = new JButton("확인");
 		jd.getContentPane().add(jb);
 		jd.setVisible(false);
 	}
@@ -220,7 +220,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 					}
 				});
 			}
-		} else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인
+		} 
+		else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인체크
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
 
 			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {// id성공
@@ -238,8 +239,9 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 				jl2.setText("중복된 핸드폰 입니다.");
 				loginChk();
 			}
-		} else {
-			System.out.println("회원가입 예외에러");
+		} 
+		else {
+			System.out.println("ScDuplicateIDAck 예외");
 		}
 	}
 
