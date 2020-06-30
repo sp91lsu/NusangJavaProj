@@ -70,6 +70,7 @@ class MethLoginSyn implements ServerPacketMethod {
 
 			if (userData != null) {
 
+				new AccountDao().ipCheck(userData.uuid, client.socket.getInetAddress().toString());
 				userData.setReserRoom(new RoomDao().findUserRoom(userData.uuid, false));
 				// roomDao.reset();
 				userData.setExitRoom(new RoomDao().findUserRoom(userData.uuid, true));
@@ -107,7 +108,7 @@ class MethSignUpSyn implements ServerPacketMethod {
 				UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id,
 						recPacket.pw, recPacket.phone, recPacket.birth, recPacket.cType);
 
-				new AccountDao().createAccount(userData, client.socket.getInetAddress().toString());
+				new AccountDao().createAccount(userData);
 
 				ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
 			}
@@ -238,7 +239,7 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 		// RoomDao roomDao = new RoomDao();
 
 		new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
-		
+
 		// roomDao.reset();
 		ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
 		// roomDao.reset();

@@ -14,9 +14,9 @@ import data_p.user_p.UserData;
 
 public class AccountDao extends DBProcess {
 
-	public void createAccount(UserData userData, String ip) {
+	public void createAccount(UserData userData) {
 
-		String[] calumArr = { "uuid", "name", "id", "pw", "birth", "phone", "ctype", "ip" };
+		String[] calumArr = { "uuid", "name", "id", "pw", "birth", "phone", "ctype" };
 
 		String calumQuery = getColum(calumArr);
 		String calumNum = getColumNum(calumArr.length);
@@ -30,7 +30,6 @@ public class AccountDao extends DBProcess {
 			stmt.setString(5, userData.birth);
 			stmt.setString(6, userData.phone);
 			stmt.setInt(7, 0);
-			stmt.setString(8, ip);
 			rs = stmt.executeQuery();
 			close();
 		} catch (SQLException e1) {
@@ -65,6 +64,20 @@ public class AccountDao extends DBProcess {
 		UserData userData = rsToUser(rs);
 		close();
 		return userData;
+	}
+
+	public void ipCheck(String uuid, String ip) {
+
+		try {
+			insertQuery(ETable.ACCOUNT, "ip", "?", "uuid = ?");
+			stmt.setString(1, ip);
+			stmt.setString(2, uuid);
+			rs = stmt.executeQuery();
+			close();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	// 유저찾기
