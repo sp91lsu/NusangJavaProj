@@ -34,8 +34,8 @@ public class ClientNet extends Thread {
 		System.out.println("서버접속 시도");
 
 		try {
-			socket = new Socket("127.0.0.1", 7777);//자기ip
-//			socket = new Socket("192.168.0.68", 7777); //승환이
+//			socket = new Socket("127.0.0.1", 7777);///자기ip
+			socket = new Socket("192.168.0.68", 7777); //승환이
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 

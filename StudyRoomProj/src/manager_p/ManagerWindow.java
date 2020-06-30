@@ -46,6 +46,7 @@ import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmGiveMeResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
+import server_p.packet_p.ack_p.SmSalesInquiryAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
@@ -101,11 +102,12 @@ public class ManagerWindow extends JFrame implements Receivable {
 					PacketMap.getInstance().map.put(SmCurrMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmAllMemListAck.class, mww);
 					PacketMap.getInstance().map.put(SmMemSearchAck.class, mww);
-					PacketMap.getInstance().map.put(MsGiveMeResvRoomSyn.class, mww);
+//					PacketMap.getInstance().map.put(MsGiveMeResvRoomSyn.class, mww);
 					PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, mww);
 					PacketMap.getInstance().map.put(ScBuyLockerCast.class, mww);
 					PacketMap.getInstance().map.put(SmGiveMeResvRoomAck.class, mww);
-//					ClientNet.getInstance().start();
+					PacketMap.getInstance().map.put(SmSalesInquiryAck.class, mww);
+					ClientNet.getInstance().start();
 					mww.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -391,7 +393,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
 		panel_3.setLayout(null);
 		
-		CalendarTest cal = new CalendarTest((ManagerWindow) null);
+		CalendarTest cal = new CalendarTest(this);
 		cal.setBounds(224, 25, 502, 362);
 		panel_3.add(cal);
 		
@@ -422,7 +424,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		
 		tabbedPane.add("요금 관리", pnl_SetPrice);
 
-		tabbedPane.addTab("매출 조회", pnl_SalesInquiry);
+//		tabbedPane.addTab("매출 조회", pnl_SalesInquiry);
 		
 		tabbedPane.addTab("1:1 문의 채팅", pnl_Chatting);
 

@@ -6,13 +6,13 @@ import java.util.ArrayList;
 public class SalesData implements Serializable {
 	ArrayList<SalesRecord> SalesRecordArrL;
 	ArrayList<SalesBySeat> SaleBySeatArrL;
-	ArrayList<SalesTot> SalesTotArrL;
+	SalesTot SalesTot;
 	
 	public SalesData(ArrayList<SalesRecord> salesRecordArrL, ArrayList<SalesBySeat> saleBySeatArrL,
-			ArrayList<SalesTot> salesTotArrL) {
+			SalesTot SalesTot) {
 		SalesRecordArrL = salesRecordArrL;
 		SaleBySeatArrL = saleBySeatArrL;
-		SalesTotArrL = salesTotArrL;
+		SalesTot = SalesTot;
 	}
 	
 	
