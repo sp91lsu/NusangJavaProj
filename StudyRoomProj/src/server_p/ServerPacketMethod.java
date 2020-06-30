@@ -152,10 +152,9 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 
 		if (sc != null) {
 			if (resPacket.isConnect) {
-				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp,
-						resPacket.isConnect);
+				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp);
 			} else {
-				scConnectAck = new ScChatConnectAck(EResult.FAIL, null, null, false);
+				scConnectAck = new ScChatConnectAck(EResult.FAIL, null, null);
 			}
 			sc.sendPacket(scConnectAck);
 		} else {
