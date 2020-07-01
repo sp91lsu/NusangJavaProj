@@ -325,8 +325,7 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 		try {
 			SmResvRoomAck ack = new SmResvRoomAck(EResult.SUCCESS,
 					new RoomDao().rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
-//			String managerIp = "/192.168.100.27";
-			SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
+
 			client.sendPacket(ack);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -383,22 +382,15 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
 
-		SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
-
 		SmMemSearchAck ack = null;
 		try {
-			if (mc != null) {
-				ack = new SmMemSearchAck(EResult.SUCCESS, new AccountDao().getAllUserList());
-			} else {
-				ack = new SmMemSearchAck(EResult.FAIL, new AccountDao().getAllUserList());
-			}
+			ack = new SmMemSearchAck(EResult.SUCCESS, new AccountDao().getAllUserList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		mc.sendPacket(ack);
+		client.sendPacket(ack);
 
-//		client.sendPacket(ack);
 	}
 }
 
