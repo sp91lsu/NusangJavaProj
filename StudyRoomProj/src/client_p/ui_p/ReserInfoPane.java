@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -72,7 +73,9 @@ public class ReserInfoPane extends JPanel {
 	}
 
 	public void OpenPage() {
-
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH시");
+		
 		userName = BaseFrame.getInstance().userData.name;
 		userId = BaseFrame.getInstance().userData.id;
 		userDataL.setText("<html>" + userId + "(" + userName + ")님" + "<br>환영합니다.");
@@ -84,7 +87,7 @@ public class ReserInfoPane extends JPanel {
 
 			for (Calendar cal : room.calendarList) {
 				GridBagConstraints gc = new GridBagConstraints();
-				JCheckBox checkBox = new JCheckBox(room.name + " " + cal.getTime());
+				JCheckBox checkBox = new JCheckBox(room.name + " " + sdf.format(cal.getTime()));
 				ReserObj ro = new ReserObj(checkBox, room, cal);
 				reserList.add(ro);
 
