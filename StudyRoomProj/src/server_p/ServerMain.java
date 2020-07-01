@@ -57,7 +57,7 @@ class MyServer {
 					System.out.println("클라이언트 접속 대기");
 					Socket client = server.accept(); // 클라이언트 접속
 					System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
-				//	duplicateClientChk(client);
+					// duplicateClientChk(client);
 					System.out.println(client.getInetAddress() + "접속");
 
 					SocketClient pClient = new SocketClient(client);
@@ -104,8 +104,12 @@ class MyServer {
 
 	// p2p 알림 (채팅 기능)
 	public synchronized void broadCastP2P(SocketClient client1, SocketClient client2, PacketBase packet) {
-		client1.sendPacket(packet);
-		client2.sendPacket(packet);
+		if (client1 != null) {
+			client1.sendPacket(packet);
+		}
+		if (client1 != null) {
+			client2.sendPacket(packet);
+		}
 	}
 }
 

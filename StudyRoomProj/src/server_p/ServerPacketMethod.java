@@ -16,7 +16,6 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
-import client_p.packet_p.syn_p.MsLoginSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
@@ -186,12 +185,7 @@ class MethCsChatSyn implements ServerPacketMethod {
 		SocketClient chatClient = MyServer.getInstance().findClient(csChatSyn.cip);
 		SocketClient chatManager = MyServer.getInstance().findClient(csChatSyn.mip);
 
-		if (chatClient != null) {
-			chatClient.sendPacket(chatBroadCast);
-		}
-		if (chatManager != null) {
-			chatManager.sendPacket(chatBroadCast);
-		}
+		MyServer.getInstance().broadCastP2P(chatClient, chatManager, chatBroadCast);
 	}
 }
 
