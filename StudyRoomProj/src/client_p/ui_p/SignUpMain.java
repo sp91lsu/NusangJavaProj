@@ -381,11 +381,11 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton btn = (JButton) e.getSource();
-		if (btn.getText().equals("ID 중복확인")) {
+		if (btn.getText().equals("ID 중복체크")) {
 			if (!chkJd.isVisible())
 				idChk();
 		} 
-		else if (btn.getText().equals("핸드폰 중복체크")) {
+		else if (btn.getText().equals("휴대폰 중복체크")) {
 			if (!chkJd.isVisible())
 				phChk();
 		} 
