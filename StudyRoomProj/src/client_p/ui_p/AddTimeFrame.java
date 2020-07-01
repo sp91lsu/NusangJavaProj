@@ -17,6 +17,7 @@ import client_p.CalCal;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
+import java.awt.Font;
 
 public class AddTimeFrame extends JFrame {
 
@@ -25,10 +26,11 @@ public class AddTimeFrame extends JFrame {
 	int startTime;
 	int endTime;
 	int timeChoice = 0;
+	int addPri = (int)BaseFrame.getInstance().getUsingRoom().price;
 	Calendar last;
 
 	public AddTimeFrame() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 379);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -39,11 +41,33 @@ public class AddTimeFrame extends JFrame {
 		contentPane.add(titleL);
 
 		JLabel timeInfoL = new JLabel("시간 연장");
-		timeInfoL.setBounds(270, 112, 73, 31);
+		timeInfoL.setBounds(259, 74, 73, 31);
 		contentPane.add(timeInfoL);
+		
+		JLabel addPTitleL = new JLabel("추가 결제 금액:");
+		addPTitleL.setFont(new Font("굴림", Font.BOLD, 15));
+		addPTitleL.setBounds(111, 190, 111, 43);
+		contentPane.add(addPTitleL);
+
+		JLabel priceInfoL = new JLabel(addPri+"원");
+		priceInfoL.setFont(new Font("굴림", Font.BOLD, 15));
+		priceInfoL.setHorizontalAlignment(SwingConstants.LEFT);
+		priceInfoL.setBounds(240, 190, 146, 43);
+		contentPane.add(priceInfoL);
+		
+		JLabel roomTitleL = new JLabel("현재 이용중인 좌석:");
+		roomTitleL.setFont(new Font("굴림", Font.BOLD, 14));
+		roomTitleL.setBounds(105, 127, 146, 43);
+		contentPane.add(roomTitleL);
+		
+		JLabel roomNameL = new JLabel(BaseFrame.getInstance().getUsingRoom().name);
+		roomNameL.setHorizontalAlignment(SwingConstants.LEFT);
+		roomNameL.setFont(new Font("굴림", Font.BOLD, 15));
+		roomNameL.setBounds(263, 128, 111, 43);
+		contentPane.add(roomNameL);
 
 		JButton payButton = new JButton("결제");
-		payButton.setBounds(91, 188, 110, 43);
+		payButton.setBounds(94, 262, 110, 43);
 		contentPane.add(payButton);
 		payButton.addActionListener(new ActionListener() {
 			@Override
@@ -55,14 +79,13 @@ public class AddTimeFrame extends JFrame {
 		});
 
 		JButton cancelButton = new JButton("취소");
-		cancelButton.setBounds(243, 188, 110, 43);
+		cancelButton.setBounds(246, 262, 110, 43);
 		cancelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				BaseFrame.getInstance().getMainLayout().is_addTime = false;
-
 			}
 		});
 		contentPane.add(cancelButton);
@@ -79,13 +102,17 @@ public class AddTimeFrame extends JFrame {
 		}
 
 		JComboBox timeSelectCom = new JComboBox(timeCnt);
-		timeSelectCom.setBounds(185, 112, 73, 31);
+		timeSelectCom.setBounds(174, 74, 73, 31);
 		contentPane.add(timeSelectCom);
+
 		timeSelectCom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (timeSelectCom.getSelectedItem() != null)
+				if (timeSelectCom.getSelectedItem() != null) {
 					timeChoice = (int) timeSelectCom.getSelectedItem();
+				}
+				addPri = (int)timeSelectCom.getSelectedItem()*(int)BaseFrame.getInstance().getUsingRoom().price;
+				priceInfoL.setText(addPri+"원");
 			}
 		});
 		setVisible(true);
