@@ -15,6 +15,40 @@ import oracle.net.aso.d;
 
 public class RoomNowDao extends DBProcess {
 
-	
+	// 룸 정보 세팅하기 
+	public ArrayList<RoomProduct> settingRoomData() {
 
+		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+
+		try {
+			ResultSet rs = getRS(ETable.NOW_ROOM_DATA, "*");
+			// Listener refused the connection with the following error:
+			DataManager.getInstance().roomMap = resToMap(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return roomList;
+	}
+
+	public HashMap<Integer, RoomProduct> resToMap(ResultSet rs) {
+		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
+		try {
+			while (rs.next()) {
+
+				RoomProduct roomProduct = new RoomProduct(rs.getInt("ID"), rs.getString("Name"), rs.getLong("Price"),
+						rs.getInt("PersonNum"));
+
+				roomMap.put(roomProduct.id, roomProduct);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return roomMap;
+	}
 }
