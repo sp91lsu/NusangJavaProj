@@ -327,7 +327,7 @@ public class RoomDao extends DBProcess {
 		
 		ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
 		ArrayList<SalesBySeat> saleBySeatArrL = new ArrayList<SalesBySeat>();
-		SalesTot tot;
+		SalesTot tot = null;
 		
 		
 		// 1. ArrayList<SalesRecord>
@@ -392,7 +392,7 @@ public class RoomDao extends DBProcess {
 					"FROM " + primequery + "GROUP BY substr(startdate,0,"+dateSortN+")";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
-			
+			if(rs.next())
 				tot = new SalesTot(dateSortN, Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")) );
 
 		// 4. SalesData
