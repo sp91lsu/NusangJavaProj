@@ -30,8 +30,6 @@ public class LogoutPopFrame extends JFrame{
 				BaseFrame.getInstance().getMainLayout().is_LogOut=false;
 				BaseFrame.getInstance().view("LoginMain");
 				BaseFrame.getInstance().getLoginMain().logSet();
-				CsCloseSyn packet = new CsCloseSyn();
-				ClientNet.getInstance().sendPacket(packet);
 				dispose();
 			}
 		});

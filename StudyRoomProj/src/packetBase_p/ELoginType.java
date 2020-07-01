@@ -2,5 +2,5 @@ package packetBase_p;
 
 public enum ELoginType {
 
-	KIOSK, MOBILE
+	KIOSK, MOBILE, MANAGER
 }

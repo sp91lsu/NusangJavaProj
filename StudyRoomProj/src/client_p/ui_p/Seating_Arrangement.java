@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client_p.CalCal;
+import client_p.EEnter;
 import client_p.Receivable;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
@@ -384,7 +385,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		yearCBox.setBounds(12, 28, 83, 33);
 		yearCBox.setSelectedItem(setYear);
 		timeSelectPane.add(yearCBox);
-		yearCBox.setEnabled(BaseFrame.getInstance().loginType == ELoginType.MOBILE);
 		yearCBox.addActionListener(new yearAct());
 
 		// 월 선택 + 일자 생성
@@ -395,7 +395,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		monthCBox = new JComboBox(monthCnt);
 		monthCBox.setBounds(136, 28, 41, 33);
 		monthCBox.setSelectedItem(setMonth);
-		monthCBox.setEnabled(BaseFrame.getInstance().loginType == ELoginType.MOBILE);
 		timeSelectPane.add(monthCBox);
 		monthCBox.addActionListener(new ActionListener() {
 			@Override
@@ -409,7 +408,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				selectMonth.set(Calendar.DATE, 1);
 				System.out.println(">>>셋몬쓰 뭐야??>>>" + setMonth);
 				int last = selectMonth.getActualMaximum(Calendar.DATE);
-				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+				if (BaseFrame.getInstance().loginType != ELoginType.KIOSK) {
 					if (nowYear == setYear && nowMonth == setMonth) {
 						for (int i = nowMaxDate; i <= last; i++) {
 							dateCBox.addItem(i);
@@ -577,9 +576,13 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	public void openPage(EEnter enterType) {
 
+		System.out.println("openPage " + enterType);
 		timeSetting();
 		System.out.println("입장 타입" + enterType);
 		this.enterType = enterType;
+
+		boolean isVisibleCheckBox = BaseFrame.getInstance().loginType != ELoginType.KIOSK;
+		combo_state(isVisibleCheckBox);
 
 		switch (enterType) {
 		case SEATCHANGE:
@@ -591,8 +594,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			btn_state(EState.INIT);
 			yearCBox.setSelectedItem(nowYear);
 			monthCBoxSetting();
-			reserInfoPane.OpenPage();
+			if (reserInfoPane != null) {
+				reserInfoPane.OpenPage();
+			}
 			break;
+
 		default:
 			roomState();
 			break;
@@ -613,7 +619,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			}
 		}
-
 	}
 
 	@Override

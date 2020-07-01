@@ -25,7 +25,6 @@ public class PacketMap {
 
 	PacketMap() {
 		map = new HashMap<Class, Receivable>();
-		map.put(ScGetRoomDataAck.class, DataManager.getInstance());
 		map.put(ScGetRoomDataCast.class, DataManager.getInstance());
 	}
 

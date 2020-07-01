@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import client_p.CalCal;
 import client_p.ClientNet;
+import client_p.EEnter;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
@@ -41,9 +42,6 @@ import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScGetRoomDataCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
-enum EEnter {
-	MOBILE, SEATCHANGE, PRIVROOM, GROUPROOM
-}
 
 public class BaseFrame extends JFrame implements Receivable {
 
@@ -60,7 +58,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		return instance;
 	}
 
-	UserData userData = null;
+	public UserData userData = null;
 	public SignUpMain signUpFrame = new SignUpMain();
 	public PaymentPopFrame paymentPop = new PaymentPopFrame();
 	public RCalcFrame rCalcFrame = new RCalcFrame();

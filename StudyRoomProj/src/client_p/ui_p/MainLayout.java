@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import com.sun.xml.internal.ws.wsdl.writer.document.http.Address;
 
 import client_p.ClientNet;
+import client_p.EEnter;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;

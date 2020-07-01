@@ -8,6 +8,7 @@ import client_p.ui_p.BaseFrame;
 import data_p.ExcelReader;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
+import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.broadCast.ScGetRoomDataCast;
