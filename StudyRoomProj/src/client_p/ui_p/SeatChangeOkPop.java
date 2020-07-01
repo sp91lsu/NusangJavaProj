@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 
-public class SeatChangeOkPop extends JFrame {
+public class SeatChangeOkPop extends JDialog {
 
 	private JPanel contentPane;
 
@@ -48,6 +49,7 @@ public class SeatChangeOkPop extends JFrame {
 		});
 		btnNewButton2.setBounds(145, 80, 130, 50);
 		contentPane.add(btnNewButton2);
+		setModal(true);
 		setVisible(true);
 	}
 }

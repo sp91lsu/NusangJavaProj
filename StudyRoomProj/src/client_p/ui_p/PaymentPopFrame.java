@@ -64,9 +64,9 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 	}
 
 	public void openPage(RoomProduct room) {
+		this.room = room;
 		setModal(true);
 		setVisible(true);
-		this.room = room;
 	}
 
 	@Override
