@@ -10,6 +10,7 @@ import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
+import server_p.packet_p.broadCast.ScGetRoomDataCast;
 
 public class DataManager implements Receivable {
 
@@ -28,8 +29,8 @@ public class DataManager implements Receivable {
 	public ArrayList<TimeData> timeList = new ArrayList<TimeData>();
 
 	String managerKey = "";
-	private ArrayList<String> idList;
-	private ArrayList<String> nameList;
+	private ArrayList<String> idList = new ArrayList<String>();
+	private ArrayList<String> nameList = new ArrayList<String>();
 
 	DataManager() {
 		// RoomSetting();
@@ -135,6 +136,10 @@ public class DataManager implements Receivable {
 
 			roomMap = ack.roomMap;
 			BaseFrame.getInstance().startFrame();
+		} else if (packet.getClass() == ScGetRoomDataCast.class) {
+			ScGetRoomDataCast ack = (ScGetRoomDataCast) packet;
+
+			roomMap = ack.roomMap;
 		}
 	}
 }

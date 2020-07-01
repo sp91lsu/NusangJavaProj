@@ -38,6 +38,7 @@ import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
+import server_p.packet_p.broadCast.ScGetRoomDataCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 enum EEnter {
@@ -167,7 +168,8 @@ public class BaseFrame extends JFrame implements Receivable {
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
-		}
+		} 
+
 		// 예약페이지
 		// 당일결제페이지
 	}

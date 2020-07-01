@@ -52,6 +52,7 @@ import server_p.packet_p.ack_p.SmSalesInquiryAck;
 import server_p.packet_p.ack_p.SmUptRoomPrAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
+import server_p.packet_p.broadCast.ScGetRoomDataCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
@@ -488,23 +489,28 @@ class MethCsGetRoomDataSyn implements ServerPacketMethod {
 }
 
 class MethMsUptRoomPrSyn implements ServerPacketMethod {
-	
+
 	public void receive(SocketClient client, PacketBase packet) {
-		
+
 		MsUptRoomPrSyn resPacket = (MsUptRoomPrSyn) packet;
-		
+
 		SmUptRoomPrAck ack = null;
 		try {
 			for (int key : resPacket.map_roomID_Pr.keySet()) {
 				new RoomNowDao().upt_NowRoomData(key, resPacket.map_roomID_Pr.get(key));
 				ack = new SmUptRoomPrAck(EResult.SUCCESS);
+
+				new RoomNowDao().settingRoomData();
+
+				ScGetRoomDataCast roomCast = new ScGetRoomDataCast(EResult.SUCCESS, DataManager.getInstance().roomMap);
+				MyServer.getInstance().broadCast(client, roomCast);
 			}
 		} catch (Exception e) {
 			ack = new SmUptRoomPrAck(EResult.FAIL);
 			e.printStackTrace();
 		}
-		
+
 		client.sendPacket(ack);
-		
+
 	}
 }
