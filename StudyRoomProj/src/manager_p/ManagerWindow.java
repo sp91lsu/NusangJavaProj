@@ -211,6 +211,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 				if(textField_1.getText().equals("")) {
 					lbSearch.setText("내용을 입력해주세요.");
 				}else {
+					lbSearch.setText("");
 					idxNameMemS = comboBox.getSelectedItem().toString();
 					contentsMemS = textField_1.getText();
 					textField_1.setText("");
