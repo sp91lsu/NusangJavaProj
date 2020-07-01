@@ -20,12 +20,12 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 
-public class PaymentPopFrame extends JFrame implements Receivable {
+public class PaymentPopFrame extends JDialog implements Receivable {
 	RoomProduct room;
 
 	public PaymentPopFrame() {
 
-		setBounds(50, 50,  279, 143);
+		setBounds(820, 470, 280, 140);
 		getContentPane().setLayout(null);
 
 		JLabel jbl = new JLabel("결제 하시겠습니까?");
@@ -64,6 +64,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 	}
 
 	public void openPage(RoomProduct room) {
+		setModal(true);
 		setVisible(true);
 		this.room = room;
 	}
