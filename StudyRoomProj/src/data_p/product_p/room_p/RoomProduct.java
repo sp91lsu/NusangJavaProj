@@ -15,6 +15,7 @@ public class RoomProduct extends ProductData {
 	public boolean isExit;
 	public Integer personNum;
 	public String userUUID;
+	public String pUid; //상품 연장까지 모여있는 값 
 	public ArrayList<Calendar> calendarList = new ArrayList<Calendar>();
 	public HashMap<Calendar, Bool> exitMap = new HashMap<Calendar, Bool>();
 
@@ -42,6 +43,7 @@ public class RoomProduct extends ProductData {
 		RoomProduct clone = new RoomProduct(this.id, this.name, this.price, this.personNum);
 		clone.userUUID = userUUID;
 		clone.isExit = isExit;
+		clone.pUid = pUid;
 		return clone;
 	}
 

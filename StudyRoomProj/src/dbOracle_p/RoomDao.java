@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -29,7 +31,7 @@ public class RoomDao extends DBProcess {
 
 		String calumQuery = getColum(calumArr);
 		String calumNum = getColumNum(calumArr.length);
-		String puid = UUID.randomUUID().toString();
+		String puid = room.pUid != null ? room.pUid : UUID.randomUUID().toString();
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
 
@@ -225,12 +227,12 @@ public class RoomDao extends DBProcess {
 	}
 
 	public ArrayList<RoomProduct> resToList(ResultSet rs) {
-		HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
+		HashMap<String, RoomProduct> roomMap = new HashMap<String, RoomProduct>();
 		try {
 			while (rs.next()) {
 
 				int roomID = rs.getInt("ID");
-
+				String pUid = rs.getString("PUID");
 				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID).getClone();
 				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
 
@@ -240,20 +242,33 @@ public class RoomDao extends DBProcess {
 				cal.setTimeInMillis(timeStamp.getTime());
 
 				// 룸 정보가 없으면
-				if (!roomMap.containsKey(roomID)) {
+				if (!roomMap.containsKey(pUid)) {
 
 					RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, rs.getInt("PRICE"),
 							roomModel.personNum);
 
-					if (rs.getInt("ISEXIT") == 1) {
-						room.isExit = true;
-					}
-
-					roomMap.put(room.id, room);
-					roomMap.get(roomID).userUUID = rs.getString("UUID");
+					room.isExit = rs.getInt("ISEXIT") == 1;
+					room.userUUID = rs.getString("UUID");
+					room.pUid = pUid;
+					roomMap.put(pUid, room);
 				}
 
-				roomMap.get(roomID).calendarList.add(cal);
+				if (roomMap.get(pUid).calendarList.size() == 0) {
+					roomMap.get(pUid).calendarList.add(cal);
+				} else {
+					ArrayList<Calendar> calList = roomMap.get(pUid).calendarList;
+					boolean middleSet = false;
+					for (int i = 0; i < calList.size(); i++) {
+						if (calList.get(i).getTimeInMillis() > cal.getTimeInMillis()) {
+							calList.add(i, cal);
+							middleSet = true;
+							break;
+						}
+					}
+					if (!middleSet) {
+						calList.add(cal);
+					}
+				}
 			}
 			rs.close();
 		} catch (Exception e) {
@@ -265,6 +280,28 @@ public class RoomDao extends DBProcess {
 
 		roomList.addAll(roomMap.values());
 
+		for (int i = 0; i < roomList.size() - 1; i++) {
+
+			RoomProduct room1 = roomList.get(i);
+			Calendar time1 = room1.calendarList.get(0);
+			long iTime = time1.getTimeInMillis();
+			for (int j = i + 1; j < roomList.size(); j++) {
+
+				RoomProduct room2 = roomList.get(j);
+				Calendar time2 = room2.calendarList.get(0);
+				long jTime = time2.getTimeInMillis();
+				if (iTime > jTime) {
+					Collections.swap(roomList, i, j);
+				}
+			}
+		}
+
+		for (RoomProduct roomProduct : roomList) {
+			System.out.println(roomProduct.name);
+			for (Calendar cal : roomProduct.calendarList) {
+				System.out.println(cal.getTime());
+			}
+		}
 		return roomList;
 	}
 

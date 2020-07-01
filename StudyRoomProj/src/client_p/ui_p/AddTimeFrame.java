@@ -191,6 +191,7 @@ public class AddTimeFrame extends JDialog {
 			cal.set(Calendar.HOUR_OF_DAY, last.get(Calendar.HOUR_OF_DAY) + i);
 			myCalList.add(cal);
 		}
+		
 		roomProduct.calendarList = myCalList;
 		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
 		ClientNet.getInstance().sendPacket(packet);

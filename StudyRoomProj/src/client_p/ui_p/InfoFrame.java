@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,8 +25,6 @@ public class InfoFrame extends JDialog {
 
 	public InfoFrame() {
 		setModal(true);
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		String date = "";
 
 		setBounds(735, 215, 550, 650);
 		getContentPane().setLayout(null);
@@ -39,22 +38,16 @@ public class InfoFrame extends JDialog {
 		ArrayList<RoomProduct> exitList = BaseFrame.getInstance().userData.exitList;
 		ArrayList<RoomProduct> reserList = BaseFrame.getInstance().userData.myReservationList;
 
-		String text = "퇴실 현황\n";
+		String text = " - 퇴실 현황 - \n";
 		for (RoomProduct data : exitList) {
-			for (Calendar cal : data.calendarList) {
-				date = sdf.format(cal.getTime());
-				text += "이용자 ID : " + id + "\n구매한 좌석/룸 명 : " + data.name + " / " + "금액 : " + data.price + "원"
-						+ "\n구매한 시간 : " + date + "\n";
-			}
+			text += "\n좌석/룸 명 : " + data.name + " \n " + "금액 : " + data.price + "원" + "\n시간 : "
+					+ startToEnd(data.calendarList) + "\n";
 		}
 
-		text += "예약 현황\n";
+		text += "\n - 예약 현황 - \n";
 		for (RoomProduct data : reserList) {
-			for (Calendar cal : data.calendarList) {
-				date = sdf.format(cal.getTime());
-				text += "이용자 ID : " + id + "\n구매한 좌석/룸 명 : " + data.name + " / " + "금액 : " + data.price + "원"
-						+ "\n구매한 시간 : " + date + "\n";
-			}
+			text += "\n좌석/룸 명 : " + data.name + " \n " + "금액 : " + data.price + "원" + "\n시간 : "
+					+ startToEnd(data.calendarList) + "\n";
 		}
 
 		textArea.setText(text);
@@ -72,12 +65,20 @@ public class InfoFrame extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				BaseFrame.getInstance().getMainLayout().is_Info=false;
+				BaseFrame.getInstance().getMainLayout().is_Info = false;
 			}
 		});
 		getContentPane().add(okButton);
-		setUndecorated(true); 
+		setUndecorated(true);
 		setVisible(true);
 
+	}
+
+	String startToEnd(ArrayList<Calendar> list) {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYY-MM-dd");
+		String text = sdf.format(list.get(0).getTime()) + " > ";
+		text += list.get(0).get(Calendar.HOUR_OF_DAY) + "시 ~ "
+				+ (list.get(list.size() - 1).get(Calendar.HOUR_OF_DAY) + 1) + "시";
+		return text;
 	}
 }
