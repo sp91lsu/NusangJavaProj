@@ -15,14 +15,16 @@ import client_p.packet_p.syn_p.CsCloseSyn;
 public class LogoutPopFrame extends JFrame{
 
 	public LogoutPopFrame() {
-		setBounds(50, 50, 150, 150);
-		setLayout(new GridLayout(2, 1));
+		setBounds(50, 50, 279, 143);
+		getContentPane().setLayout(null);
 
 		JLabel jbl = new JLabel("로그아웃 하시겠습니까?");
+		jbl.setBounds(0, 0, 263, 56);
 		jbl.setHorizontalAlignment(SwingConstants.CENTER);
-		add(jbl);
-		JButton jb = new JButton("확인");
-		jb.addActionListener(new ActionListener() {
+		getContentPane().add(jbl);
+		JButton okBtn = new JButton("확인");
+		okBtn.setBounds(26, 55, 96, 36);
+		okBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().getMainLayout().is_LogOut=false;
@@ -33,7 +35,18 @@ public class LogoutPopFrame extends JFrame{
 				dispose();
 			}
 		});
-		add(jb);
+		getContentPane().add(okBtn);
+		
+		JButton cancelBtn = new JButton("취소");
+		cancelBtn.setBounds(143, 55, 96, 36);
+		getContentPane().add(cancelBtn);
+		cancelBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 
 		setVisible(false);
 	}

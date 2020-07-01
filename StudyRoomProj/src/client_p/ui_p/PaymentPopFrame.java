@@ -25,14 +25,16 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 
 	public PaymentPopFrame() {
 
-		setBounds(50, 50, 150, 150);
-		setLayout(new GridLayout(2, 1));
+		setBounds(50, 50,  279, 143);
+		getContentPane().setLayout(null);
 
 		JLabel jbl = new JLabel("결제 하시겠습니까?");
+		jbl.setBounds(0, 0, 263, 52);
 		jbl.setHorizontalAlignment(SwingConstants.CENTER);
-		add(jbl);
-		JButton jb = new JButton("확인");
-		jb.addActionListener(new ActionListener() {
+		getContentPane().add(jbl);
+		JButton okBtn = new JButton("확인");
+		okBtn.setBounds(26, 55, 96, 36);
+		okBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				for (Calendar cal : BaseFrame.getInstance().roomProduct.calendarList) {
@@ -45,7 +47,18 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 				dispose();
 			}
 		});
-		add(jb);
+		getContentPane().add(okBtn);
+		
+		JButton cancelBtn = new JButton("취소");
+		cancelBtn.setBounds(143, 55, 96, 36);
+		getContentPane().add(cancelBtn);
+		cancelBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 
 		setVisible(false);
 	}
@@ -59,7 +72,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 	public void receive(PacketBase packet) {
 		ScBuyRoomAck ack = (ScBuyRoomAck) packet;
 		JDialog jd = new JDialog();
-		jd.setLayout(new GridLayout(2, 1));
+		jd.getContentPane().setLayout(new GridLayout(2, 1));
 		jd.setBounds(50, 50, 150, 150);
 		JLabel jl = new JLabel("");
 		JButton jb = new JButton("확인");
@@ -82,7 +95,7 @@ public class PaymentPopFrame extends JFrame implements Receivable {
 				dispose();
 			}
 		});
-		jd.add(jl);
-		jd.add(jb);
+		jd.getContentPane().add(jl);
+		jd.getContentPane().add(jb);
 	}
 }
