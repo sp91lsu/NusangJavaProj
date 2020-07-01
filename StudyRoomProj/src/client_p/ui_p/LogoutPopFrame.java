@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 public class LogoutPopFrame extends JDialog{
 
 	public LogoutPopFrame() {
+		setModal(true);
 		setBounds(820, 470, 280, 140);
 		getContentPane().setLayout(null);
 
