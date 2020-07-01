@@ -24,6 +24,7 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import java.awt.Font;
 
 public class SignUpMain extends JFrame implements Receivable, MouseListener, ActionListener {
 
@@ -56,33 +57,44 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		setContentPane(mainPane);
 		mainPane.setLayout(null);
 
-		JLabel titleLabel = new JLabel("회원가입창");
+		JLabel titleLabel = new JLabel("회원가입 창");
+		titleLabel.setFont(new Font("굴림", Font.BOLD, 38));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(268, 10, 380, 75);
 		mainPane.add(titleLabel);
 
 		JLabel nameL = new JLabel("이름");
-		nameL.setBounds(129, 112, 77, 42);
+		nameL.setFont(new Font("굴림", Font.BOLD, 20));
+		nameL.setHorizontalAlignment(SwingConstants.CENTER);
+		nameL.setBounds(30, 161, 139, 75);
 		mainPane.add(nameL);
 
 		JLabel idL = new JLabel("아이디");
-		idL.setBounds(129, 164, 77, 42);
+		idL.setFont(new Font("굴림", Font.BOLD, 20));
+		idL.setHorizontalAlignment(SwingConstants.CENTER);
+		idL.setBounds(30, 248, 139, 66);
 		mainPane.add(idL);
 
 		JLabel pwL = new JLabel("비밀번호");
-		pwL.setBounds(127, 205, 77, 42);
+		pwL.setFont(new Font("굴림", Font.BOLD, 20));
+		pwL.setHorizontalAlignment(SwingConstants.CENTER);
+		pwL.setBounds(30, 335, 139, 70);
 		mainPane.add(pwL);
 
-		JLabel pwChkL = new JLabel("비밀번호확인");
-		pwChkL.setBounds(129, 257, 89, 42);
+		JLabel pwChkL = new JLabel("비밀번호 확인");
+		pwChkL.setFont(new Font("굴림", Font.BOLD, 20));
+		pwChkL.setHorizontalAlignment(SwingConstants.CENTER);
+		pwChkL.setBounds(30, 417, 139, 66);
 		mainPane.add(pwChkL);
 
 		JLabel phonNumL = new JLabel("휴대폰 번호");
-		phonNumL.setBounds(129, 309, 77, 42);
+		phonNumL.setFont(new Font("굴림", Font.BOLD, 20));
+		phonNumL.setHorizontalAlignment(SwingConstants.CENTER);
+		phonNumL.setBounds(30, 495, 139, 66);
 		mainPane.add(phonNumL);
 
 		nameTextField = new JTextField();// 이름
-		nameTextField.setBounds(269, 121, 191, 33);
+		nameTextField.setBounds(181, 169, 329, 57);
 		mainPane.add(nameTextField);
 		nameTextField.setColumns(10);
 		nameTextField.addMouseListener(this);
@@ -90,72 +102,70 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 
 		idTextField = new JTextField();// 아이디
 		idTextField.setColumns(10);
-		idTextField.setBounds(269, 168, 191, 33);
+		idTextField.setBounds(181, 253, 329, 57);
 		mainPane.add(idTextField);
 		idTextField.addMouseListener(this);
 		textList.add(idTextField);
 
 		phoneNumTextField = new JTextField();// 폰번호
 		phoneNumTextField.setColumns(10);
-		phoneNumTextField.setBounds(271, 318, 191, 33);
+		phoneNumTextField.setBounds(181, 503, 329, 57);
 		mainPane.add(phoneNumTextField);
 		textList.add(phoneNumTextField);
 		phoneNumTextField.addMouseListener(this);
 
 		JButton signUpBtn = new JButton("회원가입");
-		signUpBtn.setBounds(192, 368, 140, 42);
+		signUpBtn.setFont(new Font("굴림", Font.BOLD, 20));
+		signUpBtn.setBounds(194, 624, 206, 75);
 		mainPane.add(signUpBtn);
 		signUpBtn.addActionListener(this);
 
-		JButton idChkBtn = new JButton("ID 중복확인");
-		idChkBtn.setBounds(477, 169, 105, 33);
+		JButton idChkBtn = new JButton("ID 중복체크");
+		idChkBtn.setBounds(524, 248, 140, 33);
 		mainPane.add(idChkBtn);
 		idChkBtn.addActionListener(this);
 
-		JButton pwChkBtn = new JButton("핸드폰 중복체크");
-		pwChkBtn.setBounds(477, 318, 140, 33);
+		JButton pwChkBtn = new JButton("휴대폰 중복체크");
+		pwChkBtn.setBounds(524, 512, 140, 33);
 		mainPane.add(pwChkBtn);
 		pwChkBtn.addActionListener(this);
 
 		JButton cancelBtn = new JButton("취소");
-		cancelBtn.setBounds(494, 368, 140, 42);
+		cancelBtn.setFont(new Font("굴림", Font.BOLD, 20));
+		cancelBtn.setBounds(496, 624, 206, 75);
 		mainPane.add(cancelBtn);
 		cancelBtn.addActionListener(this);
 
 		passwordField = new JPasswordField();// 비밀번호
-		passwordField.setBounds(269, 219, 191, 33);
+		passwordField.setBounds(181, 335, 329, 57);
 		mainPane.add(passwordField);
 		pTextList.add(passwordField);
 		passwordField.addMouseListener(this);
 
 		check_passwordField = new JPasswordField();// 비밀번호 확인
-		check_passwordField.setBounds(269, 266, 191, 33);
+		check_passwordField.setBounds(181, 422, 329, 57);
 		mainPane.add(check_passwordField);
 		pTextList.add(check_passwordField);
 		check_passwordField.addMouseListener(this);
 
-		JPanel keybordPane = new JPanel();
-		keybordPane.setBounds(12, 431, 860, 300);
-		mainPane.add(keybordPane);
-
 		label_1 = new JLabel("한글로 입력하세요");
-		label_1.setBounds(477, 123, 318, 33);
+		label_1.setBounds(528, 182, 318, 33);
 		mainPane.add(label_1);
 
 		label_2 = new JLabel("영문,숫자로 조합된 8자리이하로 입력하세요");
-		label_2.setBounds(594, 164, 267, 33);
+		label_2.setBounds(524, 293, 322, 33);
 		mainPane.add(label_2);
 
 		label_3 = new JLabel("영문,숫자로 조합된 8자리를 입력하세요");
-		label_3.setBounds(477, 216, 318, 33);
+		label_3.setBounds(528, 354, 318, 33);
 		mainPane.add(label_3);
 
 		label_4 = new JLabel("입력한 비밀번호와 같게 입력하세요");
-		label_4.setBounds(477, 268, 318, 33);
+		label_4.setBounds(528, 434, 318, 33);
 		mainPane.add(label_4);
 
 		label_5 = new JLabel("'-'는 제외하고 입력하세요");
-		label_5.setBounds(632, 318, 318, 33);
+		label_5.setBounds(678, 512, 168, 33);
 		mainPane.add(label_5);
 
 		setVisible(false);
