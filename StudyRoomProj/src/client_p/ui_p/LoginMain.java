@@ -1,11 +1,16 @@
 package client_p.ui_p;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -73,6 +78,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 
 		changeBox = new JCheckBox("휴대폰 번호로 로그인하기");//휴대폰번호로 로그인 전환 버튼
 		changeBox.setBounds(300, 220, 300, 70);
+		changeBox.setBackground(null);
 		changeBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -218,4 +224,12 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		
+		Dimension d= getSize();
+		ImageIcon img = new ImageIcon("img/로그인화면.PNG");
+		g.drawImage(img.getImage(), 0, 0, d.width, d.height, null);
+	}
 }
