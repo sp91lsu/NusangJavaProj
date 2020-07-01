@@ -28,6 +28,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
@@ -485,29 +487,49 @@ public class ManagerWindow extends JFrame implements Receivable {
 		}
 		
 		
+//		contentsMemS °¡ ¤¡¼º¤· ÀÏ¶§ [°¡-ƒ‰¤¡]¼º[¾Æ-Ÿç¤·] À¸·Î ¹Ù²ã¼­ 
+//		pp=[°¡-ƒ‰¤¡]¼º[¾Æ-Ÿç¤·]  if(Pattern.matches(pp, ud.name/id/phone)) searchedUDs.add(ud);
 		// °Ë»ö
 		if(packet.getClass() == SmMemSearchAck.class) {
 			SmMemSearchAck ack = (SmMemSearchAck)packet;
 			searchedUDs = new ArrayList<UserData>();
 			
+				//ÃÊ¼º°Ë»ö
+				String [] cho = {"¤¡","¤¢","¤¤","¤§","¤¨","¤©","¤±","¤²","¤³","¤µ","¤¶","¤·","¤¸","¤¹","¤º","¤»","¤¼","¤½","¤¾"};
+				String [] patt = {"[°¡-ƒ‰¤¡]","[±î-…ù¤¢]","[³ª-ˆ¢¤¤]","[´Ù-‹L¤§]","[µû-ê¤¨]","[¶ó-¡¤©]","[¸¶-“J¤±]","[¹Ù-•½¤²]","[ºü-˜ª¤³]","[»ç-šï¤µ]","[½Î-Ï¤¶]","[¾Æ-Ÿç¤·]","[ÀÚ-£ ¤¸]","[Â¥-Âö¤¹]","[Â÷-¯†¤º]","[Ä«-µi¤»]","[Å¸-»M¤¼]","[ÆÄ-À˜¤½]","[ÇÏ-ÆR¤¾]"};
+				String contentsMemSArr [] = contentsMemS.split("");
+				for (int i = 0; i < contentsMemS.length(); i++) {
+					for (int j = 0; j < cho.length; j++) {
+						if(contentsMemSArr[i].equals(cho[j])) {
+							contentsMemSArr[i] = patt[j];
+						}
+					}
+				}
+				String pattern = ".*";
+				for (String s : contentsMemSArr) {
+					pattern += s;
+				}
+				pattern += ".*";
+			
+			//Å×ÀÌºí¿¡ Ãâ·ÂÇÒ ¾î·¹ÀÌ¸®½ºÆ® »ı¼º
 			if(idxNameMemS.equals(searchList[0])) {
 				for (UserData ud : ack.userList) {
 					if(ud.name==null) continue;
-					if(ud.name.equals(contentsMemS)) {
+					if(java.util.regex.Pattern.matches(pattern, ud.name)) {
 						searchedUDs.add(ud);
 					}
 				}
 			}else if(idxNameMemS.equals(searchList[1])) {
 				for (UserData ud : ack.userList) {
 					if(ud.id==null) continue;
-					if(ud.id.equals(contentsMemS)) {
+					if(ud.id.contains(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
 			}else if(idxNameMemS.equals(searchList[2])) {
 				for (UserData ud : ack.userList) {
 					if(ud.phone==null) continue;
-					if(ud.phone.equals(contentsMemS)) {
+					if(ud.phone.contains(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
