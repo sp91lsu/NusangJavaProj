@@ -385,7 +385,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 //		scrollPane_7.setViewportView(seating_Arrangement);
 
 		
-		tabbedPane.add("ÁÂ¼®/·ë Á¶È¸", pnl_SeatArrange);
+		
 		
 		
 		//¿¹¾à
@@ -559,6 +559,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
 			DataManager.getInstance().roomMap = ack.roomMap;
 			pnl_SeatArrange = new Seating_Arrangement();
+			tabbedPane.add("ÁÂ¼®/·ë Á¶È¸", pnl_SeatArrange);
 		}
 	}
 }

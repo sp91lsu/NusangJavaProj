@@ -83,11 +83,11 @@ public class SetPrice extends JPanel implements Receivable {
 		if(isReset) {
 			ArrayList<String> roomPrArrL = seatEx.rowDataArr(2, backUpPath);
 			for (int i = 0; i < roomIDArrL.size(); i++) {
-				map_roomID_Pr.put(Integer.parseInt(roomIDArrL.get(i)), Integer.parseInt(roomPrArrL.get(i)));
+				map_roomID_Pr.put((int)Double.parseDouble(roomIDArrL.get(i)), (int)Double.parseDouble(roomPrArrL.get(i)));
 			}
 		}else {
 			for (int i = 0; i < roomIDArrL.size(); i++) {
-				map_roomID_Pr.put(Integer.parseInt(roomIDArrL.get(i)), (Integer)table.getValueAt(i, 1));
+				map_roomID_Pr.put((int)Double.parseDouble(roomIDArrL.get(i)), (int)Double.parseDouble((String) table.getValueAt(i, 1)));
 			}
 		}
 		

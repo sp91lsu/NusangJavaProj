@@ -1,5 +1,6 @@
 package manager_p;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -15,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.poi.hssf.util.HSSFColor.BLUE;
 
 import client_p.ClientNet;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
@@ -34,6 +37,7 @@ public class CalendarTest extends JPanel {
    JLabel yearInfoL;
    
    ManagerWindow mw;
+private JButton bf;
 
    // 선택 시간에 대한 버튼을 가지고 있는 클래스
    class MyCheckBox {
@@ -191,14 +195,19 @@ public class CalendarTest extends JPanel {
             }
 
          }
+         bf = new JButton();
          datebtn.dateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
             	String date = datebtn.dateBtn.getText();
+            	bf.setBackground(null);
+            	datebtn.dateBtn.setBackground(Color.blue);
             	System.out.println(setYear+" "+setMonth+" "+date);
             	MsGiveMeResvRoomSyn packet = new MsGiveMeResvRoomSyn(setYear, setMonth, date);
             	System.out.println(packet);
             	ClientNet.getInstance().sendPacket(packet);
+            	bf = datebtn.dateBtn;
             }
          });
       }
