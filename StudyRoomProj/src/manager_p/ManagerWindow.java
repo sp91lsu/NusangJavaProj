@@ -31,8 +31,10 @@ import javax.swing.table.DefaultTableModel;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 
 import client_p.ClientNet;
+import client_p.EEnter;
 import client_p.PacketMap;
 import client_p.Receivable;
+import client_p.ui_p.BaseFrame;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomTimeData;
@@ -44,6 +46,7 @@ import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
+import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
@@ -565,7 +568,9 @@ public class ManagerWindow extends JFrame implements Receivable {
 		if (packet.getClass() == ScGetRoomDataAck.class) {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
 			DataManager.getInstance().roomMap = ack.roomMap;
+			BaseFrame.getInstance().loginType = ELoginType.MANAGER;
 			pnl_SeatArrange = new Seating_Arrangement();
+			pnl_SeatArrange.openPage(EEnter.MOBILE);
 			tabbedPane.add("ÁÂ¼®/·ë Á¶È¸", pnl_SeatArrange);
 		}
 	}
