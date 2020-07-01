@@ -26,7 +26,7 @@ public class AddTimeFrame extends JFrame {
 	int startTime;
 	int endTime;
 	int timeChoice = 0;
-	int addPri = (int)BaseFrame.getInstance().getUsingRoom().price;
+	int addPri = (int) BaseFrame.getInstance().getUsingRoom().price;
 	Calendar last;
 
 	public AddTimeFrame() {
@@ -43,23 +43,23 @@ public class AddTimeFrame extends JFrame {
 		JLabel timeInfoL = new JLabel("시간 연장");
 		timeInfoL.setBounds(259, 74, 73, 31);
 		contentPane.add(timeInfoL);
-		
+
 		JLabel addPTitleL = new JLabel("추가 결제 금액:");
 		addPTitleL.setFont(new Font("굴림", Font.BOLD, 15));
 		addPTitleL.setBounds(111, 190, 111, 43);
 		contentPane.add(addPTitleL);
 
-		JLabel priceInfoL = new JLabel(addPri+"원");
+		JLabel priceInfoL = new JLabel(addPri + "원");
 		priceInfoL.setFont(new Font("굴림", Font.BOLD, 15));
 		priceInfoL.setHorizontalAlignment(SwingConstants.LEFT);
 		priceInfoL.setBounds(240, 190, 146, 43);
 		contentPane.add(priceInfoL);
-		
+
 		JLabel roomTitleL = new JLabel("현재 이용중인 좌석:");
 		roomTitleL.setFont(new Font("굴림", Font.BOLD, 14));
 		roomTitleL.setBounds(105, 127, 146, 43);
 		contentPane.add(roomTitleL);
-		
+
 		JLabel roomNameL = new JLabel(BaseFrame.getInstance().getUsingRoom().name);
 		roomNameL.setHorizontalAlignment(SwingConstants.LEFT);
 		roomNameL.setFont(new Font("굴림", Font.BOLD, 15));
@@ -111,8 +111,8 @@ public class AddTimeFrame extends JFrame {
 				if (timeSelectCom.getSelectedItem() != null) {
 					timeChoice = (int) timeSelectCom.getSelectedItem();
 				}
-				addPri = (int)timeSelectCom.getSelectedItem()*(int)BaseFrame.getInstance().getUsingRoom().price;
-				priceInfoL.setText(addPri+"원");
+				addPri = (int) timeSelectCom.getSelectedItem() * (int) BaseFrame.getInstance().getUsingRoom().price;
+				priceInfoL.setText(addPri + "원");
 			}
 		});
 		setVisible(true);

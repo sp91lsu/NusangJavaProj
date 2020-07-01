@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 
@@ -47,7 +48,7 @@ public class RCalcFrame extends JFrame {
 		contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentLabel.setBounds(37, 125, 409, 220);
 		getContentPane().add(contentLabel);
-		
+
 		JButton okButton = new JButton("예약 및 결제");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,6 +79,7 @@ public class RCalcFrame extends JFrame {
 		text += room.calendarList.get(0).get(Calendar.HOUR_OF_DAY) + " ~ "
 				+ (room.calendarList.get(room.calendarList.size() - 1).get(Calendar.HOUR_OF_DAY) + 1);
 		text += "<br>휴대폰번호 :" + userData.phone + "<br><html>";
+		text += "<br>가격 :" + DataManager.getInstance().roomMap.get(room.id).price + "원" + "<br><html>";
 		return text;
 	}
 

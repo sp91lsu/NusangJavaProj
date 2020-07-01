@@ -1,5 +1,6 @@
 package client_p.packet_p.syn_p;
 
+import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.PacketBase;
 
@@ -11,6 +12,8 @@ public class CsBuyRoomSyn extends PacketBase {
 
 	public CsBuyRoomSyn(RoomProduct product, String uuid) {
 		super();
+
+		product.price = DataManager.getInstance().roomMap.get(product.id).price;
 		this.RoomProduct = product;
 		this.uuid = uuid;
 	}

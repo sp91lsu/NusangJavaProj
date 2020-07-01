@@ -644,8 +644,9 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 			if (enterType != EEnter.SEATCHANGE)// 좌석이동중이 아닐때
 			{
+				// 업데이트 된 가격 새로 복사
 				// 페이지 여는 순간 현재 상품 복사
-				roomObj.room.setDate(BaseFrame.getInstance().userData.uuid, createBuyData());
+				roomObj.room.setInfo(BaseFrame.getInstance().userData.uuid, createBuyData());
 
 				BaseFrame.getInstance().rCalcFrame.openPage(roomObj.room);
 

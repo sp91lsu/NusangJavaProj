@@ -25,7 +25,7 @@ public class RoomProduct extends ProductData {
 	}
 
 	// 날짜 입력
-	public void setDate(String uuid, ArrayList<Calendar> calendarList) {
+	public void setInfo(String uuid, ArrayList<Calendar> calendarList) {
 
 		userUUID = uuid;
 		for (Calendar cal : calendarList) {

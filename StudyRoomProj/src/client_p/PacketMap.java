@@ -7,6 +7,7 @@ import data_p.product_p.DataManager;
 import manager_p.ManagerWindow;
 import packetBase_p.ResultPacketBase;
 import server_p.packet_p.ack_p.*;
+import server_p.packet_p.broadCast.ScGetRoomDataCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class PacketMap {
@@ -25,6 +26,7 @@ public class PacketMap {
 	PacketMap() {
 		map = new HashMap<Class, Receivable>();
 		map.put(ScGetRoomDataAck.class, DataManager.getInstance());
+		map.put(ScGetRoomDataCast.class, DataManager.getInstance());
 	}
 
 	void receivePacket(PacketProccess pClient, ResultPacketBase packet) {

@@ -499,12 +499,11 @@ class MethMsUptRoomPrSyn implements ServerPacketMethod {
 			for (int key : resPacket.map_roomID_Pr.keySet()) {
 				new RoomNowDao().upt_NowRoomData(key, resPacket.map_roomID_Pr.get(key));
 				ack = new SmUptRoomPrAck(EResult.SUCCESS);
-
-				new RoomNowDao().settingRoomData();
-
-				ScGetRoomDataCast roomCast = new ScGetRoomDataCast(EResult.SUCCESS, DataManager.getInstance().roomMap);
-				MyServer.getInstance().broadCast(client, roomCast);
 			}
+			new RoomNowDao().settingRoomData();
+
+			ScGetRoomDataCast roomCast = new ScGetRoomDataCast(EResult.SUCCESS, DataManager.getInstance().roomMap);
+			MyServer.getInstance().broadCast(client, roomCast);
 		} catch (Exception e) {
 			ack = new SmUptRoomPrAck(EResult.FAIL);
 			e.printStackTrace();
