@@ -87,7 +87,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	
 	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
 			
-			 
+	Seating_Arrangement pnl_SeatArrange = new Seating_Arrangement();
 	SetPrice pnl_SetPrice = new SetPrice();
 	SalesInquiry pnl_SalesInquiry = new SalesInquiry();
 	Chatting pnl_Chatting = new Chatting(this);
@@ -317,72 +317,72 @@ public class ManagerWindow extends JFrame implements Receivable {
 		table_6.setFont(new Font("새굴림", Font.PLAIN, 25));
 		scrollPane_3_2.setViewportView(table_6);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("\uC88C\uC11D/\uB8F8 \uAD00\uB9AC", null, panel_1, null);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 107, 889, 0 };
-		gbl_panel_1.rowHeights = new int[] { 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-		panel_1.setLayout(gbl_panel_1);
-
-		JPanel panel_7_1 = new JPanel();
-		GridBagConstraints gbc_panel_7_1 = new GridBagConstraints();
-		gbc_panel_7_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_7_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_7_1.gridx = 0;
-		gbc_panel_7_1.gridy = 0;
-		panel_1.add(panel_7_1, gbc_panel_7_1);
-		GridBagLayout gbl_panel_7_1 = new GridBagLayout();
-		gbl_panel_7_1.columnWidths = new int[] { 0, 0 };
-		gbl_panel_7_1.rowHeights = new int[] { 88, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_7_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_7_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel_7_1.setLayout(gbl_panel_7_1);
-
-		JLabel lblNewLabel_6 = new JLabel("\uC88C\uC11D/\uB8F8 \uC635\uC158");
-		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_6.gridx = 0;
-		gbc_lblNewLabel_6.gridy = 1;
-		panel_7_1.add(lblNewLabel_6, gbc_lblNewLabel_6);
-
-		JButton btnNewButton_3 = new JButton("ON");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_3.gridx = 0;
-		gbc_btnNewButton_3.gridy = 3;
-		panel_7_1.add(btnNewButton_3, gbc_btnNewButton_3);
-
-		JButton btnNewButton_1_1 = new JButton("OFF");
-		GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
-		gbc_btnNewButton_1_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1_1.gridx = 0;
-		gbc_btnNewButton_1_1.gridy = 5;
-		panel_7_1.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
-
-		JScrollPane scrollPane_7 = new JScrollPane();
-		scrollPane_7.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		GridBagConstraints gbc_scrollPane_7 = new GridBagConstraints();
-		gbc_scrollPane_7.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_7.gridx = 1;
-		gbc_scrollPane_7.gridy = 0;
-		panel_1.add(scrollPane_7, gbc_scrollPane_7);
-
-		Dimension size = new Dimension();// 사이즈를 지정하기 위한 객체 생성
-		size.setSize(900, 1000);// 객체의 사이즈를 지정
-		Seating_Arrangement seating_Arrangement = new Seating_Arrangement();
-		seating_Arrangement.setPreferredSize(size);// 사이즈 정보를 가지고 있는
-		scrollPane_7.setViewportView(seating_Arrangement);
+//		JPanel panel_1 = new JPanel();
+//		tabbedPane.addTab("\uC88C\uC11D/\uB8F8 \uAD00\uB9AC", null, panel_1, null);
+//		GridBagLayout gbl_panel_1 = new GridBagLayout();
+//		gbl_panel_1.columnWidths = new int[] { 107, 889, 0 };
+//		gbl_panel_1.rowHeights = new int[] { 0, 0 };
+//		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+//		gbl_panel_1.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+//		panel_1.setLayout(gbl_panel_1);
+//
+//		JPanel panel_7_1 = new JPanel();
+//		GridBagConstraints gbc_panel_7_1 = new GridBagConstraints();
+//		gbc_panel_7_1.insets = new Insets(0, 0, 0, 5);
+//		gbc_panel_7_1.fill = GridBagConstraints.BOTH;
+//		gbc_panel_7_1.gridx = 0;
+//		gbc_panel_7_1.gridy = 0;
+//		panel_1.add(panel_7_1, gbc_panel_7_1);
+//		GridBagLayout gbl_panel_7_1 = new GridBagLayout();
+//		gbl_panel_7_1.columnWidths = new int[] { 0, 0 };
+//		gbl_panel_7_1.rowHeights = new int[] { 88, 0, 0, 0, 0, 0, 0, 0, 0 };
+//		gbl_panel_7_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+//		gbl_panel_7_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+//		panel_7_1.setLayout(gbl_panel_7_1);
+//
+//		JLabel lblNewLabel_6 = new JLabel("\uC88C\uC11D/\uB8F8 \uC635\uC158");
+//		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+//		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 0);
+//		gbc_lblNewLabel_6.gridx = 0;
+//		gbc_lblNewLabel_6.gridy = 1;
+//		panel_7_1.add(lblNewLabel_6, gbc_lblNewLabel_6);
+//
+//		JButton btnNewButton_3 = new JButton("ON");
+//		btnNewButton_3.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
+//		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+//		gbc_btnNewButton_3.fill = GridBagConstraints.HORIZONTAL;
+//		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 0);
+//		gbc_btnNewButton_3.gridx = 0;
+//		gbc_btnNewButton_3.gridy = 3;
+//		panel_7_1.add(btnNewButton_3, gbc_btnNewButton_3);
+//
+//		JButton btnNewButton_1_1 = new JButton("OFF");
+//		GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
+//		gbc_btnNewButton_1_1.fill = GridBagConstraints.HORIZONTAL;
+//		gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 0);
+//		gbc_btnNewButton_1_1.gridx = 0;
+//		gbc_btnNewButton_1_1.gridy = 5;
+//		panel_7_1.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
+//
+//		JScrollPane scrollPane_7 = new JScrollPane();
+//		scrollPane_7.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		GridBagConstraints gbc_scrollPane_7 = new GridBagConstraints();
+//		gbc_scrollPane_7.fill = GridBagConstraints.BOTH;
+//		gbc_scrollPane_7.gridx = 1;
+//		gbc_scrollPane_7.gridy = 0;
+//		panel_1.add(scrollPane_7, gbc_scrollPane_7);
+//
+//		Dimension size = new Dimension();// 사이즈를 지정하기 위한 객체 생성
+//		size.setSize(900, 1000);// 객체의 사이즈를 지정
+//		Seating_Arrangement seating_Arrangement = new Seating_Arrangement();
+//		seating_Arrangement.setPreferredSize(size);// 사이즈 정보를 가지고 있는
+//		scrollPane_7.setViewportView(seating_Arrangement);
 
 		
-		
+		tabbedPane.add("좌석/룸 조회", pnl_SeatArrange);
 		
 		
 		//예약

@@ -327,7 +327,7 @@ public class RoomDao extends DBProcess {
 		
 		ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
 		ArrayList<SalesBySeat> saleBySeatArrL = new ArrayList<SalesBySeat>();
-		SalesTot tot = null;
+		SalesTot tot = new SalesTot(0,0,0);
 		
 		
 		// 1. ArrayList<SalesRecord>

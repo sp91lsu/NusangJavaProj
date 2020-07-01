@@ -31,8 +31,6 @@ class MyServer {
 	}
 
 	// 클라이언트 리스트
-	public String managerIp = "/192.168.0.63";
-//	public String managerIp = "/127.0.0.1";//자기 ip
 	ArrayList<SocketClient> clientList = new ArrayList<SocketClient>();
 
 	// 클라이언트 리스트 돌려서 패킷 받아서 처리하는 클래스
