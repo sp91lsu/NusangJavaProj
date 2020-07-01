@@ -26,6 +26,7 @@ public class SignUpPop extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				jdd.dispose();
 			}});
+		jdd.setUndecorated(true);
 		jdd.setVisible(true);
 	}
 }

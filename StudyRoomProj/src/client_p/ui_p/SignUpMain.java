@@ -173,7 +173,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		chkJd = new JDialog();
 		chkJd.setBounds(860, 440, 200, 200);
 		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
-
+		chkJd.setUndecorated(true);
+		
 		JLabel chkLb = new JLabel("정확한 형식으로 입력하세요");
 		chkJd.getContentPane().add(chkLb);
 		JButton chkBt = new JButton("확인");
@@ -188,6 +189,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		jd2 = new JDialog();//중복확인창
 		jd2.setBounds(860, 465, 200, 150);
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
+		jd2.setUndecorated(true);
 		jl2 = new JLabel();
 		jd2.getContentPane().add(jl2);
 		jb2 = new JButton("확인");
@@ -196,6 +198,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		chkSignUp = new JDialog();//회원가입 클릭시 유효검사 창
 		chkSignUp.setBounds(810, 440, 300, 200);
 		chkSignUp.getContentPane().setLayout(new GridLayout(2, 1));
+		chkSignUp.setUndecorated(true);
 		JLabel jll = new JLabel("ID 와 휴대폰 번호 중복검사를 진행하세요");
 		chkSignUp.getContentPane().add(jll);
 		jbt = new JButton("확인");
@@ -205,6 +208,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		jd = new JDialog();//회원가입 완료창
 		jd.setBounds(100, 100, 200, 150);
 		jd.getContentPane().setLayout(new GridLayout(2, 1));
+		jd.setUndecorated(true);
 		jl = new JLabel("회원가입 완료");
 		jd.getContentPane().add(jl);
 		jb = new JButton("확인");

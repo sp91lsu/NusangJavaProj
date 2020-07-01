@@ -4,10 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class SeatChangePop extends JFrame {
+public class SeatChangePop extends JDialog {
 
 	public SeatChangePop() {
 		setBounds(760, 440, 400, 200);
@@ -25,6 +27,7 @@ public class SeatChangePop extends JFrame {
 			}});
 		okBtn.setBounds(120, 90, 150, 50);
 		getContentPane().add(okBtn);
+		setModal(true);
 		setVisible(true);
 	}
 }
