@@ -31,10 +31,8 @@ import javax.swing.table.DefaultTableModel;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 
 import client_p.ClientNet;
-import client_p.EEnter;
 import client_p.PacketMap;
 import client_p.Receivable;
-import client_p.ui_p.BaseFrame;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomTimeData;
@@ -46,7 +44,6 @@ import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
-import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
@@ -123,7 +120,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
 		PacketMap.getInstance().map.put(SmResvRoomAck.class, this);
 		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, this);
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 100, 1000, 800);
 		JPanel contentPane = new JPanel();
@@ -140,7 +136,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 				int sel = pane.getSelectedIndex();
 				if (sel == 4) {
 					pnl_SalesInquiry.today = Calendar.getInstance();
-//	        	pnl_SalesInquiry.setDateList();
+//              pnl_SalesInquiry.setDateList();
 				}
 			}
 		});
@@ -214,12 +210,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_1.getText().equals("")) {
 					lbSearch.setText("≥ªøÎ¿ª ¿‘∑¬«ÿ¡÷ººø‰.");
-<<<<<<< HEAD
 				} else {
-=======
-				}else {
 					lbSearch.setText("");
->>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
 					idxNameMemS = comboBox.getSelectedItem().toString();
 					contentsMemS = textField_1.getText();
 					textField_1.setText("");
@@ -232,11 +224,11 @@ public class ManagerWindow extends JFrame implements Receivable {
 		});
 
 		comboBox = new JComboBox(searchList);
-//		comboBox.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				idxNameMemS = comboBox.getSelectedItem().toString();
-//			}
-//		});
+//      comboBox.addActionListener(new ActionListener() {
+//         public void actionPerformed(ActionEvent e) {
+//            idxNameMemS = comboBox.getSelectedItem().toString();
+//         }
+//      });
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -322,69 +314,69 @@ public class ManagerWindow extends JFrame implements Receivable {
 		table_6.setFont(new Font("ªı±º∏≤", Font.PLAIN, 25));
 		scrollPane_3_2.setViewportView(table_6);
 
-//		JPanel panel_1 = new JPanel();
-//		tabbedPane.addTab("\uC88C\uC11D/\uB8F8 \uAD00\uB9AC", null, panel_1, null);
-//		GridBagLayout gbl_panel_1 = new GridBagLayout();
-//		gbl_panel_1.columnWidths = new int[] { 107, 889, 0 };
-//		gbl_panel_1.rowHeights = new int[] { 0, 0 };
-//		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-//		gbl_panel_1.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-//		panel_1.setLayout(gbl_panel_1);
+//      JPanel panel_1 = new JPanel();
+//      tabbedPane.addTab("\uC88C\uC11D/\uB8F8 \uAD00\uB9AC", null, panel_1, null);
+//      GridBagLayout gbl_panel_1 = new GridBagLayout();
+//      gbl_panel_1.columnWidths = new int[] { 107, 889, 0 };
+//      gbl_panel_1.rowHeights = new int[] { 0, 0 };
+//      gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+//      gbl_panel_1.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+//      panel_1.setLayout(gbl_panel_1);
 //
-//		JPanel panel_7_1 = new JPanel();
-//		GridBagConstraints gbc_panel_7_1 = new GridBagConstraints();
-//		gbc_panel_7_1.insets = new Insets(0, 0, 0, 5);
-//		gbc_panel_7_1.fill = GridBagConstraints.BOTH;
-//		gbc_panel_7_1.gridx = 0;
-//		gbc_panel_7_1.gridy = 0;
-//		panel_1.add(panel_7_1, gbc_panel_7_1);
-//		GridBagLayout gbl_panel_7_1 = new GridBagLayout();
-//		gbl_panel_7_1.columnWidths = new int[] { 0, 0 };
-//		gbl_panel_7_1.rowHeights = new int[] { 88, 0, 0, 0, 0, 0, 0, 0, 0 };
-//		gbl_panel_7_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-//		gbl_panel_7_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-//		panel_7_1.setLayout(gbl_panel_7_1);
+//      JPanel panel_7_1 = new JPanel();
+//      GridBagConstraints gbc_panel_7_1 = new GridBagConstraints();
+//      gbc_panel_7_1.insets = new Insets(0, 0, 0, 5);
+//      gbc_panel_7_1.fill = GridBagConstraints.BOTH;
+//      gbc_panel_7_1.gridx = 0;
+//      gbc_panel_7_1.gridy = 0;
+//      panel_1.add(panel_7_1, gbc_panel_7_1);
+//      GridBagLayout gbl_panel_7_1 = new GridBagLayout();
+//      gbl_panel_7_1.columnWidths = new int[] { 0, 0 };
+//      gbl_panel_7_1.rowHeights = new int[] { 88, 0, 0, 0, 0, 0, 0, 0, 0 };
+//      gbl_panel_7_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+//      gbl_panel_7_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+//      panel_7_1.setLayout(gbl_panel_7_1);
 //
-//		JLabel lblNewLabel_6 = new JLabel("\uC88C\uC11D/\uB8F8 \uC635\uC158");
-//		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-//		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 0);
-//		gbc_lblNewLabel_6.gridx = 0;
-//		gbc_lblNewLabel_6.gridy = 1;
-//		panel_7_1.add(lblNewLabel_6, gbc_lblNewLabel_6);
+//      JLabel lblNewLabel_6 = new JLabel("\uC88C\uC11D/\uB8F8 \uC635\uC158");
+//      GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+//      gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 0);
+//      gbc_lblNewLabel_6.gridx = 0;
+//      gbc_lblNewLabel_6.gridy = 1;
+//      panel_7_1.add(lblNewLabel_6, gbc_lblNewLabel_6);
 //
-//		JButton btnNewButton_3 = new JButton("ON");
-//		btnNewButton_3.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//			}
-//		});
-//		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-//		gbc_btnNewButton_3.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 0);
-//		gbc_btnNewButton_3.gridx = 0;
-//		gbc_btnNewButton_3.gridy = 3;
-//		panel_7_1.add(btnNewButton_3, gbc_btnNewButton_3);
+//      JButton btnNewButton_3 = new JButton("ON");
+//      btnNewButton_3.addActionListener(new ActionListener() {
+//         public void actionPerformed(ActionEvent e) {
+//         }
+//      });
+//      GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+//      gbc_btnNewButton_3.fill = GridBagConstraints.HORIZONTAL;
+//      gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 0);
+//      gbc_btnNewButton_3.gridx = 0;
+//      gbc_btnNewButton_3.gridy = 3;
+//      panel_7_1.add(btnNewButton_3, gbc_btnNewButton_3);
 //
-//		JButton btnNewButton_1_1 = new JButton("OFF");
-//		GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
-//		gbc_btnNewButton_1_1.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 0);
-//		gbc_btnNewButton_1_1.gridx = 0;
-//		gbc_btnNewButton_1_1.gridy = 5;
-//		panel_7_1.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
+//      JButton btnNewButton_1_1 = new JButton("OFF");
+//      GridBagConstraints gbc_btnNewButton_1_1 = new GridBagConstraints();
+//      gbc_btnNewButton_1_1.fill = GridBagConstraints.HORIZONTAL;
+//      gbc_btnNewButton_1_1.insets = new Insets(0, 0, 5, 0);
+//      gbc_btnNewButton_1_1.gridx = 0;
+//      gbc_btnNewButton_1_1.gridy = 5;
+//      panel_7_1.add(btnNewButton_1_1, gbc_btnNewButton_1_1);
 //
-//		JScrollPane scrollPane_7 = new JScrollPane();
-//		scrollPane_7.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//		GridBagConstraints gbc_scrollPane_7 = new GridBagConstraints();
-//		gbc_scrollPane_7.fill = GridBagConstraints.BOTH;
-//		gbc_scrollPane_7.gridx = 1;
-//		gbc_scrollPane_7.gridy = 0;
-//		panel_1.add(scrollPane_7, gbc_scrollPane_7);
+//      JScrollPane scrollPane_7 = new JScrollPane();
+//      scrollPane_7.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//      GridBagConstraints gbc_scrollPane_7 = new GridBagConstraints();
+//      gbc_scrollPane_7.fill = GridBagConstraints.BOTH;
+//      gbc_scrollPane_7.gridx = 1;
+//      gbc_scrollPane_7.gridy = 0;
+//      panel_1.add(scrollPane_7, gbc_scrollPane_7);
 //
-//		Dimension size = new Dimension();// ªÁ¿Ã¡Ó∏¶ ¡ˆ¡§«œ±‚ ¿ß«— ∞¥√º ª˝º∫
-//		size.setSize(900, 1000);// ∞¥√º¿« ªÁ¿Ã¡Ó∏¶ ¡ˆ¡§
-//		Seating_Arrangement seating_Arrangement = new Seating_Arrangement();
-//		seating_Arrangement.setPreferredSize(size);// ªÁ¿Ã¡Ó ¡§∫∏∏¶ ∞°¡ˆ∞Ì ¿÷¥¬
-//		scrollPane_7.setViewportView(seating_Arrangement);
+//      Dimension size = new Dimension();// ªÁ¿Ã¡Ó∏¶ ¡ˆ¡§«œ±‚ ¿ß«— ∞¥√º ª˝º∫
+//      size.setSize(900, 1000);// ∞¥√º¿« ªÁ¿Ã¡Ó∏¶ ¡ˆ¡§
+//      Seating_Arrangement seating_Arrangement = new Seating_Arrangement();
+//      seating_Arrangement.setPreferredSize(size);// ªÁ¿Ã¡Ó ¡§∫∏∏¶ ∞°¡ˆ∞Ì ¿÷¥¬
+//      scrollPane_7.setViewportView(seating_Arrangement);
 
 		// øπæ‡
 		JPanel panel_3 = new JPanel();
@@ -472,76 +464,56 @@ public class ManagerWindow extends JFrame implements Receivable {
 			table_5.setFont(new Font("ªı±º∏≤", Font.PLAIN, 25));
 			scrollPane_3_1.setViewportView(table_5);
 		}
-<<<<<<< HEAD
 
-=======
-		
-		
-//		contentsMemS ∞° §°º∫§∑ ¿œ∂ß [∞°-Éâ§°]º∫[æ∆-üÁ§∑] ¿∏∑Œ πŸ≤„º≠ 
-//		pp=[∞°-Éâ§°]º∫[æ∆-üÁ§∑]  if(Pattern.matches(pp, ud.name/id/phone)) searchedUDs.add(ud);
->>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
+//      contentsMemS ∞° §°º∫§∑ ¿œ∂ß [∞°-Éâ§°]º∫[æ∆-üÁ§∑] ¿∏∑Œ πŸ≤„º≠ 
+//      pp=[∞°-Éâ§°]º∫[æ∆-üÁ§∑]  if(Pattern.matches(pp, ud.name/id/phone)) searchedUDs.add(ud);
 		// ∞Àªˆ
 		if (packet.getClass() == SmMemSearchAck.class) {
 			SmMemSearchAck ack = (SmMemSearchAck) packet;
 			searchedUDs = new ArrayList<UserData>();
-<<<<<<< HEAD
 
+			// √ º∫∞Àªˆ
+			String[] cho = { "§°", "§¢", "§§", "§ß", "§®", "§©", "§±", "§≤", "§≥", "§µ", "§∂", "§∑", "§∏", "§π", "§∫", "§ª", "§º", "§Ω",
+					"§æ" };
+			String[] patt = { "[∞°-Éâ§°]", "[±Ó-Ö˘§¢]", "[≥™-à¢§§]", "[¥Ÿ-ãL§ß]", "[µ˚-çÍ§®]", "[∂Û-ê°§©]", "[∏∂-ìJ§±]", "[πŸ-ïΩ§≤]", "[∫¸-ò™§≥]",
+					"[ªÁ-öÔ§µ]", "[ΩŒ-ùœ§∂]", "[æ∆-üÁ§∑]", "[¿⁄-£†§∏]", "[¬•-¬ˆ§π]", "[¬˜-ØÜ§∫]", "[ƒ´-µi§ª]", "[≈∏-ªM§º]", "[∆ƒ-¿ò§Ω]",
+					"[«œ-∆R§æ]" };
+			String contentsMemSArr[] = contentsMemS.split("");
+			for (int i = 0; i < contentsMemS.length(); i++) {
+				for (int j = 0; j < cho.length; j++) {
+					if (contentsMemSArr[i].equals(cho[j])) {
+						contentsMemSArr[i] = patt[j];
+					}
+				}
+			}
+			String pattern = ".*";
+			for (String s : contentsMemSArr) {
+				pattern += s;
+			}
+			pattern += ".*";
+
+			// ≈◊¿Ã∫Ìø° √‚∑¬«“ æÓ∑π¿Ã∏ÆΩ∫∆Æ ª˝º∫
 			if (idxNameMemS.equals(searchList[0])) {
 				for (UserData ud : ack.userList) {
 					if (ud.name == null)
 						continue;
-					if (ud.name.equals(contentsMemS)) {
-=======
-			
-				//√ º∫∞Àªˆ
-				String [] cho = {"§°","§¢","§§","§ß","§®","§©","§±","§≤","§≥","§µ","§∂","§∑","§∏","§π","§∫","§ª","§º","§Ω","§æ"};
-				String [] patt = {"[∞°-Éâ§°]","[±Ó-Ö˘§¢]","[≥™-à¢§§]","[¥Ÿ-ãL§ß]","[µ˚-çÍ§®]","[∂Û-ê°§©]","[∏∂-ìJ§±]","[πŸ-ïΩ§≤]","[∫¸-ò™§≥]","[ªÁ-öÔ§µ]","[ΩŒ-ùœ§∂]","[æ∆-üÁ§∑]","[¿⁄-£†§∏]","[¬•-¬ˆ§π]","[¬˜-ØÜ§∫]","[ƒ´-µi§ª]","[≈∏-ªM§º]","[∆ƒ-¿ò§Ω]","[«œ-∆R§æ]"};
-				String contentsMemSArr [] = contentsMemS.split("");
-				for (int i = 0; i < contentsMemS.length(); i++) {
-					for (int j = 0; j < cho.length; j++) {
-						if(contentsMemSArr[i].equals(cho[j])) {
-							contentsMemSArr[i] = patt[j];
-						}
-					}
-				}
-				String pattern = ".*";
-				for (String s : contentsMemSArr) {
-					pattern += s;
-				}
-				pattern += ".*";
-			
-			//≈◊¿Ã∫Ìø° √‚∑¬«“ æÓ∑π¿Ã∏ÆΩ∫∆Æ ª˝º∫
-			if(idxNameMemS.equals(searchList[0])) {
-				for (UserData ud : ack.userList) {
-					if(ud.name==null) continue;
-					if(java.util.regex.Pattern.matches(pattern, ud.name)) {
->>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
+					if (java.util.regex.Pattern.matches(pattern, ud.name)) {
 						searchedUDs.add(ud);
 					}
 				}
 			} else if (idxNameMemS.equals(searchList[1])) {
 				for (UserData ud : ack.userList) {
-<<<<<<< HEAD
 					if (ud.id == null)
 						continue;
-					if (ud.id.equals(contentsMemS)) {
-=======
-					if(ud.id==null) continue;
-					if(ud.id.contains(contentsMemS)) {
->>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
+					if (ud.id.contains(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
 			} else if (idxNameMemS.equals(searchList[2])) {
 				for (UserData ud : ack.userList) {
-<<<<<<< HEAD
 					if (ud.phone == null)
 						continue;
-					if (ud.phone.equals(contentsMemS)) {
-=======
-					if(ud.phone==null) continue;
-					if(ud.phone.contains(contentsMemS)) {
->>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
+					if (ud.phone.contains(contentsMemS)) {
 						searchedUDs.add(ud);
 					}
 				}
@@ -594,8 +566,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
 			DataManager.getInstance().roomMap = ack.roomMap;
 			pnl_SeatArrange = new Seating_Arrangement();
-			BaseFrame.getInstance().loginType = ELoginType.MANAGER;
-			pnl_SeatArrange.openPage(EEnter.MOBILE);
 			tabbedPane.add("¡¬ºÆ/∑Î ¡∂»∏", pnl_SeatArrange);
 		}
 	}
