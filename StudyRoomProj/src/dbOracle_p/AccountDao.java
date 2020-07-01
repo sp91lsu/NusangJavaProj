@@ -70,7 +70,7 @@ public class AccountDao extends DBProcess {
 
 		try {
 			updateQuery(ETable.ACCOUNT, "ip", "?", "uuid = ?");
-			
+
 			stmt.setString(1, ip);
 			stmt.setString(2, uuid);
 			rs = stmt.executeQuery();
@@ -94,18 +94,24 @@ public class AccountDao extends DBProcess {
 	}
 
 	// 매니저찾기
-	public ArrayList<UserData> findUsers(String query) throws Exception {
+	public ArrayList<String> findManagersIp() {
 
-		ArrayList<UserData> userList = new ArrayList<UserData>();
-		findQuery(ETable.ACCOUNT, "*");
+		ArrayList<String> ipList = new ArrayList<String>();
+		findQuery(ETable.ACCOUNT, "*", "ctype = 1");
 
-		rs = stmt.executeQuery();
+		try {
+			rs = stmt.executeQuery();
 
-		while (rs.next()) {
-			userList.add(rsToUser(rs));
+			while (rs.next()) {
+				ipList.add(rs.getString("ip"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		close();
-		return userList;
+		return ipList;
 	}
 
 	public String userName(String uuID) throws Exception {
