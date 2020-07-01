@@ -330,7 +330,7 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 		MsGiveMeResvRoomSyn resPacket = (MsGiveMeResvRoomSyn) packet;
 		try {
 			SmResvRoomAck ack = new SmResvRoomAck(EResult.SUCCESS,
-					new RoomDao().rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
+					new RoomDao().SalesData(resPacket.yyyy.substring(3,5), resPacket.mm, resPacket.dd).salesRecordArrL);
 
 			client.sendPacket(ack);
 		} catch (Exception e) {

@@ -38,6 +38,7 @@ import client_p.ui_p.BaseFrame;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomTimeData;
+import data_p.sales_p.SalesRecord;
 import data_p.user_p.UserData;
 import manager_p.panel_p.Chatting;
 import manager_p.panel_p.SalesInquiry;
@@ -84,7 +85,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private JScrollPane scrollPane_3_2;
 	private JComboBox comboBox;
 	private ArrayList<UserData> searchedUDs;
-	private ArrayList<RoomTimeData> rTimeDList;
+	private ArrayList<SalesRecord> salesRecordList;
 	private DefaultTableModel dTable5;
 	private String headerResvs[];
 	private String contentsResvs[][];
@@ -541,17 +542,15 @@ public class ManagerWindow extends JFrame implements Receivable {
 		// 예약관리 페이지로 이동시 재고 룸정보 받아오기
 		if (packet.getClass() == SmResvRoomAck.class) {
 			SmResvRoomAck ack = (SmResvRoomAck) packet;
-			rTimeDList = ack.rtd;
+			salesRecordList = ack.rtd;
 
-			System.out.println("rTimeDList 사이즈 " + rTimeDList.size());
-			contentsResvs = new String[rTimeDList.size()][headerResvs.length];
-			for (int i = 0; i < rTimeDList.size(); i++) {
-				contentsResvs[i][0] = rTimeDList.get(i).roomName;
-				System.out.println(rTimeDList.get(i).roomName);
-				contentsResvs[i][1] = rTimeDList.get(i).userName;
+			contentsResvs = new String[salesRecordList.size()][headerResvs.length];
+			for (int i = 0; i < salesRecordList.size(); i++) {
+				contentsResvs[i][0] = salesRecordList.get(i).room_name;
+				contentsResvs[i][1] = salesRecordList.get(i).user_name;
 				String hhh = "";
-				for (String h : rTimeDList.get(i).hourList) {
-					hhh += h + "시 ";
+				for (String h : salesRecordList.get(i).hourList) {
+					hhh += h + " ";
 				}
 				contentsResvs[i][2] = hhh;
 			}
