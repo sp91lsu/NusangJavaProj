@@ -26,7 +26,7 @@ public class AddTimeFrame extends JFrame {
 	int startTime;
 	int endTime;
 	int timeChoice = 0;
-	int addPri;
+	int addPri = (int)BaseFrame.getInstance().getUsingRoom().price;
 	Calendar last;
 
 	public AddTimeFrame() {
@@ -49,7 +49,7 @@ public class AddTimeFrame extends JFrame {
 		addPTitleL.setBounds(111, 190, 111, 43);
 		contentPane.add(addPTitleL);
 
-		JLabel priceInfoL = new JLabel("");
+		JLabel priceInfoL = new JLabel(addPri+"¿ø");
 		priceInfoL.setFont(new Font("±¼¸²", Font.BOLD, 15));
 		priceInfoL.setHorizontalAlignment(SwingConstants.LEFT);
 		priceInfoL.setBounds(240, 190, 146, 43);
