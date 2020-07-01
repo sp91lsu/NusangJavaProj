@@ -125,9 +125,15 @@ class MethChatConnectSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		CsChatConnectSyn resPacket = (CsChatConnectSyn) packet;
 
-		//new AccountDao().findUsers();
+		ArrayList<String> managerIpList = new AccountDao().findManagersIp();
+		SocketClient mc = null;
+		for (String ip : managerIpList) {
 
-		SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
+			mc = MyServer.getInstance().findClient(ip);
+			if (mc != null) {
+				break;
+			}
+		}
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
 		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
