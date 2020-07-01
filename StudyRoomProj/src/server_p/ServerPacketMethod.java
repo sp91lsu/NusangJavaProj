@@ -26,6 +26,7 @@ import dbOracle_p.LockerDao;
 import dbOracle_p.RoomDao;
 import dbOracle_p.RoomNowDao;
 import manager_p.ack_p.MsChatConnectAck;
+import manager_p.ack_p.MsUptRoomPrSyn;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
@@ -48,6 +49,7 @@ import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
 import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.ack_p.SmSalesInquiryAck;
+import server_p.packet_p.ack_p.SmUptRoomPrAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
@@ -482,5 +484,27 @@ class MethCsGetRoomDataSyn implements ServerPacketMethod {
 		ScGetRoomDataAck ack = new ScGetRoomDataAck(EResult.SUCCESS, DataManager.getInstance().roomMap);
 
 		client.sendPacket(ack);
+	}
+}
+
+class MethMsUptRoomPrSyn implements ServerPacketMethod {
+	
+	public void receive(SocketClient client, PacketBase packet) {
+		
+		MsUptRoomPrSyn resPacket = (MsUptRoomPrSyn) packet;
+		
+		SmUptRoomPrAck ack = null;
+		try {
+			for (int key : resPacket.map_roomID_Pr.keySet()) {
+				new RoomNowDao().upt_NowRoomData(key, resPacket.map_roomID_Pr.get(key));
+				ack = new SmUptRoomPrAck(EResult.SUCCESS);
+			}
+		} catch (Exception e) {
+			ack = new SmUptRoomPrAck(EResult.FAIL);
+			e.printStackTrace();
+		}
+		
+		client.sendPacket(ack);
+		
 	}
 }

@@ -8,29 +8,36 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import client_p.ClientNet;
+import client_p.PacketMap;
+import client_p.Receivable;
 import data_p.ExcelRead_PriceExcel;
-import data_p.ExcelWriter_1cel_Price;
 import data_p.ExcelWriter_UpdateColumn;
-import sun.swing.SwingAccessor;
+import manager_p.ack_p.MsUptRoomPrSyn;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.SmUptRoomPrAck;
 
-public class SetPrice extends JPanel {
+public class SetPrice extends JPanel implements Receivable {
 	JFrame tfram;
 	private String header[] = { "이용석", "시간당 금액", "단위" };
 	private String contents[][] = new String [new ExcelRead_PriceExcel().rowDataArr(1,"DataTable/RoomData.xlsx").size()][header.length];
 	private DefaultTableModel tableModel;
 	private JTable table;
 	private JScrollPane scrollPane_6_2;
+	String backUpPath = "DataTable/RoomData_BackUp.xlsx";
+	String nowPath = "DataTable/RoomData.xlsx";
 	
 	//테이블 읽어와서 출력 <READ>
 	void read(String dataPath) {
@@ -68,6 +75,27 @@ public class SetPrice extends JPanel {
 		System.out.println(dataPath+"에 저장완료");
 	}
 	
+	void uptDB_RoomData(boolean isReset) {
+		HashMap<Integer, Integer> map_roomID_Pr = new HashMap<Integer, Integer>();
+		ExcelRead_PriceExcel seatEx = new ExcelRead_PriceExcel();
+		ArrayList<String> roomIDArrL = seatEx.rowDataArr(0, backUpPath);
+		
+		if(isReset) {
+			ArrayList<String> roomPrArrL = seatEx.rowDataArr(2, backUpPath);
+			for (int i = 0; i < roomIDArrL.size(); i++) {
+				map_roomID_Pr.put(Integer.parseInt(roomIDArrL.get(i)), Integer.parseInt(roomPrArrL.get(i)));
+			}
+		}else {
+			for (int i = 0; i < roomIDArrL.size(); i++) {
+				map_roomID_Pr.put(Integer.parseInt(roomIDArrL.get(i)), (Integer)table.getValueAt(i, 1));
+			}
+		}
+		
+		MsUptRoomPrSyn packet = new MsUptRoomPrSyn(map_roomID_Pr);
+		ClientNet.getInstance().sendPacket(packet);
+	}
+	
+	
 	class ActionLister_SetPr implements ActionListener{
 		String sort;
 		
@@ -79,14 +107,15 @@ public class SetPrice extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			switch (sort) {
 			case "복원":
-				read("DataTable/RoomData_BackUp.xlsx");
-				restore("DataTable/RoomData.xlsx");
+				read(backUpPath);
+				restore(nowPath); 
 				break;
 			case "새로고침":
-				read("DataTable/RoomData.xlsx");
+				read(nowPath);
 				break;
 			case "적용":
-				restore("DataTable/RoomData.xlsx");
+				restore(nowPath);
+				
 				break;
 
 			default:
@@ -97,6 +126,7 @@ public class SetPrice extends JPanel {
 	}
 			
 	public SetPrice() {
+		PacketMap.getInstance().map.put(SmUptRoomPrAck.class, this);
 //		public SetPrice(TestFrame tfram) {
 //		this.tfram = tfram;
 //		this.tfram.tabbedPane.addTab("요금 관리", this);
@@ -187,6 +217,16 @@ public class SetPrice extends JPanel {
 		gbc_btn_SetPrice.gridx = 0;
 		gbc_btn_SetPrice.gridy = 4;
 		panel_18.add(btn_Restore, gbc_btn_SetPrice);
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+		JDialog jd = new JDialog();
+		
+		
+		jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		jd.setVisible(true);
+		
 	}
 
 }

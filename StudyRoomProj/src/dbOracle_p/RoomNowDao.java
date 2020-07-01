@@ -47,4 +47,21 @@ public class RoomNowDao extends DBProcess {
 
 		return roomMap;
 	}
+	
+	//update now_room_data 
+	//set 
+	//room_price = 2222
+	//where room_id = 1000; 
+	public void upt_NowRoomData(int room_id, int room_price) {
+		query = "update now_room_data set room_price = "+room_price+" where room_id = "+room_id; 
+		try {
+			stmt = con.prepareStatement(query);
+			stmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		close();
+	}
+	
 }

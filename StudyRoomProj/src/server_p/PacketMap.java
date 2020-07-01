@@ -14,15 +14,14 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
-import client_p.packet_p.syn_p.MsLoginSyn;
 import manager_p.ack_p.MsChatConnectAck;
+import manager_p.ack_p.MsUptRoomPrSyn;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScGetRoomDataAck;
 
 public class PacketMap {
 
@@ -49,6 +48,7 @@ public class PacketMap {
 		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); // 예약룸
 		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
 		map.put(CsGetRoomDataSyn.class, new MethCsGetRoomDataSyn()); // 룸 데이터 업로드 
+		map.put(MsUptRoomPrSyn.class, new MethMsUptRoomPrSyn()); // 룸 데이터 업로드 
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {
