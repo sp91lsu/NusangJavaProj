@@ -34,7 +34,6 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScBuyLockerAck;
 import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
-import server_p.packet_p.ack_p.ScCloseAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
@@ -260,15 +259,6 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 class MethCloseSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
-
-		ScCloseAck ack = new ScCloseAck(EResult.SUCCESS);
-		client.sendPacket(ack);
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		client.close();
 	}
 }
