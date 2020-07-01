@@ -135,22 +135,24 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		north_west.setFont(new Font("±¼¸²", Font.PLAIN, 20));
 		panel_north.add(north_west, BorderLayout.WEST);
 
-		north_east = new JButton("µÚ·Î°¡±â");
-		north_east.setFont(new Font("±¼¸²", Font.PLAIN, 17));
-		panel_north.add(north_east, BorderLayout.EAST);
-		north_east.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-					BaseFrame.getInstance().view("LoginMain");
-					BaseFrame.getInstance().getLoginMain().logSet();
-				} else {
-					BaseFrame.getInstance().view("MainLayout");
+		if (BaseFrame.getInstance().loginType != ELoginType.MANAGER) {
+			north_east = new JButton("µÚ·Î°¡±â");
+			north_east.setFont(new Font("±¼¸²", Font.PLAIN, 17));
+			panel_north.add(north_east, BorderLayout.EAST);
+			north_east.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+						BaseFrame.getInstance().view("LoginMain");
+						BaseFrame.getInstance().getLoginMain().logSet();
+					} else {
+						BaseFrame.getInstance().view("MainLayout");
+					}
+					group_state(EState.EMPTY);
+					solo_state(EState.EMPTY);
 				}
-				group_state(EState.EMPTY);
-				solo_state(EState.EMPTY);
-			}
-		});
-
+			});
+		}
+		
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
 		north_center.setLayout(new BorderLayout(0, 0));
@@ -748,7 +750,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			timeSelectPane.setVisible(true);
 			break;
 		case MOBILE:
-			btn_state(EState.EMPTY);
+			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+				btn_state(EState.EMPTY);
+			} else {
+				btn_state(EState.INIT);
+			}
 			timeSelectPane.setVisible(true);
 			break;
 		case PRIVROOM:
