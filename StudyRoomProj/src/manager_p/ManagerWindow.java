@@ -32,6 +32,7 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.ui_p.Seating_Arrangement;
+import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomTimeData;
 import data_p.user_p.UserData;
 import manager_p.panel_p.Chatting;
@@ -42,6 +43,7 @@ import manager_p.syn_p.MsCurrMemListSyn;
 import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmResvRoomAck;
@@ -87,7 +89,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	
 	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
 			
-	Seating_Arrangement pnl_SeatArrange = new Seating_Arrangement();
+	Seating_Arrangement pnl_SeatArrange; 
 	SetPrice pnl_SetPrice = new SetPrice();
 	SalesInquiry pnl_SalesInquiry = new SalesInquiry();
 	Chatting pnl_Chatting = new Chatting(this);
@@ -117,6 +119,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
 		PacketMap.getInstance().map.put(SmResvRoomAck.class, this);
+		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 100, 1000, 800);
@@ -552,5 +555,10 @@ public class ManagerWindow extends JFrame implements Receivable {
 			
 		}
 		
+		if(packet.getClass() == ScGetRoomDataAck.class) {
+			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
+			DataManager.getInstance().roomMap = ack.roomMap;
+			pnl_SeatArrange = new Seating_Arrangement();
+		}
 	}
 }

@@ -109,13 +109,14 @@ public class SetPrice extends JPanel implements Receivable {
 			case "복원":
 				read(backUpPath);
 				restore(nowPath); 
+				uptDB_RoomData(true);
 				break;
 			case "새로고침":
 				read(nowPath);
 				break;
 			case "적용":
 				restore(nowPath);
-				
+				uptDB_RoomData(false);
 				break;
 
 			default:
