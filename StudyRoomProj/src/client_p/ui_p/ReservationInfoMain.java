@@ -15,7 +15,8 @@ public class ReservationInfoMain extends JFrame {
 		getContentPane().setLayout(null);
 
 		String info = "  잡아 스터디룸을 이용해 주셔서 감사합니다.\n\t    예약 시 주의 사항\n\n1.예약은 1시간 단위로 가능합니다.\n"
-				+ "2.예약 시 당일 예약은 불가합니다.\n3.예약 시 날짜와 시간을 \n  꼭 확인하시기 바랍니다.";
+				+ "2.예약 시 당일 예약은 불가합니다.\n3.예약 시 날짜와 시간을 꼭 확인하시기 바랍니다.\n"+
+				"4.기존의 예약된 날짜에는 중복 예약이 불가합니다.";
 		String headName = "     잡아 스터디룸\n     예약이용 안내";
 
 		JTextArea frontName = new JTextArea();
@@ -26,7 +27,7 @@ public class ReservationInfoMain extends JFrame {
 		getContentPane().add(frontName);
 
 		JTextArea rInfo = new JTextArea();
-		rInfo.setFont(new Font("Monospaced", Font.PLAIN, 18));
+		rInfo.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		rInfo.setBounds(40, 149, 405, 211);
 		rInfo.setText(info);
 		getContentPane().add(rInfo);

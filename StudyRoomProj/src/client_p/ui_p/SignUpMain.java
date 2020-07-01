@@ -48,10 +48,10 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 	String phoneChk = "010.[0-9].{6,7}";
 	String name, id, pass, phoneNum, pass2 = null;
 
-	Boolean idchk = false, hpchk = false;
+	boolean idchk,hpchk;
 
 	public SignUpMain() {
-		setBounds(100, 100, 900, 800);
+		setBounds(510, 140, 900, 800);
 		JPanel mainPane = new JPanel();
 		setContentPane(mainPane);
 		mainPane.setLayout(null);
@@ -161,7 +161,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		setVisible(false);
 
 		chkJd = new JDialog();
-		chkJd.setBounds(100, 100, 200, 200);
+		chkJd.setBounds(860, 440, 200, 200);
 		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
 
 		JLabel chkLb = new JLabel("정확한 형식으로 입력하세요");
@@ -176,15 +176,15 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		chkJd.setVisible(false);
 
 		jd2 = new JDialog();//중복확인창
-		jd2.setBounds(100, 100, 200, 150);
+		jd2.setBounds(860, 465, 200, 150);
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
 		jl2 = new JLabel();
 		jd2.getContentPane().add(jl2);
 		jb2 = new JButton("확인");
 		jd2.getContentPane().add(jb2);
 
-		chkSignUp = new JDialog();//회원가입 클릭시 유효검사 차
-		chkSignUp.setBounds(100, 100, 300, 200);
+		chkSignUp = new JDialog();//회원가입 클릭시 유효검사 창
+		chkSignUp.setBounds(810, 440, 300, 200);
 		chkSignUp.getContentPane().setLayout(new GridLayout(2, 1));
 		JLabel jll = new JLabel("ID 와 휴대폰 번호 중복검사를 진행하세요");
 		chkSignUp.getContentPane().add(jll);
@@ -220,10 +220,12 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 					}
 				});
 			}
+			else {
+				System.out.println("회원가입 실패");
+			}
 		} 
 		else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인체크
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
-
 			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {// id성공
 				idchk = true;
 				jl2.setText("사용가능한 id 입니다");
@@ -241,7 +243,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 			}
 		} 
 		else {
-			System.out.println("ScDuplicateIDAck 예외");
+			System.out.println("SignUpMain 예외");
 		}
 	}
 
@@ -308,7 +310,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 
 	void idChk() {
 		id = idTextField.getText();
-		if (id.matches(engNum) && id.matches(engNum1) && id.length() < 9) {
+		if (id.matches(engNum) && id.matches(engNum1) && id.length() < 9 && !chkJd.isVisible())
+		{
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(), false);
 			ClientNet.getInstance().sendPacket(packet);
 		} else {
