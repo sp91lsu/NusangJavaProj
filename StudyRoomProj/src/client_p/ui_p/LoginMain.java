@@ -124,7 +124,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		});
 		
 		logDialog = new JDialog();
-		logDialog.setBounds(250, 250, 300, 300);
+		logDialog.setBounds(810, 390, 300, 300);
 		logDialog.setLayout(new GridLayout(2,1));
 		logLabel = new JLabel();
 		logDialog.add(logLabel);
