@@ -48,7 +48,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 	String phoneChk = "010.[0-9].{6,7}";
 	String name, id, pass, phoneNum, pass2 = null;
 
-	Boolean idchk = false, hpchk = false;
+	boolean idchk,hpchk;
 
 	public SignUpMain() {
 		setBounds(100, 100, 900, 800);
@@ -220,10 +220,12 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 					}
 				});
 			}
+			else {
+				System.out.println("회원가입 실패");
+			}
 		} 
 		else if (packet.getClass() == ScDuplicateIDAck.class) {// 중복확인체크
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
-
 			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {// id성공
 				idchk = true;
 				jl2.setText("사용가능한 id 입니다");
@@ -241,7 +243,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 			}
 		} 
 		else {
-			System.out.println("ScDuplicateIDAck 예외");
+			System.out.println("SignUpMain 예외");
 		}
 	}
 
@@ -308,7 +310,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 
 	void idChk() {
 		id = idTextField.getText();
-		if (id.matches(engNum) && id.matches(engNum1) && id.length() < 9) {
+		if (id.matches(engNum) && id.matches(engNum1) && id.length() < 9 && !chkJd.isVisible())
+		{
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(), false);
 			ClientNet.getInstance().sendPacket(packet);
 		} else {
