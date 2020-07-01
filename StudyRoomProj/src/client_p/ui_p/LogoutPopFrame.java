@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import client_p.ClientNet;
+import client_p.packet_p.syn_p.CsCloseSyn;
+
 public class LogoutPopFrame extends JFrame{
 
 	public LogoutPopFrame() {
@@ -24,6 +27,8 @@ public class LogoutPopFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().view("LoginMain");
 				BaseFrame.getInstance().getLoginMain().logSet();
+				CsCloseSyn packet = new CsCloseSyn();
+				ClientNet.getInstance().sendPacket(packet);
 				dispose();
 			}
 		});
