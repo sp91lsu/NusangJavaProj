@@ -48,7 +48,7 @@ class MyServer {
 		@Override
 		public void run() {
 			try {
-				server = new ServerSocket(7777);
+				server = new ServerSocket(7776);
 
 				while (true) {
 

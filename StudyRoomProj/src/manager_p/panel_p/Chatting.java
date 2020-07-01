@@ -72,6 +72,10 @@ public class Chatting extends JPanel implements Receivable {
 			case "엔터":
 				send();
 				break;
+				
+			case "종료":
+				
+				break;
 
 			default:
 				break;
@@ -167,9 +171,9 @@ public class Chatting extends JPanel implements Receivable {
 		gbc_panel_20.gridy = 1;
 		panel_19.add(panel_20, gbc_panel_20);
 		GridBagLayout gbl_panel_20 = new GridBagLayout();
-		gbl_panel_20.columnWidths = new int[] { 0, 0, 0 };
+		gbl_panel_20.columnWidths = new int[] { 0, 0, 0, 0 };
 		gbl_panel_20.rowHeights = new int[] { 0, 0 };
-		gbl_panel_20.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_20.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_panel_20.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel_20.setLayout(gbl_panel_20);
 
@@ -188,10 +192,18 @@ public class Chatting extends JPanel implements Receivable {
 		JButton btnNewButton_4 = new JButton("전송");
 		btnNewButton_4.addActionListener(new ActionLister_Chatting("전송"));
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_4.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_4.gridx = 1;
 		gbc_btnNewButton_4.gridy = 0;
 		panel_20.add(btnNewButton_4, gbc_btnNewButton_4);
+		
+		JButton btnNewButton = new JButton("종료");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
+		gbc_btnNewButton.gridx = 2;
+		gbc_btnNewButton.gridy = 0;
+		panel_20.add(btnNewButton, gbc_btnNewButton);
 
 	}
 
