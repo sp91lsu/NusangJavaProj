@@ -1,6 +1,5 @@
 package client_p.ui_p;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,8 +42,8 @@ public class LogoutPopFrame extends JFrame{
 		cancelBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().getMainLayout().is_LogOut=false;
 				dispose();
-				
 			}
 		});
 
