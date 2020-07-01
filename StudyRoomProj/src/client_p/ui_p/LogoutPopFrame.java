@@ -25,6 +25,7 @@ public class LogoutPopFrame extends JFrame{
 		jb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				BaseFrame.getInstance().getMainLayout().is_LogOut=false;
 				BaseFrame.getInstance().view("LoginMain");
 				BaseFrame.getInstance().getLoginMain().logSet();
 				CsCloseSyn packet = new CsCloseSyn();

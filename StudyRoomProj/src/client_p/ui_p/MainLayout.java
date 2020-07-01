@@ -36,6 +36,7 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 	long todayRemainTime;
 
 	boolean is_Info, is_useData, is_addTime, is_Exit;
+	boolean is_LogOut;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -234,8 +235,12 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 				ExitFrame exitframe = new ExitFrame(button_9.getText());
 			}
 		} else if (btn.getText().equals("·Î±×¾Æ¿ô")) {
-			LogoutPopFrame logout = new LogoutPopFrame();
-			logout.setVisible(true);
+			if(!is_LogOut)
+			{
+				is_LogOut=true;
+				LogoutPopFrame logout = new LogoutPopFrame();
+				logout.setVisible(true);
+			}
 		}
 	}
 }
