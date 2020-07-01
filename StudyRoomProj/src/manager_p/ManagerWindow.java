@@ -28,6 +28,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+
 import client_p.ClientNet;
 import client_p.EEnter;
 import client_p.PacketMap;
@@ -212,7 +214,12 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_1.getText().equals("")) {
 					lbSearch.setText("³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+<<<<<<< HEAD
 				} else {
+=======
+				}else {
+					lbSearch.setText("");
+>>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
 					idxNameMemS = comboBox.getSelectedItem().toString();
 					contentsMemS = textField_1.getText();
 					textField_1.setText("");
@@ -465,33 +472,76 @@ public class ManagerWindow extends JFrame implements Receivable {
 			table_5.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
 			scrollPane_3_1.setViewportView(table_5);
 		}
+<<<<<<< HEAD
 
+=======
+		
+		
+//		contentsMemS °¡ ¤¡¼º¤· ÀÏ¶§ [°¡-ƒ‰¤¡]¼º[¾Æ-Ÿç¤·] À¸·Î ¹Ù²ã¼­ 
+//		pp=[°¡-ƒ‰¤¡]¼º[¾Æ-Ÿç¤·]  if(Pattern.matches(pp, ud.name/id/phone)) searchedUDs.add(ud);
+>>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
 		// °Ë»ö
 		if (packet.getClass() == SmMemSearchAck.class) {
 			SmMemSearchAck ack = (SmMemSearchAck) packet;
 			searchedUDs = new ArrayList<UserData>();
+<<<<<<< HEAD
 
 			if (idxNameMemS.equals(searchList[0])) {
 				for (UserData ud : ack.userList) {
 					if (ud.name == null)
 						continue;
 					if (ud.name.equals(contentsMemS)) {
+=======
+			
+				//ÃÊ¼º°Ë»ö
+				String [] cho = {"¤¡","¤¢","¤¤","¤§","¤¨","¤©","¤±","¤²","¤³","¤µ","¤¶","¤·","¤¸","¤¹","¤º","¤»","¤¼","¤½","¤¾"};
+				String [] patt = {"[°¡-ƒ‰¤¡]","[±î-…ù¤¢]","[³ª-ˆ¢¤¤]","[´Ù-‹L¤§]","[µû-ê¤¨]","[¶ó-¡¤©]","[¸¶-“J¤±]","[¹Ù-•½¤²]","[ºü-˜ª¤³]","[»ç-šï¤µ]","[½Î-Ï¤¶]","[¾Æ-Ÿç¤·]","[ÀÚ-£ ¤¸]","[Â¥-Âö¤¹]","[Â÷-¯†¤º]","[Ä«-µi¤»]","[Å¸-»M¤¼]","[ÆÄ-À˜¤½]","[ÇÏ-ÆR¤¾]"};
+				String contentsMemSArr [] = contentsMemS.split("");
+				for (int i = 0; i < contentsMemS.length(); i++) {
+					for (int j = 0; j < cho.length; j++) {
+						if(contentsMemSArr[i].equals(cho[j])) {
+							contentsMemSArr[i] = patt[j];
+						}
+					}
+				}
+				String pattern = ".*";
+				for (String s : contentsMemSArr) {
+					pattern += s;
+				}
+				pattern += ".*";
+			
+			//Å×ÀÌºí¿¡ Ãâ·ÂÇÒ ¾î·¹ÀÌ¸®½ºÆ® »ý¼º
+			if(idxNameMemS.equals(searchList[0])) {
+				for (UserData ud : ack.userList) {
+					if(ud.name==null) continue;
+					if(java.util.regex.Pattern.matches(pattern, ud.name)) {
+>>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
 						searchedUDs.add(ud);
 					}
 				}
 			} else if (idxNameMemS.equals(searchList[1])) {
 				for (UserData ud : ack.userList) {
+<<<<<<< HEAD
 					if (ud.id == null)
 						continue;
 					if (ud.id.equals(contentsMemS)) {
+=======
+					if(ud.id==null) continue;
+					if(ud.id.contains(contentsMemS)) {
+>>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
 						searchedUDs.add(ud);
 					}
 				}
 			} else if (idxNameMemS.equals(searchList[2])) {
 				for (UserData ud : ack.userList) {
+<<<<<<< HEAD
 					if (ud.phone == null)
 						continue;
 					if (ud.phone.equals(contentsMemS)) {
+=======
+					if(ud.phone==null) continue;
+					if(ud.phone.contains(contentsMemS)) {
+>>>>>>> 2891dd3431b87264190b4630fd0d1bdb73756196
 						searchedUDs.add(ud);
 					}
 				}

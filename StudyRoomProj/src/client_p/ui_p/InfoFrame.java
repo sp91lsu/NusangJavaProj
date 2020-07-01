@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -16,12 +17,13 @@ import javax.swing.SwingConstants;
 
 import data_p.product_p.room_p.RoomProduct;
 
-public class InfoFrame extends JFrame {
+public class InfoFrame extends JDialog {
 
 	JTextArea textArea;
 	String id = BaseFrame.getInstance().userData.id;
 
 	public InfoFrame() {
+		setModal(true);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 		String date = "";
 
@@ -74,6 +76,7 @@ public class InfoFrame extends JFrame {
 			}
 		});
 		getContentPane().add(okButton);
+		setUndecorated(true); 
 		setVisible(true);
 
 	}

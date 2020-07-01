@@ -1,6 +1,5 @@
 package client_p;
 
-import client_p.ui_p.BaseFrame;
 import data_p.product_p.DataManager;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
 
@@ -10,4 +9,4 @@ public class ClientMain {
 		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, DataManager.getInstance());
 		ClientNet.getInstance().start();
 	}
-}
+}	
