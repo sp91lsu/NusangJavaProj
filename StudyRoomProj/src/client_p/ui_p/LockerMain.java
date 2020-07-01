@@ -92,7 +92,7 @@ public class LockerMain extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton btn = (JButton) e.getSource();
 
-		if (btn.getText().equals("비밀번호 설정")) {
+		if (btn.getText().equals("비밀번호 설정") && currentData != null) {
 			lp.openLockerPWFrame(currentData);
 		} 
 		else if (btn.getText().equals("취소")) {

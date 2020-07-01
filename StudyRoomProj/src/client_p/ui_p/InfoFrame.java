@@ -27,7 +27,7 @@ public class InfoFrame extends JDialog {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
 		String date = "";
 
-		setBounds(100, 100, 550, 650);
+		setBounds(735, 215, 550, 650);
 		getContentPane().setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();

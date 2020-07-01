@@ -30,7 +30,7 @@ public class TimeFrame extends JDialog {
 		if (usingRoom != null) {
 			seatingName = usingRoom.name;
 		}
-		setBounds(100, 100, 500, 600);
+		setBounds(710, 240, 500, 600);
 		getContentPane().setLayout(null);
 
 		if (lockerInfo == null) {
