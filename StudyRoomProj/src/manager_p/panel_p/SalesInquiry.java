@@ -501,6 +501,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 			
 		//SalesTot
 			lb_WhatSales.setText(st.dateSortN==2?"연 매출":st.dateSortN==5?"월 매출":st.dateSortN==8?"당일 매출":"");
+			
 	}
 
 }

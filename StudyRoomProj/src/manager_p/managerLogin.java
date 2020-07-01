@@ -26,6 +26,7 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsLoginSyn;
+import client_p.ui_p.BaseFrame;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
@@ -298,6 +299,7 @@ public class managerLogin extends JFrame implements Receivable,MouseListener{
 //		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {//로그인 성공시
 			mw.setVisible(true);
+			BaseFrame.getInstance().roomInfoList = ack.roomList;
 			this.setVisible(false);
 		}else if(ack.eResult == EResult.NOT_FOUND_DATA) {//로그인 실패시
 			//로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
