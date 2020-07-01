@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsCloseSyn;
@@ -14,7 +15,7 @@ import client_p.packet_p.syn_p.CsCloseSyn;
 public class LogoutPopFrame extends JFrame{
 
 	public LogoutPopFrame() {
-		setBounds(50, 50, 279, 143);
+		setBounds(700, 450, 279, 143);
 		getContentPane().setLayout(null);
 
 		JLabel jbl = new JLabel("로그아웃 하시겠습니까?");
@@ -46,7 +47,8 @@ public class LogoutPopFrame extends JFrame{
 				dispose();
 			}
 		});
-
+		
+		setUndecorated(true);
 		setVisible(false);
 	}
 }
