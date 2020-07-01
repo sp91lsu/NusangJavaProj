@@ -19,6 +19,7 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
+import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
@@ -30,6 +31,7 @@ import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
+import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -78,17 +80,18 @@ public class BaseFrame extends JFrame implements Receivable {
 		setVisible(true);
 		view("LoginMain");
 		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) jPanelArrl.get(0)); // 로그인
-		PacketMap.getInstance().map.put(ScSignUpAck.class, (Receivable) signUpFrame); // 회원가입
+		PacketMap.getInstance().map.put(ScSignUpAck.class, signUpFrame); // 회원가입
 		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// 결제
 		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, (Receivable) jPanelArrl.get(4));
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
-		PacketMap.getInstance().map.put(ScBuyLockerCast.class, (Receivable) this);
-		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, (Receivable) signUpFrame);
-		PacketMap.getInstance().map.put(ScBuyLockerAck.class, (Receivable) this);
-		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, (Receivable) this);
+		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
+		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, signUpFrame);
+		PacketMap.getInstance().map.put(ScBuyLockerAck.class, this);
+		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, this);
+		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, DataManager.getInstance());
 
 	}
 

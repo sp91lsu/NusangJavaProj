@@ -15,10 +15,8 @@ import oracle.net.aso.d;
 
 public class RoomNowDao extends DBProcess {
 
-	// 룸 정보 세팅하기 
-	public ArrayList<RoomProduct> settingRoomData() {
-
-		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
+	// 룸 정보 세팅하기
+	public void settingRoomData() {
 
 		try {
 			ResultSet rs = getRS(ETable.NOW_ROOM_DATA, "*");
@@ -30,8 +28,6 @@ public class RoomNowDao extends DBProcess {
 		} finally {
 			close();
 		}
-
-		return roomList;
 	}
 
 	public HashMap<Integer, RoomProduct> resToMap(ResultSet rs) {

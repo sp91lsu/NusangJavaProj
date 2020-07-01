@@ -3,11 +3,14 @@ package data_p.product_p;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import client_p.Receivable;
 import data_p.ExcelReader;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
+import packetBase_p.PacketBase;
+import server_p.packet_p.ack_p.ScGetRoomDataAck;
 
-public class DataManager {
+public class DataManager implements Receivable {
 
 	private static DataManager instance;
 
@@ -28,7 +31,7 @@ public class DataManager {
 	private ArrayList<String> nameList;
 
 	DataManager() {
-		RoomSetting();
+		// RoomSetting();
 		keySetting();
 		TimeDataSetting();
 		lockerSetting();
@@ -37,17 +40,17 @@ public class DataManager {
 	public static void main(String[] args) {
 		DataManager pm = new DataManager();
 	}
-	
+
 	public String roomName(String roomID) {
 		String str = "";
 		for (int i = 0; i < idList.size(); i++) {
-			if(idList.get(i).equals(roomID)) {
+			if (idList.get(i).equals(roomID)) {
 				str = nameList.get(i);
 			}
 		}
 		return str;
 	}
-	
+
 	void RoomSetting() {
 		ExcelReader reader = new ExcelReader();
 		reader.read("RoomData.xlsx");
@@ -121,5 +124,15 @@ public class DataManager {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void receive(PacketBase packet) {
+
+		if (packet.getClass() == ScGetRoomDataAck.class) {
+			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
+
+			roomMap = ack.roomMap;
+		}
 	}
 }

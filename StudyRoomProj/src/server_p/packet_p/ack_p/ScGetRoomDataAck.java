@@ -8,7 +8,7 @@ import packetBase_p.ResultPacketBase;
 
 public class ScGetRoomDataAck extends ResultPacketBase {
 
-	HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
+	public HashMap<Integer, RoomProduct> roomMap = new HashMap<Integer, RoomProduct>();
 
 	public ScGetRoomDataAck(EResult eResult, HashMap<Integer, RoomProduct> roomMap) {
 		super(eResult);

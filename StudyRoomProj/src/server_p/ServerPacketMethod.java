@@ -12,6 +12,7 @@ import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
+import client_p.packet_p.syn_p.CsGetRoomDataSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -23,6 +24,7 @@ import data_p.user_p.UserData;
 import dbOracle_p.AccountDao;
 import dbOracle_p.LockerDao;
 import dbOracle_p.RoomDao;
+import dbOracle_p.RoomNowDao;
 import manager_p.ack_p.MsChatConnectAck;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
@@ -36,6 +38,7 @@ import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
+import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -464,5 +467,20 @@ class MethMsSalesInquirySyn implements ServerPacketMethod {
 			e.printStackTrace();
 		}
 
+	}
+}
+
+class MethCsGetRoomDataSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsGetRoomDataSyn resPacket = (CsGetRoomDataSyn) packet;
+
+		// db¿¡¼­ ·ë ¸ðµ¨ ºÒ·¯¿Í¼­
+		new RoomNowDao().settingRoomData();
+
+		ScGetRoomDataAck ack = new ScGetRoomDataAck(EResult.SUCCESS, DataManager.getInstance().roomMap);
+
+		client.sendPacket(ack);
 	}
 }
