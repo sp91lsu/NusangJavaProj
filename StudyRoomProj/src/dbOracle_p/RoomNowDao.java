@@ -35,8 +35,8 @@ public class RoomNowDao extends DBProcess {
 		try {
 			while (rs.next()) {
 
-				RoomProduct roomProduct = new RoomProduct(rs.getInt("ID"), rs.getString("Name"), rs.getLong("Price"),
-						rs.getInt("PersonNum"));
+				RoomProduct roomProduct = new RoomProduct(rs.getInt("Room_ID"), rs.getString("Room_Name"),
+						rs.getLong("Room_Price"), rs.getInt("PersonNum"));
 
 				roomMap.put(roomProduct.id, roomProduct);
 			}

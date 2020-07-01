@@ -91,7 +91,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, signUpFrame);
 		PacketMap.getInstance().map.put(ScBuyLockerAck.class, this);
 		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, this);
-		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, DataManager.getInstance());
 
 	}
 

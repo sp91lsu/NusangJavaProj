@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsCloseSyn;
+import client_p.packet_p.syn_p.CsGetRoomDataSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import packetBase_p.PacketBase;
 import packetBase_p.ResultPacketBase;
@@ -35,13 +36,15 @@ public class ClientNet extends Thread {
 
 		try {
 //			socket = new Socket("127.0.0.1", 7777);///자기ip
-			socket = new Socket("192.168.0.68", 7777); //승환이
+			socket = new Socket("192.168.0.68", 7777); // 승환이
 			packetProccess = new PacketProccess(socket);
 			packetProccess.start();
 
 			System.out.println("서버접속 성공");
 			System.out.println("listener Thread Start");
 
+			CsGetRoomDataSyn packet = new CsGetRoomDataSyn();
+			sendPacket(packet);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -144,6 +147,6 @@ class PacketProccess extends Thread {
 				e.printStackTrace();
 			}
 		}
-	
+
 	}
 }

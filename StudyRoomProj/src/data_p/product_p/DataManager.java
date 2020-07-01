@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import client_p.Receivable;
+import client_p.ui_p.BaseFrame;
 import data_p.ExcelReader;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
@@ -51,23 +52,23 @@ public class DataManager implements Receivable {
 		return str;
 	}
 
-	void RoomSetting() {
-		ExcelReader reader = new ExcelReader();
-		reader.read("RoomData.xlsx");
-
-		idList = reader.getList("ID");
-		nameList = reader.getList("Name");
-		ArrayList<String> priceList = reader.getList("Price");
-		ArrayList<String> pNumList = reader.getList("PersonNum");
-
-		for (int i = 0; i < idList.size(); i++) {
-
-			RoomProduct roomProduct = new RoomProduct(Integer.parseInt(idList.get(i)), nameList.get(i),
-					Integer.parseInt(priceList.get(i)), Integer.parseInt(pNumList.get(i)));
-
-			roomMap.put(roomProduct.id, roomProduct);
-		}
-	}
+//	void RoomSetting() {
+//		ExcelReader reader = new ExcelReader();
+//		reader.read("RoomData.xlsx");
+//
+//		idList = reader.getList("ID");
+//		nameList = reader.getList("Name");
+//		ArrayList<String> priceList = reader.getList("Price");
+//		ArrayList<String> pNumList = reader.getList("PersonNum");
+//
+//		for (int i = 0; i < idList.size(); i++) {
+//
+//			RoomProduct roomProduct = new RoomProduct(Integer.parseInt(idList.get(i)), nameList.get(i),
+//					Integer.parseInt(priceList.get(i)), Integer.parseInt(pNumList.get(i)));
+//
+//			roomMap.put(roomProduct.id, roomProduct);
+//		}
+//	}
 
 	void TimeDataSetting() {
 		ExcelReader reader = new ExcelReader();
@@ -133,6 +134,7 @@ public class DataManager implements Receivable {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
 
 			roomMap = ack.roomMap;
+			BaseFrame.getInstance().startFrame();
 		}
 	}
 }
