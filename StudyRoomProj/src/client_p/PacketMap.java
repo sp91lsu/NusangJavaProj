@@ -31,6 +31,11 @@ public class PacketMap {
 	void receivePacket(PacketProccess pClient, ResultPacketBase packet) {
 		System.out.println("CLIENT RECEIVE : " + packet.getClass().getSimpleName());
 		System.out.println("RESULT : " + packet.eResult + "\n");
-		map.get(packet.getClass()).receive(packet);
+		if (map.get(packet.getClass()) != null) {
+			map.get(packet.getClass()).receive(packet);
+		} else {
+			System.out.println("등록되지 않은 패킷 : " + packet.getClass().getSimpleName());
+		}
+
 	}
 }

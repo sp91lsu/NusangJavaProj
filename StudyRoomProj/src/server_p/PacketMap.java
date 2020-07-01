@@ -47,14 +47,19 @@ public class PacketMap {
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); // 중복아이디 확인
 		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); // 예약룸
 		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
-		map.put(CsGetRoomDataSyn.class, new MethCsGetRoomDataSyn()); // 룸 데이터 업로드 
-		map.put(MsUptRoomPrSyn.class, new MethMsUptRoomPrSyn()); // 룸 데이터 업로드 
+		map.put(CsGetRoomDataSyn.class, new MethCsGetRoomDataSyn()); // 룸 데이터 업로드
+		map.put(MsUptRoomPrSyn.class, new MethMsUptRoomPrSyn()); // 룸 데이터 업로드
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {
 
 		System.out.println("SERVER RECEIVE :" + packet.getClass().getSimpleName());
-		map.get(packet.getClass()).receive(pClient, packet);
+
+		if (map.get(packet.getClass()) != null) {
+			map.get(packet.getClass()).receive(pClient, packet);
+		} else {
+			System.out.println("등록되지 않은 패킷 : " + packet.getClass().getSimpleName());
+		}
 	}
 
 }
