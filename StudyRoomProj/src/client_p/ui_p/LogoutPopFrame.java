@@ -43,5 +43,6 @@ public class LogoutPopFrame extends JDialog{
 		});
 		
 		setVisible(false);
+		setUndecorated(true);
 	}
 }
