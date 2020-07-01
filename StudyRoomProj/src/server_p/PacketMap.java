@@ -53,7 +53,7 @@ public class PacketMap {
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {
 
-		System.out.println("SERVER RECEIVE :" + packet.getClass());
+		System.out.println("SERVER RECEIVE :" + packet.getClass().getSimpleName());
 		map.get(packet.getClass()).receive(pClient, packet);
 	}
 

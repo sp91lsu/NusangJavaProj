@@ -29,7 +29,7 @@ public class PacketMap {
 	}
 
 	void receivePacket(PacketProccess pClient, ResultPacketBase packet) {
-		System.out.println("CLIENT RECEIVE : " + packet.getClass());
+		System.out.println("CLIENT RECEIVE : " + packet.getClass().getSimpleName());
 		System.out.println("RESULT : " + packet.eResult + "\n");
 		map.get(packet.getClass()).receive(packet);
 	}

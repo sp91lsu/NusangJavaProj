@@ -123,7 +123,7 @@ class PacketProccess extends Thread {
 				return;
 			}
 
-			System.out.println("CLIENT SEND : " + packet.getClass());
+			System.out.println("CLIENT SEND : " + packet.getClass().getSimpleName());
 			dos.writeObject(packet);
 			dos.flush();
 			dos.reset();

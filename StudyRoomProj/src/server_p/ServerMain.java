@@ -48,7 +48,7 @@ class MyServer {
 		@Override
 		public void run() {
 			try {
-				server = new ServerSocket(7776);
+				server = new ServerSocket(7777);
 
 				while (true) {
 
@@ -159,7 +159,7 @@ class SocketClient extends Thread {
 
 	void sendPacket(PacketBase packet) {
 		try {
-			System.out.println("SERVER SEND: " + packet.getClass());
+			System.out.println("SERVER SEND: " + packet.getClass().getSimpleName());
 			dos.writeObject(packet);
 			dos.flush();
 			dos.reset();
