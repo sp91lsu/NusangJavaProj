@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -14,12 +15,13 @@ import client_p.packet_p.syn_p.CsBuyLockerSyn;
 import data_p.product_p.LockerData;
 import data_p.user_p.UserData;
 
-public class LockerCalcFrame extends JFrame {
+public class LockerCalcFrame extends JDialog {
 
 	UserData userData = BaseFrame.getInstance().userData;
 	LockerData lockerData;
 
 	public LockerCalcFrame(LockerData lockerData) {
+		setModal(true);
 		this.lockerData = lockerData;
 		setBounds(100, 100, 450, 350);
 		getContentPane().setLayout(null);

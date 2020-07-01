@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
@@ -13,13 +14,14 @@ import javax.swing.SwingConstants;
 
 import data_p.product_p.LockerData;
 
-public class LockerPWFrame extends JFrame implements ActionListener {
+public class LockerPWFrame extends JDialog implements ActionListener {
 
 	private JPasswordField passwordField;
 	private LockerData lockerData;
 	String text = "";
 	
 	public LockerPWFrame() {
+		setModal(true);
 		setBounds(100, 100, 500, 450);
 		getContentPane().setLayout(null);
 
