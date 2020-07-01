@@ -21,7 +21,7 @@ public class ExitFrame extends JDialog {
 	public ExitFrame(String title) {
 		setModal(true);
 		this.title = title;
-		setBounds(100, 100, 450, 400);
+		setBounds(735, 340, 450, 400);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel(title + " 하시겠습니까???");

@@ -57,6 +57,7 @@ public class LockerCalcFrame extends JDialog {
 			}
 		});
 
+		setUndecorated(true);
 		setVisible(true);
 	}
 }

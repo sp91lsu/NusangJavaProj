@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -14,7 +15,7 @@ import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
 
-public class RCalcFrame extends JFrame {
+public class RCalcFrame extends JDialog {
 
 	RoomProduct room;
 	UserData userData;
@@ -25,16 +26,16 @@ public class RCalcFrame extends JFrame {
 	}
 
 	public void openPage(RoomProduct room) {
-		setVisible(true);
 		this.room = room;
 		userData = BaseFrame.getInstance().userData;
 		contentLabel.setText(getDateFormat());
+		setModal(true);
+		setVisible(true);
 	}
 
 	public RCalcFrame() {
 
 		setBounds(710, 100, 500, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		JLabel MainLabel = new JLabel("예약 및 결제 내역");

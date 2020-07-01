@@ -32,7 +32,7 @@ public class AddTimeFrame extends JDialog {
 
 	public AddTimeFrame() {
 		setModal(true);
-		setBounds(100, 100, 450, 379);
+		setBounds(725, 350, 450, 380);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
