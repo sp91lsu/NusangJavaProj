@@ -16,7 +16,6 @@ import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
-import client_p.packet_p.syn_p.MsLoginSyn;
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
@@ -186,12 +185,7 @@ class MethCsChatSyn implements ServerPacketMethod {
 		SocketClient chatClient = MyServer.getInstance().findClient(csChatSyn.cip);
 		SocketClient chatManager = MyServer.getInstance().findClient(csChatSyn.mip);
 
-		if (chatClient != null) {
-			chatClient.sendPacket(chatBroadCast);
-		}
-		if (chatManager != null) {
-			chatManager.sendPacket(chatBroadCast);
-		}
+		MyServer.getInstance().broadCastP2P(chatClient, chatManager, chatBroadCast);
 	}
 }
 
@@ -331,8 +325,7 @@ class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
 		try {
 			SmResvRoomAck ack = new SmResvRoomAck(EResult.SUCCESS,
 					new RoomDao().rTimeDataList(resPacket.yyyy, resPacket.mm, resPacket.dd));
-//			String managerIp = "/192.168.100.27";
-			SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
+
 			client.sendPacket(ack);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -389,22 +382,15 @@ class MethMsMemSearchSyn implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsMemSearchSyn resPacket = (MsMemSearchSyn) packet;
 
-		SocketClient mc = MyServer.getInstance().findClient(MyServer.getInstance().managerIp);
-
 		SmMemSearchAck ack = null;
 		try {
-			if (mc != null) {
-				ack = new SmMemSearchAck(EResult.SUCCESS, new AccountDao().getAllUserList());
-			} else {
-				ack = new SmMemSearchAck(EResult.FAIL, new AccountDao().getAllUserList());
-			}
+			ack = new SmMemSearchAck(EResult.SUCCESS, new AccountDao().getAllUserList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		mc.sendPacket(ack);
+		client.sendPacket(ack);
 
-//		client.sendPacket(ack);
 	}
 }
 
