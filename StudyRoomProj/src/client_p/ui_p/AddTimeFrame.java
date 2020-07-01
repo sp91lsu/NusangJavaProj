@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +20,7 @@ import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
 import java.awt.Font;
 
-public class AddTimeFrame extends JFrame {
+public class AddTimeFrame extends JDialog {
 
 	private JPanel contentPane;
 
@@ -30,6 +31,7 @@ public class AddTimeFrame extends JFrame {
 	Calendar last;
 
 	public AddTimeFrame() {
+		setModal(true);
 		setBounds(100, 100, 450, 379);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -115,6 +117,7 @@ public class AddTimeFrame extends JFrame {
 				priceInfoL.setText(addPri + "¿ø");
 			}
 		});
+		setUndecorated(true);
 		setVisible(true);
 	}
 

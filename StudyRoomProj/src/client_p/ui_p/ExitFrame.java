@@ -7,22 +7,21 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsExitSyn;
 import data_p.product_p.room_p.RoomProduct;
 
-public class ExitFrame extends JFrame {
+public class ExitFrame extends JDialog {
 
 	String title = "";
 
 	public ExitFrame(String title) {
+		setModal(true);
 		this.title = title;
 		setBounds(100, 100, 450, 400);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel(title + " 하시겠습니까???");
@@ -58,6 +57,7 @@ public class ExitFrame extends JFrame {
 			}
 		});
 		getContentPane().add(cancleButton);
+		setUndecorated(true); 
 		setVisible(true);
 	}
 }

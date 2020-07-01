@@ -1,6 +1,5 @@
 package client_p;
 
-import client_p.ui_p.BaseFrame;
 import data_p.product_p.DataManager;
 
 public class ClientMain {
@@ -8,4 +7,4 @@ public class ClientMain {
 		DataManager.getInstance();
 		ClientNet.getInstance().start();
 	}
-}
+}	

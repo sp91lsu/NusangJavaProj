@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -12,7 +13,7 @@ import javax.swing.WindowConstants;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsCloseSyn;
 
-public class LogoutPopFrame extends JFrame{
+public class LogoutPopFrame extends JDialog{
 
 	public LogoutPopFrame() {
 		setBounds(700, 450, 279, 143);
@@ -48,7 +49,6 @@ public class LogoutPopFrame extends JFrame{
 			}
 		});
 		
-		setUndecorated(true);
 		setVisible(false);
 	}
 }

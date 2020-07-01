@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -15,7 +16,7 @@ import javax.swing.SwingConstants;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 
-public class TimeFrame extends JFrame {
+public class TimeFrame extends JDialog {
 
 	String id = BaseFrame.getInstance().userData.id;
 	String phoneNum = BaseFrame.getInstance().userData.phone;
@@ -24,7 +25,7 @@ public class TimeFrame extends JFrame {
 	String seatingName;
 
 	public TimeFrame() {
-
+		setModal(true);
 		RoomProduct usingRoom = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
 		if (usingRoom != null) {
 			seatingName = usingRoom.name;
@@ -68,6 +69,7 @@ public class TimeFrame extends JFrame {
 			}
 		});
 
+		setUndecorated(true);
 		setVisible(true);
 	}
 
