@@ -22,18 +22,20 @@ public class ExitFrame extends JDialog {
 		setModal(true);
 		this.title = title;
 		setBounds(735, 340, 450, 400);
+		getContentPane().setBackground(MyColor.black);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel(title + " «œΩ√∞⁄Ω¿¥œ±Ó???");
 		
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("±º∏≤", Font.PLAIN, 28));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("±º∏≤", Font.BOLD, 28));
 		lblNewLabel.setBounds(50, 50, 400, 135);
 		getContentPane().add(lblNewLabel);
 
 		JButton okButton = new JButton("»Æ¿Œ");
-		okButton.setFont(new Font("∞ÌµÒ√º", Font.PLAIN, 22));
+		okButton.setFont(new Font("∞ÌµÒ√º", Font.BOLD, 22));
 		okButton.setBounds(38, 227, 162, 70);
+		okButton.setBackground(MyColor.w_white);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
@@ -48,8 +50,9 @@ public class ExitFrame extends JDialog {
 		getContentPane().add(okButton);
 
 		JButton cancleButton = new JButton("√Îº“");
-		cancleButton.setFont(new Font("∞ÌµÒ√º", Font.PLAIN, 22));
+		cancleButton.setFont(new Font("∞ÌµÒ√º", Font.BOLD, 22));
 		cancleButton.setBounds(228, 227, 162, 70);
+		cancleButton.setBackground(MyColor.w_white);
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

@@ -109,7 +109,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		add(passwordField);
 
 		logInBtn = new JButton("로그인");//로그인 버튼
-		logInBtn.setBackground(MyColor.white);
+		logInBtn.setBackground(MyColor.w_white);
 		logInBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		logInBtn.setBounds(300, 400, 120, 45);
 		add(logInBtn);
@@ -124,7 +124,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		});
 
 		JButton signUpBt = new JButton("회원가입");//회원가입 버튼
-		signUpBt.setBackground(MyColor.white);
+		signUpBt.setBackground(MyColor.w_white);
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		signUpBt.setBounds(480, 400, 120, 45);
 		add(signUpBt);

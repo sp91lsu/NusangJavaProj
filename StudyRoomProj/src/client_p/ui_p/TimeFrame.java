@@ -32,7 +32,7 @@ public class TimeFrame extends JDialog {
 		}
 		setBounds(710, 240, 500, 600);
 		getContentPane().setLayout(null);
-
+		getContentPane().setBackground(MyColor.black);
 		if (lockerInfo == null) {
 			locker = "ÀÌ¿ë ³»¿ª ¾øÀ½";
 		} else {
@@ -44,6 +44,7 @@ public class TimeFrame extends JDialog {
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
 		titleLabel.setBounds(60, 10, 360, 70);
+		titleLabel.setForeground(Color.white);
 		getContentPane().add(titleLabel);
 
 		String remaingTime = showRemainTime();
@@ -53,6 +54,7 @@ public class TimeFrame extends JDialog {
 		lblNewLabel.setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 24));
 		lblNewLabel.setBounds(51, 70, 387, 400);
+		lblNewLabel.setForeground(Color.white);
 		// lblNewLabel.setOpaque(true);
 		getContentPane().add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -61,6 +63,7 @@ public class TimeFrame extends JDialog {
 		btnNewButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 24));
 		btnNewButton.setBounds(110, 450, 243, 71);
 		getContentPane().add(btnNewButton);
+		btnNewButton.setBackground(MyColor.w_white);
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

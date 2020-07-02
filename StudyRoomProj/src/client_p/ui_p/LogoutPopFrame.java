@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,13 +14,16 @@ public class LogoutPopFrame extends JDialog{
 	public LogoutPopFrame() {
 		setModal(true);
 		setBounds(820, 470, 280, 140);
+		getContentPane().setBackground(MyColor.black);
 		getContentPane().setLayout(null);
 
 		JLabel jbl = new JLabel("로그아웃 하시겠습니까?");
 		jbl.setBounds(0, 0, 263, 56);
 		jbl.setHorizontalAlignment(SwingConstants.CENTER);
+		jbl.setForeground(Color.white);
 		getContentPane().add(jbl);
 		JButton okBtn = new JButton("확인");
+		okBtn.setBackground(MyColor.w_white);
 		okBtn.setBounds(26, 55, 96, 36);
 		okBtn.addActionListener(new ActionListener() {
 			@Override
@@ -35,6 +39,7 @@ public class LogoutPopFrame extends JDialog{
 		JButton cancelBtn = new JButton("취소");
 		cancelBtn.setBounds(143, 55, 96, 36);
 		getContentPane().add(cancelBtn);
+		cancelBtn.setBackground(MyColor.w_white);
 		cancelBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

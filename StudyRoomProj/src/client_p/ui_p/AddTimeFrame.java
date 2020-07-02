@@ -18,6 +18,8 @@ import client_p.CalCal;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
+
+import java.awt.Color;
 import java.awt.Font;
 
 public class AddTimeFrame extends JDialog {
@@ -36,41 +38,49 @@ public class AddTimeFrame extends JDialog {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		getContentPane().setBackground(MyColor.black);
 
 		JLabel titleL = new JLabel("ÁÂ¼® ¿¬Àå");
 		titleL.setHorizontalAlignment(SwingConstants.CENTER);
 		titleL.setBounds(94, 10, 273, 54);
 		contentPane.add(titleL);
+		titleL.setForeground(Color.white);
 
 		JLabel timeInfoL = new JLabel("½Ã°£ ¿¬Àå");
 		timeInfoL.setBounds(259, 74, 73, 31);
 		contentPane.add(timeInfoL);
+		timeInfoL.setForeground(Color.white);
 
 		JLabel addPTitleL = new JLabel("Ãß°¡ °áÁ¦ ±Ý¾×:");
 		addPTitleL.setFont(new Font("±¼¸²", Font.BOLD, 15));
 		addPTitleL.setBounds(111, 190, 111, 43);
 		contentPane.add(addPTitleL);
+		addPTitleL.setForeground(Color.white);
 
 		JLabel priceInfoL = new JLabel(addPri + "¿ø");
 		priceInfoL.setFont(new Font("±¼¸²", Font.BOLD, 15));
 		priceInfoL.setHorizontalAlignment(SwingConstants.LEFT);
 		priceInfoL.setBounds(240, 190, 146, 43);
 		contentPane.add(priceInfoL);
+		priceInfoL.setForeground(Color.white);
 
 		JLabel roomTitleL = new JLabel("ÇöÀç ÀÌ¿ëÁßÀÎ ÁÂ¼®:");
 		roomTitleL.setFont(new Font("±¼¸²", Font.BOLD, 14));
 		roomTitleL.setBounds(105, 127, 146, 43);
 		contentPane.add(roomTitleL);
+		roomTitleL.setForeground(Color.white);
 
 		JLabel roomNameL = new JLabel(BaseFrame.getInstance().getUsingRoom().name);
 		roomNameL.setHorizontalAlignment(SwingConstants.LEFT);
 		roomNameL.setFont(new Font("±¼¸²", Font.BOLD, 15));
 		roomNameL.setBounds(263, 128, 111, 43);
 		contentPane.add(roomNameL);
+		roomNameL.setForeground(Color.white);
 
 		JButton payButton = new JButton("°áÁ¦");
 		payButton.setBounds(94, 262, 110, 43);
 		contentPane.add(payButton);
+		payButton.setBackground(MyColor.w_white);
 		payButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -82,6 +92,7 @@ public class AddTimeFrame extends JDialog {
 
 		JButton cancelButton = new JButton("Ãë¼Ò");
 		cancelButton.setBounds(246, 262, 110, 43);
+		cancelButton.setBackground(MyColor.w_white);
 		cancelButton.addActionListener(new ActionListener() {
 
 			@Override
