@@ -17,10 +17,10 @@ import data_p.product_p.LockerData;
 
 public class LockerPWFrame extends JDialog implements ActionListener {
 
-	private JPasswordField passwordField;
+	JPasswordField passwordField;
 	private LockerData lockerData;
 	String text = "";
-	
+
 	public LockerPWFrame() {
 		setModal(true);
 		setBounds(100, 100, 500, 450);
@@ -34,7 +34,7 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		getContentPane().add(passwordField);
 
 		ButtonGroup bg = new ButtonGroup();
-		
+
 		JButton btnNewButton = new JButton("1");
 		btnNewButton.setBounds(39, 142, 129, 55);
 		getContentPane().add(btnNewButton);
@@ -119,29 +119,26 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		setVisible(false);
 		setUndecorated(true);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		JButton keyPoint = (JButton) e.getSource();
 		if (passwordField.getText().length() < 4) {
-			if (keyPoint.getText() != "BackSpace" && keyPoint.getText()
-					!= "확인" && keyPoint.getText() != "취소") {
+			if (keyPoint.getText() != "BackSpace" && keyPoint.getText() != "확인" && keyPoint.getText() != "취소") {
 				text += keyPoint.getText();
-			} 
-			else if (keyPoint.getText() == "BackSpace")
+			} else if (keyPoint.getText() == "BackSpace")
 				textBack();
 
 			passwordField.setText(text);
 		}
-		
+
 		if (keyPoint.getText().equals("확인")) {
 			lockerData.setPW(passwordField.getText());
 			LockerCalcFrame lc = new LockerCalcFrame(lockerData);
 			setVisible(false);
 			System.out.println("확인");
-		} 
-		else if (keyPoint.getText().equals("취소")) {
+		} else if (keyPoint.getText().equals("취소")) {
 			setVisible(false);
 			System.out.println("취소");
 		}
@@ -153,6 +150,8 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 	}
 
 	public void openLockerPWFrame(LockerData lockerData) {
+		text = "";
+		passwordField.setText(text);
 		this.lockerData = lockerData;
 		setVisible(true);
 	}
