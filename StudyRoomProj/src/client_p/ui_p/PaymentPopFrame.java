@@ -91,7 +91,26 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 		//	BaseFrame.getInstance().payment.dispose();
 //			BaseFrame.getInstance().roomProduct.calendarList.clear();
 		//	BaseFrame.getInstance().payment.timeList.clear();
-		} else
+		} 
+		else if(ack.eResult==EResult.ALEADY_HAS_SEAT){
+	         JDialog aleay_seat = new JDialog();
+	         aleay_seat.setBounds(100, 100, 200, 200);
+	         aleay_seat.setLayout(null);
+	         JLabel msg = new JLabel("이미 사용중인 좌석입니다.");
+	         msg.setBounds(0, 0, 200, 100);
+	         aleay_seat.add(msg);
+	         JButton ok_Butoon = new JButton("확인");
+	         ok_Butoon.setBounds(50, 100, 100, 40);
+	         aleay_seat.add(ok_Butoon);
+	         ok_Butoon.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	               aleay_seat.dispose();
+	            }
+	         });
+	         aleay_seat.setModal(true);
+	         aleay_seat.setVisible(true);
+	      }
+		else
 			jl.setText("결제실패");
 
 		jb.addActionListener(new ActionListener() {
