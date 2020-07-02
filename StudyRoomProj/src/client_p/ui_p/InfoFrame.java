@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class InfoFrame extends JDialog {
 		setModal(true);
 
 		setBounds(735, 215, 550, 650);
+		getContentPane().setBackground(MyColor.black);
 		getContentPane().setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -56,12 +58,14 @@ public class InfoFrame extends JDialog {
 		JLabel mainLabel = new JLabel("<html>Àâ¾Æ ½ºÅÍµð·ë<br>ÀÌ¿ë ³»¿ª<html>");
 		mainLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 36));
 		mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		mainLabel.setForeground(Color.white);
 		mainLabel.setBounds(17, 15, 494, 103);
 		getContentPane().add(mainLabel);
 
 		JButton okButton = new JButton("È®ÀÎ");
 		okButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 22));
 		okButton.setBounds(158, 514, 186, 65);
+		okButton.setBackground(MyColor.w_white);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
