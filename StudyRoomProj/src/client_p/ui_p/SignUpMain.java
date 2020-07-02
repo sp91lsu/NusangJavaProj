@@ -205,7 +205,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		chkJd.setVisible(false);
 
 		jd2 = new JDialog();//중복확인창
-		jd2.setBounds(860, 465, 200, 150);
+		jd2.setBounds(830, 435, 200, 150);
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
 		jd2.setUndecorated(true);
 		jl2 = new JLabel();
