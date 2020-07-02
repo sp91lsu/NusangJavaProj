@@ -45,6 +45,7 @@ public class ReserInfoPane extends JPanel {
 
 		setBounds(650, 0, 245, 650);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setBackground(MyColor.beige);
 		setLayout(null);
 		setVisible(true);
 
@@ -62,6 +63,7 @@ public class ReserInfoPane extends JPanel {
 		infoPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		infoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		infoPane.setAlignmentY(Component.TOP_ALIGNMENT);
+		infoPane.setBackground(MyColor.jinBeige);
 		reserInfoScroll.setViewportView(infoPane);
 		infoPane.setBounds(10, 10, 150, 300);
 		infoPane.setLayout(new GridLayout(0, 1, 0, 5));
@@ -88,6 +90,7 @@ public class ReserInfoPane extends JPanel {
 			for (Calendar cal : room.calendarList) {
 				GridBagConstraints gc = new GridBagConstraints();
 				JCheckBox checkBox = new JCheckBox(room.name + " " + sdf.format(cal.getTime()));
+				checkBox.setBackground(MyColor.jinBeige);
 				ReserObj ro = new ReserObj(checkBox, room, cal);
 				reserList.add(ro);
 
