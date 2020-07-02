@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
@@ -18,17 +19,20 @@ public class SeatChangeOkPop extends JDialog {
 	private JPanel contentPane;
 
 	public SeatChangeOkPop(int moveSeatID) {
-		setBounds(300, 300, 300, 200);
+		setBounds(760, 440, 280, 200);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		getContentPane().setBackground(MyColor.jinBeige);
 		
 		JLabel lblNewLabel = new JLabel("이동하시겠습니까?");
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 25));
 		lblNewLabel.setBounds(0, 0, 280, 80);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("확인");
+		btnNewButton.setBackground(MyColor.jinBeige2);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -41,6 +45,7 @@ public class SeatChangeOkPop extends JDialog {
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton2 = new JButton("취소");
+		btnNewButton2.setBackground(MyColor.jinBeige2);
 		btnNewButton2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

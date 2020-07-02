@@ -2,6 +2,9 @@ package client_p.ui_p;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,13 +17,16 @@ public class SeatChangePop extends JDialog {
 	public SeatChangePop() {
 		setBounds(760, 440, 400, 200);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(MyColor.jinBeige);
 		
 		JLabel msg = new JLabel("이동할 좌석을 클릭해 주세요");
 		msg.setFont(new Font("굴림", Font.PLAIN, 25));
 		msg.setBounds(0, 0, 380, 80);
 		getContentPane().add(msg);
+		msg.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton okBtn = new JButton("확인");
+		okBtn.setBackground(MyColor.jinBeige2);
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
