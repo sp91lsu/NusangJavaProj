@@ -32,7 +32,7 @@ public class RCalcFrame extends JDialog {
 
 	public RCalcFrame() {
 
-		setBounds(700, 200, 500, 500);
+		setBounds(700, 300, 500, 500);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(MyColor.jinBeige);
 
