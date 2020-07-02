@@ -1,17 +1,11 @@
 package client_p.ui_p;
 
 import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client_p.CalCal;
@@ -20,7 +14,6 @@ import client_p.EEnter;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsUpdateRoomSyn;
-import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
 import data_p.user_p.UserData;
@@ -32,14 +25,12 @@ import server_p.packet_p.ack_p.ScBuyRoomAck;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
-import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
-import server_p.packet_p.broadCast.ScGetRoomDataCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class BaseFrame extends JFrame implements Receivable {
@@ -119,35 +110,6 @@ public class BaseFrame extends JFrame implements Receivable {
 				getSeatingArrUI().roomState();
 				getSeatingArrUI().checkDate();
 			}
-
-			if (rCalcFrame.isVisible()) {
-				if (paymentPop.isVisible()) {
-					paymentPop.setModal(false);
-					paymentPop.setVisible(false);
-				}
-				rCalcFrame.setModal(false);
-				rCalcFrame.setVisible(false);
-
-				JDialog jd = new JDialog();
-				jd.setBounds(500, 500, 150, 150);
-				jd.getContentPane().setLayout(new GridLayout(2, 1));
-				JLabel jl = new JLabel("좌석현황이 변경되었습니다.");
-				JButton jb = new JButton("확인");
-				jd.getContentPane().add(jl);
-				jd.getContentPane().add(jb);
-
-				jb.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						jd.dispose();
-					}
-				});
-				jd.setModal(true);
-				jd.setVisible(true);
-			} else if (getSeatingArrUI().enterType==EEnter.SEATCHANGE) {
-				//좌석이동중일때
-				System.out.println("이동중");
-			}
-
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
@@ -263,11 +225,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 
 	}
-
-//	public ReservationMain getReservationMain() {
-//		return (ReservationMain) jPanelArrl.get(4);
-//	}
-
+	
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 
@@ -294,7 +252,6 @@ public class BaseFrame extends JFrame implements Receivable {
 					}
 				}
 			}
-
 		}
 		return clone;
 	}
@@ -337,7 +294,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 		return 0;
 	}
-
 }
 
 class CheckRoomInfo extends Thread {
