@@ -147,6 +147,9 @@ class MethChatConnectSyn implements ServerPacketMethod {
 			toMchatSyn.setManagerIp(mc.socket.getInetAddress().toString());
 			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			mc.sendPacket(toMchatSyn);
+		} else {
+			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT, null, null);
+			client.sendPacket(scConnectAck);
 		}
 	}
 }
