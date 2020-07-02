@@ -243,19 +243,23 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 
 		// 타임별로 룸 구매
 		// RoomDao roomDao = new RoomDao();
+		if (new RoomDao().availableMoveSeat(recPacket.moveSeatID)) {
 
-		new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
+			new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
 
-		// roomDao.reset();
-		ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
-		// roomDao.reset();
-		ArrayList<RoomProduct> myReserList = new RoomDao().findUserRoom(recPacket.userUUID, false);
-		ArrayList<RoomProduct> myExitList = new RoomDao().findUserRoom(recPacket.userUUID, true);
-		ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList, myExitList);
+			// roomDao.reset();
+			ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
+			// roomDao.reset();
+			ArrayList<RoomProduct> myReserList = new RoomDao().findUserRoom(recPacket.userUUID, false);
+			ArrayList<RoomProduct> myExitList = new RoomDao().findUserRoom(recPacket.userUUID, true);
+			ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList, myExitList);
 
-		ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
+			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
 
-		MyServer.getInstance().broadCast(client, roomCast);
+			MyServer.getInstance().broadCast(client, roomCast);
+		} else {
+			ack = new ScMoveSeatAck(EResult.ALEADY_HAS_SEAT, null, null, null);
+		}
 		client.sendPacket(ack);
 
 		// roomDao.close();
@@ -333,7 +337,7 @@ class MethMsResvRoomSyn implements ServerPacketMethod {
 		try {
 			System.out.println(resPacket.yyyy);
 			System.out.println(resPacket.yyyy.substring(2));
-			String yy=resPacket.yyyy.substring(2);
+			String yy = resPacket.yyyy.substring(2);
 			ack = new SmResvRoomAck(EResult.SUCCESS,
 					new RoomDao().salesData(yy, resPacket.mm, resPacket.dd).salesRecordArrL);
 

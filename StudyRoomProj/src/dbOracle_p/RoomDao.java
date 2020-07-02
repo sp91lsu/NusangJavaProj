@@ -29,7 +29,7 @@ public class RoomDao extends DBProcess {
 
 		String calumQuery = getColum(calumArr);
 		String calumNum = getColumNum(calumArr.length);
-        String puid = room.pUid != null ? room.pUid : UUID.randomUUID().toString();
+		String puid = room.pUid != null ? room.pUid : UUID.randomUUID().toString();
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
 
@@ -192,46 +192,29 @@ public class RoomDao extends DBProcess {
 		close();
 		return null;
 	}
-
-	// 현재 룸 연장정보까지 불러오기
-	public ArrayList<RoomProduct> currentRoomList() {
-		new RoomDao().updateExitRoom();
-		ArrayList<RoomProduct> cRoomList = new ArrayList<RoomProduct>();
-
-		// 현 시간부터 다음날 바로 전까지
-		try {
-			rs = getRS(ETable.INVENTORY, "*", "startdate >= sysdate and startdate < to_char(sysdate + 1,'yyyymmdd')");
-			cRoomList = resToList(rs);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return cRoomList;
-
-	}
-
-	// 조건에 해당하는 룸 정보를 받을 수 있는지
-	public boolean hasGetRoom(int i) {
-		try {
-			rs = getRS(ETable.INVENTORY, "*", "startdate >= sysdate and startdate < to_char(sysdate + 1,'yyyymmdd')");
-
-			return rs.next();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-	}
+//
+//	// 조건에 해당하는 룸 정보를 받을 수 있는지
+//	public boolean hasGetRoom(int i) {
+//		try {
+//			rs = getRS(ETable.INVENTORY, "*", "startdate >= sysdate and startdate < to_char(sysdate + 1,'yyyymmdd')");
+//
+//			return rs.next();
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		}
+//	}
 
 	public ArrayList<RoomProduct> resToList(ResultSet rs) {
-        HashMap<String, RoomProduct> roomMap = new HashMap<String, RoomProduct>();
+		HashMap<String, RoomProduct> roomMap = new HashMap<String, RoomProduct>();
 		try {
 			while (rs.next()) {
 
 				int roomID = rs.getInt("ID");
 
-                String pUid = rs.getString("PUID");
+				String pUid = rs.getString("PUID");
 				RoomProduct roomModel = DataManager.getInstance().roomMap.get(roomID).getClone();
 				Timestamp timeStamp = rs.getTimestamp("STARTDATE");
 
@@ -241,33 +224,33 @@ public class RoomDao extends DBProcess {
 				cal.setTimeInMillis(timeStamp.getTime());
 
 				// 룸 정보가 없으면
-                if (!roomMap.containsKey(pUid)) {
+				if (!roomMap.containsKey(pUid)) {
 
 					RoomProduct room = new RoomProduct(roomModel.id, roomModel.name, rs.getInt("PRICE"),
 							roomModel.personNum);
 
-                    room.isExit = rs.getInt("ISEXIT") == 1;
-                    room.userUUID = rs.getString("UUID");
-                    room.pUid = pUid;
-                    roomMap.put(pUid, room);
+					room.isExit = rs.getInt("ISEXIT") == 1;
+					room.userUUID = rs.getString("UUID");
+					room.pUid = pUid;
+					roomMap.put(pUid, room);
 				}
-                
-                if (roomMap.get(pUid).calendarList.size() == 0) {
-                    roomMap.get(pUid).calendarList.add(cal);
-                } else {
-                    ArrayList<Calendar> calList = roomMap.get(pUid).calendarList;
-                    boolean middleSet = false;
-                    for (int i = 0; i < calList.size(); i++) {
-                        if (calList.get(i).getTimeInMillis() > cal.getTimeInMillis()) {
-                            calList.add(i, cal);
-                            middleSet = true;
-                            break;
-                        }
-                    }
-                    if (!middleSet) {
-                        calList.add(cal);
-                    }
-                }
+
+				if (roomMap.get(pUid).calendarList.size() == 0) {
+					roomMap.get(pUid).calendarList.add(cal);
+				} else {
+					ArrayList<Calendar> calList = roomMap.get(pUid).calendarList;
+					boolean middleSet = false;
+					for (int i = 0; i < calList.size(); i++) {
+						if (calList.get(i).getTimeInMillis() > cal.getTimeInMillis()) {
+							calList.add(i, cal);
+							middleSet = true;
+							break;
+						}
+					}
+					if (!middleSet) {
+						calList.add(cal);
+					}
+				}
 			}
 			rs.close();
 		} catch (Exception e) {
@@ -278,29 +261,29 @@ public class RoomDao extends DBProcess {
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 
 		roomList.addAll(roomMap.values());
-		
-        for (int i = 0; i < roomList.size() - 1; i++) {
 
-            RoomProduct room1 = roomList.get(i);
-            Calendar time1 = room1.calendarList.get(0);
-            long iTime = time1.getTimeInMillis();
-            for (int j = i + 1; j < roomList.size(); j++) {
+		for (int i = 0; i < roomList.size() - 1; i++) {
 
-                RoomProduct room2 = roomList.get(j);
-                Calendar time2 = room2.calendarList.get(0);
-                long jTime = time2.getTimeInMillis();
-                if (iTime > jTime) {
-                    Collections.swap(roomList, i, j);
-                }
-            }
-        }
+			RoomProduct room1 = roomList.get(i);
+			Calendar time1 = room1.calendarList.get(0);
+			long iTime = time1.getTimeInMillis();
+			for (int j = i + 1; j < roomList.size(); j++) {
 
-        for (RoomProduct roomProduct : roomList) {
-            System.out.println(roomProduct.name);
-            for (Calendar cal : roomProduct.calendarList) {
-                System.out.println(cal.getTime());
-            }
-        }
+				RoomProduct room2 = roomList.get(j);
+				Calendar time2 = room2.calendarList.get(0);
+				long jTime = time2.getTimeInMillis();
+				if (iTime > jTime) {
+					Collections.swap(roomList, i, j);
+				}
+			}
+		}
+
+		for (RoomProduct roomProduct : roomList) {
+			System.out.println(roomProduct.name);
+			for (Calendar cal : roomProduct.calendarList) {
+				System.out.println(cal.getTime());
+			}
+		}
 
 		return roomList;
 	}
@@ -322,6 +305,24 @@ public class RoomDao extends DBProcess {
 		}
 
 		return roomList;
+	}
+
+	// 예약한 룸정보 불러오기
+	public boolean availableMoveSeat(int seatID) {
+
+		try {
+			findQuery(ETable.INVENTORY, "*", "id = ? and startdate = to_char(sysdate,'yyyymmddhh24')");
+
+			stmt.setInt(1, seatID);
+			stmt.executeUpdate();
+			return !rs.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return true;
 	}
 
 	// 판매 기록 및 매출 조회
@@ -355,13 +356,13 @@ public class RoomDao extends DBProcess {
 			dateQuery = "'" + "20" + "/" + month + "/" + day + "'";
 		}
 
-System.out.println("dateSortN:"+dateSortN);
-System.out.println("dateQuery:"+dateQuery);
+		System.out.println("dateSortN:" + dateSortN);
+		System.out.println("dateQuery:" + dateQuery);
 		// 공통으로 들어가는 쿼리문
 		String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id as ida, CONCAT(R.room_name,a.id) as sort "
 				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
 				+ dateSortN + ") = " + dateQuery + "and i.uuid = a.uuid) ";
-		System.out.println("primequery:"+primequery);
+		System.out.println("primequery:" + primequery);
 
 		ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
 		ArrayList<SalesBySeat> saleBySeatArrL = new ArrayList<SalesBySeat>();
@@ -369,62 +370,62 @@ System.out.println("dateQuery:"+dateQuery);
 
 		SalesData sd = null;
 		try {
-		// 1. ArrayList<SalesRecord>
+			// 1. ArrayList<SalesRecord>
 			// 쿼리문작성
 			query = primequery + "order by i.id, i.startdate";
-				stmt = con.prepareStatement(query);
+			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
-	
+
 			// 초기값
 			String rn = "", un = "", ui = "", bf = "";
 			int rp = 0;
 			ArrayList<String> hourList = new ArrayList<String>();
-	
+
 			// DB 결과값 한 줄씩 점검하고 SalesRecord 만들어서 ArrL 생성
 			while (rs.next()) {
 				if (bf.equals("")) {
 					rn = rs.getString("room_name");
 					rp = Integer.parseInt(rs.getString("room_price"));
 					un = rs.getString("name");
-					System.out.println("un: "+un);
+					System.out.println("un: " + un);
 					ui = rs.getString(6);
 					bf = rs.getString(7);
-					System.out.println("bf: "+bf);
+					System.out.println("bf: " + bf);
 				}
 				String hour = rs.getString("startdate").substring(11, 13) + "시";
 				hourList.add(hour);
-	
+
 				// 구분값인 sort 값이 바뀌면 전 회전에 만들어 놓은 매개변수들로 SalesRecord 생성
 				if (!bf.equals(rs.getString(7))) {
 					SalesRecord record = new SalesRecord(dateStr, rn, rp, un, ui, hourList);
 					hourList = new ArrayList<String>();
 					salesRecordArrL.add(record);
 				}
-	
+
 				if (!rs.next()) {
 					break;
 				}
-	
+
 				rn = rs.getString("room_name");
 				rp = Integer.parseInt(rs.getString("room_price"));
 				un = rs.getString("name");
 				ui = rs.getString(6);
 				bf = rs.getString(7);
 			}
-			System.out.println("salesRecordArrL.size(): "+salesRecordArrL.size());
+			System.out.println("salesRecordArrL.size(): " + salesRecordArrL.size());
 
-		// 2. ArrayList<SalesBySeat>
+			// 2. ArrayList<SalesBySeat>
 			query = "SELECT room_name ,SUM(room_price), COUNT(*) " + "FROM " + primequery + "GROUP BY room_name";
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
-	
+
 			while (rs.next()) {
 				SalesBySeat seat = new SalesBySeat(dateStr, rs.getString("room_name"),
 						Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")));
 				saleBySeatArrL.add(seat);
 			}
 
-		// 3. ArrayList<SalesTot>
+			// 3. ArrayList<SalesTot>
 			query = "SELECT substr(startdate,0," + dateSortN + ") ,SUM(room_price), COUNT(*) " + "FROM " + primequery
 					+ "GROUP BY substr(startdate,0," + dateSortN + ")";
 			stmt = con.prepareStatement(query);
@@ -433,7 +434,7 @@ System.out.println("dateQuery:"+dateQuery);
 				tot = new SalesTot(dateSortN, Integer.parseInt(rs.getString("SUM(room_price)")),
 						Integer.parseInt(rs.getString("COUNT(*)")));
 
-		// 4. SalesData
+			// 4. SalesData
 			sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
 			System.out.println(salesRecordArrL.size());
 			System.out.println(saleBySeatArrL.size());

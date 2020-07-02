@@ -6,7 +6,8 @@ public enum EResult {
 	FAIL(-202), // 실패
 	NOT_FOUND_DATA(-1000), // 데이터 찾을 수 없음
 	DUPLICATEED_ID(-1001), // 중복 된 아이디
-	NEGATIVE_CHAT(-1002); // 매니저 연결 거부
+	NEGATIVE_CHAT(-1002), // 매니저 연결 거부
+	ALEADY_HAS_SEAT(-1003); // 이미 앉은 자리
 
 	int value;
 
