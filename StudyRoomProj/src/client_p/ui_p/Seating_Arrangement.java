@@ -120,7 +120,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
 	JButton searchButton;
 	JButton selectBtn;
-	JLabel iconLabel1, iconLabel2, iconLabel3;
+	JLabel iconLabel1, iconLabel2, iconLabel3, iconLabel4;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -256,6 +256,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		iconLabel3.setIcon(imageIcon3);
 		panel_center.add(iconLabel3);
 		
+		iconLabel4 = new JLabel();
+		iconLabel4.setBounds(120, 510, 50, 50);
+		ImageIcon imageIcon4 = new ImageIcon(new ImageIcon("img/manner.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		iconLabel4.setIcon(imageIcon4);
+		panel_center.add(iconLabel4);
+		
 		// 여기서부터 룸 버튼
 		RoomObj roomBtn1 = new RoomObj(1019, panel_center);
 		roomBtn1.btn.setBounds(0, 0, 220, 110);
@@ -310,7 +316,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		// 매너존 라벨,버튼
 		JLabel label_manner = new JLabel("매너존");
 		label_manner.setFont(new Font("굴림", Font.PLAIN, 20));
-		label_manner.setBounds(70, 110, 70, 20);
+		label_manner.setBounds(50, 110, 70, 20);
 		mannerzone_panel.add(label_manner);
 
 		RoomObj btnM_1 = new RoomObj(1006, mannerzone_panel);
