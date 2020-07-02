@@ -145,10 +145,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public Seating_Arrangement() {
 
 		setLayout(null);
-
+		setBackground(MyColor.beige);
 		// 상단 패널
 		JPanel panel_north = new JPanel();
 		panel_north.setBounds(10, 5, 860, 30);
+		panel_north.setBackground(MyColor.beige);
 		add(panel_north);
 		panel_north.setLayout(new BorderLayout(0, 0));
 
@@ -176,16 +177,20 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
+		north_center.setBackground(MyColor.beige);
 		north_center.setLayout(new BorderLayout(0, 0));
 
 		JPanel north_center_center = new JPanel();
 		north_center.add(north_center_center, BorderLayout.CENTER);
+		north_center_center.setBackground(MyColor.beige);
 //            north_center_center.setLayout(new GridLayout(1, 0, 0, 0));
 
 		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(MyColor.beige);
 		north_center_center.add(panel_5);
 
 		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(MyColor.beige);
 		north_center_center.add(panel_6);
 		panel_6.setLayout(new GridLayout(1, 0, 0, 0));
 
@@ -197,6 +202,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		panel_6.add(lblNewLabel_2);
 
 		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(MyColor.beige);
 		north_center_center.add(panel_7);
 		panel_7.setLayout(new GridLayout(1, 0, 0, 0));
 
@@ -208,6 +214,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		panel_7.add(lblNewLabel_4);
 
 		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(MyColor.beige);
 		north_center_center.add(panel_8);
 		panel_8.setLayout(new GridLayout(1, 0, 0, 0));
 
@@ -219,6 +226,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		panel_8.add(lblNewLabel_6);
 
 		JPanel panel_9 = new JPanel();
+		panel_9.setBackground(MyColor.beige);
 		north_center_center.add(panel_9);
 		panel_9.setLayout(new GridLayout(1, 0, 0, 0));
 
@@ -232,9 +240,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		lblNewLabel_8.setVisible(false);
 
 		JPanel north_center_west = new JPanel();
+		north_center_west.setBackground(MyColor.beige);
 		north_center.add(north_center_west, BorderLayout.WEST);
 
 		JPanel north_center_east = new JPanel();
+		north_center_east.setBackground(MyColor.beige);
 		north_center.add(north_center_east, BorderLayout.EAST);
 
 		// 중앙패널
@@ -425,6 +435,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 //////////////////////////////  예약날짜선택 버튼		
 
 		timeSelectPane = new JPanel();
+		timeSelectPane.setBackground(MyColor.beige);
 		timeSelectPane.setBounds(10, 680, 860, 70);
 		add(timeSelectPane);
 		timeSelectPane.setLayout(null);

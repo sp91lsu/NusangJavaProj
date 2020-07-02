@@ -61,6 +61,7 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 		});
 
 		setVisible(false);
+		setUndecorated(true);
 	}
 
 	public void openPage(RoomProduct room) {

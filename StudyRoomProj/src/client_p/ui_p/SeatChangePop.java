@@ -27,6 +27,7 @@ public class SeatChangePop extends JDialog {
 			}});
 		okBtn.setBounds(120, 90, 150, 50);
 		getContentPane().add(okBtn);
+		setUndecorated(true);
 		setModal(true);
 		setVisible(true);
 	}

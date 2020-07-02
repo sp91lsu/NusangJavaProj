@@ -6,4 +6,5 @@ public class MyColor {
 	public static Color black = new Color(60,60,60);
 	public static Color white = new Color(255,255,255);
 	public static Color w_white = new Color(220,220,220);
+	public static Color beige = new Color(245,245,220);
 }

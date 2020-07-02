@@ -67,6 +67,7 @@ public class RCalcFrame extends JDialog {
 		getContentPane().add(cancleButton);
 
 		setVisible(false);
+		setUndecorated(true);
 	}
 
 	String getDateFormat() {

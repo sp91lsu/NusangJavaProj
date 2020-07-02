@@ -103,6 +103,7 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		getContentPane().add(lblNewLabel);
 
 		setVisible(false);
+		setUndecorated(true);
 	}
 	
 	@Override
