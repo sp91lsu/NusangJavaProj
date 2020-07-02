@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
+import java.awt.Font;
 
 class LockerBtn {
 	LockerData data;
@@ -23,7 +24,7 @@ class LockerBtn {
 
 		this.data = data;
 		this.btn = btn;
-		btn.setBackground(new Color(139, 69, 19));
+		btn.setBackground(Color.white);
 		btn.setText(data.name);
 	}
 }
@@ -37,9 +38,10 @@ public class LockerMain extends JPanel implements ActionListener {
 
 	public LockerMain() {
 		setLayout(null);
-
+		setBackground(MyColor.black);
 		JPanel mainPanel = new JPanel();
-		mainPanel.setBounds(40, 30, 450, 330);
+		mainPanel.setBounds(60, 30, 800, 500);
+		mainPanel.setBackground(MyColor.black);
 		add(mainPanel);
 
 		ButtonGroup bg = new ButtonGroup();
@@ -54,7 +56,7 @@ public class LockerMain extends JPanel implements ActionListener {
 				y++;
 			}
 			JButton btn = new JButton();
-			btn.setBounds(x * 150, y * 100, 150, 100);
+			btn.setBounds(x * 250, y * 150, 250, 133);
 			mainPanel.add(btn);
 			bg.add(btn);
 			btn.addActionListener(this);
@@ -65,23 +67,30 @@ public class LockerMain extends JPanel implements ActionListener {
 		}
 
 		JPanel infoPanel = new JPanel();
-		infoPanel.setBounds(0, 400, 450, 330);
+		infoPanel.setBounds(80, 542, 700, 186);
 		add(infoPanel);
 		infoPanel.setLayout(null);
+		infoPanel.setBackground(MyColor.black);
 
 		JLabel infoLabel = new JLabel(
 				"<html>사물함 이용 안내<br>이용 요금 : 1000원<br>" + "대여 시간은 <br>좌석/룸 이용 시간과<br> 동일합니다.<html>");
+		infoLabel.setFont(new Font("굴림", Font.BOLD, 18));
 		infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		infoLabel.setBounds(65, 5, 128, 90);
+		infoLabel.setBounds(28, 24, 216, 139);
+		infoLabel.setForeground(Color.white);
 		infoPanel.add(infoLabel);
 
 		JButton pwSetting = new JButton("비밀번호 설정");
-		pwSetting.setBounds(200, 10, 120, 100);
+		pwSetting.setFont(new Font("굴림", Font.BOLD, 20));
+		pwSetting.setBounds(307, 24, 191, 139);
+		pwSetting.setBackground(MyColor.w_white);
 		infoPanel.add(pwSetting);
 		pwSetting.addActionListener(this);
 
 		JButton cancelButton = new JButton("취소");
-		cancelButton.setBounds(350, 10, 100, 100);
+		cancelButton.setFont(new Font("굴림", Font.BOLD, 20));
+		cancelButton.setBounds(529, 24, 141, 139);
+		cancelButton.setBackground(MyColor.w_white);
 		infoPanel.add(cancelButton);
 		cancelButton.addActionListener(this);
 
@@ -107,10 +116,10 @@ public class LockerMain extends JPanel implements ActionListener {
 			JButton listBtn = list.get(i).btn;
 
 			if (e.getSource().equals(listBtn)) {
-				listBtn.setBackground(new Color(255, 54, 54));
+				listBtn.setBackground(Color.red);
 				currentData = list.get(i).data;
 			} else {
-				listBtn.setBackground(new Color(139, 69, 19));
+				listBtn.setBackground(Color.white);
 			}
 
 		}
