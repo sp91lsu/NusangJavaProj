@@ -21,7 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.text.LayeredHighlighter.LayerPainter;
 
 import com.sun.org.apache.bcel.internal.generic.IADD;
 
@@ -44,14 +46,15 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	class RoomObj {
 
 		JButton btn;
+		JLabel iconLabel;
 		RoomProduct room;
 		EState state;
 
-		public RoomObj(int id, JPanel panel) {
+		public RoomObj(int id, JLayeredPane panel) {
 			super();
 			room = DataManager.getInstance().roomMap.get(id);
 			this.btn = new JButton(room.name);
-			panel.add(btn);
+			panel.add(btn, new Integer(1));
 			btn.addActionListener(new BtnAct(this));
 			all.add(this);
 			setState(EState.EMPTY);
@@ -85,12 +88,21 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				btn.setEnabled(false);
 				break;
 			}
+
+			if (iconLabel != null) {
+				iconLabel.setEnabled(false);
+				iconLabel.setEnabled(true);
+			}
+		}
+
+		void setIconLabel(JLabel label) {
+			iconLabel = label;
 		}
 	}
 
 	static JLabel north_west;
 
-	JPanel panel_center;
+	JLayeredPane panel_center;
 	JPanel panel_center_east;
 
 	int starttime = 0;
@@ -161,7 +173,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			});
 		}
-		
+
 		JPanel north_center = new JPanel();
 		panel_north.add(north_center, BorderLayout.CENTER);
 		north_center.setLayout(new BorderLayout(0, 0));
@@ -226,7 +238,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		north_center.add(north_center_east, BorderLayout.EAST);
 
 		// 중앙패널
-		panel_center = new JPanel();
+		panel_center = new JLayeredPane();
 		panel_center.setBounds(10, 40, 890, 650);
 		add(panel_center);
 		panel_center.setLayout(null);
@@ -237,36 +249,41 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			reserInfoPane = new ReserInfoPane();
 			panel_center.add(reserInfoPane, BorderLayout.EAST);
 		}
-		
+
 		iconLabel1 = new JLabel();
 		iconLabel1.setBounds(0, 0, 50, 50);
-		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/shower.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon1 = new ImageIcon(
+				new ImageIcon("img/shower.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel1.setIcon(imageIcon1);
-		panel_center.add(iconLabel1);
-		
+		panel_center.add(iconLabel1, new Integer(2));
+
 		iconLabel2 = new JLabel();
 		iconLabel2.setBounds(0, 110, 50, 50);
-		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/sing.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon2 = new ImageIcon(
+				new ImageIcon("img/sing.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel2.setIcon(imageIcon2);
-		panel_center.add(iconLabel2);
-		
+		panel_center.add(iconLabel2, new Integer(2));
+
 		iconLabel3 = new JLabel();
 		iconLabel3.setBounds(0, 260, 50, 50);
-		ImageIcon imageIcon3 = new ImageIcon(new ImageIcon("img/party.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon3 = new ImageIcon(
+				new ImageIcon("img/party.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel3.setIcon(imageIcon3);
-		panel_center.add(iconLabel3);
-		
+		panel_center.add(iconLabel3, new Integer(2));
+
 		iconLabel4 = new JLabel();
 		iconLabel4.setBounds(120, 510, 50, 50);
-		ImageIcon imageIcon4 = new ImageIcon(new ImageIcon("img/manner.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon4 = new ImageIcon(
+				new ImageIcon("img/manner.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel4.setIcon(imageIcon4);
-		panel_center.add(iconLabel4);
-		
+		panel_center.add(iconLabel4, new Integer(2));
+
 		// 여기서부터 룸 버튼
 		RoomObj roomBtn1 = new RoomObj(1019, panel_center);
 		roomBtn1.btn.setBounds(0, 0, 220, 110);
 		group.add(roomBtn1);
-		
+		roomBtn1.setIconLabel(iconLabel1);
+
 		RoomObj roomBtn2 = new RoomObj(1018, panel_center);
 		roomBtn2.btn.setBounds(220, 0, 170, 110);
 		group.add(roomBtn2);
@@ -308,7 +325,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		group.add(roomBtn11);
 
 		// 매너존 패널
-		JPanel mannerzone_panel = new JPanel();
+		JLayeredPane mannerzone_panel = new JLayeredPane();
 		mannerzone_panel.setBounds(0, 415, 240, 250);
 		panel_center.add(mannerzone_panel);
 		mannerzone_panel.setLayout(null);
@@ -340,7 +357,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		solo.add(btnM_5);
 
 		// 일반석 패널
-		JPanel normalzone_panel = new JPanel();
+		JLayeredPane normalzone_panel = new JLayeredPane();
 		normalzone_panel.setBounds(210, 160, 240, 250);
 		panel_center.add(normalzone_panel);
 		normalzone_panel.setLayout(null);
@@ -569,7 +586,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 //		monthCBox.setSelectedItem(setMonth);
 //		dateCBox.setSelectedItem(setDate);
 //	}
-	
 
 	public void combo_state(boolean state) {
 		for (JComboBox box : comboList) {
