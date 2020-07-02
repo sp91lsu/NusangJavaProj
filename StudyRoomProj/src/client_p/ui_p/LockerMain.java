@@ -107,13 +107,13 @@ public class LockerMain extends JPanel {
 					lockerDialog.add(closeButton);
 					closeButton.setBackground(MyColor.w_white);
 					closeButton.addActionListener(new ActionListener() {
-
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							lockerDialog.dispose();
 
 						}
 					});
+					lockerDialog.setModal(true);
 					lockerDialog.setVisible(true);
 				}
 

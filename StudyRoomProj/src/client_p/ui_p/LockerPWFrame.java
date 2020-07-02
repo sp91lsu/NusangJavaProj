@@ -8,18 +8,17 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
 import data_p.product_p.LockerData;
 
 public class LockerPWFrame extends JDialog implements ActionListener {
 
-	JPasswordField passwordField;
+	JLabel passwordField;
 	private LockerData lockerData;
 	String text = "";
+	String pw = "";
 
 	public LockerPWFrame() {
 		setModal(true);
@@ -27,76 +26,84 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		getContentPane().setBackground(MyColor.black);
 		getContentPane().setLayout(null);
 
-		passwordField = new JPasswordField();
+		passwordField = new JLabel();
+		passwordField.setForeground(Color.WHITE);
 		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField.setFont(new Font("굴림", Font.BOLD, 40));
-		passwordField.setBounds(77, 53, 320, 74);
+		passwordField.setBounds(77, 53, 273, 74);
 		getContentPane().add(passwordField);
 
 		ButtonGroup bg = new ButtonGroup();
 
-		JButton btnNewButton = new JButton("1");
-		btnNewButton.setBounds(39, 142, 129, 55);
-		getContentPane().add(btnNewButton);
-		bg.add(btnNewButton);
-		btnNewButton.addActionListener(this);
-		btnNewButton.setBackground(MyColor.w_white);
+		JButton button1 = new JButton("1");
+		button1.setBounds(39, 142, 129, 55);
+		getContentPane().add(button1);
+		bg.add(button1);
+		button1.addActionListener(this);
+		button1.setBackground(MyColor.w_white);
 
-		JButton button = new JButton("2");
-		button.setBounds(169, 142, 129, 55);
-		getContentPane().add(button);
-		bg.add(button);
-		button.addActionListener(this);
-		button.setBackground(MyColor.w_white);
+		JButton button2 = new JButton("2");
+		button2.setBounds(169, 142, 129, 55);
+		getContentPane().add(button2);
+		bg.add(button2);
+		button2.addActionListener(this);
+		button2.setBackground(MyColor.w_white);
 
-		JButton button_1 = new JButton("3");
-		button_1.setBounds(300, 142, 129, 55);
-		getContentPane().add(button_1);
-		bg.add(button_1);
-		button_1.addActionListener(this);
-		button_1.setBackground(MyColor.w_white);
+		JButton button3 = new JButton("3");
+		button3.setBounds(300, 142, 129, 55);
+		getContentPane().add(button3);
+		bg.add(button3);
+		button3.addActionListener(this);
+		button3.setBackground(MyColor.w_white);
 
-		JButton button_2 = new JButton("4");
-		button_2.setBounds(300, 200, 129, 55);
-		getContentPane().add(button_2);
-		bg.add(button_2);
-		button_2.addActionListener(this);
-		button_2.setBackground(MyColor.w_white);
+		JButton button4 = new JButton("4");
+		button4.setBounds(300, 200, 129, 55);
+		getContentPane().add(button4);
+		bg.add(button4);
+		button4.addActionListener(this);
+		button4.setBackground(MyColor.w_white);
 
-		JButton button_3 = new JButton("5");
-		button_3.setBounds(169, 200, 129, 55);
-		getContentPane().add(button_3);
-		bg.add(button_3);
-		button_3.addActionListener(this);
-		button_3.setBackground(MyColor.w_white);
+		JButton button5 = new JButton("5");
+		button5.setBounds(169, 200, 129, 55);
+		getContentPane().add(button5);
+		bg.add(button5);
+		button5.addActionListener(this);
+		button5.setBackground(MyColor.w_white);
 
-		JButton button_4 = new JButton("6");
-		button_4.setBounds(39, 200, 129, 55);
-		getContentPane().add(button_4);
-		bg.add(button_4);
-		button_4.addActionListener(this);
-		button_4.setBackground(MyColor.w_white);
+		JButton button6 = new JButton("4");
+		button6.setBounds(39, 200, 129, 55);
+		getContentPane().add(button6);
+		bg.add(button6);
+		button6.addActionListener(this);
+		button6.setBackground(MyColor.w_white);
 
-		JButton button_5 = new JButton("7");
-		button_5.setBounds(300, 257, 129, 55);
-		getContentPane().add(button_5);
-		bg.add(button_5);
-		button_5.addActionListener(this);
-		button_5.setBackground(MyColor.w_white);
+		JButton button7 = new JButton("5");
+		button7.setBounds(300, 257, 129, 55);
+		getContentPane().add(button7);
+		bg.add(button7);
+		button7.addActionListener(this);
+		button7.setBackground(MyColor.w_white);
 
-		JButton button_6 = new JButton("8");
-		button_6.setBounds(169, 257, 129, 55);
-		getContentPane().add(button_6);
-		bg.add(button_6);
-		button_6.addActionListener(this);
-		button_6.setBackground(MyColor.w_white);
+		JButton button8 = new JButton("8");
+		button8.setBounds(169, 257, 129, 55);
+		getContentPane().add(button8);
+		bg.add(button8);
+		button8.addActionListener(this);
+		button8.setBackground(MyColor.w_white);
 
-		JButton button_7 = new JButton("9");
-		button_7.setBounds(39, 257, 129, 55);
-		getContentPane().add(button_7);
-		bg.add(button_7);
-		button_7.addActionListener(this);
-		button_7.setBackground(MyColor.w_white);
+		JButton button9 = new JButton("9");
+		button9.setBounds(39, 257, 129, 55);
+		getContentPane().add(button9);
+		bg.add(button9);
+		button9.addActionListener(this);
+		button9.setBackground(MyColor.w_white);
+
+		JButton back = new JButton("<");
+		back.setBounds(364, 61, 65, 66);
+		getContentPane().add(back);
+		bg.add(back);
+		back.addActionListener(this);
+		back.setBackground(MyColor.w_white);
 
 		JButton ok_Button = new JButton("확인");
 		ok_Button.setBounds(111, 324, 129, 55);
@@ -104,11 +111,11 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		ok_Button.addActionListener(this);
 		ok_Button.setBackground(MyColor.w_white);
 
-		JButton button_9 = new JButton("취소");
-		button_9.setBounds(248, 324, 129, 55);
-		getContentPane().add(button_9);
-		button_9.addActionListener(this);
-		button_9.setBackground(MyColor.w_white);
+		JButton cancel_Button = new JButton("취소");
+		cancel_Button.setBounds(248, 324, 129, 55);
+		getContentPane().add(cancel_Button);
+		cancel_Button.addActionListener(this);
+		cancel_Button.setBackground(MyColor.w_white);
 
 		JLabel lblNewLabel = new JLabel("비밀번호 4자리를 입력하세요");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -124,32 +131,41 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		JButton keyPoint = (JButton) e.getSource();
-		if (passwordField.getText().length() < 4) {
-			if (keyPoint.getText() != "BackSpace" && keyPoint.getText() 
-					!= "확인" && keyPoint.getText() != "취소") {
-				text += keyPoint.getText();
-			} else if (keyPoint.getText() == "BackSpace")
-				textBack();
-
-			passwordField.setText(text);
+		if (passwordField.getText().length() < 4 && pw.length() < 4) {
+			if (!keyPoint.getText().equals("확인") && !keyPoint.getText().equals("취소")
+					&& !keyPoint.getText().equals("<")) {
+				text += "*";
+				pw += keyPoint.getText();
+			}
 		}
 
 		if (keyPoint.getText().equals("확인") && passwordField.getText().length() == 4) {
-			lockerData.setPW(passwordField.getText());
+			lockerData.setPW(pw);
 			LockerCalcFrame lc = new LockerCalcFrame(lockerData);
 			setVisible(false);
-			System.out.println("확인");
+			text_Set();
 		} else if (keyPoint.getText().equals("취소")) {
 			setVisible(false);
-			System.out.println("취소");
+			text_Set();
 		}
+		if (keyPoint.getText().equals("<")) {
+			textBack();
+		}
+		passwordField.setText(text);
 	}
 
 	void textBack() {
-		if (text.length() > 0)
+		if (text.length() > 0 && pw.length() > 0) {
 			text = text.substring(0, text.length() - 1);
+			pw = pw.substring(0, pw.length() - 1);
+		}
 	}
 
+	void text_Set()
+	{
+		text="";
+		pw="";
+	}
 	public void openLockerPWFrame(LockerData lockerData) {
 		text = "";
 		passwordField.setText(text);
