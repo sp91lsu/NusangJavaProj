@@ -220,7 +220,7 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 				MyServer.getInstance().broadCast(client, roomCast);
 
 			} else {
-				ack = new ScBuyRoomAck(EResult.ALEADY_HAS_SEAT, null, null, null);
+				ack = new ScBuyRoomAck(EResult.ALEADY_EXIST_DATA, null, null, null);
 			}
 			client.sendPacket(ack);
 		} catch (Exception e) {
@@ -258,7 +258,7 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 
 			MyServer.getInstance().broadCast(client, roomCast);
 		} else {
-			ack = new ScMoveSeatAck(EResult.ALEADY_HAS_SEAT, null, null, null);
+			ack = new ScMoveSeatAck(EResult.ALEADY_EXIST_DATA, null, null, null);
 		}
 		client.sendPacket(ack);
 
@@ -418,7 +418,9 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 
 		ScBuyLockerAck ack = null;
 
-		if (new LockerDao().insertLocker(resPacket.uuid, resPacket.locker)) {
+		if (new LockerDao().availableBuy(resPacket.locker.id)) {
+
+			new LockerDao().insertLocker(resPacket.uuid, resPacket.locker);
 
 			ArrayList<LockerData> lockerList = new LockerDao().getLockerIDList();
 
@@ -431,7 +433,7 @@ class MethBuyLockerSyn implements ServerPacketMethod {
 			MyServer.getInstance().broadCast(client, lockerCast);
 
 		} else {
-			ack = new ScBuyLockerAck(EResult.FAIL, null, null);
+			ack = new ScBuyLockerAck(EResult.ALEADY_EXIST_DATA, null, null);
 		}
 
 		client.sendPacket(ack);

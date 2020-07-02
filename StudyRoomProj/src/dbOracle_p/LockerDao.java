@@ -110,4 +110,20 @@ public class LockerDao extends DBProcess {
 
 		return true;
 	}
+
+	public boolean availableBuy(int id) {
+		try {
+			findQuery(ETable.LOCKER, "*", "id = ? and ISEXIT = 0");
+
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			return !rs.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return true;
+	}
 }
