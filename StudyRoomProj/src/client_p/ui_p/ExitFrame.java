@@ -26,7 +26,7 @@ public class ExitFrame extends JDialog {
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel(title + " 하시겠습니까???");
-		
+
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 28));
 		lblNewLabel.setBounds(50, 50, 400, 135);
@@ -60,7 +60,7 @@ public class ExitFrame extends JDialog {
 			}
 		});
 		getContentPane().add(cancleButton);
-		setUndecorated(true); 
+		setUndecorated(true);
 		setVisible(true);
 	}
 }

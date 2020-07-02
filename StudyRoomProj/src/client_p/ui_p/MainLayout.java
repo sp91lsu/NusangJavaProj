@@ -1,22 +1,16 @@
 package client_p.ui_p;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import com.sun.xml.internal.ws.wsdl.writer.document.http.Address;
 
 import client_p.ClientNet;
 import client_p.EEnter;
@@ -28,9 +22,6 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScExitAck;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class MainLayout extends JPanel implements Receivable, ActionListener {
 
@@ -43,8 +34,7 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 	private JButton button_7;
 	long todayRemainTime;
 
-	boolean is_Info, is_useData, is_addTime, is_Exit;
-	boolean is_LogOut;
+	boolean is_Info, is_useData, is_addTime, is_Exit, is_LogOut;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();

@@ -23,7 +23,7 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 
 	public LockerPWFrame() {
 		setModal(true);
-		setBounds(100, 100, 500, 450);
+		setBounds(710, 315, 500, 450);
 		getContentPane().setBackground(MyColor.black);
 		getContentPane().setLayout(null);
 
@@ -125,7 +125,8 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 
 		JButton keyPoint = (JButton) e.getSource();
 		if (passwordField.getText().length() < 4) {
-			if (keyPoint.getText() != "BackSpace" && keyPoint.getText() != "확인" && keyPoint.getText() != "취소") {
+			if (keyPoint.getText() != "BackSpace" && keyPoint.getText() 
+					!= "확인" && keyPoint.getText() != "취소") {
 				text += keyPoint.getText();
 			} else if (keyPoint.getText() == "BackSpace")
 				textBack();
@@ -133,7 +134,7 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 			passwordField.setText(text);
 		}
 
-		if (keyPoint.getText().equals("확인")) {
+		if (keyPoint.getText().equals("확인") && passwordField.getText().length() == 4) {
 			lockerData.setPW(passwordField.getText());
 			LockerCalcFrame lc = new LockerCalcFrame(lockerData);
 			setVisible(false);
