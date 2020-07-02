@@ -1,16 +1,12 @@
 package client_p.ui_p;
 
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -20,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsLoginSyn;
@@ -27,6 +24,7 @@ import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
+import java.awt.Color;
 
 public class LoginMain extends JPanel implements Receivable, MouseListener {
 
@@ -55,19 +53,23 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		// 서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결
 //		PacketMap.getInstance().map.put(ScLoginAck.class, new ReceiveLoginAck());
 		setLayout(null);
+		setBackground(MyColor.black);
 
-		JLabel lblNewLabel = new JLabel("로그인창");
+		JLabel lblNewLabel = new JLabel("로그인");
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 40));
 		lblNewLabel.setBounds(230, 21, 469, 110);
 		add(lblNewLabel);
 
 		idLabel = new JLabel("ID");
+		idLabel.setForeground(Color.WHITE);
 		idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 26));
 		idLabel.setBounds(150, 156, 100, 55);
 		add(idLabel);
 
 		idTextF = new JTextField();//ID 입력필드
+		idTextF.setBackground(MyColor.w_white);
 		idTextF.setText(info);
 		idTextF.setToolTipText("");
 		idTextF.setFont(new Font("맑은 고딕", Font.ITALIC, 14));
@@ -77,6 +79,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		idTextF.addMouseListener(this);
 
 		changeBox = new JCheckBox("휴대폰 번호로 로그인하기");//휴대폰번호로 로그인 전환 버튼
+		changeBox.setForeground(Color.WHITE);
 		changeBox.setBounds(300, 220, 300, 70);
 		changeBox.setBackground(null);
 		changeBox.addActionListener(new ActionListener() {
@@ -95,15 +98,18 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		add(changeBox);
 
 		JLabel lblPw = new JLabel("PW");
+		lblPw.setForeground(Color.WHITE);
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 26));
 		lblPw.setBounds(150, 300, 51, 54);
 		add(lblPw);
 
 		passwordField = new JPasswordField();//비밀번호 입력 필드
+		passwordField.setBackground(MyColor.w_white);
 		passwordField.setBounds(300, 300, 328, 54);
 		add(passwordField);
 
 		logInBtn = new JButton("로그인");//로그인 버튼
+		logInBtn.setBackground(MyColor.w_white);
 		logInBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		logInBtn.setBounds(300, 400, 120, 45);
 		add(logInBtn);
@@ -118,6 +124,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		});
 
 		JButton signUpBt = new JButton("회원가입");//회원가입 버튼
+		signUpBt.setBackground(MyColor.w_white);
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		signUpBt.setBounds(480, 400, 120, 45);
 		add(signUpBt);
@@ -131,12 +138,12 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		
 		logDialog = new JDialog();
 		logDialog.setBounds(810, 390, 300, 300);
-		logDialog.setLayout(new GridLayout(2,1));
+		logDialog.getContentPane().setLayout(new GridLayout(2,1));
 		logDialog.setUndecorated(true);
 		logLabel = new JLabel();
-		logDialog.add(logLabel);
+		logDialog.getContentPane().add(logLabel);
 		logChkButton = new JButton("확인");
-		logDialog.add(logChkButton);
+		logDialog.getContentPane().add(logChkButton);
 		logDialog.setVisible(false);
 	}
 

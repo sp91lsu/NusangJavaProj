@@ -9,4 +9,4 @@ public class ClientMain {
 		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, DataManager.getInstance());
 		ClientNet.getInstance().start();
 	}
-}	
+}
