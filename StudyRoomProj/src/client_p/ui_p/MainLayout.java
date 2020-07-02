@@ -3,10 +3,13 @@ package client_p.ui_p;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,6 +28,9 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScExitAck;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class MainLayout extends JPanel implements Receivable, ActionListener {
 
@@ -39,6 +45,15 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 
 	boolean is_Info, is_useData, is_addTime, is_Exit;
 	boolean is_LogOut;
+	private JLabel button_1_label;
+	private JLabel button_2_label;
+	private JLabel button_3_label;
+	private JLabel button_4_label;
+	private JLabel button_5_label;
+	private JLabel button_6_label;
+	private JLabel button_7_label;
+	private JLabel button_8_label;
+	private JLabel button_9_label;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -55,64 +70,185 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 		
 		setBackground(new Color(230,230,230));
 		JPanel panel = new JPanel();
-		panel.setBounds(82, 168, 725, 430);
+		panel.setBounds(83, 127, 691, 486);
 		add(panel);
-		panel.setLayout(new GridLayout(3, 3, 5, 5));
 
 		JLabel lblNewLabel = new JLabel("·Î±×ÀÎ ÈÄ È­¸é");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 35));
 		lblNewLabel.setBounds(261, 10, 396, 107);
 		add(lblNewLabel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[] { 228, 228, 228, 0 };
+		gbl_panel.rowHeights = new int[] { 113, 45, 113, 45, 113, 45 };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		panel.setLayout(gbl_panel);
 
 		button_1 = new JButton("°³ÀÎ¼® ÀÌ¿ë");
 		button_1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_1);
+		GridBagConstraints gbc_button_1 = new GridBagConstraints();
+		gbc_button_1.fill = GridBagConstraints.BOTH;
+		gbc_button_1.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1.gridx = 0;
+		gbc_button_1.gridy = 0;
+		panel.add(button_1, gbc_button_1);
 		button_1.addActionListener(this);
+		
+		button_1_label = new JLabel("°³ÀÎ¼® ÀÌ¿ë");
+		GridBagConstraints gbc_button_1_label = new GridBagConstraints();
+		gbc_button_1_label.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1_label.gridx = 0;
+		gbc_button_1_label.gridy = 1;
+		panel.add(button_1_label, gbc_button_1_label);
 
 		button_2 = new JButton("´ÜÃ¼·ë ÀÌ¿ë");
 		button_2.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_2);
+		GridBagConstraints gbc_button_2 = new GridBagConstraints();
+		gbc_button_2.fill = GridBagConstraints.BOTH;
+		gbc_button_2.insets = new Insets(0, 0, 5, 5);
+		gbc_button_2.gridx = 1;
+		gbc_button_2.gridy = 0;
+		panel.add(button_2, gbc_button_2);
 		button_2.addActionListener(this);
+		
+		button_2_label = new JLabel("´ÜÃ¼·ë ÀÌ¿ë");
+		GridBagConstraints gbc_button_2_label = new GridBagConstraints();
+		gbc_button_2_label.insets = new Insets(0, 0, 5, 5);
+		gbc_button_2_label.gridx = 1;
+		gbc_button_2_label.gridy = 1;
+		panel.add(button_2_label, gbc_button_2_label);
 
 		button_3 = new JButton("»ç¹°ÇÔ ´ë¿©");
 		button_3.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_3);
+		GridBagConstraints gbc_button_3 = new GridBagConstraints();
+		gbc_button_3.fill = GridBagConstraints.BOTH;
+		gbc_button_3.insets = new Insets(0, 0, 5, 0);
+		gbc_button_3.gridx = 2;
+		gbc_button_3.gridy = 0;
+		panel.add(button_3, gbc_button_3);
 		button_3.addActionListener(this);
 
-		JButton button_4 = new JButton("1:1 °í°´¹®ÀÇ");
+		button_3_label = new JLabel("»ç¹°ÇÔ ´ë¿©");
+		GridBagConstraints gbc_button_3_label = new GridBagConstraints();
+		gbc_button_3_label.insets = new Insets(0, 0, 5, 0);
+		gbc_button_3_label.gridx = 2;
+		gbc_button_3_label.gridy = 1;
+		panel.add(button_3_label, gbc_button_3_label);
+		
+		JButton button_4 = new JButton();
+		ImageIcon button_4Img = new ImageIcon("img/¹®ÀÇ.png");
 		button_4.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_4);
+		GridBagConstraints gbc_button_4 = new GridBagConstraints();
+		gbc_button_4.fill = GridBagConstraints.BOTH;
+		gbc_button_4.insets = new Insets(0, 0, 5, 5);
+		gbc_button_4.gridx = 0;
+		gbc_button_4.gridy = 2;
+		panel.add(button_4, gbc_button_4);
 		button_4.addActionListener(this);
+		button_4.setIcon(resizeIcon(button_4Img));
+		
+		button_4_label = new JLabel("1:1 ¹®ÀÇ");
+		GridBagConstraints gbc_button_4_label = new GridBagConstraints();
+		gbc_button_4_label.insets = new Insets(0, 0, 5, 5);
+		gbc_button_4_label.gridx = 0;
+		gbc_button_4_label.gridy = 3;
+		panel.add(button_4_label, gbc_button_4_label);
+
 
 		button_5 = new JButton("°³ÀÎ¼® ÀÌµ¿");
 		button_5.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_5);
+		GridBagConstraints gbc_button_5 = new GridBagConstraints();
+		gbc_button_5.fill = GridBagConstraints.BOTH;
+		gbc_button_5.insets = new Insets(0, 0, 5, 5);
+		gbc_button_5.gridx = 1;
+		gbc_button_5.gridy = 2;
+		panel.add(button_5, gbc_button_5);
 		button_5.addActionListener(this);
+		
+		button_5_label = new JLabel("°³ÀÎ¼® ÀÌµ¿");
+		GridBagConstraints gbc_button_5_label = new GridBagConstraints();
+		gbc_button_5_label.insets = new Insets(0, 0, 5, 5);
+		gbc_button_5_label.gridx = 1;
+		gbc_button_5_label.gridy = 3;
+		panel.add(button_5_label, gbc_button_5_label);
+
 
 		button_6 = new JButton("ÁÂ¼® ¿¬Àå");
 		button_6.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_6);
+		GridBagConstraints gbc_button_6 = new GridBagConstraints();
+		gbc_button_6.fill = GridBagConstraints.BOTH;
+		gbc_button_6.insets = new Insets(0, 0, 5, 0);
+		gbc_button_6.gridx = 2;
+		gbc_button_6.gridy = 2;
+		panel.add(button_6, gbc_button_6);
 		button_6.addActionListener(this);
+
+		button_6_label = new JLabel("ÁÂ¼® ¿¬Àå");
+		GridBagConstraints gbc_button_6_label = new GridBagConstraints();
+		gbc_button_6_label.insets = new Insets(0, 0, 5, 0);
+		gbc_button_6_label.gridx = 2;
+		gbc_button_6_label.gridy = 3;
+		panel.add(button_6_label, gbc_button_6_label);
 
 		button_7 = new JButton("´çÀÏ ±¸¸Å Á¤º¸");
 		button_7.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_7);
+		GridBagConstraints gbc_button_7 = new GridBagConstraints();
+		gbc_button_7.fill = GridBagConstraints.BOTH;
+		gbc_button_7.insets = new Insets(0, 0, 5, 5);
+		gbc_button_7.gridx = 0;
+		gbc_button_7.gridy = 4;
+		panel.add(button_7, gbc_button_7);
 		button_7.addActionListener(this);
+		
+		
+		button_7_label = new JLabel("´çÀÏ ±¸¸Å Á¤º¸");
+		GridBagConstraints gbc_button_7_label = new GridBagConstraints();
+		gbc_button_7_label.gridheight = 2;
+		gbc_button_7_label.insets = new Insets(0, 0, 0, 5);
+		gbc_button_7_label.gridx = 0;
+		gbc_button_7_label.gridy = 5;
+		panel.add(button_7_label, gbc_button_7_label);
 
 		JButton button_8 = new JButton("ÀÌ¿ë ³»¿ª Á¶È¸");
 		button_8.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_8);
+		GridBagConstraints gbc_button_8 = new GridBagConstraints();
+		gbc_button_8.fill = GridBagConstraints.BOTH;
+		gbc_button_8.insets = new Insets(0, 0, 5, 5);
+		gbc_button_8.gridx = 1;
+		gbc_button_8.gridy = 4;
+		panel.add(button_8, gbc_button_8);
 		button_8.addActionListener(this);
+
+		button_8_label = new JLabel("ÀÌ¿ë ³»¿ª Á¶È¸");
+		GridBagConstraints gbc_button_8_label = new GridBagConstraints();
+		gbc_button_8_label.gridheight = 2;
+		gbc_button_8_label.insets = new Insets(0, 0, 0, 5);
+		gbc_button_8_label.gridx = 1;
+		gbc_button_8_label.gridy = 5;
+		panel.add(button_8_label, gbc_button_8_label);
+
 
 		button_9 = new JButton("Åð½Ç");
 		button_9.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		panel.add(button_9);
+		GridBagConstraints gbc_button_9 = new GridBagConstraints();
+		gbc_button_9.insets = new Insets(0, 0, 5, 0);
+		gbc_button_9.fill = GridBagConstraints.BOTH;
+		gbc_button_9.gridx = 2;
+		gbc_button_9.gridy = 4;
+		panel.add(button_9, gbc_button_9);
+
+		button_9_label = new JLabel("Åð½Ç");
+		GridBagConstraints gbc_button_9_label = new GridBagConstraints();
+		gbc_button_9_label.gridheight = 2;
+		gbc_button_9_label.gridx = 2;
+		gbc_button_9_label.gridy = 5;
+		panel.add(button_9_label, gbc_button_9_label);
 		button_9.addActionListener(this);
 
 		JButton button_10 = new JButton("·Î±×¾Æ¿ô");
 		button_10.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		button_10.setBounds(325, 622, 238, 94);
+		button_10.setBounds(325, 648, 238, 68);
 		button_10.addActionListener(this);
 		add(button_10);
 	}
@@ -238,12 +374,17 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 				ExitFrame exitframe = new ExitFrame(button_9.getText());
 			}
 		} else if (btn.getText().equals("·Î±×¾Æ¿ô")) {
-			if(!is_LogOut)
-			{
-				is_LogOut=true;
+			if (!is_LogOut) {
+				is_LogOut = true;
 				LogoutPopFrame logout = new LogoutPopFrame();
 				logout.setVisible(true);
 			}
 		}
+	}
+
+	static Icon resizeIcon(ImageIcon icon) {
+		Image img = icon.getImage();
+		Image resizedImage = img.getScaledInstance(180, 100, java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(resizedImage);
 	}
 }
