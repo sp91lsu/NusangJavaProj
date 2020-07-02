@@ -28,13 +28,14 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 
 		setBounds(820, 470, 280, 140);
 		getContentPane().setLayout(null);
-
+		getContentPane().setBackground(MyColor.jinBeige);
 		JLabel jbl = new JLabel("결제 하시겠습니까?");
 		jbl.setBounds(0, 0, 263, 52);
 		jbl.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(jbl);
 		JButton okBtn = new JButton("확인");
 		okBtn.setBounds(26, 55, 96, 36);
+		okBtn.setBackground(MyColor.jinBeige2);
 		okBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -53,6 +54,7 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 		JButton cancelBtn = new JButton("취소");
 		cancelBtn.setBounds(143, 55, 96, 36);
 		getContentPane().add(cancelBtn);
+		cancelBtn.setBackground(MyColor.jinBeige2);
 		cancelBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
