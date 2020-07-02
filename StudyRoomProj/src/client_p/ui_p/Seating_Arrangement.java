@@ -4,18 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.sun.org.apache.bcel.internal.generic.IADD;
 
 import client_p.CalCal;
 import client_p.EEnter;
@@ -112,6 +120,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
 	JButton searchButton;
 	JButton selectBtn;
+	JLabel iconLabel1, iconLabel2, iconLabel3;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -228,11 +237,30 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			reserInfoPane = new ReserInfoPane();
 			panel_center.add(reserInfoPane, BorderLayout.EAST);
 		}
+		
+		iconLabel1 = new JLabel();
+		iconLabel1.setBounds(0, 0, 50, 50);
+		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/»þ¿ö·ë.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		iconLabel1.setIcon(imageIcon1);
+		panel_center.add(iconLabel1);
+		
+		iconLabel2 = new JLabel();
+		iconLabel2.setBounds(0, 110, 50, 50);
+		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/³ë·¡¹æ.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		iconLabel2.setIcon(imageIcon2);
+		panel_center.add(iconLabel2);
+		
+		iconLabel3 = new JLabel();
+		iconLabel3.setBounds(0, 260, 50, 50);
+		ImageIcon imageIcon3 = new ImageIcon(new ImageIcon("img/ÆÄÆ¼·ë.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		iconLabel3.setIcon(imageIcon3);
+		panel_center.add(iconLabel3);
+		
 		// ¿©±â¼­ºÎÅÍ ·ë ¹öÆ°
 		RoomObj roomBtn1 = new RoomObj(1019, panel_center);
 		roomBtn1.btn.setBounds(0, 0, 220, 110);
 		group.add(roomBtn1);
-
+		
 		RoomObj roomBtn2 = new RoomObj(1018, panel_center);
 		roomBtn2.btn.setBounds(220, 0, 170, 110);
 		group.add(roomBtn2);
@@ -535,6 +563,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 //		monthCBox.setSelectedItem(setMonth);
 //		dateCBox.setSelectedItem(setDate);
 //	}
+	
 
 	public void combo_state(boolean state) {
 		for (JComboBox box : comboList) {
