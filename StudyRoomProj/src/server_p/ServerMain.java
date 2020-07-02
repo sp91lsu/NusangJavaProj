@@ -165,8 +165,7 @@ class SocketClient extends Thread {
 			dos.reset();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-
+			close();
 		}
 	}
 

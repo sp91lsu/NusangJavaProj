@@ -30,10 +30,12 @@ public class RoomDao extends DBProcess {
 		String calumQuery = getColum(calumArr);
 		String calumNum = getColumNum(calumArr.length);
 		String puid = room.pUid != null ? room.pUid : UUID.randomUUID().toString();
+
 		try {
 			insertQuery(ETable.INVENTORY, calumQuery, calumNum);
 
 			for (Calendar cal : room.calendarList) {
+
 				stmt.setInt(1, room.id);
 				cal.set(Calendar.MILLISECOND, 0);
 				Timestamp timeStamp = new Timestamp(cal.getTimeInMillis());
@@ -45,7 +47,9 @@ public class RoomDao extends DBProcess {
 				rs = stmt.executeQuery();
 			}
 
-		} catch (SQLException e1) {
+		} catch (
+
+		SQLException e1) {
 			e1.printStackTrace();
 			return false;
 		} finally {
@@ -103,7 +107,7 @@ public class RoomDao extends DBProcess {
 		try {
 
 			updateQuery(ETable.INVENTORY, "ISEXIT", "?",
-					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+					"uuid = ? and startdate < to_char(sysdate + 1,'yyyymmdd') and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
 			stmt.setInt(1, exitValue);
 			stmt.setString(2, room.userUUID);
@@ -277,14 +281,6 @@ public class RoomDao extends DBProcess {
 				}
 			}
 		}
-
-		for (RoomProduct roomProduct : roomList) {
-			System.out.println(roomProduct.name);
-			for (Calendar cal : roomProduct.calendarList) {
-				System.out.println(cal.getTime());
-			}
-		}
-
 		return roomList;
 	}
 
@@ -307,18 +303,55 @@ public class RoomDao extends DBProcess {
 		return roomList;
 	}
 
-	// 예약한 룸정보 불러오기
-	public boolean availableMoveSeat(int seatID) {
+	// 예약 가능한지
+	public boolean availableMove(int seatID) {
 
 		try {
-			findQuery(ETable.INVENTORY, "*", "id = ? and startdate = to_char(sysdate,'yyyymmddhh24')");
+			findQuery(ETable.INVENTORY, "*", "id = ? and startdate = to_char(sysdate,'yyyymmddhh24') and ISEXIT = 0");
 
 			stmt.setInt(1, seatID);
-			stmt.executeUpdate();
+			rs = stmt.executeQuery();
+
 			return !rs.next();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return true;
+	}
+
+	// 예약 가능한지
+	public boolean availableBuy(int id, Calendar cal) {
+
+		try {
+			findQuery(ETable.INVENTORY, "*", "id = ? and startdate = to_char(?,'yyyymmddhh24') and ISEXIT = 0");
+
+			Timestamp time = new Timestamp(cal.getTimeInMillis());
+			stmt.setInt(1, id);
+			stmt.setTimestamp(2, time);
+			rs = stmt.executeQuery();
+
+			return !rs.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return true;
+	}
+
+	// 예약 가능한지
+	public boolean availableBuyRoom(RoomProduct room) {
+
+		try {
+			for (Calendar cal : room.calendarList) {
+				if (!new RoomDao().availableBuy(room.id, cal)) {
+					return false;
+				}
+			}
 		} finally {
 			close();
 		}

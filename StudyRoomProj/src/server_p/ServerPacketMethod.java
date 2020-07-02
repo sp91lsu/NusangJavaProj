@@ -205,9 +205,9 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 		ScBuyRoomAck ack = null;
 
 		// 타임별로 룸 구매
-		// RoomDao roomDao = new RoomDao();
 		try {
-			if (DataManager.getInstance().roomMap.containsKey(recPacket.RoomProduct.id)) {
+			if (new RoomDao().availableBuyRoom(recPacket.RoomProduct)) {
+
 				new RoomDao().insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
 				// roomDao.reset();
 				ArrayList<RoomProduct> roomList = new RoomDao().getReservationListAll();
@@ -220,7 +220,7 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 				MyServer.getInstance().broadCast(client, roomCast);
 
 			} else {
-				ack = new ScBuyRoomAck(EResult.NOT_FOUND_DATA, null, null, null);
+				ack = new ScBuyRoomAck(EResult.ALEADY_HAS_SEAT, null, null, null);
 			}
 			client.sendPacket(ack);
 		} catch (Exception e) {
@@ -243,7 +243,7 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 
 		// 타임별로 룸 구매
 		// RoomDao roomDao = new RoomDao();
-		if (new RoomDao().availableMoveSeat(recPacket.moveSeatID)) {
+		if (new RoomDao().availableMove(recPacket.moveSeatID)) {
 
 			new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
 
