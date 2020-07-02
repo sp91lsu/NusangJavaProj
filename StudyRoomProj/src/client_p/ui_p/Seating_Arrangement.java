@@ -479,7 +479,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 							dateCBox.addItem(i);
 						}
 					} else {
-						System.out.println("여기로 가야 맞지!!!뭐야??>>" + selectMonth.getTime());
 						for (int i = 1; i <= last; i++) {
 							dateCBox.addItem(i);
 						}
@@ -506,7 +505,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 					setDate = (int) dateCBox.getSelectedItem();
 				}
 				btn_state(EState.INIT);
-				System.out.println("일자선택(셋데이트는??)>>" + setDate);
 			}
 		});
 
@@ -778,7 +776,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				System.out.println("그날 내가 예약했음");
 			}
 		}
-
 	}
 
 	void checkDate() {
@@ -796,7 +793,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 					for (RoomObj roomObj : all) {
 						if (cal.get(Calendar.HOUR_OF_DAY) >= starttime && cal.get(Calendar.HOUR_OF_DAY) < endtime) {
-							// System.out.println(cal.get(Calendar.HOUR_OF_DAY));
 							if (roomInfo.id.equals(roomObj.room.id)) {
 								start.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
 								roomObj.setState(EState.USE);
@@ -807,7 +803,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				}
 			}
 		}
-
 	}
 
 	Calendar getSetCalendar() {
@@ -873,7 +868,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	}
 
 	class yearAct implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			setYear = (int) yearCBox.getSelectedItem();
@@ -881,9 +875,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			if (yearCBox.getSelectedItem() != null) {
 				monthCBoxSetting();
 			}
-
 			btn_state(EState.INIT);
 		}
-
 	}
 }
