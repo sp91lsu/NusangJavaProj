@@ -688,7 +688,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	public void receive(PacketBase packet) {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
-			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, ack.myExitList, null);
+//			if (BaseFrame.getInstance().getSeatingArrUI().enterType == EEnter.SEATCHANGE) {
+				System.out.println("111111>>>>>");
+				BaseFrame.getInstance().updateData(ack.reserListAll, ack.myReserList, ack.myExitList, null);
+				roomState();
+				checkDate();
+//			}
 		} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
 			JDialog aleay_seat = new JDialog();
 			aleay_seat.setBounds(100, 100, 200, 200);
