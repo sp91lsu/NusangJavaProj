@@ -32,9 +32,9 @@ public class RCalcFrame extends JDialog {
 
 	public RCalcFrame() {
 
-		setBounds(710, 100, 500, 500);
+		setBounds(700, 200, 500, 500);
 		getContentPane().setLayout(null);
-		setBackground(new Color(255,224,163));
+		getContentPane().setBackground(MyColor.jinBeige);
 
 		JLabel MainLabel = new JLabel("예약 및 결제 내역");
 		MainLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -49,6 +49,7 @@ public class RCalcFrame extends JDialog {
 		getContentPane().add(contentLabel);
 
 		JButton okButton = new JButton("예약 및 결제");
+		okButton.setBackground(MyColor.jinBeige2);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().paymentPop.openPage(room);
@@ -61,6 +62,7 @@ public class RCalcFrame extends JDialog {
 
 		JButton cancleButton = new JButton("취소");
 		cancleButton.setBounds(250, 360, 173, 58);
+		cancleButton.setBackground(MyColor.jinBeige2);
 		cancleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
