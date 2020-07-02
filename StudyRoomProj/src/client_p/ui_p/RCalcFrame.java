@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,7 @@ public class RCalcFrame extends JDialog {
 
 		setBounds(710, 100, 500, 500);
 		getContentPane().setLayout(null);
+		setBackground(new Color(255,224,163));
 
 		JLabel MainLabel = new JLabel("예약 및 결제 내역");
 		MainLabel.setHorizontalAlignment(SwingConstants.CENTER);

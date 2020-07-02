@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
