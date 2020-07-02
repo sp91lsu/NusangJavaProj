@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -24,26 +23,26 @@ public class SeatChangeOkPop extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		getContentPane().setBackground(MyColor.jinBeige);
-		
+
 		JLabel lblNewLabel = new JLabel("이동하시겠습니까?");
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 25));
 		lblNewLabel.setBounds(0, 0, 280, 80);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel);
-		
+
 		JButton btnNewButton = new JButton("확인");
 		btnNewButton.setBackground(MyColor.jinBeige2);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
-						BaseFrame.getInstance().getUsingRoom(),
-						moveSeatID);
+						BaseFrame.getInstance().getUsingRoom(), moveSeatID);
 				ClientNet.getInstance().sendPacket(packet);
-			}});
+			}
+		});
 		btnNewButton.setBounds(7, 80, 130, 50);
 		contentPane.add(btnNewButton);
-		
+
 		JButton btnNewButton2 = new JButton("취소");
 		btnNewButton2.setBackground(MyColor.jinBeige2);
 		btnNewButton2.addActionListener(new ActionListener() {

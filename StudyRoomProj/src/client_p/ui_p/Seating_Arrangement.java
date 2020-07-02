@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -690,7 +691,23 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
 			BaseFrame.getInstance().openMainLayout(ack.reserListAll, ack.myReserList, ack.myExitList, null);
-		} else {
+		} else if (ack.eResult == EResult.ALEADY_HAS_SEAT) {
+			JDialog aleay_seat = new JDialog();
+			aleay_seat.setBounds(100, 100, 200, 200);
+			aleay_seat.setLayout(null);
+			JLabel msg = new JLabel("이미 사용중인 좌석입니다.");
+			msg.setBounds(0, 0, 200, 100);
+			aleay_seat.add(msg);
+			JButton ok_Butoon = new JButton("확인");
+			ok_Butoon.setBounds(50, 100, 100, 40);
+			aleay_seat.add(ok_Butoon);
+			ok_Butoon.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					aleay_seat.dispose();
+				}
+			});
+			aleay_seat.setModal(true);
+			aleay_seat.setVisible(true);
 
 		}
 	}
@@ -718,7 +735,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				roomObj.room.setInfo(BaseFrame.getInstance().userData.uuid, createBuyData());
 
 				BaseFrame.getInstance().rCalcFrame.openPage(roomObj.room);
-
 				// BaseFrame.getInstance().payment.resPossibleChk();
 			} else// 좌석이동중일때
 			{

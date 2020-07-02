@@ -44,6 +44,7 @@ import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class BaseFrame extends JFrame implements Receivable {
 
+	boolean is_SeatChange;
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
@@ -120,13 +121,13 @@ public class BaseFrame extends JFrame implements Receivable {
 			}
 
 			if (rCalcFrame.isVisible()) {
-				if(paymentPop.isVisible()) {
+				if (paymentPop.isVisible()) {
 					paymentPop.setModal(false);
 					paymentPop.setVisible(false);
 				}
 				rCalcFrame.setModal(false);
 				rCalcFrame.setVisible(false);
-				
+
 				JDialog jd = new JDialog();
 				jd.setBounds(500, 500, 150, 150);
 				jd.getContentPane().setLayout(new GridLayout(2, 1));
@@ -134,15 +135,17 @@ public class BaseFrame extends JFrame implements Receivable {
 				JButton jb = new JButton("확인");
 				jd.getContentPane().add(jl);
 				jd.getContentPane().add(jb);
-				
+
 				jb.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("야 들어와시발");
 						jd.dispose();
 					}
 				});
 				jd.setModal(true);
 				jd.setVisible(true);
+			} else if (getSeatingArrUI().enterType==EEnter.SEATCHANGE) {
+				//좌석이동중일때
+				System.out.println("이동중");
 			}
 
 		} else if (packet.getClass() == ScBuyLockerCast.class) {
@@ -172,7 +175,7 @@ public class BaseFrame extends JFrame implements Receivable {
 					openMainLayout(null, null, null, null);
 				}
 			} else {
-				System.out.println("사물함 결제 실패");
+				System.out.println("ScUpdateRoomInfoAck에러");
 			}
 		}
 
