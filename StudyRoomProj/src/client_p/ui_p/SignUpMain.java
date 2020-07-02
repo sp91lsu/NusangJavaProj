@@ -25,6 +25,7 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 import java.awt.Font;
+import java.awt.Color;
 
 public class SignUpMain extends JFrame implements Receivable, MouseListener, ActionListener {
 
@@ -53,41 +54,48 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 
 	public SignUpMain() {
 		setBounds(510, 140, 900, 800);
+		
 		JPanel mainPane = new JPanel();
 		setContentPane(mainPane);
 		mainPane.setLayout(null);
-
-		JLabel titleLabel = new JLabel("회원가입 창");
+		mainPane.setBackground(MyColor.black);
+		JLabel titleLabel = new JLabel("회원가입");
+		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setFont(new Font("굴림", Font.BOLD, 38));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(268, 10, 380, 75);
 		mainPane.add(titleLabel);
 
 		JLabel nameL = new JLabel("이름");
+		nameL.setForeground(Color.WHITE);
 		nameL.setFont(new Font("굴림", Font.BOLD, 20));
 		nameL.setHorizontalAlignment(SwingConstants.CENTER);
 		nameL.setBounds(30, 161, 139, 75);
 		mainPane.add(nameL);
 
 		JLabel idL = new JLabel("아이디");
+		idL.setForeground(Color.WHITE);
 		idL.setFont(new Font("굴림", Font.BOLD, 20));
 		idL.setHorizontalAlignment(SwingConstants.CENTER);
 		idL.setBounds(30, 248, 139, 66);
 		mainPane.add(idL);
 
 		JLabel pwL = new JLabel("비밀번호");
+		pwL.setForeground(Color.WHITE);
 		pwL.setFont(new Font("굴림", Font.BOLD, 20));
 		pwL.setHorizontalAlignment(SwingConstants.CENTER);
 		pwL.setBounds(30, 335, 139, 70);
 		mainPane.add(pwL);
 
 		JLabel pwChkL = new JLabel("비밀번호 확인");
+		pwChkL.setForeground(Color.WHITE);
 		pwChkL.setFont(new Font("굴림", Font.BOLD, 20));
 		pwChkL.setHorizontalAlignment(SwingConstants.CENTER);
 		pwChkL.setBounds(30, 417, 139, 66);
 		mainPane.add(pwChkL);
 
 		JLabel phonNumL = new JLabel("휴대폰 번호");
+		phonNumL.setForeground(Color.WHITE);
 		phonNumL.setFont(new Font("굴림", Font.BOLD, 20));
 		phonNumL.setHorizontalAlignment(SwingConstants.CENTER);
 		phonNumL.setBounds(30, 495, 139, 66);
@@ -115,22 +123,26 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		phoneNumTextField.addMouseListener(this);
 
 		JButton signUpBtn = new JButton("회원가입");
+		signUpBtn.setBackground(MyColor.w_white);
 		signUpBtn.setFont(new Font("굴림", Font.BOLD, 20));
 		signUpBtn.setBounds(194, 624, 206, 75);
 		mainPane.add(signUpBtn);
 		signUpBtn.addActionListener(this);
 
 		JButton idChkBtn = new JButton("ID 중복체크");
+		idChkBtn.setBackground(MyColor.w_white);
 		idChkBtn.setBounds(524, 248, 140, 33);
 		mainPane.add(idChkBtn);
 		idChkBtn.addActionListener(this);
 
 		JButton pwChkBtn = new JButton("휴대폰 중복체크");
+		pwChkBtn.setBackground(MyColor.w_white);
 		pwChkBtn.setBounds(524, 512, 140, 33);
 		mainPane.add(pwChkBtn);
 		pwChkBtn.addActionListener(this);
 
 		JButton cancelBtn = new JButton("취소");
+		cancelBtn.setBackground(MyColor.w_white);
 		cancelBtn.setFont(new Font("굴림", Font.BOLD, 20));
 		cancelBtn.setBounds(496, 624, 206, 75);
 		mainPane.add(cancelBtn);
@@ -149,28 +161,34 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		check_passwordField.addMouseListener(this);
 
 		label_1 = new JLabel("한글로 입력하세요");
+		label_1.setForeground(Color.WHITE);
 		label_1.setBounds(528, 182, 318, 33);
 		mainPane.add(label_1);
 
 		label_2 = new JLabel("영문,숫자로 조합된 8자리이하로 입력하세요");
+		label_2.setForeground(Color.WHITE);
 		label_2.setBounds(524, 293, 322, 33);
 		mainPane.add(label_2);
 
 		label_3 = new JLabel("영문,숫자로 조합된 8자리를 입력하세요");
+		label_3.setForeground(Color.WHITE);
 		label_3.setBounds(528, 354, 318, 33);
 		mainPane.add(label_3);
 
 		label_4 = new JLabel("입력한 비밀번호와 같게 입력하세요");
+		label_4.setForeground(Color.WHITE);
 		label_4.setBounds(528, 434, 318, 33);
 		mainPane.add(label_4);
 
 		label_5 = new JLabel("'-'는 제외하고 입력하세요");
+		label_5.setForeground(Color.WHITE);
 		label_5.setBounds(678, 512, 168, 33);
 		mainPane.add(label_5);
 
 		setVisible(false);
 
 		chkJd = new JDialog();
+		chkJd.setBackground(MyColor.white);
 		chkJd.setBounds(860, 440, 200, 200);
 		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
 		chkJd.setUndecorated(true);

@@ -225,11 +225,4 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	
-	@Override
-	protected void paintComponent(Graphics g) {
-		
-		Dimension d= getSize();
-		ImageIcon img = new ImageIcon("img/로그인화면.PNG");
-		g.drawImage(img.getImage(), 0, 0, d.width, d.height, null);
-	}
 }

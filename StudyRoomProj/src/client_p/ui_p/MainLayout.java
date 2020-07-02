@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -66,7 +67,8 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 	public MainLayout() {
 
 		setLayout(null);
-
+		
+		setBackground(new Color(230,230,230));
 		JPanel panel = new JPanel();
 		panel.setBounds(83, 127, 691, 486);
 		add(panel);
