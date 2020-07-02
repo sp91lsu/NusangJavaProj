@@ -240,19 +240,19 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		
 		iconLabel1 = new JLabel();
 		iconLabel1.setBounds(0, 0, 50, 50);
-		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/»þ¿ö·ë.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/shower.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel1.setIcon(imageIcon1);
 		panel_center.add(iconLabel1);
 		
 		iconLabel2 = new JLabel();
 		iconLabel2.setBounds(0, 110, 50, 50);
-		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/³ë·¡¹æ.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/sing.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel2.setIcon(imageIcon2);
 		panel_center.add(iconLabel2);
 		
 		iconLabel3 = new JLabel();
 		iconLabel3.setBounds(0, 260, 50, 50);
-		ImageIcon imageIcon3 = new ImageIcon(new ImageIcon("img/ÆÄÆ¼·ë.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon3 = new ImageIcon(new ImageIcon("img/party.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		iconLabel3.setIcon(imageIcon3);
 		panel_center.add(iconLabel3);
 		
