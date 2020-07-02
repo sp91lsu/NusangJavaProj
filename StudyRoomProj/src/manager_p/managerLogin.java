@@ -302,6 +302,7 @@ public class managerLogin extends JFrame implements Receivable, MouseListener {
 			mw.setVisible(true);
 			BaseFrame.getInstance().roomInfoList = ack.roomList;
 			BaseFrame.getInstance().userData = ack.userdata;
+			BaseFrame.getInstance().lockerlist = ack.lockerList;
 			this.setVisible(false);
 		} else if (ack.eResult == EResult.NOT_FOUND_DATA) {// 로그인 실패시
 			// 로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창

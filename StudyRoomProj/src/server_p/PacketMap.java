@@ -18,8 +18,8 @@ import manager_p.ack_p.MsChatConnectAck;
 import manager_p.ack_p.MsUptRoomPrSyn;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
-import manager_p.syn_p.MsGiveMeResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
+import manager_p.syn_p.MsResvRoomSyn;
 import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.PacketBase;
 
@@ -45,7 +45,7 @@ public class PacketMap {
 		map.put(MsMemSearchSyn.class, new MethMsMemSearchSyn()); // 회원 검색
 		map.put(CsBuyLockerSyn.class, new MethBuyLockerSyn()); // 사물함 구매
 		map.put(CsDuplicateIDSyn.class, new MethDuplicateIDSyn()); // 중복아이디 확인
-		map.put(MsGiveMeResvRoomSyn.class, new MethMsGiveMeResvRoomSyn()); // 예약룸
+		map.put(MsResvRoomSyn.class, new MethMsResvRoomSyn()); // 예약룸
 		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
 		map.put(CsGetRoomDataSyn.class, new MethCsGetRoomDataSyn()); // 룸 데이터 업로드
 		map.put(MsUptRoomPrSyn.class, new MethMsUptRoomPrSyn()); // 룸 데이터 업로드

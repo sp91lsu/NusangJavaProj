@@ -29,7 +29,7 @@ import manager_p.ack_p.MsChatConnectAck;
 import manager_p.ack_p.MsUptRoomPrSyn;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
-import manager_p.syn_p.MsGiveMeResvRoomSyn;
+import manager_p.syn_p.MsResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.EResult;
@@ -324,21 +324,25 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 }
 
 //예약 룸정보 관리자로
-class MethMsGiveMeResvRoomSyn implements ServerPacketMethod {
+class MethMsResvRoomSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
-		MsGiveMeResvRoomSyn resPacket = (MsGiveMeResvRoomSyn) packet;
+		System.out.println("MethResvRoomSyn 실행");
+		MsResvRoomSyn resPacket = (MsResvRoomSyn) packet;
+		SmResvRoomAck ack = null;
 		try {
 			System.out.println(resPacket.yyyy);
 			System.out.println(resPacket.yyyy.substring(2));
-			SmResvRoomAck ack = new SmResvRoomAck(EResult.SUCCESS,
-					new RoomDao().SalesData(resPacket.yyyy.substring(2), resPacket.mm, resPacket.dd).salesRecordArrL);
+			String yy=resPacket.yyyy.substring(2);
+			ack = new SmResvRoomAck(EResult.SUCCESS,
+					new RoomDao().salesData(yy, resPacket.mm, resPacket.dd).salesRecordArrL);
 
-			client.sendPacket(ack);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("MethResvRoomSyn catch");
 		}
+		client.sendPacket(ack);
 
 	}
 }
@@ -465,7 +469,7 @@ class MethMsSalesInquirySyn implements ServerPacketMethod {
 
 		try {
 			SmSalesInquiryAck ack = new SmSalesInquiryAck(EResult.SUCCESS,
-					new RoomDao().SalesData(resPacket.year, resPacket.month, resPacket.day));
+					new RoomDao().salesData(resPacket.year, resPacket.month, resPacket.day));
 //	         String managerIp = "/192.168.100.27";
 			client.sendPacket(ack);
 		} catch (Exception e) {

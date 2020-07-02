@@ -457,6 +457,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 	public void receive(PacketBase packet) {
 		SmSalesInquiryAck ack = (SmSalesInquiryAck) packet;
 		ArrayList<SalesRecord> sr = ack.salesD.salesRecordArrL;
+System.out.println(ack.salesD.salesRecordArrL.get(0).date);
 		ArrayList<SalesBySeat> sb = ack.salesD.saleBySeatArrL;
 		SalesTot st = ack.salesD.salesTot;
 		
@@ -485,8 +486,8 @@ public class SalesInquiry extends JPanel implements Receivable {
 		
 		//scrPane_SalesRecord
 			String [] header_Seat = {"날짜","이용석","합계 금액","이용객 수"};
-			String contents_Seat[][] = new String [sr.size()][header_Seat.length];
-				for (int i = 0; i < sr.size(); i++) {
+			String contents_Seat[][] = new String [sb.size()][header_Seat.length];
+				for (int i = 0; i < sb.size(); i++) {
 					contents_Seat[i][0] = sb.get(i).date;
 					contents_Seat[i][1] = sb.get(i).room_name;
 					contents_Seat[i][2] = sb.get(i).sum+"";
@@ -500,8 +501,10 @@ public class SalesInquiry extends JPanel implements Receivable {
 			scrPane_SalesBySeat.setViewportView(table_Seat);
 			
 		//SalesTot
-			lb_WhatSales.setText(st.dateSortN==2?"연 매출":st.dateSortN==5?"월 매출":st.dateSortN==8?"당일 매출":"");
-			
+			String ttt = st.dateSortN==2?"연 매출":st.dateSortN==5?"월 매출":st.dateSortN==8?"당일 매출":"";
+			lb_WhatSales.setText(ttt);
+			lb_TotUsers.setText(st.cntTot+"");
+			lb_TotUsers.setText(st.sumTot+"");
 	}
 
 }

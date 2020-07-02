@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import org.apache.poi.hssf.util.HSSFColor.BLUE;
 
 import client_p.ClientNet;
-import manager_p.syn_p.MsGiveMeResvRoomSyn;
+import manager_p.syn_p.MsResvRoomSyn;
 
 public class CalendarTest extends JPanel {
 
@@ -203,9 +203,7 @@ private JButton bf;
             	String date = datebtn.dateBtn.getText();
             	bf.setBackground(null);
             	datebtn.dateBtn.setBackground(Color.blue);
-            	System.out.println(setYear+" "+setMonth+" "+date);
-            	MsGiveMeResvRoomSyn packet = new MsGiveMeResvRoomSyn(setYear, setMonth, date);
-            	System.out.println(packet);
+            	MsResvRoomSyn packet = new MsResvRoomSyn(setYear, setMonth, date);
             	ClientNet.getInstance().sendPacket(packet);
             	bf = datebtn.dateBtn;
             }

@@ -45,7 +45,7 @@ import manager_p.panel_p.SalesInquiry;
 import manager_p.panel_p.SetPrice;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
-import manager_p.syn_p.MsGiveMeResvRoomSyn;
+import manager_p.syn_p.MsResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
@@ -541,6 +541,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 
 		// 예약관리 페이지로 이동시 재고 룸정보 받아오기
 		if (packet.getClass() == SmResvRoomAck.class) {
+			System.out.println("매니저가 받았다 액크");
 			SmResvRoomAck ack = (SmResvRoomAck) packet;
 			salesRecordList = ack.rtd;
 
