@@ -27,7 +27,7 @@ import server_p.packet_p.ack_p.ScSignUpAck;
 import java.awt.Font;
 import java.awt.Color;
 
-public class SignUpMain extends JFrame implements Receivable, MouseListener, ActionListener {
+public class SignUpMain extends JDialog implements Receivable, MouseListener, ActionListener {
 
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
@@ -232,6 +232,8 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 		jb = new JButton("확인");
 		jd.getContentPane().add(jb);
 		jd.setVisible(false);
+		
+		setModal(true);
 	}
 
 	@Override
@@ -244,13 +246,14 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 				idchk = false;
 				hpchk = false;
 
-				jd.setVisible(true);
 				jb.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						jd.setVisible(false);
 						dispose();
 					}
 				});
+				jd.setModal(true);
+				jd.setVisible(true);
 			}
 			else {
 				System.out.println("회원가입 실패");
@@ -332,12 +335,13 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 	}
 
 	public void infoChk() {
-		chkSignUp.setVisible(true);
 		jbt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				chkSignUp.setVisible(false);
 			}
 		});
+		chkSignUp.setModal(true);
+		chkSignUp.setVisible(true);
 	}
 
 	void idChk() {
@@ -347,6 +351,7 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(), false);
 			ClientNet.getInstance().sendPacket(packet);
 		} else {
+			chkJd.setModal(true);
 			chkJd.setVisible(true);
 		}
 	}
@@ -357,17 +362,20 @@ public class SignUpMain extends JFrame implements Receivable, MouseListener, Act
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(phoneNumTextField.getText(), true);
 			ClientNet.getInstance().sendPacket(packet);
 		} else {
+			chkJd.setModal(true);
 			chkJd.setVisible(true);
 		}
 	}
 
 	void loginChk() {
-		jd2.setVisible(true);
+		
 		jb2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jd2.setVisible(false);
 			}
 		});
+		jd2.setModal(true);
+		jd2.setVisible(true);
 	}
 
 	public void textFieldSet() {// 회원가입 텍스트 필드,라벨내용 초기화

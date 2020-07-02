@@ -170,7 +170,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		}
 		else if (ack.eResult == EResult.NOT_FOUND_DATA) {// 로그인 실패시
 			// 로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
-			logTextChk();
 			cnt++;
 			if (cnt == 3) {
 				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 " 
@@ -181,6 +180,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 			} else if (cnt == 1) {
 				logLabel.setText("등록한 ID와 비밀번호를 입력하세요");
 			}
+			logTextChk();
 			isLogin = false;
 		}
 		else {
@@ -215,6 +215,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 				logSet();
 			}
 		});
+		logDialog.setModal(true);
 		logDialog.setVisible(true);
 	}
 

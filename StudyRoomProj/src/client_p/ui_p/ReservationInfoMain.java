@@ -9,9 +9,11 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Color;
 
-public class ReservationInfoMain extends JFrame {
+public class ReservationInfoMain extends JDialog {
 
 	public ReservationInfoMain() {
 		setBounds(740, 330, 500, 500);
@@ -66,7 +68,7 @@ public class ReservationInfoMain extends JFrame {
 			}
 		});
 		getContentPane().add(button);
-
+		setModal(true);
 		setVisible(true);
 	}
 
