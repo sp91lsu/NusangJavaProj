@@ -64,7 +64,7 @@ public class RoomDao extends DBProcess {
 		new RoomDao().updateExitRoom();
 		try {
 			updateQuery(ETable.INVENTORY, "ID", "?",
-					"uuid = ? and startdate <= sysdate + 1 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+					"uuid = ? and startdate  < to_char(sysdate + 1,'yyyymmdd') and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
 			stmt.setInt(1, moveID);
 			stmt.setString(2, userUUID);
