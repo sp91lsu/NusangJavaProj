@@ -120,6 +120,13 @@ public class BaseFrame extends JFrame implements Receivable {
 			}
 
 			if (rCalcFrame.isVisible()) {
+				if(paymentPop.isVisible()) {
+					paymentPop.setModal(false);
+					paymentPop.setVisible(false);
+				}
+				rCalcFrame.setModal(false);
+				rCalcFrame.setVisible(false);
+				
 				JDialog jd = new JDialog();
 				jd.setBounds(500, 500, 150, 150);
 				jd.getContentPane().setLayout(new GridLayout(2, 1));
@@ -127,13 +134,15 @@ public class BaseFrame extends JFrame implements Receivable {
 				JButton jb = new JButton("확인");
 				jd.getContentPane().add(jl);
 				jd.getContentPane().add(jb);
-				jd.setVisible(true);
-				rCalcFrame.setVisible(false);
+				
 				jb.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						System.out.println("야 들어와시발");
 						jd.dispose();
 					}
 				});
+				jd.setModal(true);
+				jd.setVisible(true);
 			}
 
 		} else if (packet.getClass() == ScBuyLockerCast.class) {

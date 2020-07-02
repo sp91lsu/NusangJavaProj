@@ -21,10 +21,6 @@ public class RCalcFrame extends JDialog {
 	UserData userData;
 	JLabel contentLabel;
 
-	public static void main(String[] args) {
-		// RCalcFrame frame = new RCalcFrame();
-	}
-
 	public void openPage(RoomProduct room) {
 		this.room = room;
 		userData = BaseFrame.getInstance().userData;
