@@ -90,7 +90,7 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 		panel.add(button_3);
 		button_3.addActionListener(this);
 
-		JButton button_4 = new JButton("1:1¹®ÀÇ");
+		JButton button_4 = new JButton("1:1 °í°´¹®ÀÇ");
 		button_4.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		button_4.setBackground(MyColor.w_white);
 		panel.add(button_4);
