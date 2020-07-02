@@ -31,7 +31,7 @@ class LockerBtn {
 	}
 }
 
-public class LockerMain extends JPanel  {
+public class LockerMain extends JPanel {
 
 	ArrayList<LockerBtn> list = new ArrayList<LockerBtn>();
 	LockerData currentData = null;
@@ -87,33 +87,15 @@ public class LockerMain extends JPanel  {
 		pwSetting.setBounds(307, 24, 191, 139);
 		pwSetting.setBackground(MyColor.w_white);
 		infoPanel.add(pwSetting);
-		pwSetting.addActionListener(new ButtonListener(null));
+		pwSetting.addActionListener(new ActionListener() {
 
-		JButton cancelButton = new JButton("취소");
-		cancelButton.setFont(new Font("굴림", Font.BOLD, 20));
-		cancelButton.setBounds(529, 24, 141, 139);
-		cancelButton.setBackground(MyColor.w_white);
-		infoPanel.add(cancelButton);
-		cancelButton.addActionListener(new ButtonListener(null));
-
-		setVisible(true);
-	}
-
-	class ButtonListener implements ActionListener{
-		LockerData locker;
-		public ButtonListener(LockerData locker) {
-			this.locker = locker;
-		}
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton btn = (JButton) e.getSource();
-
-			if (btn.getText().equals("비밀번호 설정") ) {
-				if(currentData != null) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (currentData != null) {
 					lp.openLockerPWFrame(currentData);
-				}else {
+				} else {
 					JDialog lockerDialog = new JDialog();
-					lockerDialog.setLayout(new GridLayout(2,1));
+					lockerDialog.setLayout(new GridLayout(2, 1));
 					lockerDialog.setBounds(850, 400, 200, 200);
 					lockerDialog.setUndecorated(true);
 					lockerDialog.getContentPane().setBackground(MyColor.black);
@@ -125,34 +107,65 @@ public class LockerMain extends JPanel  {
 					lockerDialog.add(closeButton);
 					closeButton.setBackground(MyColor.w_white);
 					closeButton.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							lockerDialog.dispose();
-							
+
 						}
 					});
 					lockerDialog.setVisible(true);
 				}
-				
-			} 
-			else if (btn.getText().equals("취소")) {
+
+			}
+		});
+
+		JButton cancelButton = new JButton("취소");
+		cancelButton.setFont(new Font("굴림", Font.BOLD, 20));
+		cancelButton.setBounds(529, 24, 141, 139);
+		cancelButton.setBackground(MyColor.w_white);
+		infoPanel.add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openMainLayout(null, null, null, null);
 				lp.setVisible(false);
+
 			}
-			else {
-				lockerNum = btn.getText();
-				updateLocker();
-				btn.setBackground(Color.red);
-				currentData = locker;
-			}
-			
+		});
+
+		setVisible(true);
+	}
+
+	class ButtonListener implements ActionListener {
+		LockerData locker;
+
+		public ButtonListener(LockerData locker) {
+			this.locker = locker;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton btn = (JButton) e.getSource();
+
+			lockerNum = btn.getText();
+			updateLocker(locker);
+			btn.setBackground(Color.red);
+
 		}
 
 	}
+
+	public void updateLocker(LockerData data) {
+
+		currentData = data;
 	
-	public void updateLocker() {
-		currentData = null;
+		for (LockerBtn lockerbtn : list) {
+			lockerbtn.btn.setBackground(Color.white);
+			lockerbtn.btn.setEnabled(true);
+		}
+
 		for (LockerBtn lockerbtn : list) {
 			for (LockerData lockerData : BaseFrame.getInstance().lockerlist) {
 
@@ -160,9 +173,6 @@ public class LockerMain extends JPanel  {
 					lockerbtn.btn.setBackground(null);
 					lockerbtn.btn.setEnabled(false);
 					break;
-				} else {
-					lockerbtn.btn.setBackground(Color.white);
-					lockerbtn.btn.setEnabled(true);
 				}
 			}
 		}

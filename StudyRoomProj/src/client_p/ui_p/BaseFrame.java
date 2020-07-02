@@ -119,7 +119,7 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScBuyLockerCast packetAck = (ScBuyLockerCast) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
 				updateData(null, null, null, packetAck.lockerList);
-				getLockerMain().updateLocker();
+				getLockerMain().updateLocker(null);
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -205,7 +205,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public LockerMain openLockerMain() {
 		LockerMain lockerMain = getLockerMain();
 		view("LockerMain");
-		lockerMain.updateLocker();
+		lockerMain.updateLocker(null);
 
 		return lockerMain;
 	}
