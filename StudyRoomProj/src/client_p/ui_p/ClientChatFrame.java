@@ -19,9 +19,7 @@ import javax.swing.JTextArea;
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
-import packetBase_p.EResult;
 import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 
 public class ClientChatFrame extends JPanel implements Receivable {
@@ -34,14 +32,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	JTextArea textArea;
 	private JScrollPane scrollPane;
 	JDialog chatDialog;
-
-	public static void main(String[] args) {
-		JFrame window = new JFrame();
-		window.setBounds(100, 100, 900, 1000);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.getContentPane().add(new ClientChatFrame());
-		window.setVisible(true);
-	}
 
 	public ClientChatFrame() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -106,7 +96,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 
 		JButton sendButton = new JButton("전송");
 		sendButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				text = "[" + BaseFrame.getInstance().userData.name + "]: " + keyChat.getText() + "\n";
 				chatSyn.setText(text);
@@ -120,10 +109,9 @@ public class ClientChatFrame extends JPanel implements Receivable {
 
 		JButton exitButton = new JButton("종료");
 		exitButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openMainLayout(null, null, null, null);
-				if(chatSyn!=null) {
+				if (chatSyn != null) {
 					chatSyn.setText("[" + BaseFrame.getInstance().userData.name + "] 님이 채팅을 종료 했습니다.");
 					ClientNet.getInstance().sendPacket(chatSyn);
 				}
@@ -132,7 +120,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			}
 		});
 		panel_1.add(exitButton);
-
 		setVisible(true);
 	}
 
@@ -142,31 +129,29 @@ public class ClientChatFrame extends JPanel implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		
 		ScChatBroadCast scChat = (ScChatBroadCast) packet;
 		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-		
+
 	}
-	
+
 	public void chatNegative() {
 		chatDialog = new JDialog();
 		chatDialog.setBounds(100, 100, 300, 300);
-		chatDialog.setLayout(new GridLayout(2,1));
+		chatDialog.setLayout(new GridLayout(2, 1));
 		JLabel chatLabel = new JLabel();
-		chatLabel.setText("<html>관리자 미수락으로 <br>현재 1:1 이용문의가 불가합니다."
-				+ "<br>잠시후 다시 진행 해주시기 바랍니다.<html>");
+		chatLabel.setText("<html>관리자 미수락으로 <br>현재 1:1 이용문의가 불가합니다." + "<br>잠시후 다시 진행 해주시기 바랍니다.<html>");
 		chatDialog.add(chatLabel);
 		JButton chatButton = new JButton("확인");
 		chatButton.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				chatDialog.dispose();
 				BaseFrame.getInstance().openMainLayout(null, null, null, null);
 			}
 		});
 		chatDialog.add(chatButton);
+		chatDialog.setModal(true);
 		chatDialog.setVisible(true);
+		chatDialog.setUndecorated(true);
 	}
 }

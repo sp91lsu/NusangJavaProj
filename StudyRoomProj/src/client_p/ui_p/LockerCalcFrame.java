@@ -24,7 +24,7 @@ public class LockerCalcFrame extends JDialog {
 	public LockerCalcFrame(LockerData lockerData) {
 		setModal(true);
 		this.lockerData = lockerData;
-		setBounds(100, 100, 450, 350);
+		setBounds(735, 365, 450, 350);
 		getContentPane().setBackground(MyColor.black);
 		getContentPane().setLayout(null);
 
