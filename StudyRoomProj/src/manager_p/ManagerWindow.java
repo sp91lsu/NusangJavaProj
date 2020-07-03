@@ -60,7 +60,7 @@ import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
 public class ManagerWindow extends JFrame implements Receivable {
 	private JTable table_1;
-	private JScrollPane scrollPane_3;
+	private JScrollPane scrollPane_3; 
 	private JPanel panel_6;
 	private CardLayout cl_panel_6;
 
@@ -91,13 +91,14 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private String contentsResvs[][];
 	private JTable table;
 	private JScrollPane scrollPane_12;
+	boolean isChatPnl =false;
 
 	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
 
 	Seating_Arrangement pnl_SeatArrange;
 	SetPrice pnl_SetPrice = new SetPrice();
 	SalesInquiry pnl_SalesInquiry = new SalesInquiry();
-	Chatting pnl_Chatting = new Chatting(this);
+	public Chatting pnl_Chatting = new Chatting(this);
 
 	public static void main(String[] args) {
 
@@ -138,10 +139,17 @@ public class ManagerWindow extends JFrame implements Receivable {
 			public void stateChanged(ChangeEvent evt) {
 				JTabbedPane pane = (JTabbedPane) evt.getSource();
 				int sel = pane.getSelectedIndex();
-				if (sel == 4) {
+				if (sel == 3) {
 					pnl_SalesInquiry.today = Calendar.getInstance();
 //              pnl_SalesInquiry.setDateList();
 				}
+				if(sel != 4) {
+					if(!pnl_Chatting.isChatting) {
+						pnl_Chatting.lb_Chat_name.setText("");
+						pnl_Chatting.lb_Chat_end.setText("");
+					}
+				}
+				
 			}
 		});
 
