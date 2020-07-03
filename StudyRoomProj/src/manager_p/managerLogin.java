@@ -183,6 +183,14 @@ public class managerLogin extends JFrame implements Receivable, MouseListener {
 		lblPw.setFont(new Font("HY°ß°íµñ", Font.BOLD, 30));
 
 		passwordField = new JPasswordField();
+		passwordField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CsLoginSyn packet = new CsLoginSyn(textFieldLogin.getText(), passwordField.getText(),
+						!changeBox.isSelected());
+				ClientNet.getInstance().sendPacket(packet);
+			}
+		});
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
 		passwordField.setFont(new Font("±¼¸²", Font.PLAIN, 30));
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
