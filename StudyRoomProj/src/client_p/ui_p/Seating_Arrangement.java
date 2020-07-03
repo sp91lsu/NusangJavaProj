@@ -161,6 +161,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		if (BaseFrame.getInstance().loginType != ELoginType.MANAGER) {
 			north_east = new JButton("뒤로가기");
 			north_east.setFont(new Font("굴림", Font.PLAIN, 17));
+			north_east.setBackground(MyColor.w_white);
 			panel_north.add(north_east, BorderLayout.EAST);
 			north_east.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
