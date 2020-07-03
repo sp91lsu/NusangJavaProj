@@ -56,7 +56,7 @@ public class ReserInfoPane extends JPanel {
 		add(titleL);
 
 		JScrollPane reserInfoScroll = new JScrollPane();
-		reserInfoScroll.setBounds(12, 215, 205, 327);
+		reserInfoScroll.setBounds(5, 215, 220, 327);
 		add(reserInfoScroll);
 
 		infoPane = new JPanel();
