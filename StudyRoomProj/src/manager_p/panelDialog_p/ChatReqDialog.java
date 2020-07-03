@@ -72,6 +72,7 @@ public class ChatReqDialog extends JDialog {
 						mw.pnl_Chatting.lb_Chat_name.setText("문의자 [" + mw.pnl_Chatting.userName + "]");
 						mw.pnl_Chatting.lb_Chat_end.setText(mw.pnl_Chatting.chatStart);
 						mw.pnl_Chatting.isChatting = true;
+                        mw.pnl_Chatting.lb_Chat_end.setText("님과 채팅이 종료되었습니다.");
 					}
 				});
 				okButton.setActionCommand("OK");
