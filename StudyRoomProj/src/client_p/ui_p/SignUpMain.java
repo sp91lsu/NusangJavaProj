@@ -42,11 +42,13 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 	JDialog jd, jd2, chkJd, chkSignUp;
 
 	String text = "";
+	
 	String korean = "[°¡-ÆR]*";
-	String engNum = ".*[a-zA-Z].*";
-	String engNum1 = ".*[0-9].*";
+	String eng = ".*[a-zA-Z].*";
+	String num = ".*[0-9].*";
 	String passChk = "[a-zA-Z0-9].{7}";
 	String phoneChk = "010.[0-9].{6,7}";
+	
 	String name, id, pass, phoneNum, pass2 = null;
 
 	boolean idchk,hpchk;
@@ -229,7 +231,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		chkSignUp.setVisible(false);
 		
 		jd = new JDialog();//È¸¿ø°¡ÀÔ ¿Ï·áÃ¢
-		jd.setBounds(100, 100, 200, 150);
+		jd.setBounds(860, 465, 200, 150);
 		jd.getContentPane().setLayout(new GridLayout(2, 1));
 		jd.setUndecorated(true);
 		jl = new JLabel("È¸¿ø°¡ÀÔ ¿Ï·á");
@@ -303,7 +305,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 				SignUpPop pop = new SignUpPop();
 				return;
 			}
-			if (id.matches(engNum) && id.matches(engNum1)) {
+			if (id.matches(eng) && id.matches(num)) {
 				label_5.setText("ÀÔ·Â È®ÀÎ");
 			} else {
 				SignUpPop pop = new SignUpPop();
@@ -353,7 +355,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 
 	void idChk() {
 		id = idTextField.getText();
-		if (id.matches(engNum) && id.matches(engNum1) && id.length() < 9 && !chkJd.isVisible())
+		if (id.matches(eng) && id.matches(num) && id.length() < 9 && !chkJd.isVisible())
 		{
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(), false);
 			ClientNet.getInstance().sendPacket(packet);

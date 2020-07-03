@@ -239,7 +239,7 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 				is_Info = true;
 				InfoFrame info = new InfoFrame();
 			}
-		} else if (btn.getText().equals("Åð½Ç")) {
+		} else if (btn.getText().equals("Åð½Ç") || btn.getText().equals("¿¹¾à Ãë¼Ò")) {
 			if (!is_Exit) {
 				is_Exit = true;
 				ExitFrame exitframe = new ExitFrame(button_9.getText());
