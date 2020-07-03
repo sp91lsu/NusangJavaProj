@@ -1,6 +1,5 @@
 package client_p.ui_p;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +7,6 @@ import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -75,15 +73,15 @@ public class RCalcFrame extends JDialog {
 	}
 
 	String getDateFormat() {
-		String text = "<html>예약 좌석: " + room.name + "<br>좌석 가격: " + DataManager.getInstance().roomMap.get(room.id).price + "원" 
-				+ "<br>예약자 ID: " + userData.id + "<br>예약 일자: "
-				+ room.calendarList.get(0).get(Calendar.YEAR) + " " + (room.calendarList.get(0).get(Calendar.MONTH) + 1)
-				+ " " + room.calendarList.get(0).get(Calendar.DATE) + "<br>예약 시간: ";
+		String text = "<html>예약 좌석: " + room.name + "<br>좌석 가격: " + DataManager.getInstance().roomMap.get(room.id).price
+				+ "원" + "<br>예약자 ID: " + userData.id + "<br>예약 일자: " + room.calendarList.get(0).get(Calendar.YEAR) + " "
+				+ (room.calendarList.get(0).get(Calendar.MONTH) + 1) + " " + room.calendarList.get(0).get(Calendar.DATE)
+				+ "<br>예약 시간: ";
 		text += room.calendarList.get(0).get(Calendar.HOUR_OF_DAY) + " ~ "
 				+ (room.calendarList.get(room.calendarList.size() - 1).get(Calendar.HOUR_OF_DAY) + 1);
 		text += "<br>휴대폰번호: " + userData.phone + "<br><html>";
-		text += "<br>총 결제 금액: " + (room.calendarList.size()*DataManager.getInstance().roomMap.get(room.id).price) + "원" + "<br><html>";
+		text += "<br>총 결제 금액: " + (room.calendarList.size() * DataManager.getInstance().roomMap.get(room.id).price)
+				+ "원" + "<br><html>";
 		return text;
 	}
-
 }
