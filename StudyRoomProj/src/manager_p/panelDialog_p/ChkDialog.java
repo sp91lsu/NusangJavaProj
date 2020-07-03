@@ -32,7 +32,6 @@ public class ChkDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public ChkDialog(String msg) {
-		lb_Msg.setText(msg);
 		setBounds(100, 100, 350, 250);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -43,6 +42,7 @@ public class ChkDialog extends JDialog {
 			lb_Msg.setHorizontalAlignment(SwingConstants.CENTER);
 			contentPanel.add(lb_Msg);
 		}
+		lb_Msg.setText(msg);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
