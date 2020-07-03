@@ -193,6 +193,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		chkJd.setUndecorated(true);
 		
 		JLabel chkLb = new JLabel("정확한 형식으로 입력하세요");
+		setLabelForm(chkLb);
 		chkJd.getContentPane().add(chkLb);
 		JButton chkBt = new JButton("확인");
 		chkJd.getContentPane().add(chkBt);
@@ -208,6 +209,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
 		jd2.setUndecorated(true);
 		jl2 = new JLabel();
+		setLabelForm(jl2);
 		jd2.getContentPane().add(jl2);
 		jb2 = new JButton("확인");
 		jd2.getContentPane().add(jb2);
@@ -217,6 +219,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		chkSignUp.getContentPane().setLayout(new GridLayout(2, 1));
 		chkSignUp.setUndecorated(true);
 		JLabel jll = new JLabel("ID 와 휴대폰 번호 중복검사를 진행하세요");
+		setLabelForm(jll);
 		chkSignUp.getContentPane().add(jll);
 		jbt = new JButton("확인");
 		chkSignUp.getContentPane().add(jbt);
@@ -227,6 +230,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		jd.getContentPane().setLayout(new GridLayout(2, 1));
 		jd.setUndecorated(true);
 		jl = new JLabel("회원가입 완료");
+		setLabelForm(jl);
 		jd.getContentPane().add(jl);
 		jb = new JButton("확인");
 		jd.getContentPane().add(jb);
@@ -431,5 +435,13 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		else {
 			System.out.println("버튼 입력 에러");
 		}
+	}
+	
+	//라벨 색상 바꾸는 매소드
+	JLabel setLabelForm(JLabel label) {
+		label.setOpaque(true);
+		label.setBackground(MyColor.black);
+		label.setForeground(MyColor.white);
+		return label;
 	}
 }

@@ -141,8 +141,12 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		logDialog.getContentPane().setLayout(new GridLayout(2,1));
 		logDialog.setUndecorated(true);
 		logLabel = new JLabel();
+		logLabel.setOpaque(true);
+		logLabel.setBackground(MyColor.black);
+		logLabel.setForeground(MyColor.white);
 		logDialog.getContentPane().add(logLabel);
 		logChkButton = new JButton("»Æ¿Œ");
+		logChkButton.setBackground(MyColor.w_white);
 		logDialog.getContentPane().add(logChkButton);
 		logDialog.setVisible(false);
 	}

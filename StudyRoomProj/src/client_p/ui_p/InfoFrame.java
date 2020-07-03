@@ -42,13 +42,13 @@ public class InfoFrame extends JDialog {
 
 		String text = " - 퇴실 현황 - \n";
 		for (RoomProduct data : exitList) {
-			text += "\n좌석/룸 명 : " + data.name + " \n " + "금액 : " + data.price + "원" + "\n시간 : "
+			text += "\n좌석/룸 명 : " + data.name + " \n " + "금액 : " + (data.price*data.calendarList.size()) + "원" + "\n시간 : "
 					+ startToEnd(data.calendarList) + "\n";
 		}
 
 		text += "\n - 예약 현황 - \n";
 		for (RoomProduct data : reserList) {
-			text += "\n좌석/룸 명 : " + data.name + " \n " + "금액 : " + data.price + "원" + "\n시간 : "
+			text += "\n좌석/룸 명 : " + data.name + " \n " + "금액 : " + (data.price*data.calendarList.size()) + "원" + "\n시간 : "
 					+ startToEnd(data.calendarList) + "\n";
 		}
 

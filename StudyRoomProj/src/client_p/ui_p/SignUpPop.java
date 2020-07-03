@@ -17,9 +17,13 @@ public class SignUpPop extends JFrame {
 		jdd.setLayout(new GridLayout(2, 1));
 		
 		JLabel jll = new JLabel("정확한 정보를  입력하세요");
+		jll.setOpaque(true);
+		jll.setBackground(MyColor.black);
+		jll.setForeground(MyColor.white);
 		jdd.add(jll);
 		
 		JButton jbb = new JButton("확인");
+		jbb.setBackground(MyColor.w_white);
 		jdd.add(jbb);
 		
 		jbb.addActionListener(new ActionListener() {
