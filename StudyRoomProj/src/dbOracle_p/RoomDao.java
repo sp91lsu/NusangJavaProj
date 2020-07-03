@@ -380,17 +380,12 @@ public class RoomDao extends DBProcess {
 		System.out.println("salesData 들어옴");
 		
 		//멤버변수 세팅
-			int dateSortN;// 날짜에 따라 달라지는 쿼리문 값
+			int dateSortN;// 해만 받았으면 2, 해,월 받으면 5, 해,월,일 받으면 8
 			String yearSR = "" ,monthSR = "" ,daySR = ""; //클래스에 담을 날짜 변수
 			String yearQ = year.substring(2);
 			String dateQuery = "";// 쿼리에 담을 날짜정보
 			String startdate = "";
 			
-			ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
-			ArrayList<SalesBySeat> saleBySeatArrL = new ArrayList<SalesBySeat>();
-			SalesTot tot = new SalesTot(0, 0, 0);
-			SalesData sd = null;
-		
 			if (month.equals("0") && day.equals("0")) {
 				dateSortN = 2;
 				dateQuery = "'" + yearQ + "'";
@@ -401,9 +396,15 @@ public class RoomDao extends DBProcess {
 				dateSortN = 8;
 				dateQuery = "'" + yearQ + "/" + month + "/" + day + "'";
 			}
-
+			
 			System.out.println("dateSortN:" + dateSortN);
 			System.out.println("dateQuery:" + dateQuery);
+			
+			ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
+			ArrayList<SalesBySeat> saleBySeatArrL = new ArrayList<SalesBySeat>();
+			SalesTot tot = new SalesTot(0, 0, 0);
+			SalesData sd = null;
+		
 		
 //		// 공통으로 들어가는 쿼리문
 //			String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id as ida, CONCAT(R.room_name,a.id) as sort "
@@ -413,7 +414,7 @@ public class RoomDao extends DBProcess {
 			
 		//새 프라임 쿼리문
 		//(select substr(i.startdate,0,8) as dates, I.id, R.room_name, r.room_price, i.startdate, a.name, a.id, substr(i.startdate,10,2) as time, substr(i.startdate,0,8)||R.room_name||a.id as sort from inventory I , now_room_data R, account A where I.id = r.room_id AND substr(i.startdate,0,2) = '20'and i.uuid = a.uuid) 
-		String primequery = "(select substr(i.startdate,0,"+ dateSortN + ") as dates, I.id, R.room_name, r.room_price, i.startdate, a.name, a.id, substr(i.startdate,10,2) as time, substr(i.startdate,0,8)||R.room_name||a.id as sort "
+		String primequery = "(select substr(i.startdate,0,"+ dateSortN + ") as dates, R.room_id, R.room_name, r.room_price, i.startdate, a.name, a.id, substr(i.startdate,10,2) as time, substr(i.startdate,0,8)||R.room_name||a.id as sort "
 				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
 				+ dateSortN + ") = " + dateQuery + "and i.uuid = a.uuid) ";
 		
@@ -421,8 +422,8 @@ public class RoomDao extends DBProcess {
 			
 			// 1. ArrayList<SalesRecord>
 				// 쿼리문작성
-				query = primequery + "order by dates, i.id, a.name, a.id, time";
-				System.out.println("primequery:" + primequery);
+				query = primequery + "order by dates, r.room_id, a.name, a.id, time";
+				System.out.println("프라임 쿼리문:" + primequery);
 				stmt = con.prepareStatement(query);
 				rs = stmt.executeQuery();
 	
@@ -447,7 +448,7 @@ public class RoomDao extends DBProcess {
 						System.out.println("bf: " + bf);
 					}
 					//시간은 매 회전 어레이에 담고 나머지 변수들은 시간이 다 담기면 한 번에 담기
-					String hour = rs.getString("startdate").substring(11, 13) + "시";
+					String hour = rs.getString(8) + "시";
 					hourList.add(hour);
 	
 					// 구분값인 sort 값이 바뀌면 전 회전에 만들어 놓은 매개변수들로 SalesRecord 생성
