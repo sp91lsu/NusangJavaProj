@@ -1,6 +1,5 @@
 package client_p.ui_p;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -135,9 +134,9 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		ScChatBroadCast scChat = (ScChatBroadCast) packet;
 		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-		if(scChat.isEnd == true) {
+		if (scChat.isEnd == true) {
 			textArea.setText("관리자가 채팅을 종료했습니다. 메인화면으로 3초뒤 이동합니다.");
-			new ChatClose().start();			
+			new ChatClose().start();
 		}
 	}
 
@@ -166,16 +165,15 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		chatDialog.setModal(true);
 		chatDialog.setVisible(true);
 	}
-	class ChatClose extends Thread{
+
+	class ChatClose extends Thread {
 		@Override
 		public void run() {
 			try {
 				sleep(3000);
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 			BaseFrame.getInstance().openMainLayout(null, null, null, null);
 		}
 	}
-	
 }

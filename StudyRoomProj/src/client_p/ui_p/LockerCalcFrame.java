@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -43,8 +42,6 @@ public class LockerCalcFrame extends JDialog {
 		btnNewButton.setBackground(MyColor.w_white);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// 결제하면 기능을 추가. 일단은 창을 닫는다
 				CsBuyLockerSyn csBuyLockerPacket = new CsBuyLockerSyn(userData.uuid, lockerData);
 				ClientNet.getInstance().sendPacket(csBuyLockerPacket);
 				dispose();

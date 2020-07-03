@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,6 @@ import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
-import java.awt.Color;
 
 public class LoginMain extends JPanel implements Receivable, MouseListener {
 
@@ -51,7 +51,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 
 	public LoginMain() {
 		// 서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결
-//		PacketMap.getInstance().map.put(ScLoginAck.class, new ReceiveLoginAck());
 		setLayout(null);
 		setBackground(MyColor.black);
 
@@ -92,7 +91,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 					idLabel.setText("ID");// 다시 눌렀을 때 아이디로
 					idTextF.setText(idInfo);
 				}
-
 			}
 		});
 		add(changeBox);
