@@ -507,10 +507,11 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				btn_state(EState.INIT);
 			}
 		});
-
+		
+	
 		// 시작 시간 선택
 		timeStartCBox = new JComboBox();
-		timeStartCBox.setBounds(313, 28, 83, 33);
+		timeStartCBox.setBounds(313, 28, 50, 33);
 		timeSelectPane.add(timeStartCBox);
 		for (int i = 0; i <= 23; i++) {
 			timeStartCBox.addItem(i);
@@ -530,7 +531,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		});
 
 		timeEndCbox = new JComboBox();
-		timeEndCbox.setBounds(428, 28, 83, 33);
+		timeEndCbox.setBounds(428, 28, 50, 33);
 		timeSelectPane.add(timeEndCbox);
 		for (int i = 1; i <= 24; i++) {
 			timeEndCbox.addItem(i);
@@ -561,14 +562,18 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		JLabel dateL = new JLabel("일");
 		dateL.setBounds(272, 28, 29, 33);
 		timeSelectPane.add(dateL);
+		
+		JLabel timeLB1 = new JLabel("시");
+		timeLB1.setBounds(373, 28, 29, 33);
+		timeSelectPane.add(timeLB1);
 
 		JLabel timeSelecL = new JLabel("~");
-		timeSelecL.setBounds(408, 28, 29, 33);
+		timeSelecL.setBounds(400, 28, 29, 33);
 		timeSelectPane.add(timeSelecL);
-
-//		JButton payButton = new JButton("결제");
-//		payButton.setBounds(669, 21, 141, 40);
-//		timeSelectPane.add(payButton);
+		
+		JLabel timeLB2 = new JLabel("시");
+		timeLB2.setBounds(488, 28, 29, 33);
+		timeSelectPane.add(timeLB2);
 
 		comboList.add(monthCBox);
 		comboList.add(yearCBox);
