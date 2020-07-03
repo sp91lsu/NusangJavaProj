@@ -1,4 +1,4 @@
-package manager_p.panel_p;
+package manager_p.panelDialog_p;
 
 import java.awt.Dimension;
 import java.awt.Font;

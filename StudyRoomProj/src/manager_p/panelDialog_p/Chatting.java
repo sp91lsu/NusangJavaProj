@@ -1,4 +1,4 @@
-package manager_p.panel_p;
+package manager_p.panelDialog_p;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -21,26 +21,32 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
-import manager_p.ChatReqDialog;
 import manager_p.ManagerWindow;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
+import java.awt.Font;
 
 public class Chatting extends JPanel implements Receivable {
 	ManagerWindow mw;
 	
 	private JTable table_3;
 	private JTable table_4;
-	private JLabel lbChatName;
-	private JTextArea textArea;
-	private JTextField textField;
+	public JLabel lb_Chat_name;
+	public String userName="";
+	public JLabel lb_Chat_end;
+	public String chatEnd="님과 채팅이 종료되었습니다.";
+	public String chatStart="님과 채팅 중입니다.";
+	public boolean isChatting = false;
+	public JTextArea textArea;
+	public JTextField textField;
 	private JScrollPane scrollPane_Chat;
 	public CsChatSyn chatSyn;
 	String text = "";
 
 	public Object tabbedPane;
+
 	
 	
 	class ActionLister_Chatting implements ActionListener{
@@ -50,15 +56,20 @@ public class Chatting extends JPanel implements Receivable {
 			this.sort = sort;
 		}
 		
-		void send() {
-			text = "[관리자]: "+textField.getText() + "\n";
-			chatSyn.setText(text);
-			ClientNet.getInstance().sendPacket(chatSyn);
-			
-			textField.setText("");
-			
-			textField.selectAll();
-			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+		void send(boolean isChatting) {
+				text = "[관리자]: "+textField.getText() + "\n";
+				
+				if(isChatting) {
+					chatSyn.setText(text);
+					ClientNet.getInstance().sendPacket(chatSyn);
+				}else {
+					textArea.setText(textArea.getText()+"\n"+text);
+				}
+				
+				textField.setText("");
+				
+				textField.selectAll();
+				scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 		}
 
 		@Override
@@ -66,14 +77,15 @@ public class Chatting extends JPanel implements Receivable {
 			switch (sort) {
 			case "전송":
 				if (!textField.getText().equals("")) {
-					send();
+					send(isChatting);
 				}
 				break;
 			case "엔터":
-				send();
+				send(isChatting);
 				break;
 				
 			case "종료":
+				new ChatEndDialog(mw);
 				
 				break;
 
@@ -118,25 +130,28 @@ public class Chatting extends JPanel implements Receivable {
 		panel_17.setLayout(gbl_panel_17);
 
 		JLabel lblNewLabel_9 = new JLabel("1:1 \uCC44\uD305 \uBB38\uC758");
+		lblNewLabel_9.setFont(new Font("새굴림", Font.BOLD, 30));
 		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
 		gbc_lblNewLabel_9.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_9.gridx = 0;
 		gbc_lblNewLabel_9.gridy = 1;
 		panel_17.add(lblNewLabel_9, gbc_lblNewLabel_9);
 
-		lbChatName = new JLabel("문의자 이름");
-		GridBagConstraints gbc_lbChatName = new GridBagConstraints();
-		gbc_lbChatName.insets = new Insets(0, 0, 5, 0);
-		gbc_lbChatName.gridx = 0;
-		gbc_lbChatName.gridy = 3;
-		panel_17.add(lbChatName, gbc_lbChatName);
+		lb_Chat_name = new JLabel("문의자 이름");
+		lb_Chat_name.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+		GridBagConstraints gbc_lb_Chat_name = new GridBagConstraints();
+		gbc_lb_Chat_name.insets = new Insets(0, 0, 5, 0);
+		gbc_lb_Chat_name.gridx = 0;
+		gbc_lb_Chat_name.gridy = 3;
+		panel_17.add(lb_Chat_name, gbc_lb_Chat_name);
 
-		JLabel lblNewLabel_11 = new JLabel("\uB2D8\uACFC \uCC44\uD305\uC911\uC785\uB2C8\uB2E4");
-		GridBagConstraints gbc_lblNewLabel_11 = new GridBagConstraints();
-		gbc_lblNewLabel_11.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_11.gridx = 0;
-		gbc_lblNewLabel_11.gridy = 4;
-		panel_17.add(lblNewLabel_11, gbc_lblNewLabel_11);
+		lb_Chat_end = new JLabel("\uB2D8\uACFC \uCC44\uD305\uC911\uC785\uB2C8\uB2E4");
+		lb_Chat_end.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+		GridBagConstraints gbc_lb_Chat_end = new GridBagConstraints();
+		gbc_lb_Chat_end.insets = new Insets(0, 0, 5, 0);
+		gbc_lb_Chat_end.gridx = 0;
+		gbc_lb_Chat_end.gridy = 4;
+		panel_17.add(lb_Chat_end, gbc_lb_Chat_end);
 
 		JPanel panel_19 = new JPanel();
 		GridBagConstraints gbc_panel_19 = new GridBagConstraints();
@@ -218,7 +233,8 @@ public class Chatting extends JPanel implements Receivable {
 				System.out.println("채팅 연결 성공 하앍");
 //						System.out.println(BaseFrame.getInstance().userData.name);
 				ChatReqDialog dialog = new ChatReqDialog(mw,sccAck);
-				lbChatName.setText(sccAck.userdata.name);
+				userName = sccAck.userdata.name;
+
 				dialog.lbClientName.setText(sccAck.userdata.name);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
@@ -228,6 +244,10 @@ public class Chatting extends JPanel implements Receivable {
 		//채팅
 		if(packet.getClass() == ScChatBroadCast.class) {
 			ScChatBroadCast scChat = (ScChatBroadCast)packet;
+			if(scChat.isEnd) {
+				textArea.setText(textArea.getText()+"\n"+"["+userName+"]"+"님이 채팅을 종료하였습니다.");
+				ChkDialog endMsg = new ChkDialog("["+userName+"]"+"님이 채팅을 종료하였습니다.");
+			}
 			textArea.setText(textArea.getText()+"\n"+scChat.getText());
 			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 		}

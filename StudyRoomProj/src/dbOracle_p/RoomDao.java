@@ -481,9 +481,9 @@ public class RoomDao extends DBProcess {
 				rs = stmt.executeQuery();
 	
 				while (rs.next()) {
-					SalesBySeat seat = new SalesBySeat(rs.getString("room_name"),
-							Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")));
-					saleBySeatArrL.add(seat);
+//					SalesBySeat seat = new SalesBySeat(rs.getString("room_name"),
+//							Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")));
+//					saleBySeatArrL.add(seat);
 				}
 
 			// 3. ArrayList<SalesTot>

@@ -2,7 +2,6 @@ package manager_p;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -28,8 +27,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
-
 import client_p.ClientNet;
 import client_p.EEnter;
 import client_p.PacketMap;
@@ -37,24 +34,21 @@ import client_p.Receivable;
 import client_p.ui_p.BaseFrame;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.DataManager;
-import data_p.product_p.room_p.RoomTimeData;
 import data_p.sales_p.SalesRecord;
 import data_p.user_p.UserData;
-import manager_p.panel_p.Chatting;
-import manager_p.panel_p.SalesInquiry;
-import manager_p.panel_p.SetPrice;
+import manager_p.panelDialog_p.Chatting;
+import manager_p.panelDialog_p.SalesInquiry;
+import manager_p.panelDialog_p.SetPrice;
 import manager_p.syn_p.MsAllMemListSyn;
 import manager_p.syn_p.MsCurrMemListSyn;
-import manager_p.syn_p.MsResvRoomSyn;
 import manager_p.syn_p.MsMemSearchSyn;
 import packetBase_p.ELoginType;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
-import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
-import server_p.packet_p.ack_p.SmSalesInquiryAck;
+import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
@@ -97,7 +91,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	Seating_Arrangement pnl_SeatArrange;
 	SetPrice pnl_SetPrice = new SetPrice();
 	SalesInquiry pnl_SalesInquiry = new SalesInquiry();
-	Chatting pnl_Chatting = new Chatting(this);
+	public Chatting pnl_Chatting = new Chatting(this);
 
 	public static void main(String[] args) {
 

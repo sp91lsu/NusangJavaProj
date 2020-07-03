@@ -1,7 +1,6 @@
-package manager_p;
+package manager_p.panelDialog_p;
 
 import java.awt.BorderLayout;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +14,8 @@ import javax.swing.border.EmptyBorder;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsChatSyn;
+import manager_p.ManagerWindow;
 import manager_p.ack_p.MsChatConnectAck;
-import manager_p.panelDialog_p.Chatting;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 
 public class ChatReqDialog extends JDialog {
@@ -69,7 +68,12 @@ public class ChatReqDialog extends JDialog {
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
 						mw.pnl_Chatting.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
-						mw.tabbedPane.setSelectedIndex(5);
+						mw.tabbedPane.setSelectedIndex(4);
+						mw.pnl_Chatting.textArea.setText("");
+						mw.pnl_Chatting.textField.setText("");
+						mw.pnl_Chatting.lb_Chat_name.setText("¹®ÀÇÀÚ"+mw.pnl_Chatting.userName);
+						mw.pnl_Chatting.lb_Chat_end.setText(mw.pnl_Chatting.chatStart);
+						mw.pnl_Chatting.isChatting = true;
 					}
 				});
 				okButton.setActionCommand("OK");
