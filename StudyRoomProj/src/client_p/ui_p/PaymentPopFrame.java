@@ -82,7 +82,7 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 			}
 		} 
 		else if(ack.eResult==EResult.ALEADY_EXIST_DATA){
-	         BaseFrame.getInstance().already_use("좌석");
+	         BaseFrame.getInstance().already_use("이미 사용중인 좌석입니다.");
 	      }
 		else
 			jl.setText("결제실패");

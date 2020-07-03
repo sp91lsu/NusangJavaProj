@@ -132,7 +132,7 @@ public class BaseFrame extends JFrame implements Receivable {
 				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
 			} else if (packetAck.eResult == EResult.ALEADY_EXIST_DATA) {
-				already_use("라커");
+				already_use("이미 사용중인 라커입니다.");
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -261,13 +261,13 @@ public class BaseFrame extends JFrame implements Receivable {
 		return clone;
 	}
 
-	public void already_use(String kind) {
+	public void already_use(String use) {
 		JDialog aleay_use = new JDialog();
-		aleay_use.setBounds(860, 440, 200, 200);
+		aleay_use.setBounds(860, 440, 250, 200);
 		aleay_use.setLayout(new GridLayout(0,1));
 		aleay_use.setBackground(MyColor.black);
 		
-		JLabel msg = new JLabel("이미 사용중인 " +kind+"입니다.");
+		JLabel msg = new JLabel(use);
 		msg.setOpaque(true);
 		msg.setBackground(MyColor.black);
 		msg.setForeground(MyColor.white);

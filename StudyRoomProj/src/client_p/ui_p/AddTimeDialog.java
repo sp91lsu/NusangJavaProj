@@ -117,25 +117,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 			setUndecorated(true);
 			setVisible(true);
 		} else {
-			timeEmpty = new JDialog();
-			timeEmpty.setBounds(835, 440, 250, 200);
-			timeEmpty.setBackground(MyColor.black);
-			timeEmpty.setLayout(new GridLayout(0, 1));
-
-			JLabel lb = new JLabel("연장 할 수 있는 시간이 없습니다.");
-			lb.setOpaque(true);
-			lb.setForeground(MyColor.white);
-			lb.setBackground(MyColor.black);
-			timeEmpty.add(lb);
-
-			JButton bt = new JButton("확인");
-			bt.setBackground(MyColor.w_white);
-			timeEmpty.add(bt);
-			bt.addActionListener(this);
-			timeEmpty.setUndecorated(true);
-			timeEmpty.setModal(true);
-			timeEmpty.setVisible(true);
-
+			BaseFrame.getInstance().already_use("연장 할 수 있는 시간이 없습니다.");
 		}
 	}
 
