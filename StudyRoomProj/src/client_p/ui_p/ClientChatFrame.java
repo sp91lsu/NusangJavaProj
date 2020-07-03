@@ -34,7 +34,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	JTextArea textArea;
 	private JScrollPane scrollPane;
 	JDialog chatDialog;
-	ChatClose chatClose;
 
 	public ClientChatFrame() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -138,8 +137,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 		if(scChat.isEnd == true) {
 			textArea.setText("관리자가 채팅을 종료했습니다. 메인화면으로 3초뒤 이동합니다.");
-			chatClose.start();
-			
+			new ChatClose().start();			
 		}
 	}
 
