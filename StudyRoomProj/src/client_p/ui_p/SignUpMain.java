@@ -196,6 +196,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		setLabelForm(chkLb);
 		chkJd.getContentPane().add(chkLb);
 		JButton chkBt = new JButton("확인");
+		chkBt.setBackground(MyColor.w_white);
 		chkJd.getContentPane().add(chkBt);
 		chkBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -212,6 +213,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		setLabelForm(jl2);
 		jd2.getContentPane().add(jl2);
 		jb2 = new JButton("확인");
+		jb2.setBackground(MyColor.w_white);
 		jd2.getContentPane().add(jb2);
 
 		chkSignUp = new JDialog();//회원가입 클릭시 유효검사 창
@@ -222,6 +224,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		setLabelForm(jll);
 		chkSignUp.getContentPane().add(jll);
 		jbt = new JButton("확인");
+		jbt.setBackground(MyColor.w_white);
 		chkSignUp.getContentPane().add(jbt);
 		chkSignUp.setVisible(false);
 		
@@ -233,6 +236,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		setLabelForm(jl);
 		jd.getContentPane().add(jl);
 		jb = new JButton("확인");
+		jb.setBackground(MyColor.w_white);
 		jd.getContentPane().add(jb);
 		jd.setVisible(false);
 		
@@ -444,4 +448,5 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		label.setForeground(MyColor.white);
 		return label;
 	}
+	
 }
