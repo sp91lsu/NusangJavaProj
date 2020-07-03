@@ -1,5 +1,8 @@
 package client_p.ui_p;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,7 +12,6 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -19,17 +21,10 @@ import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
+public class AddTimeDialog extends JDialog implements ActionListener {
 
-public class AddTimeDialog extends JDialog {
-
-	private JPanel contentPane;
-
-	int startTime;
-	int endTime;
-	int timeChoice = 0;
+	JDialog timeEmpty;
+	int startTime, endTime, timeChoice = 0;
 	int addPri = (int) BaseFrame.getInstance().getUsingRoom().price;
 	Calendar last;
 
@@ -40,7 +35,7 @@ public class AddTimeDialog extends JDialog {
 
 			setModal(true);
 			setBounds(725, 350, 450, 380);
-			contentPane = new JPanel();
+			JPanel contentPane = new JPanel();
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
 			getContentPane().setBackground(MyColor.black);
@@ -86,26 +81,12 @@ public class AddTimeDialog extends JDialog {
 			payButton.setBounds(94, 262, 110, 43);
 			contentPane.add(payButton);
 			payButton.setBackground(MyColor.w_white);
-			payButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					sendPacket();
-					dispose();
-					BaseFrame.getInstance().getMainLayout().is_addTime = false;
-				}
-			});
+			payButton.addActionListener(this);
 
 			JButton cancelButton = new JButton("취소");
 			cancelButton.setBounds(246, 262, 110, 43);
 			cancelButton.setBackground(MyColor.w_white);
-			cancelButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-					BaseFrame.getInstance().getMainLayout().is_addTime = false;
-				}
-			});
+			cancelButton.addActionListener(this);
 			contentPane.add(cancelButton);
 
 			Vector<Integer> timeCnt = new Vector<Integer>();
@@ -128,38 +109,33 @@ public class AddTimeDialog extends JDialog {
 					if (timeSelectCom.getSelectedItem() != null) {
 						timeChoice = (int) timeSelectCom.getSelectedItem();
 					}
-					addPri = (int) timeSelectCom.getSelectedItem() * (int) BaseFrame.getInstance().getUsingRoom().price;
+					addPri = (int) timeSelectCom.getSelectedItem() * 
+							(int) BaseFrame.getInstance().getUsingRoom().price;
 					priceInfoL.setText(addPri + "원");
 				}
 			});
 			setUndecorated(true);
 			setVisible(true);
-		}
-		else {
-			JDialog timeEmpty = new JDialog();
+		} else {
+			timeEmpty = new JDialog();
 			timeEmpty.setBounds(630, 440, 250, 200);
 			timeEmpty.setBackground(MyColor.black);
-			timeEmpty.setLayout(new GridLayout(0,1));
+			timeEmpty.setLayout(new GridLayout(0, 1));
+
 			JLabel lb = new JLabel("연장 할 수 있는 시간이 없습니다.");
 			lb.setOpaque(true);
 			lb.setForeground(MyColor.white);
 			lb.setBackground(MyColor.black);
 			timeEmpty.add(lb);
+
 			JButton bt = new JButton("확인");
 			bt.setBackground(MyColor.w_white);
 			timeEmpty.add(bt);
-			bt.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					timeEmpty.dispose();
-					BaseFrame.getInstance().getMainLayout().is_addTime = false;
-				}
-			});
+			bt.addActionListener(this);
 			timeEmpty.setUndecorated(true);
 			timeEmpty.setModal(true);
 			timeEmpty.setVisible(true);
-			
-			
+
 		}
 	}
 
@@ -237,5 +213,22 @@ public class AddTimeDialog extends JDialog {
 		roomProduct.calendarList = myCalList;
 		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
 		ClientNet.getInstance().sendPacket(packet);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton btn = (JButton) e.getSource();
+
+		if (btn.getText().equals("결제")) {
+			sendPacket();
+			dispose();
+			BaseFrame.getInstance().getMainLayout().is_addTime = false;
+		} else if (btn.getText().equals("취소")) {
+			dispose();
+			BaseFrame.getInstance().getMainLayout().is_addTime = false;
+		}else if (btn.getText().equals("확인")) {
+			timeEmpty.dispose();
+			BaseFrame.getInstance().getMainLayout().is_addTime = false;
+		}
 	}
 }
