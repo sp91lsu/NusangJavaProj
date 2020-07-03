@@ -476,15 +476,15 @@ public class RoomDao extends DBProcess {
 			// 2. ArrayList<SalesBySeat>
 				
 				
-				query = "SELECT room_id,room_name ,SUM(room_price), COUNT(DISTINCT name) " + "FROM " + primequery + "GROUP BY room_id,room_name" + " order by room_id";
+				query = "SELECT room_id,room_name ,SUM(room_price), COUNT(DISTINCT id) as id_count " + "FROM " + primequery + "GROUP BY room_id,room_name" + " order by room_id";
 				System.out.println("이용석 매출 쿼리: "+query);
 				stmt = con.prepareStatement(query);
 				rs = stmt.executeQuery();
 	
 				while (rs.next()) {
-//					SalesBySeat seat = new SalesBySeat(rs.getString("room_name"),
-//							Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(*)")));
-//					saleBySeatArrL.add(seat);
+					SalesBySeat seat = new SalesBySeat(rs.getString("room_name"),
+							Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(DISTINCT id)")));
+					saleBySeatArrL.add(seat);
 				}
 
 			// 3. ArrayList<SalesTot>
