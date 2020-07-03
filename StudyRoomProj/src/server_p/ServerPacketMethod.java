@@ -189,7 +189,7 @@ class MethCsChatSyn implements ServerPacketMethod {
 		System.out.println(csChatSyn.mip);
 		System.out.println(csChatSyn.text);
 
-		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text);
+		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text, csChatSyn.isEnd);
 
 		SocketClient chatClient = MyServer.getInstance().findClient(csChatSyn.cip);
 		SocketClient chatManager = MyServer.getInstance().findClient(csChatSyn.mip);

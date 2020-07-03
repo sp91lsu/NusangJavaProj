@@ -9,16 +9,16 @@ import packetBase_p.ResultPacketBase;
 public class ScChatBroadCast extends ResultPacketBase {
 
 	String text;
+	public boolean isEnd;
 
-	public ScChatBroadCast(EResult eResult, String text) {
+	public ScChatBroadCast(EResult eResult, String text, boolean isEnd) {
 		super(eResult);
 		this.text = text;
-		// TODO Auto-generated constructor stub
+		isEnd = false;
 	}
 
 	public String getText() {
 
 		return text;
 	}
-
 }
