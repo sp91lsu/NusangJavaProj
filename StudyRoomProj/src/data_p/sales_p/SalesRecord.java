@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class SalesRecord implements Serializable {
 
-	public String date = "";
+	public String dateStr = "";
 	public String room_name = "";
 	public int room_price_Tot = 0;
 	public String user_name = "";
@@ -15,7 +15,7 @@ public class SalesRecord implements Serializable {
 	public SalesRecord(String date, String room_name, int room_price, String user_name, String user_id,
 			ArrayList<String> hourList) {
 		super();
-		this.date = date;
+		this.dateStr = date;
 		this.room_name = room_name;
 		this.user_name = user_name;
 		this.user_id = user_id;

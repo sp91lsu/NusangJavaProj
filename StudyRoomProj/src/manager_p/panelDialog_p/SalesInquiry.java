@@ -524,7 +524,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 			String [] header_Record = {"날짜","이용석","금액","이용자","이용자ID","구매기록"};
 			String contents_Records[][] = new String [sr.size()][header_Record.length];
 				for (int i = 0; i < sr.size(); i++) {
-//					contents_Records[i][0] = sr.get(i).dateStr;
+					contents_Records[i][0] = sr.get(i).dateStr;
 					contents_Records[i][1] = sr.get(i).room_name;
 					contents_Records[i][2] = sr.get(i).room_price_Tot+"";
 					contents_Records[i][3] = sr.get(i).user_name;

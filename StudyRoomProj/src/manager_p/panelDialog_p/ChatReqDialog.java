@@ -68,10 +68,10 @@ public class ChatReqDialog extends JDialog {
 						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
 						mw.pnl_Chatting.chatSyn =csc;
 						ClientNet.getInstance().sendPacket(packet);
-						mw.tabbedPane.setSelectedIndex(4);
 						mw.pnl_Chatting.textArea.setText("");
 						mw.pnl_Chatting.textField.setText("");
-						mw.pnl_Chatting.lb_Chat_name.setText("문의자"+mw.pnl_Chatting.userName);
+						mw.tabbedPane.setSelectedIndex(4);
+						mw.pnl_Chatting.lb_Chat_name.setText("문의자 ["+mw.pnl_Chatting.userName+"]");
 						mw.pnl_Chatting.lb_Chat_end.setText(mw.pnl_Chatting.chatStart);
 						mw.pnl_Chatting.isChatting = true;
 					}

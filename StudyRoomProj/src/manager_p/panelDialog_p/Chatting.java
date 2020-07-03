@@ -137,7 +137,7 @@ public class Chatting extends JPanel implements Receivable {
 		gbc_lblNewLabel_9.gridy = 1;
 		panel_17.add(lblNewLabel_9, gbc_lblNewLabel_9);
 
-		lb_Chat_name = new JLabel("¹®ÀÇÀÚ ÀÌ¸§");
+		lb_Chat_name = new JLabel("");
 		lb_Chat_name.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		GridBagConstraints gbc_lb_Chat_name = new GridBagConstraints();
 		gbc_lb_Chat_name.insets = new Insets(0, 0, 5, 0);
@@ -145,7 +145,7 @@ public class Chatting extends JPanel implements Receivable {
 		gbc_lb_Chat_name.gridy = 3;
 		panel_17.add(lb_Chat_name, gbc_lb_Chat_name);
 
-		lb_Chat_end = new JLabel("\uB2D8\uACFC \uCC44\uD305\uC911\uC785\uB2C8\uB2E4");
+		lb_Chat_end = new JLabel("");
 		lb_Chat_end.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		GridBagConstraints gbc_lb_Chat_end = new GridBagConstraints();
 		gbc_lb_Chat_end.insets = new Insets(0, 0, 5, 0);
@@ -214,6 +214,7 @@ public class Chatting extends JPanel implements Receivable {
 		panel_20.add(btnNewButton_4, gbc_btnNewButton_4);
 		
 		JButton btnNewButton = new JButton("Á¾·á");
+		btnNewButton.addActionListener(new ActionLister_Chatting("Á¾·á"));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.gridx = 2;

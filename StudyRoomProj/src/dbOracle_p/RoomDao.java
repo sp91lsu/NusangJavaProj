@@ -475,7 +475,7 @@ public class RoomDao extends DBProcess {
 			// 2. ArrayList<SalesBySeat>
 				
 				
-				query = "SELECT id,room_name ,SUM(room_price), COUNT(*) " + "FROM " + primequery + "GROUP BY room_name" + " order by id";
+				query = "SELECT room_id,room_name ,SUM(room_price), COUNT(DISTINCT name) " + "FROM " + primequery + "GROUP BY room_id,room_name" + " order by room_id";
 				System.out.println("이용석 매출 쿼리: "+query);
 				stmt = con.prepareStatement(query);
 				rs = stmt.executeQuery();
