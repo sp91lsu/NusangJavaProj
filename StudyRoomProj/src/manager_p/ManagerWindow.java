@@ -34,10 +34,9 @@ import client_p.Receivable;
 import client_p.ui_p.BaseFrame;
 import client_p.ui_p.Seating_Arrangement;
 import data_p.product_p.DataManager;
-import data_p.sales_p.SalesRecord;
 import data_p.user_p.UserData;
-import manager_p.panelDialog_p.CalendarTest;
 import manager_p.panelDialog_p.Chatting;
+import manager_p.panelDialog_p.ResvInquiry;
 import manager_p.panelDialog_p.SalesInquiry;
 import manager_p.panelDialog_p.SetPrice;
 import manager_p.syn_p.MsAllMemListSyn;
@@ -49,7 +48,6 @@ import server_p.packet_p.ack_p.ScGetRoomDataAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
 import server_p.packet_p.ack_p.SmMemSearchAck;
-import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScRoomInfoBroadCast;
 
@@ -80,12 +78,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private JScrollPane scrollPane_3_2;
 	private JComboBox comboBox;
 	private ArrayList<UserData> searchedUDs;
-	private ArrayList<SalesRecord> salesRecordList;
-	private DefaultTableModel dTable5;
-	private String headerResvs[];
-	private String contentsResvs[][];
-	private JTable table;
-	private JScrollPane scrollPane_12;
+	
+	
 
 	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
 
@@ -93,6 +87,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 	SetPrice pnl_SetPrice = new SetPrice();
 	SalesInquiry pnl_SalesInquiry = new SalesInquiry();
 	public Chatting pnl_Chatting = new Chatting(this);
+	public ResvInquiry pnl_ResvInquiry = new ResvInquiry(this);
 
 	public static void main(String[] args) {
 
@@ -117,7 +112,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 		PacketMap.getInstance().map.put(SmMemSearchAck.class, this);
 		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
-		PacketMap.getInstance().map.put(SmResvRoomAck.class, this);
 		PacketMap.getInstance().map.put(ScGetRoomDataAck.class, this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(40, 100, 1000, 800);
@@ -377,38 +371,10 @@ public class ManagerWindow extends JFrame implements Receivable {
 //      seating_Arrangement.setPreferredSize(size);// 사이즈 정보를 가지고 있는
 //      scrollPane_7.setViewportView(seating_Arrangement);
 
-		// 예약
-		JPanel panel_3 = new JPanel();
-		System.out.println(panel_3.getHeight());
-		tabbedPane.addTab("\uC608\uC57D \uAD00\uB9AC", null, panel_3, null);
-		panel_3.setLayout(null);
-
-		CalendarTest cal = new CalendarTest(this);
-		cal.setBounds(224, 25, 502, 362);
-		panel_3.add(cal);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(-28, 368, 887, 305);
-		cal.add(scrollPane);
-
-		scrollPane_12 = new JScrollPane();
-		scrollPane_12.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_12.setBounds(79, 389, 842, 311);
-		panel_3.add(scrollPane_12);
-
-		headerResvs = new String[] { "이용석", "예약자", "예약시간" };
-		contentsResvs = new String[1][headerResvs.length];
-		dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
-		table = new JTable(dTable5);
-		table.getColumn("이용석").setPreferredWidth(100);
-		table.getColumn("예약자").setPreferredWidth(100);
-		table.getColumn("예약시간").setPreferredWidth(400);
-		table.setRowHeight(27);
-		table.setFont(new Font("새굴림", Font.PLAIN, 25));
-		table.setFillsViewportHeight(true);
-		scrollPane_12.setViewportView(table);
-
-		tabbedPane.add("요금 관리", pnl_SetPrice);
+		
+		tabbedPane.addTab("예약 관리", pnl_ResvInquiry);
+		
+		tabbedPane.addTab("요금 관리", pnl_SetPrice);
 
 		tabbedPane.addTab("매출 조회", pnl_SalesInquiry);
 
@@ -534,31 +500,7 @@ public class ManagerWindow extends JFrame implements Receivable {
 			scrollPane_3_2.setViewportView(table_6);
 		}
 
-		// 예약관리 페이지로 이동시 재고 룸정보 받아오기
-		if (packet.getClass() == SmResvRoomAck.class) {
-			System.out.println("매니저가 받았다 액크");
-			SmResvRoomAck ack = (SmResvRoomAck) packet;
-			salesRecordList = ack.rtd;
-
-			contentsResvs = new String[salesRecordList.size()][headerResvs.length];
-			for (int i = 0; i < salesRecordList.size(); i++) {
-				contentsResvs[i][0] = salesRecordList.get(i).room_name;
-				contentsResvs[i][1] = salesRecordList.get(i).user_name;
-				String hhh = "";
-				for (String h : salesRecordList.get(i).hourList) {
-					hhh += h + " ";
-				}
-				contentsResvs[i][2] = hhh;
-			}
-
-			dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
-			table = new JTable(dTable5);
-			table.setRowHeight(27);
-			table.setFont(new Font("새굴림", Font.PLAIN, 25));
-			table.setFillsViewportHeight(true);
-			scrollPane_12.setViewportView(table);
-
-		}
+		
 
 		if (packet.getClass() == ScGetRoomDataAck.class) {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;

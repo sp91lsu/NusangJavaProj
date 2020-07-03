@@ -32,15 +32,6 @@ public class ReserInfoPane extends JPanel {
 	String userId = "";
 	JLabel userDataL;
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 245, 650);
-		frame.getContentPane().add(new ReserInfoPane());
-		frame.setVisible(true);
-
-	}
-
 	public ReserInfoPane() {
 
 		setBounds(650, 0, 245, 650);
@@ -71,7 +62,6 @@ public class ReserInfoPane extends JPanel {
 		userDataL = new JLabel();
 		userDataL.setBounds(12, 71, 210, 90);
 		add(userDataL);
-
 	}
 
 	public void OpenPage() {
@@ -128,6 +118,5 @@ public class ReserInfoPane extends JPanel {
 			System.out.println(cal.getTime());
 			BaseFrame.getInstance().getSeatingArrUI().setMyTimeShow(cal, cal.get(Calendar.HOUR_OF_DAY));
 		}
-
 	}
 }

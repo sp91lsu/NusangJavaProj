@@ -358,11 +358,8 @@ class MethMsResvRoomSyn implements ServerPacketMethod {
 		MsResvRoomSyn resPacket = (MsResvRoomSyn) packet;
 		SmResvRoomAck ack = null;
 		try {
-			System.out.println(resPacket.yyyy);
-			System.out.println(resPacket.yyyy.substring(2));
-			String yy = resPacket.yyyy.substring(2);
 			ack = new SmResvRoomAck(EResult.SUCCESS,
-					new RoomDao().salesData(yy, resPacket.mm, resPacket.dd).salesRecordArrL);
+					new RoomDao().salesData(resPacket.yyyy, resPacket.mm, resPacket.dd).salesRecordArrL);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

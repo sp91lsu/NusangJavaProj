@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -24,9 +25,8 @@ import packetBase_p.ELoginType;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScLoginAck;
-import java.awt.Color;
 
-public class LoginMain extends JPanel implements Receivable, MouseListener {
+public class LoginMain extends JPanel implements Receivable, MouseListener, ActionListener {
 
 	JTextField idTextF;
 	JPasswordField passwordField;
@@ -51,7 +51,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 
 	public LoginMain() {
 		// 서버에서 받은 로그인 응답 클래스와 그에 맞는 함수클래스 연결
-//		PacketMap.getInstance().map.put(ScLoginAck.class, new ReceiveLoginAck());
 		setLayout(null);
 		setBackground(MyColor.black);
 
@@ -92,7 +91,6 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 					idLabel.setText("ID");// 다시 눌렀을 때 아이디로
 					idTextF.setText(idInfo);
 				}
-
 			}
 		});
 		add(changeBox);
@@ -113,28 +111,14 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 		logInBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		logInBtn.setBounds(300, 400, 120, 45);
 		add(logInBtn);
-		logInBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(!isLogin) {
-					isLogin=true;
-					CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), !changeBox.isSelected());
-					ClientNet.getInstance().sendPacket(packet);
-				}
-			}
-		});
+		logInBtn.addActionListener(this);
 
 		JButton signUpBt = new JButton("회원가입");//회원가입 버튼
 		signUpBt.setBackground(MyColor.w_white);
 		signUpBt.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		signUpBt.setBounds(480, 400, 120, 45);
 		add(signUpBt);
-		signUpBt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BaseFrame.getInstance().signUpFrame.setVisible(true);
-				BaseFrame.getInstance().signUpFrame.textFieldSet();
-
-			}
-		});
+		signUpBt.addActionListener(this);
 		
 		logDialog = new JDialog();
 		logDialog.setBounds(810, 390, 300, 300);
@@ -236,5 +220,20 @@ public class LoginMain extends JPanel implements Receivable, MouseListener {
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
-	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton btn = (JButton) e.getSource();
+		if (btn.getText().equals("로그인")) {
+			if (!isLogin) {
+				isLogin = true;
+				CsLoginSyn packet = new CsLoginSyn(idTextF.getText(), passwordField.getText(), !changeBox.isSelected());
+				ClientNet.getInstance().sendPacket(packet);
+			}
+		}
+		else if(btn.getText().equals("회원가입")) {
+			BaseFrame.getInstance().signUpFrame.setVisible(true);
+			BaseFrame.getInstance().signUpFrame.textFieldSet();
+		}
+	}
 }

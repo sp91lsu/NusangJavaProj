@@ -47,6 +47,8 @@ public class Chatting extends JPanel implements Receivable {
 
 	public Object tabbedPane;
 
+	public JButton btnTerminate;
+
 	
 	
 	class ActionLister_Chatting implements ActionListener{
@@ -213,13 +215,13 @@ public class Chatting extends JPanel implements Receivable {
 		gbc_btnNewButton_4.gridy = 0;
 		panel_20.add(btnNewButton_4, gbc_btnNewButton_4);
 		
-		JButton btnNewButton = new JButton("종료");
-		btnNewButton.addActionListener(new ActionLister_Chatting("종료"));
+		btnTerminate = new JButton("종료");
+		btnTerminate.addActionListener(new ActionLister_Chatting("종료"));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 0;
-		panel_20.add(btnNewButton, gbc_btnNewButton);
+		panel_20.add(btnTerminate, gbc_btnNewButton);
 
 	}
 
@@ -246,6 +248,7 @@ public class Chatting extends JPanel implements Receivable {
 		if(packet.getClass() == ScChatBroadCast.class) {
 			ScChatBroadCast scChat = (ScChatBroadCast)packet;
 			if(scChat.isEnd) {
+				btnTerminate.setEnabled(false);
 				textArea.setText(textArea.getText()+"\n"+"["+userName+"]"+"님이 채팅을 종료하였습니다.");
 				ChkDialog endMsg = new ChkDialog("["+userName+"]"+"님이 채팅을 종료하였습니다.");
 				isChatting = false;

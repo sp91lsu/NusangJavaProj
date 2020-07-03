@@ -58,12 +58,13 @@ public class ChatReqDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("\uC218\uB77D");
+				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 						MsChatConnectAck packet = new MsChatConnectAck(true);
 						CsChatSyn csc = new CsChatSyn();
+						mw.pnl_Chatting.btnTerminate.setEnabled(true);
 						mw.pnl_Chatting.chatSyn = csc;
 						ClientNet.getInstance().sendPacket(packet);
 						mw.pnl_Chatting.textArea.setText("");
@@ -72,7 +73,7 @@ public class ChatReqDialog extends JDialog {
 						mw.pnl_Chatting.lb_Chat_name.setText("문의자 [" + mw.pnl_Chatting.userName + "]");
 						mw.pnl_Chatting.lb_Chat_end.setText(mw.pnl_Chatting.chatStart);
 						mw.pnl_Chatting.isChatting = true;
-                        mw.pnl_Chatting.lb_Chat_end.setText("님과 채팅이 종료되었습니다.");
+                        
 					}
 				});
 				okButton.setActionCommand("OK");

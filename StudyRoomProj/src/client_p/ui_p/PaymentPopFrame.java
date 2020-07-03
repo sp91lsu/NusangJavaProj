@@ -1,20 +1,17 @@
 package client_p.ui_p;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
-import data_p.product_p.ProductData;
 import data_p.product_p.room_p.RoomProduct;
 import packetBase_p.ELoginType;
 import packetBase_p.EResult;
@@ -39,13 +36,8 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 		okBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				for (Calendar cal : BaseFrame.getInstance().roomProduct.calendarList) {
-//
-//					//System.out.println(cal.getTime());
-//				}
 				CsBuyRoomSyn packet = new CsBuyRoomSyn(room, BaseFrame.getInstance().userData.uuid);
 				ClientNet.getInstance().sendPacket(packet);
-				//BaseFrame.getInstance().getReservationMain().resetResInfo();
 				dispose();
 			}
 		});
@@ -88,27 +80,9 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 				BaseFrame.getInstance().view("LoginMain");
 			}
-		//	BaseFrame.getInstance().payment.dispose();
-//			BaseFrame.getInstance().roomProduct.calendarList.clear();
-		//	BaseFrame.getInstance().payment.timeList.clear();
 		} 
 		else if(ack.eResult==EResult.ALEADY_EXIST_DATA){
-	         JDialog aleay_seat = new JDialog();
-	         aleay_seat.setBounds(100, 100, 200, 200);
-	         aleay_seat.setLayout(null);
-	         JLabel msg = new JLabel("이미 사용중인 좌석입니다.");
-	         msg.setBounds(0, 0, 200, 100);
-	         aleay_seat.add(msg);
-	         JButton ok_Butoon = new JButton("확인");
-	         ok_Butoon.setBounds(50, 100, 100, 40);
-	         aleay_seat.add(ok_Butoon);
-	         ok_Butoon.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-	               aleay_seat.dispose();
-	            }
-	         });
-	         aleay_seat.setModal(true);
-	         aleay_seat.setVisible(true);
+	         BaseFrame.getInstance().already_use("좌석");
 	      }
 		else
 			jl.setText("결제실패");

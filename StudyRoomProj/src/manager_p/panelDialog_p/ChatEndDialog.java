@@ -69,9 +69,11 @@ public class ChatEndDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						mw.pnl_Chatting.btnTerminate.setEnabled(false);
 						mw.pnl_Chatting.textArea.setText(mw.pnl_Chatting.textArea.getText()+"\n"+"["+mw.pnl_Chatting.userName+"]"+"님과의 채팅을 종료하였습니다.");
 						mw.pnl_Chatting.chatSyn.end();
 						ClientNet.getInstance().sendPacket(mw.pnl_Chatting.chatSyn);
+						mw.pnl_Chatting.lb_Chat_end.setText("님과 채팅이 종료되었습니다.");
 						dispose();
 					}
 				});

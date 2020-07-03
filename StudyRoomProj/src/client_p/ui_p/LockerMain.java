@@ -1,6 +1,8 @@
 package client_p.ui_p;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,8 +16,6 @@ import javax.swing.SwingConstants;
 
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
-import java.awt.Font;
-import java.awt.GridLayout;
 
 class LockerBtn {
 	LockerData data;
@@ -160,7 +160,7 @@ public class LockerMain extends JPanel {
 	public void updateLocker(LockerData data) {
 
 		currentData = data;
-	
+
 		for (LockerBtn lockerbtn : list) {
 			lockerbtn.btn.setBackground(Color.white);
 			lockerbtn.btn.setEnabled(true);

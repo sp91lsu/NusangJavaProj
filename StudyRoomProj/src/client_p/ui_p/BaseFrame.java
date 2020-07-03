@@ -1,6 +1,7 @@
 package client_p.ui_p;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -130,24 +131,9 @@ public class BaseFrame extends JFrame implements Receivable {
 				userData.locker = packetAck.myLocker;
 				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
-			}else if(packetAck.eResult == EResult.ALEADY_EXIST_DATA) {
-				JDialog aleay_seat = new JDialog();
-		         aleay_seat.setBounds(100, 100, 200, 200);
-		         aleay_seat.setLayout(null);
-		         JLabel msg = new JLabel("이미 사용중인 라커입니다.");
-		         msg.setBounds(0, 0, 200, 100);
-		         aleay_seat.add(msg);
-		         JButton ok_Butoon = new JButton("확인");
-		         ok_Butoon.setBounds(50, 100, 100, 40);
-		         aleay_seat.add(ok_Butoon);
-		         ok_Butoon.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		               aleay_seat.dispose();
-		            }
-		         });
-		         aleay_seat.setModal(true);
-		         aleay_seat.setVisible(true);
-			}else {
+			} else if (packetAck.eResult == EResult.ALEADY_EXIST_DATA) {
+				already_use("라커");
+			} else {
 				System.out.println("사물함 결제 실패");
 			}
 		} else if (packet.getClass() == ScUpdateRoomInfoAck.class) {
@@ -162,9 +148,6 @@ public class BaseFrame extends JFrame implements Receivable {
 				System.out.println("ScUpdateRoomInfoAck에러");
 			}
 		}
-
-		// 예약페이지
-		// 당일결제페이지
 	}
 
 	public void updateInfo(ArrayList<RoomProduct> roomList) {
@@ -247,7 +230,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 
 	}
-	
+
 	// 현재 사용하고 있는 룸 정보
 	public RoomProduct getUsingRoom() {
 
@@ -278,6 +261,33 @@ public class BaseFrame extends JFrame implements Receivable {
 		return clone;
 	}
 
+	public void already_use(String kind) {
+		JDialog aleay_use = new JDialog();
+		aleay_use.setBounds(860, 440, 200, 200);
+		aleay_use.setLayout(new GridLayout(0,1));
+		aleay_use.setBackground(MyColor.black);
+		
+		JLabel msg = new JLabel("이미 사용중인 " +kind+"입니다.");
+		msg.setOpaque(true);
+		msg.setBackground(MyColor.black);
+		msg.setForeground(MyColor.white);
+		msg.setBounds(0, 0, 200, 100);
+		aleay_use.add(msg);
+		
+		JButton ok_Butoon = new JButton("확인");
+		ok_Butoon.setBounds(50, 100, 100, 40);
+		ok_Butoon.setBackground(MyColor.w_white);
+		aleay_use.add(ok_Butoon);
+		ok_Butoon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aleay_use.dispose();
+			}
+		});
+		aleay_use.setUndecorated(true);
+		aleay_use.setModal(true);
+		aleay_use.setVisible(true);
+	}
+	
 	public long getTodayRemainTime() {
 
 		Calendar current = Calendar.getInstance();
