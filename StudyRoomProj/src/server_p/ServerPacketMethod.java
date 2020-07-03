@@ -199,9 +199,11 @@ class MethCsChatSyn implements ServerPacketMethod {
 
 		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text, csChatSyn.isEnd);
 
-		SocketClient chatClient = client.chatClient;// MyServer.getInstance().findClient(csChatSyn.cip);
-		SocketClient chatClient2 = chatClient.chatClient;// MyServer.getInstance().findClient(csChatSyn.mip);
-
+		SocketClient chatClient = client.chatClient;
+		SocketClient chatClient2 = null;
+		if (chatClient != null) {
+			chatClient2 = chatClient.chatClient;
+		}
 		if (csChatSyn.isEnd) {
 			if (chatClient != null) {
 				chatClient.chatClient = null;
