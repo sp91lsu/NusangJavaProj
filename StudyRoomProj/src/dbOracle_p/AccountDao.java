@@ -61,9 +61,26 @@ public class AccountDao extends DBProcess {
 		UserData userData = null;
 		if (rs.next()) {
 			userData = rsToUser(rs);
+			new AccountDao().loginCheck(userData.uuid, true);
 		}
 		close();
 		return userData;
+	}
+
+	public boolean loginCheck(String uuid, boolean isLogin) {
+		try {
+			updateQuery(ETable.ACCOUNT, "ISLOGIN", "?", "uuid = ?");
+
+			int loginValue = isLogin ? 1 : 0;
+			stmt.setInt(1, loginValue);
+			stmt.setString(2, uuid);
+			rs = stmt.executeQuery();
+			close();
+			return true;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			return false;
+		}
 	}
 
 	public void ipCheck(String uuid, String ip) {
@@ -97,7 +114,7 @@ public class AccountDao extends DBProcess {
 	public ArrayList<String> findManagersIp() {
 
 		ArrayList<String> ipList = new ArrayList<String>();
-		findQuery(ETable.ACCOUNT, "*", "ctype = 1");
+		findQuery(ETable.ACCOUNT, "*", "ctype = 1 and ISLOGIN = 1");
 
 		try {
 			rs = stmt.executeQuery();

@@ -10,9 +10,11 @@ import client_p.packet_p.syn_p.CsBuyLockerSyn;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import client_p.packet_p.syn_p.CsChatConnectSyn;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.packet_p.syn_p.CsCloseSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsGetRoomDataSyn;
+import client_p.packet_p.syn_p.CsLogOutSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -40,6 +42,7 @@ import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScGetRoomDataAck;
+import server_p.packet_p.ack_p.ScLogOutAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
@@ -135,6 +138,7 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		for (String ip : managerIpList) {
 
 			mc = MyServer.getInstance().findClient(ip);
+
 			if (mc != null && mc.chatClient == null) {
 				mc.chatClient = client;
 				break;
@@ -284,6 +288,10 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 class MethCloseSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
+
+		CsCloseSyn res = (CsCloseSyn) packet;
+
+		new AccountDao().loginCheck(res.uuid, false);
 		client.close();
 	}
 }
@@ -538,5 +546,20 @@ class MethMsUptRoomPrSyn implements ServerPacketMethod {
 
 		client.sendPacket(ack);
 
+	}
+
+}
+
+class MethCsLogOutSyn implements ServerPacketMethod {
+
+	public void receive(SocketClient client, PacketBase packet) {
+
+		CsLogOutSyn resPacket = (CsLogOutSyn) packet;
+		ScLogOutAck ack = null;
+		if (new AccountDao().loginCheck(resPacket.uuid, false)) {
+			ack = new ScLogOutAck(EResult.SUCCESS);
+		} else {
+			ack = new ScLogOutAck(EResult.FAIL);
+		}
 	}
 }

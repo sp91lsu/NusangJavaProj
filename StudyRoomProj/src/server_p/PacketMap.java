@@ -10,6 +10,7 @@ import client_p.packet_p.syn_p.CsCloseSyn;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
 import client_p.packet_p.syn_p.CsExitSyn;
 import client_p.packet_p.syn_p.CsGetRoomDataSyn;
+import client_p.packet_p.syn_p.CsLogOutSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
 import client_p.packet_p.syn_p.CsSignUpSyn;
@@ -49,6 +50,7 @@ public class PacketMap {
 		map.put(MsSalesInquirySyn.class, new MethMsSalesInquirySyn()); // 매출조회
 		map.put(CsGetRoomDataSyn.class, new MethCsGetRoomDataSyn()); // 룸 데이터 업로드
 		map.put(MsUptRoomPrSyn.class, new MethMsUptRoomPrSyn()); // 룸 데이터 업로드
+		map.put(CsLogOutSyn.class, new MethCsLogOutSyn()); // 로그아웃
 	}
 
 	void receivePacket(SocketClient pClient, PacketBase packet) {

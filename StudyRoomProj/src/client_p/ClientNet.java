@@ -11,6 +11,8 @@ import java.util.UUID;
 import client_p.packet_p.syn_p.CsCloseSyn;
 import client_p.packet_p.syn_p.CsGetRoomDataSyn;
 import client_p.packet_p.syn_p.CsLoginSyn;
+import client_p.ui_p.BaseFrame;
+import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
 import packetBase_p.ResultPacketBase;
 
@@ -137,7 +139,14 @@ class PacketProccess extends Thread {
 
 		if (!socket.isClosed()) {
 
-			CsCloseSyn closeSyn = new CsCloseSyn();
+			UserData userData = BaseFrame.getInstance().userData;
+			String uuid = null;
+
+			if (userData != null) {
+				uuid = userData.uuid;
+			}
+
+			CsCloseSyn closeSyn = new CsCloseSyn(uuid);
 			sendPacket(closeSyn);
 			System.out.println("클라이언트 소켓 연결 종료");
 			try {
