@@ -132,7 +132,7 @@ public class BaseFrame extends JFrame implements Receivable {
 				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
 
 			} else if (packetAck.eResult == EResult.ALEADY_EXIST_DATA) {
-				already_use("이미 사용중인 라커입니다.");
+				AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 라커입니다.");
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -259,33 +259,6 @@ public class BaseFrame extends JFrame implements Receivable {
 			}
 		}
 		return clone;
-	}
-
-	public void already_use(String use) {
-		JDialog aleay_use = new JDialog();
-		aleay_use.setBounds(860, 440, 250, 200);
-		aleay_use.setLayout(new GridLayout(0,1));
-		aleay_use.setBackground(MyColor.black);
-		
-		JLabel msg = new JLabel(use);
-		msg.setOpaque(true);
-		msg.setBackground(MyColor.black);
-		msg.setForeground(MyColor.white);
-		msg.setBounds(0, 0, 200, 100);
-		aleay_use.add(msg);
-		
-		JButton ok_Butoon = new JButton("확인");
-		ok_Butoon.setBounds(50, 100, 100, 40);
-		ok_Butoon.setBackground(MyColor.w_white);
-		aleay_use.add(ok_Butoon);
-		ok_Butoon.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				aleay_use.dispose();
-			}
-		});
-		aleay_use.setUndecorated(true);
-		aleay_use.setModal(true);
-		aleay_use.setVisible(true);
 	}
 	
 	public long getTodayRemainTime() {

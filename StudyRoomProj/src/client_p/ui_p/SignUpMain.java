@@ -190,7 +190,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 
 		chkJd = new JDialog();
 		chkJd.setBackground(MyColor.white);
-		chkJd.setBounds(860, 440, 200, 200);
+		chkJd.setBounds(860, 440, 250, 200);
 		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
 		chkJd.setUndecorated(true);
 		
@@ -302,31 +302,31 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 			if (name.matches(korean)) {
 				label_1.setText("입력 확인");
 			} else {
-				SignUpPop pop = new SignUpPop();
+				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (id.matches(eng) && id.matches(num)) {
 				label_5.setText("입력 확인");
 			} else {
-				SignUpPop pop = new SignUpPop();
+				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (pass.matches(passChk)) {
 				label_2.setText("입력 확인");
 			} else {
-				SignUpPop pop = new SignUpPop();
+				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (phoneNum.matches(phoneChk)) {
 				label_4.setText("입력 확인");
 			} else {
-				SignUpPop pop = new SignUpPop();
+				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (pass.matches(pass2)) {
 				label_3.setText("입력 확인");
 			} else {
-				SignUpPop pop = new SignUpPop();
+				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 

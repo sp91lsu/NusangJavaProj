@@ -2,14 +2,12 @@ package client_p.ui_p;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -94,29 +92,8 @@ public class LockerMain extends JPanel {
 				if (currentData != null) {
 					lp.openLockerPWFrame(currentData);
 				} else {
-					JDialog lockerDialog = new JDialog();
-					lockerDialog.setLayout(new GridLayout(2, 1));
-					lockerDialog.setBounds(850, 400, 200, 200);
-					lockerDialog.setUndecorated(true);
-					lockerDialog.getContentPane().setBackground(MyColor.black);
-					JLabel lockerLabel = new JLabel("구매할 사물함을 선택해 주세요");
-					lockerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-					lockerDialog.add(lockerLabel);
-					lockerLabel.setForeground(Color.white);
-					JButton closeButton = new JButton("확인");
-					lockerDialog.add(closeButton);
-					closeButton.setBackground(MyColor.w_white);
-					closeButton.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							lockerDialog.dispose();
-
-						}
-					});
-					lockerDialog.setModal(true);
-					lockerDialog.setVisible(true);
+					AlreadyUsePop pop = new AlreadyUsePop("구매할 사물함을 선택해 주세요");
 				}
-
 			}
 		});
 

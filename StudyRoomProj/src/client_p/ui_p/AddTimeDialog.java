@@ -2,7 +2,6 @@ package client_p.ui_p;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -117,7 +116,8 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 			setUndecorated(true);
 			setVisible(true);
 		} else {
-			BaseFrame.getInstance().already_use("연장 할 수 있는 시간이 없습니다.");
+			AlreadyUsePop pop = new AlreadyUsePop("연장 할 수 있는 시간이 없습니다.");
+			BaseFrame.getInstance().getMainLayout().is_addTime=false;
 		}
 	}
 
