@@ -70,14 +70,14 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		button5.addActionListener(this);
 		button5.setBackground(MyColor.w_white);
 
-		JButton button6 = new JButton("4");
+		JButton button6 = new JButton("6");
 		button6.setBounds(39, 200, 129, 55);
 		getContentPane().add(button6);
 		bg.add(button6);
 		button6.addActionListener(this);
 		button6.setBackground(MyColor.w_white);
 
-		JButton button7 = new JButton("5");
+		JButton button7 = new JButton("7");
 		button7.setBounds(300, 257, 129, 55);
 		getContentPane().add(button7);
 		bg.add(button7);
