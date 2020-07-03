@@ -135,7 +135,8 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		for (String ip : managerIpList) {
 
 			mc = MyServer.getInstance().findClient(ip);
-			if (mc != null) {
+			if (mc != null && mc.chatClient == null) {
+				mc.chatClient = client;
 				break;
 			}
 		}
@@ -143,10 +144,11 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
 		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 
-		if (mc != null) {// && !sc.isChat
+		if (mc != null) {
 			toMchatSyn.setManagerIp(mc.socket.getInetAddress().toString());
 			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			mc.sendPacket(toMchatSyn);
+
 		} else {
 			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT, null, null);
 			client.sendPacket(scConnectAck);
@@ -167,8 +169,11 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 
 		if (sc != null) {
 			if (resPacket.isConnect) {
+				client.chatClient = sc;
+				sc.chatClient = client;
 				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp);
 			} else {
+				client.chatClient = null;
 				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT, null, null);
 			}
 			sc.sendPacket(scConnectAck);
@@ -194,6 +199,10 @@ class MethCsChatSyn implements ServerPacketMethod {
 		SocketClient chatClient = MyServer.getInstance().findClient(csChatSyn.cip);
 		SocketClient chatManager = MyServer.getInstance().findClient(csChatSyn.mip);
 
+		if (csChatSyn.isEnd) {
+			chatClient.chatClient = null;
+			chatManager.chatClient = null;
+		}
 		MyServer.getInstance().broadCastP2P(chatClient, chatManager, chatBroadCast);
 	}
 }

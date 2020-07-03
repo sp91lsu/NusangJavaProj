@@ -120,7 +120,7 @@ class SocketClient extends Thread {
 	ObjectOutputStream dos;
 	Socket socket;
 
-	boolean isChat = false;
+	SocketClient chatClient;
 
 	SocketClient(Socket socket) {
 
