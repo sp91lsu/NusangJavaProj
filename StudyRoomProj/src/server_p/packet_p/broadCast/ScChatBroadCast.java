@@ -14,7 +14,7 @@ public class ScChatBroadCast extends ResultPacketBase {
 	public ScChatBroadCast(EResult eResult, String text, boolean isEnd) {
 		super(eResult);
 		this.text = text;
-		isEnd = false;
+		this.isEnd = isEnd;
 	}
 
 	public String getText() {
