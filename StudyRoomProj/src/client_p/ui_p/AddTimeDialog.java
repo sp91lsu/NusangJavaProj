@@ -118,7 +118,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 			setVisible(true);
 		} else {
 			timeEmpty = new JDialog();
-			timeEmpty.setBounds(630, 440, 250, 200);
+			timeEmpty.setBounds(835, 440, 250, 200);
 			timeEmpty.setBackground(MyColor.black);
 			timeEmpty.setLayout(new GridLayout(0, 1));
 
