@@ -226,7 +226,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 		} else if (btn.getText().equals("취소")) {
 			dispose();
 			BaseFrame.getInstance().getMainLayout().is_addTime = false;
-		}else if (btn.getText().equals("확인")) {
+		} else if (btn.getText().equals("확인")) {
 			timeEmpty.dispose();
 			BaseFrame.getInstance().getMainLayout().is_addTime = false;
 		}
