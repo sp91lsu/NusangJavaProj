@@ -248,6 +248,7 @@ public class Chatting extends JPanel implements Receivable {
 			if(scChat.isEnd) {
 				textArea.setText(textArea.getText()+"\n"+"["+userName+"]"+"님이 채팅을 종료하였습니다.");
 				ChkDialog endMsg = new ChkDialog("["+userName+"]"+"님이 채팅을 종료하였습니다.");
+				isChatting = false;
 			}
 			textArea.setText(textArea.getText()+"\n"+scChat.getText());
 			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
