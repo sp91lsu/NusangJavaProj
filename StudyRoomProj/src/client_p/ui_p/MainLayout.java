@@ -223,7 +223,7 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 		} else if (btn.getText().equals("좌석 연장")) {
 			if (!is_addTime) {
 				is_addTime = true;
-				AddTimeFrame frame = new AddTimeFrame();
+				AddTimeDialog frame = new AddTimeDialog();
 			}
 		} else if (btn.getText().equals("당일 구매 정보")) {
 			if (BaseFrame.getInstance().getTodayRemainTime() > 0) {

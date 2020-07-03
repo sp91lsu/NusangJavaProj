@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-public class AddTimeFrame extends JDialog {
+public class AddTimeDialog extends JDialog {
 
 	private JPanel contentPane;
 
@@ -33,7 +33,7 @@ public class AddTimeFrame extends JDialog {
 	int addPri = (int) BaseFrame.getInstance().getUsingRoom().price;
 	Calendar last;
 
-	public AddTimeFrame() {
+	public AddTimeDialog() {
 
 		int extension = timeChoice();
 		if (extension > 0) {
