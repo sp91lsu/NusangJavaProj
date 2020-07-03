@@ -1,5 +1,6 @@
 package client_p.ui_p;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.Receivable;
@@ -32,6 +34,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	JTextArea textArea;
 	private JScrollPane scrollPane;
 	JDialog chatDialog;
+	ChatClose chatClose;
 
 	public ClientChatFrame() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -133,7 +136,11 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		ScChatBroadCast scChat = (ScChatBroadCast) packet;
 		textArea.setText(textArea.getText() + newline + scChat.getText() + newline);
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-
+		if(scChat.isEnd == true) {
+			textArea.setText("관리자가 채팅을 종료했습니다. 메인화면으로 3초뒤 이동합니다.");
+			chatClose.start();
+			
+		}
 	}
 
 	public void chatNegative() {
@@ -145,6 +152,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		chatLabel.setOpaque(true);
 		chatLabel.setBackground(MyColor.black);
 		chatLabel.setForeground(MyColor.white);
+		chatLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		chatLabel.setText("<html>관리자 미수락으로 <br>현재 1:1 이용문의가 불가합니다." + "<br>잠시후 다시 진행 해주시기 바랍니다.<html>");
 		chatDialog.add(chatLabel);
 		JButton chatButton = new JButton("확인");
@@ -160,4 +168,16 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		chatDialog.setModal(true);
 		chatDialog.setVisible(true);
 	}
+	class ChatClose extends Thread{
+		@Override
+		public void run() {
+			try {
+				sleep(3000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			BaseFrame.getInstance().openMainLayout(null, null, null, null);
+		}
+	}
+	
 }
