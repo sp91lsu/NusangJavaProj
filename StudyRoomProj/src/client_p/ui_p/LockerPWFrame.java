@@ -57,7 +57,7 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		button3.setBackground(MyColor.w_white);
 
 		JButton button4 = new JButton("4");
-		button4.setBounds(300, 200, 129, 55);
+		button4.setBounds(39, 200, 129, 55);
 		getContentPane().add(button4);
 		bg.add(button4);
 		button4.addActionListener(this);
@@ -71,14 +71,14 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		button5.setBackground(MyColor.w_white);
 
 		JButton button6 = new JButton("6");
-		button6.setBounds(39, 200, 129, 55);
+		button6.setBounds(300, 200, 129, 55);
 		getContentPane().add(button6);
 		bg.add(button6);
 		button6.addActionListener(this);
 		button6.setBackground(MyColor.w_white);
 
 		JButton button7 = new JButton("7");
-		button7.setBounds(300, 257, 129, 55);
+		button7.setBounds(39, 257, 129, 55);
 		getContentPane().add(button7);
 		bg.add(button7);
 		button7.addActionListener(this);
@@ -92,7 +92,7 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		button8.setBackground(MyColor.w_white);
 
 		JButton button9 = new JButton("9");
-		button9.setBounds(39, 257, 129, 55);
+		button9.setBounds(300, 257, 129, 55);
 		getContentPane().add(button9);
 		bg.add(button9);
 		button9.addActionListener(this);
