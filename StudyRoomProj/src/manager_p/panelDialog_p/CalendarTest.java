@@ -1,4 +1,4 @@
-package manager_p;
+package manager_p.panelDialog_p;
 
 import java.awt.Button;
 import java.awt.Color;
@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import org.apache.poi.hssf.util.HSSFColor.BLUE;
 
 import client_p.ClientNet;
+import manager_p.ManagerWindow;
 import manager_p.syn_p.MsResvRoomSyn;
 
 public class CalendarTest extends JPanel {
