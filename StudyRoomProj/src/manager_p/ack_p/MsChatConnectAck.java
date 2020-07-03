@@ -4,8 +4,6 @@ import packetBase_p.PacketBase;
 
 public class MsChatConnectAck extends PacketBase {
 
-	public String managerIp;
-	public String cIp;
 	public boolean isConnect;
 
 	public MsChatConnectAck(boolean isConnect) {
@@ -13,11 +11,4 @@ public class MsChatConnectAck extends PacketBase {
 		this.isConnect = isConnect;
 	}
 
-	public void setManagerIp(String mip) {
-		managerIp = mip;
-	}
-
-	public void setCip(String cip) {
-		this.cIp = cip;
-	}
 }

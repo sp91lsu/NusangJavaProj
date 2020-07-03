@@ -142,15 +142,15 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		}
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
-		toMchatSyn.setCIP(client.socket.getInetAddress().toString());
+		// toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 
 		if (mc != null) {
-			toMchatSyn.setManagerIp(mc.socket.getInetAddress().toString());
-			toMchatSyn.setCIP(client.socket.getInetAddress().toString());
+			// toMchatSyn.setManagerIp(mc.socket.getInetAddress().toString());
+			// toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			mc.sendPacket(toMchatSyn);
 
 		} else {
-			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT, null, null);
+			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
 			client.sendPacket(scConnectAck);
 		}
 	}
@@ -163,20 +163,21 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsChatConnectAck resPacket = (MsChatConnectAck) packet;
 
-		SocketClient sc = MyServer.getInstance().findClient(resPacket.cIp);
+		// SocketClient sc = client.chatClient;//
+		// MyServer.getInstance().findClient(resPacket.cIp);
 
 		ScChatConnectAck scConnectAck = null;
 
-		if (sc != null) {
+		if (client.chatClient != null) {
 			if (resPacket.isConnect) {
-				client.chatClient = sc;
-				sc.chatClient = client;
-				scConnectAck = new ScChatConnectAck(EResult.SUCCESS, resPacket.cIp, resPacket.managerIp);
+				// client.chatClient = sc;
+				client.chatClient.chatClient = client;
+				scConnectAck = new ScChatConnectAck(EResult.SUCCESS);
 			} else {
 				client.chatClient = null;
-				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT, null, null);
+				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
 			}
-			sc.sendPacket(scConnectAck);
+			client.chatClient.sendPacket(scConnectAck);
 		} else {
 			System.out.println("client ip is null");
 		}
@@ -190,20 +191,22 @@ class MethCsChatSyn implements ServerPacketMethod {
 
 		CsChatSyn csChatSyn = (CsChatSyn) packet;
 
-		System.out.println(csChatSyn.cip);
-		System.out.println(csChatSyn.mip);
 		System.out.println(csChatSyn.text);
 
 		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text, csChatSyn.isEnd);
 
-		SocketClient chatClient = MyServer.getInstance().findClient(csChatSyn.cip);
-		SocketClient chatManager = MyServer.getInstance().findClient(csChatSyn.mip);
+		SocketClient chatClient = client.chatClient;// MyServer.getInstance().findClient(csChatSyn.cip);
+		SocketClient chatClient2 = chatClient.chatClient;// MyServer.getInstance().findClient(csChatSyn.mip);
 
 		if (csChatSyn.isEnd) {
-			chatClient.chatClient = null;
-			chatManager.chatClient = null;
+			if (chatClient != null) {
+				chatClient.chatClient = null;
+			}
+			if (chatClient2 != null) {
+				chatClient2.chatClient = null;
+			}
 		}
-		MyServer.getInstance().broadCastP2P(chatClient, chatManager, chatBroadCast);
+		MyServer.getInstance().broadCastP2P(chatClient, chatClient2, chatBroadCast);
 	}
 }
 

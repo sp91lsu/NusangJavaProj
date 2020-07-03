@@ -180,7 +180,7 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 			ScChatConnectAck ack = (ScChatConnectAck) packet;
 			if (ack.eResult == EResult.SUCCESS) {
 
-				BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn(ack.cip, ack.mip));
+				BaseFrame.getInstance().getClientChatFrame().setChatPacket(new CsChatSyn());
 				BaseFrame.getInstance().openClientChatFrame();
 
 			} else if (ack.eResult == EResult.NEGATIVE_CHAT) {

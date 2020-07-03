@@ -9,19 +9,10 @@ public class SMChatConnectSyn extends ResultPacketBase {
 	public String managerIp;
 	public String clientIp;
 	public UserData userdata;
-	
 
-	public SMChatConnectSyn(EResult eResult,UserData userdata) {
+	public SMChatConnectSyn(EResult eResult, UserData userdata) {
 		super(eResult);
 		this.userdata = userdata;
 	}
 
-
-	public void setCIP(String cip) {
-		clientIp = cip;
-	}
-
-	public void setManagerIp(String managerIp) {
-		this.managerIp = managerIp;
-	}
 }

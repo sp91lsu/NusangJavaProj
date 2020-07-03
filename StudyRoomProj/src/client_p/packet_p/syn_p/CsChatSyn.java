@@ -7,13 +7,9 @@ public class CsChatSyn extends PacketBase {
 
 	public String text;
 	public boolean isEnd;
-	public String cip;
-	public String mip;
 
-	public CsChatSyn(String cip, String mip) {
+	public CsChatSyn() {
 		super();
-		this.cip = cip;
-		this.mip = mip;
 		isEnd = false;
 	}
 

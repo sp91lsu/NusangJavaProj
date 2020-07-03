@@ -5,13 +5,8 @@ import packetBase_p.ResultPacketBase;
 
 public class ScChatConnectAck extends ResultPacketBase {
 
-	public String cip;
-	public String mip;
-
-	public ScChatConnectAck(EResult eResult, String cip, String mip) {
+	public ScChatConnectAck(EResult eResult) {
 		super(eResult);
-		this.cip = cip;
-		this.mip = mip;
 		// TODO Auto-generated constructor stub
 	}
 

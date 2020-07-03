@@ -22,16 +22,16 @@ public class ChatReqDialog extends JDialog {
 	ManagerWindow mw;
 	private final JPanel contentPanel = new JPanel();
 	SMChatConnectSyn smc;
-	String userName=null;
+	String userName = null;
 	public JLabel lbClientName;
-	
+
 	public static void main(String[] args) {
-		ChatReqDialog dialog = new ChatReqDialog(new ManagerWindow(),new SMChatConnectSyn(null,null));
+		ChatReqDialog dialog = new ChatReqDialog(new ManagerWindow(), new SMChatConnectSyn(null, null));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 	}
 
-	public ChatReqDialog(ManagerWindow mw ,SMChatConnectSyn smc) {
+	public ChatReqDialog(ManagerWindow mw, SMChatConnectSyn smc) {
 		this.mw = mw;
 		this.smc = smc;
 //		userName = smc.name;
@@ -63,15 +63,13 @@ public class ChatReqDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 						MsChatConnectAck packet = new MsChatConnectAck(true);
-						packet.setCip(smc.clientIp);
-						packet.setManagerIp(smc.managerIp);
-						CsChatSyn csc = new CsChatSyn(smc.clientIp,smc.managerIp);
-						mw.pnl_Chatting.chatSyn =csc;
+						CsChatSyn csc = new CsChatSyn();
+						mw.pnl_Chatting.chatSyn = csc;
 						ClientNet.getInstance().sendPacket(packet);
 						mw.pnl_Chatting.textArea.setText("");
 						mw.pnl_Chatting.textField.setText("");
 						mw.tabbedPane.setSelectedIndex(4);
-						mw.pnl_Chatting.lb_Chat_name.setText("문의자 ["+mw.pnl_Chatting.userName+"]");
+						mw.pnl_Chatting.lb_Chat_name.setText("문의자 [" + mw.pnl_Chatting.userName + "]");
 						mw.pnl_Chatting.lb_Chat_end.setText(mw.pnl_Chatting.chatStart);
 						mw.pnl_Chatting.isChatting = true;
 					}
@@ -86,8 +84,6 @@ public class ChatReqDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 						MsChatConnectAck packet = new MsChatConnectAck(false);
-						packet.setCip(smc.clientIp);
-						packet.setManagerIp(smc.managerIp);
 						ClientNet.getInstance().sendPacket(packet);
 					}
 				});
