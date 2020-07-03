@@ -81,7 +81,7 @@ public class RCalcFrame extends JDialog {
 		text += room.calendarList.get(0).get(Calendar.HOUR_OF_DAY) + " ~ "
 				+ (room.calendarList.get(room.calendarList.size() - 1).get(Calendar.HOUR_OF_DAY) + 1);
 		text += "<br>휴대폰번호 :" + userData.phone + "<br><html>";
-		text += "<br>가격 :" + DataManager.getInstance().roomMap.get(room.id).price + "원" + "<br><html>";
+		text += "<br>가격 :" + (room.calendarList.size()*DataManager.getInstance().roomMap.get(room.id).price) + "원" + "<br><html>";
 		return text;
 	}
 

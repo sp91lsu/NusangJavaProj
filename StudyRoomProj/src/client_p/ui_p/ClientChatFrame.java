@@ -137,12 +137,17 @@ public class ClientChatFrame extends JPanel implements Receivable {
 
 	public void chatNegative() {
 		chatDialog = new JDialog();
-		chatDialog.setBounds(100, 100, 300, 300);
+		chatDialog.setBounds(900, 500, 300, 300);
 		chatDialog.setLayout(new GridLayout(2, 1));
+		chatDialog.setBackground(MyColor.black);
 		JLabel chatLabel = new JLabel();
+		chatLabel.setOpaque(true);
+		chatLabel.setBackground(MyColor.black);
+		chatLabel.setForeground(MyColor.white);
 		chatLabel.setText("<html>관리자 미수락으로 <br>현재 1:1 이용문의가 불가합니다." + "<br>잠시후 다시 진행 해주시기 바랍니다.<html>");
 		chatDialog.add(chatLabel);
 		JButton chatButton = new JButton("확인");
+		chatButton.setBackground(MyColor.w_white);
 		chatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				chatDialog.dispose();
@@ -150,8 +155,8 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			}
 		});
 		chatDialog.add(chatButton);
+		chatDialog.setUndecorated(true);
 		chatDialog.setModal(true);
 		chatDialog.setVisible(true);
-		chatDialog.setUndecorated(true);
 	}
 }
