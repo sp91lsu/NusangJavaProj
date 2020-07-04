@@ -125,6 +125,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener, Acti
 		logDialog.getContentPane().setLayout(new GridLayout(2,1));
 		logDialog.setUndecorated(true);
 		logLabel = new JLabel();
+		logLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		logLabel.setOpaque(true);
 		logLabel.setBackground(MyColor.black);
 		logLabel.setForeground(MyColor.white);
@@ -180,9 +181,7 @@ public class LoginMain extends JPanel implements Receivable, MouseListener, Acti
 		@Override
 		public void run() {// 쓰레드 30초 줘서 로그인 버튼 비활성화
 			try {
-				for (int i = 30; i >= 0; i--) {
-					logInBtn.setEnabled(false);
-				}
+				logInBtn.setEnabled(false);
 				sleep(3000);
 			} 
 			catch (Exception e) {

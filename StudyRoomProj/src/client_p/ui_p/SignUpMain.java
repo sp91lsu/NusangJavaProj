@@ -445,6 +445,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 	
 	//라벨 색상 바꾸는 매소드
 	JLabel setLabelForm(JLabel label) {
+		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setOpaque(true);
 		label.setBackground(MyColor.black);
 		label.setForeground(MyColor.white);

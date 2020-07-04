@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class AlreadyUsePop extends JFrame {
 
@@ -17,6 +18,7 @@ public class AlreadyUsePop extends JFrame {
 		jdd.setLayout(new GridLayout(2, 1));
 		
 		JLabel jll = new JLabel(msg);
+		jll.setHorizontalAlignment(SwingConstants.CENTER);
 		jll.setOpaque(true);
 		jll.setBackground(MyColor.black);
 		jll.setForeground(MyColor.white);
