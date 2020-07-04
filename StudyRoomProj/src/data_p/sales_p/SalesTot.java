@@ -4,14 +4,16 @@ import java.io.Serializable;
 
 public class SalesTot implements Serializable {
 	public int dateSortN = 0;
-	public int sumTot = 0;
-	public int cntTot = 0;
+	public String cntTot = "";
+	public String sumTot = "";
 	
-	public SalesTot(int dateSortN, int sumTot, int cntTot) {
+	public SalesTot(int dateSortN, String cntTot, String sumTot) {
 		this.dateSortN = dateSortN;
-		this.sumTot = sumTot;
 		this.cntTot = cntTot;
+		this.sumTot = sumTot;
 	}
+	
+	
 	
 	
 }

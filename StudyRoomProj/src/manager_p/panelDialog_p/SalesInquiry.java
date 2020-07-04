@@ -51,11 +51,11 @@ public class SalesInquiry extends JPanel implements Receivable {
 	
 	String year,month,day;
 	private JScrollPane scrPane_SalesBySeat;
-	private JLabel lb_TotSales;
-	private JLabel lb_TotUsers;
-	private JLabel lb_WhatSales;
 	private JComboBox<String> comBox_Sort;
 	private JLabel lb_date;
+	private JLabel lb_TotUsers;
+	private JLabel lb_TotSales;
+	private JLabel lb_WhatSales;
 	
 	class ActionLister_SalesInq implements ActionListener{
 		String sort;
@@ -200,9 +200,9 @@ public class SalesInquiry extends JPanel implements Receivable {
 		setDateList();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{1000, 39, 0};
-		gridBagLayout.rowHeights = new int[]{641, 120, 0};
+		gridBagLayout.rowHeights = new int[]{641, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
 		String header[] = { "이용석", "이용객", "금액" };
@@ -218,7 +218,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		
 		JPanel panel_9 = new JPanel();
 		GridBagConstraints gbc_panel_9 = new GridBagConstraints();
-		gbc_panel_9.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_9.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_9.fill = GridBagConstraints.BOTH;
 		gbc_panel_9.gridx = 0;
 		gbc_panel_9.gridy = 0;
@@ -360,9 +360,9 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_9.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{678, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0};
+		gbl_panel.rowHeights = new int[]{377, 206, 0};
 		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JPanel panel_10 = new JPanel();
@@ -376,10 +376,10 @@ public class SalesInquiry extends JPanel implements Receivable {
 		gbl_panel_10.columnWidths = new int[]{842, 0};
 		gbl_panel_10.rowHeights = new int[]{30, 221, 0};
 		gbl_panel_10.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_10.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_10.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_10.setLayout(gbl_panel_10);
 		
-		JLabel lblNewLabel_1 = new JLabel("\uD310\uB9E4 \uAE30\uB85D");
+		JLabel lblNewLabel_1 = new JLabel("일별 판매 기록");
 		lblNewLabel_1.setFont(new Font("휴먼모음T", Font.PLAIN, 30));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
@@ -401,65 +401,49 @@ public class SalesInquiry extends JPanel implements Receivable {
 		gbc_panel_10_1.gridy = 1;
 		panel.add(panel_10_1, gbc_panel_10_1);
 		GridBagLayout gbl_panel_10_1 = new GridBagLayout();
-		gbl_panel_10_1.columnWidths = new int[]{547, 0};
-		gbl_panel_10_1.rowHeights = new int[]{30, 166, 0};
-		gbl_panel_10_1.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_10_1.columnWidths = new int[]{353, 0, 0};
+		gbl_panel_10_1.rowHeights = new int[]{30, 161, 0};
+		gbl_panel_10_1.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_10_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_10_1.setLayout(gbl_panel_10_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("\uC774\uC6A9\uC11D\uBCC4 \uB9E4\uCD9C");
+		JLabel lblNewLabel_1_1 = new JLabel("이용석별 기록");
 		lblNewLabel_1_1.setFont(new Font("휴먼모음T", Font.PLAIN, 30));
 		GridBagConstraints gbc_lblNewLabel_1_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1_1.gridx = 0;
 		gbc_lblNewLabel_1_1.gridy = 0;
 		panel_10_1.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
 		
+		JLabel lb_Inquiry = new JLabel("조회 기간 합산집계");
+		lb_Inquiry.setFont(new Font("휴먼엑스포", Font.BOLD, 25));
+		GridBagConstraints gbc_lb_WhatSales_1 = new GridBagConstraints();
+		gbc_lb_WhatSales_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lb_WhatSales_1.gridx = 1;
+		gbc_lb_WhatSales_1.gridy = 0;
+		panel_10_1.add(lb_Inquiry, gbc_lb_WhatSales_1);
+		
 		scrPane_SalesBySeat = new JScrollPane();
 		GridBagConstraints gbc_scrPane_SalesBySeat = new GridBagConstraints();
+		gbc_scrPane_SalesBySeat.insets = new Insets(0, 0, 0, 5);
 		gbc_scrPane_SalesBySeat.fill = GridBagConstraints.BOTH;
 		gbc_scrPane_SalesBySeat.gridx = 0;
 		gbc_scrPane_SalesBySeat.gridy = 1;
 		panel_10_1.add(scrPane_SalesBySeat, gbc_scrPane_SalesBySeat);
 		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_1.anchor = GridBagConstraints.EAST;
-		gbc_panel_1.fill = GridBagConstraints.VERTICAL;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 1;
-		add(panel_1, gbc_panel_1);
-		
-		JPanel panel_11 = new JPanel();
-		panel_1.add(panel_11);
-		
-		JPanel panel_13_1 = new JPanel();
-		panel_11.add(panel_13_1);
-		GridBagLayout gbl_panel_13_1 = new GridBagLayout();
-		gbl_panel_13_1.columnWidths = new int[]{171, 0};
-		gbl_panel_13_1.rowHeights = new int[]{21, 49, 18, 0};
-		gbl_panel_13_1.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel_13_1.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		panel_13_1.setLayout(gbl_panel_13_1);
-		
-		lb_WhatSales = new JLabel("\uB9E4\uCD9C");
-		lb_WhatSales.setFont(new Font("휴먼엑스포", Font.BOLD, 25));
-		GridBagConstraints gbc_lb_WhatSales = new GridBagConstraints();
-		gbc_lb_WhatSales.insets = new Insets(0, 0, 5, 0);
-		gbc_lb_WhatSales.gridx = 0;
-		gbc_lb_WhatSales.gridy = 1;
-		panel_13_1.add(lb_WhatSales, gbc_lb_WhatSales);
-		
 		JPanel panel_12 = new JPanel();
-		panel_11.add(panel_12);
+		GridBagConstraints gbc_panel_12 = new GridBagConstraints();
+		gbc_panel_12.fill = GridBagConstraints.BOTH;
+		gbc_panel_12.gridx = 1;
+		gbc_panel_12.gridy = 1;
+		panel_10_1.add(panel_12, gbc_panel_12);
 		panel_12.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel panel_13 = new JPanel();
 		panel_12.add(panel_13);
 		GridBagLayout gbl_panel_13 = new GridBagLayout();
 		gbl_panel_13.columnWidths = new int[]{210, 45, 0};
-		gbl_panel_13.rowHeights = new int[]{0, 0};
+		gbl_panel_13.rowHeights = new int[]{80, 0};
 		gbl_panel_13.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_13.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_13.setLayout(gbl_panel_13);
@@ -468,6 +452,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		lb_T.setHorizontalAlignment(SwingConstants.RIGHT);
 		lb_T.setFont(new Font("휴먼엑스포", Font.BOLD, 25));
 		GridBagConstraints gbc_lb_T = new GridBagConstraints();
+		gbc_lb_T.fill = GridBagConstraints.VERTICAL;
 		gbc_lb_T.anchor = GridBagConstraints.EAST;
 		gbc_lb_T.insets = new Insets(0, 0, 0, 5);
 		gbc_lb_T.gridx = 0;
@@ -478,6 +463,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		lb_TotUsers.setHorizontalAlignment(SwingConstants.RIGHT);
 		lb_TotUsers.setFont(new Font("휴먼매직체", Font.BOLD, 30));
 		GridBagConstraints gbc_lb_TotUsers = new GridBagConstraints();
+		gbc_lb_TotUsers.fill = GridBagConstraints.VERTICAL;
 		gbc_lb_TotUsers.anchor = GridBagConstraints.EAST;
 		gbc_lb_TotUsers.gridx = 1;
 		gbc_lb_TotUsers.gridy = 0;
@@ -487,20 +473,18 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_12.add(panel_14);
 		GridBagLayout gbl_panel_14 = new GridBagLayout();
 		gbl_panel_14.columnWidths = new int[]{210, 70, 0};
-		gbl_panel_14.rowHeights = new int[]{0, 0};
+		gbl_panel_14.rowHeights = new int[]{80, 0};
 		gbl_panel_14.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_14.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_14.setLayout(gbl_panel_14);
 		
-		JLabel lb_To = new JLabel("\uD569\uC0B0 \uAE08\uC561  ");
-		lb_To.setHorizontalAlignment(SwingConstants.RIGHT);
-		lb_To.setFont(new Font("휴먼엑스포", Font.BOLD, 25));
-		GridBagConstraints gbc_lb_To = new GridBagConstraints();
-		gbc_lb_To.anchor = GridBagConstraints.EAST;
-		gbc_lb_To.insets = new Insets(0, 0, 0, 5);
-		gbc_lb_To.gridx = 0;
-		gbc_lb_To.gridy = 0;
-		panel_14.add(lb_To, gbc_lb_To);
+		lb_WhatSales = new JLabel("매출");
+		lb_WhatSales.setFont(new Font("휴먼엑스포", Font.BOLD, 25));
+		GridBagConstraints gbc_lb_WhatSales = new GridBagConstraints();
+		gbc_lb_WhatSales.insets = new Insets(0, 0, 0, 5);
+		gbc_lb_WhatSales.gridx = 0;
+		gbc_lb_WhatSales.gridy = 0;
+		panel_14.add(lb_WhatSales, gbc_lb_WhatSales);
 		
 		lb_TotSales = new JLabel("0");
 		lb_TotSales.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -521,19 +505,20 @@ public class SalesInquiry extends JPanel implements Receivable {
 		SalesTot st = ack.salesD.salesTot;
 		
 		//scrPane_SalesRecord
-			String [] header_Record = {"날짜","이용석","금액","이용자","이용자ID","구매기록"};
+			String [] header_Record = {"날짜","이용석","이용자","이용자ID","금액","구매기록"};
 			String contents_Records[][] = new String [sr.size()][header_Record.length];
 				for (int i = 0; i < sr.size(); i++) {
 					contents_Records[i][0] = sr.get(i).dateStr;
 					contents_Records[i][1] = sr.get(i).room_name;
-					contents_Records[i][2] = sr.get(i).room_price_Tot+"";
-					contents_Records[i][3] = sr.get(i).user_name;
-					contents_Records[i][4] = sr.get(i).user_id;
-					String s = "";
-					for (String st1 : sr.get(i).hourList) {
-						s += st1+" ";
+					contents_Records[i][2] = sr.get(i).user_name;
+					contents_Records[i][3] = sr.get(i).user_id;
+					contents_Records[i][4] = sr.get(i).room_price_Tot;
+					String [] time = sr.get(i).hourListStr.split(",");
+					String ttt = "";
+					for (String t : time) {
+						ttt += t + "시 ";
 					}
-					contents_Records[i][5] = s;
+					contents_Records[i][5] = ttt;
 				}
 			
 			DefaultTableModel tModel_Record = new DefaultTableModel(contents_Records,header_Record);
@@ -545,12 +530,13 @@ public class SalesInquiry extends JPanel implements Receivable {
 			scrPane_SalesRecord.setViewportView(table_Record);
 		
 		//scrPane_SalesBySeat
-			String [] header_Seat = {"이용석","합계 금액","이용객 수"};
+			String [] header_Seat = {"이용석","이용객 수","합계 금액"};
 			String contents_Seat[][] = new String [sb.size()][header_Seat.length];
 				for (int i = 0; i < sb.size(); i++) {
 					contents_Seat[i][0] = sb.get(i).room_name;
-					contents_Seat[i][1] = sb.get(i).sum+"";
-					contents_Seat[i][2] = sb.get(i).cnt+"";
+					contents_Seat[i][1] = sb.get(i).cnt+"";
+					contents_Seat[i][2] = sb.get(i).sum+"";
+					
 				}
 			DefaultTableModel tModel_Seat = new DefaultTableModel(contents_Seat,header_Seat);
 			JTable table_Seat = new JTable(tModel_Seat);
@@ -564,7 +550,6 @@ public class SalesInquiry extends JPanel implements Receivable {
 			String ttt = st.dateSortN==2?"연 매출":st.dateSortN==5?"월 매출":st.dateSortN==8?"당일 매출":"";
 			lb_WhatSales.setText(ttt);
 			lb_TotUsers.setText(st.cntTot+" 명");
-//			lb_TotSales.setText(st.sumTot+" 원");
 			lb_TotSales.setText("  "+st.sumTot+" 원");
 	}
 	

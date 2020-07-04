@@ -402,7 +402,7 @@ public class RoomDao extends DBProcess {
 			
 			ArrayList<SalesRecord> salesRecordArrL = new ArrayList<SalesRecord>();
 			ArrayList<SalesBySeat> saleBySeatArrL = new ArrayList<SalesBySeat>();
-			SalesTot tot = new SalesTot(0, 0, 0);
+			SalesTot tot = new SalesTot(0, "", "");
 			SalesData sd = null;
 		
 		
@@ -414,89 +414,92 @@ public class RoomDao extends DBProcess {
 			
 		//새 프라임 쿼리문
 		//(select substr(i.startdate,0,8) as dates, I.id, R.room_name, r.room_price, i.startdate, a.name, a.id, substr(i.startdate,10,2) as time, substr(i.startdate,0,8)||R.room_name||a.id as sort from inventory I , now_room_data R, account A where I.id = r.room_id AND substr(i.startdate,0,2) = '20'and i.uuid = a.uuid) 
-		String primequery = "(select substr(i.startdate,0,"+ dateSortN + ") as dates, R.room_id, R.room_name, r.room_price, i.startdate, a.name, a.id, substr(i.startdate,10,2) as time, substr(i.startdate,0,8)||R.room_name||a.id as sort "
-				+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
-				+ dateSortN + ") = " + dateQuery + "and i.uuid = a.uuid) ";
+		String primequery = "(select substr(i.startdate,0,8) as dates, R.room_id, R.room_name, r.room_price, a.name, a.id, substr(i.startdate,10,2) as time, i.puid, r.personnum "
+				+ "from inventory I , now_room_data R, account A " 
+				+ "where I.id = r.room_id AND substr(i.startdate,0," + dateSortN + ") = " + dateQuery + "and i.uuid = a.uuid) ";
+		String countquery = "(select distinct dates, room_id, room_name, room_price, name, id, personnum " + 
+				"from " + primequery + ") ";
 		
 		try {
 			
 			// 1. ArrayList<SalesRecord>
 				// 쿼리문작성
-				query = primequery + "order by dates, r.room_id, a.name, a.id, time";
-				System.out.println("프라임 쿼리문:" + primequery);
+				query = "select dates, room_id, room_name, personnum , sum(room_price), name, id ,SUBSTR(" + 
+						"        XMLAGG(" + 
+						"            XMLELEMENT(COL ,',', time) ORDER BY time).EXTRACT('//text()'" + 
+						"        ).GETSTRINGVAL()" + 
+						"       , 2) as time, sum(personnum), sum(room_price) " + 
+						"from "
+						+ primequery
+						+ "group by dates, room_id, room_name, personnum , room_price, name, id "
+						+ "order by dates, room_id, name";
+				System.out.println("ArrayList<SalesRecord> 쿼리문:" + query);
 				stmt = con.prepareStatement(query);
 				rs = stmt.executeQuery();
 	
-				// 초기값
-				String rn = "", un = "", ui = "", bf = "";
-				int rp = 0;
-				ArrayList<String> hourList = new ArrayList<String>();
-	
-				// DB 결과값 한 줄씩 점검하고 SalesRecord 만들어서 ArrL 생성
+				// ResultSet -> ArrL에 담기
 				while (rs.next()) {
-					//첫 1회전에만 실행
-					if (bf.equals("")) {
-//						yearSR = rs.getString(1).substring(0, 2);
-//						monthSR = rs.getString(1).substring(3, 5);
-//						daySR = rs.getString(1).substring(6, 8);
-						rn = rs.getString("room_name");
-						rp = Integer.parseInt(rs.getString("room_price"));
-						un = rs.getString("name");
-						System.out.println("un: " + un);
-						ui = rs.getString(7);
-						bf = rs.getString(9);
-						System.out.println("bf: " + bf);
-					}
-					//시간은 매 회전 어레이에 담고 나머지 변수들은 시간이 다 담기면 한 번에 담기
-					String hour = rs.getString(8) + "시";
-					hourList.add(hour);
-	
-					// 구분값인 sort 값이 바뀌면 전 회전에 만들어 놓은 매개변수들로 SalesRecord 생성
-					if (!bf.equals(rs.getString(9))) {
-						SalesRecord record = new SalesRecord(rs.getString(1), rn, rp, un, ui, hourList);
-						hourList = new ArrayList<String>();
-						salesRecordArrL.add(record);
-					}
-	
-					if (!rs.next()) {
-						break;
-					}
-					
-//					yearSR = rs.getString(1).substring(0, 2);
-//					monthSR = rs.getString(1).substring(3, 5);
-//					daySR = rs.getString(1).substring(6, 8);
-					rn = rs.getString("room_name");
-					rp = Integer.parseInt(rs.getString("room_price"));
-					un = rs.getString("name");
-					ui = rs.getString(7);
-					bf = rs.getString(9);
+					salesRecordArrL.add(new SalesRecord(rs.getString(1), rs.getString(3), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
 				}
 				System.out.println("salesRecordArrL.size(): " + salesRecordArrL.size());
+				rs.close();
 
 			// 2. ArrayList<SalesBySeat>
-				
-				
-				query = "SELECT room_id,room_name ,SUM(room_price), COUNT(DISTINCT id) as id_count " + "FROM " + primequery + "GROUP BY room_id,room_name" + " order by room_id";
-				System.out.println("이용석 매출 쿼리: "+query);
+				// 이용석별 이용객수 <SalesBySeat.cnt> = <SUM(PERSONNUM)> 쿼리문작성
+				query = "select room_id,room_name, sum(personnum) " + 
+						"from "
+						+ countquery
+						+"group by room_id, room_name " + 
+						"order by room_id ";
+				System.out.println("이용석별 이용객수 쿼리문: "+query);
 				stmt = con.prepareStatement(query);
 				rs = stmt.executeQuery();
 	
+				// ResultSet -> ArrL에 담기
 				while (rs.next()) {
-					SalesBySeat seat = new SalesBySeat(rs.getString("room_name"),
-							Integer.parseInt(rs.getString("SUM(room_price)")), Integer.parseInt(rs.getString("COUNT(DISTINCT id)")));
-					saleBySeatArrL.add(seat);
+					saleBySeatArrL.add( new SalesBySeat(rs.getString(2),"", rs.getString(3) ));
+				}
+				
+				// 이용석별 매출 <SalesBySeat.sum> = <SUM(ROOM_PRICE)> 쿼리문작성
+				query = "select room_name, sum(room_price) " + 
+						"from "
+						+ primequery
+						+"group by room_id, room_name " + 
+						"order by room_id ";
+				System.out.println("이용석별 매출 쿼리문: "+query);
+				stmt = con.prepareStatement(query);
+				rs = stmt.executeQuery();
+	
+				// ResultSet -> ArrL에 담기
+				int cnt = 0;
+				while (rs.next()) {
+					saleBySeatArrL.get(cnt++).sum = rs.getString(2);
 				}
 
 			// 3. ArrayList<SalesTot>
-				query = "SELECT substr(startdate,0," + dateSortN + ") ,SUM(room_price), COUNT(*) " + "FROM " + primequery
-						+ "GROUP BY substr(startdate,0," + dateSortN + ")";
-				System.out.println("총매출 쿼리: "+query);
+				// 총 이용객수 <SalesTot.cntTot> = <SUM(PERSONNUM)> 쿼리문작성
+				query = "select substr(dates,0,"+dateSortN+"), sum(personnum) " + 
+						"from "
+						+ countquery
+						+"group by substr(dates,0,"+dateSortN+") ";
+				System.out.println("총 이용객수 쿼리문: "+query);
 				stmt = con.prepareStatement(query);
 				rs = stmt.executeQuery();
 				
 				if (rs.next())
-					tot = new SalesTot(dateSortN, Integer.parseInt(rs.getString("SUM(room_price)")),
-							Integer.parseInt(rs.getString("COUNT(*)")));
+					tot = new SalesTot(dateSortN, rs.getString(2),"");
+				
+				// 총 매출 <SalesTot.sumTot> = <SUM(ROOM_PRICE)> 쿼리문작성
+				query = "select substr(dates,0,"+dateSortN+"), sum(room_price) " + 
+						"from "
+						+ primequery
+						+"group by substr(dates,0,"+dateSortN+") ";
+				System.out.println("총 매출 쿼리문: "+query);
+				stmt = con.prepareStatement(query);
+				rs = stmt.executeQuery();
+				
+				if (rs.next())
+					tot.sumTot = rs.getString(2);
 
 			// 4. SalesData ( 1,2,3 종합 )
 				sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);

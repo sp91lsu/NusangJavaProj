@@ -103,11 +103,12 @@ public class ResvInquiry extends JPanel implements Receivable {
 			for (int i = 0; i < salesRecordList.size(); i++) {
 				contentsResvs[i][0] = salesRecordList.get(i).room_name;
 				contentsResvs[i][1] = salesRecordList.get(i).user_name;
-				String hhh = "";
-				for (String h : salesRecordList.get(i).hourList) {
-					hhh += h + " ";
+				String [] time = salesRecordList.get(i).hourListStr.split(",");
+				String ttt = "";
+				for (String t : time) {
+					ttt += t + "½Ã ";
 				}
-				contentsResvs[i][2] = hhh;
+				contentsResvs[i][3] = ttt;
 			}
 
 			dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
