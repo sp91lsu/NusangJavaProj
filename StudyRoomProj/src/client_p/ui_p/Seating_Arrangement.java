@@ -753,6 +753,15 @@ public class Seating_Arrangement extends JPanel implements Receivable {
    class SearchBtnAct implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent e) {
+    	  
+    	  if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+    		   if (yearCBox.getSelectedItem() != null)
+                   setYear = (int) yearCBox.getSelectedItem();
+    		   if (monthCBox.getSelectedItem() != null)
+                   setMonth = (int) monthCBox.getSelectedItem();
+    		   if (dateCBox.getSelectedItem() != null)
+                   setDate = (int) dateCBox.getSelectedItem();
+    	  }
 
          roomState();
          checkDate();
@@ -808,7 +817,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
          timeSelectPane.setVisible(true);
          break;
       case MOBILE:
-         if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+         if (BaseFrame.getInstance().loginType == ELoginType.MOBILE
+         && BaseFrame.getInstance().checkMyReserRoom(getSetCalendar(), Calendar.DATE)==null) {
             btn_state(EState.EMPTY);
          } else {
             btn_state(EState.INIT);
@@ -849,7 +859,12 @@ public class Seating_Arrangement extends JPanel implements Receivable {
       setDate = cal.get(Calendar.DATE);
       starttime = hour;
       endtime = starttime + 1;
-      searchButton.doClick();
+      roomState();
+      checkDate();
+      if (BaseFrame.getInstance().checkMyReserRoom(getSetCalendar(), Calendar.DATE) != null) {
+          btn_state(EState.DISABLE);
+          System.out.println("그날 내가 예약했음");
+       }
    }
 
    class yearAct implements ActionListener {
