@@ -28,7 +28,7 @@ public class PacketMap {
 		map.put(ScGetRoomDataCast.class, DataManager.getInstance());
 	}
 
-	void receivePacket(PacketProccess pClient, ResultPacketBase packet) {
+	void receivePacket(PacketProcess pClient, ResultPacketBase packet) {
 		System.out.println("CLIENT RECEIVE : " + packet.getClass().getSimpleName());
 		System.out.println("RESULT : " + packet.eResult + "\n");
 		if (map.get(packet.getClass()) != null) {
