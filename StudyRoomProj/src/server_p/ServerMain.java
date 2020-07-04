@@ -105,7 +105,7 @@ class MyServer {
 		if (client1 != null) {
 			client1.sendPacket(packet);
 		}
-		if (client1 != null) {
+		if (client2 != null) {
 			client2.sendPacket(packet);
 		}
 	}
@@ -159,10 +159,14 @@ class SocketClient extends Thread {
 
 	void sendPacket(PacketBase packet) {
 		try {
-			System.out.println("SERVER SEND: " + packet.getClass().getSimpleName());
-			dos.writeObject(packet);
-			dos.flush();
-			dos.reset();
+			if (socket.isConnected() && !socket.isClosed()) {
+				System.out.println("SERVER SEND: " + packet.getClass().getSimpleName());
+				dos.writeObject(packet);
+				dos.flush();
+				dos.reset();
+			} else {
+				System.out.println("sendPacket : socket closed");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			close();

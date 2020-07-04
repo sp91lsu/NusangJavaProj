@@ -293,8 +293,8 @@ class MethCloseSyn implements ServerPacketMethod {
 		CsCloseSyn res = (CsCloseSyn) packet;
 
 		if (client.chatClient != null) {
-			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.DISCONNECT_CHAT);
-			client.chatClient.sendPacket(scConnectAck);
+			ScChatBroadCast scChatCast = new ScChatBroadCast(EResult.DISCONNECT_CHAT, "", true);
+			client.chatClient.sendPacket(scChatCast);
 			client.chatClient = null;
 		}
 		new AccountDao().loginCheck(res.uuid, false);
