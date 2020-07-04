@@ -144,7 +144,12 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 			LockerCalcFrame lc = new LockerCalcFrame(lockerData);
 			setVisible(false);
 			text_Set();
-		} else if (keyPoint.getText().equals("취소")) {
+		} else if (keyPoint.getText().equals("확인") && passwordField.getText().length() != 4) {
+			AlreadyUsePop lc = new AlreadyUsePop("4자리 비밀번호를 입력해 주세요.");
+			text_Set();
+		}
+
+		else if (keyPoint.getText().equals("취소")) {
 			setVisible(false);
 			text_Set();
 		}
@@ -161,11 +166,11 @@ public class LockerPWFrame extends JDialog implements ActionListener {
 		}
 	}
 
-	void text_Set()
-	{
-		text="";
-		pw="";
+	void text_Set() {
+		text = "";
+		pw = "";
 	}
+
 	public void openLockerPWFrame(LockerData lockerData) {
 		text = "";
 		passwordField.setText(text);
