@@ -3,6 +3,7 @@ package client_p.ui_p;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -12,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
+import data_p.product_p.room_p.RoomProduct;
 
 public class SeatChangeOkPop extends JDialog {
 
@@ -27,7 +29,9 @@ public class SeatChangeOkPop extends JDialog {
 		JLabel lblNewLabel = new JLabel();
 
 		if (priceGab > 0) {
-			lblNewLabel.setText("<html>이동하시겠습니까? <br>추가 결제금액 : " + priceGab + "원<br><html>");
+			RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
+			lblNewLabel
+					.setText("<html>이동하시겠습니까? <br>추가 결제금액 : " + (priceGab * room.calendarList.size()) + "원<br><html>");
 			lblNewLabel.setBounds(0, 0, 280, 80);
 			setBounds(760, 440, 400, 200);
 		} else {
