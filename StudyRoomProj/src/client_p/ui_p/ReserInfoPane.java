@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
