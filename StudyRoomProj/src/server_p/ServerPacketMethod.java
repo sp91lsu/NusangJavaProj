@@ -146,16 +146,14 @@ class MethChatConnectSyn implements ServerPacketMethod {
 		}
 
 		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
-		// toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 
 		if (mc != null) {
-			// toMchatSyn.setManagerIp(mc.socket.getInetAddress().toString());
-			// toMchatSyn.setCIP(client.socket.getInetAddress().toString());
 			mc.sendPacket(toMchatSyn);
 
 		} else {
 			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
 			client.sendPacket(scConnectAck);
+			client.chatClient = null;
 		}
 	}
 }
@@ -175,13 +173,14 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 		if (client.chatClient != null) {
 			if (resPacket.isConnect) {
 				// client.chatClient = sc;
-				client.chatClient.chatClient = client;
 				scConnectAck = new ScChatConnectAck(EResult.SUCCESS);
+				client.chatClient.chatClient = client;
+				client.chatClient.sendPacket(scConnectAck);
 			} else {
-				client.chatClient = null;
 				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
+				client.chatClient.sendPacket(scConnectAck);
+				client.chatClient = null;
 			}
-			client.chatClient.sendPacket(scConnectAck);
 		} else {
 			System.out.println("client ip is null");
 		}
@@ -293,7 +292,13 @@ class MethCloseSyn implements ServerPacketMethod {
 
 		CsCloseSyn res = (CsCloseSyn) packet;
 
+		if (client.chatClient != null) {
+			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.DISCONNECT_CHAT);
+			client.chatClient.sendPacket(scConnectAck);
+			client.chatClient = null;
+		}
 		new AccountDao().loginCheck(res.uuid, false);
+
 		client.close();
 	}
 }
@@ -364,7 +369,6 @@ class MethMsResvRoomSyn implements ServerPacketMethod {
 					new RoomDao().salesData(resPacket.yyyy, resPacket.mm, resPacket.dd).salesRecordArrL);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("MethResvRoomSyn catch");
 		}
