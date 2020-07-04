@@ -44,6 +44,26 @@ enum EState {
 
 public class Seating_Arrangement extends JPanel implements Receivable {
 
+	ReserInfoPane reserInfoPane;
+	JLayeredPane panel_center;
+	
+	static JLabel north_west;
+
+	int setMonth, nowMonth, setYear, nowYear, setDate, nowDate, nowMaxDate, nowHour;
+	int starttime = 0, endtime = 1;
+	
+	JPanel timeSelectPane, panel_center_east;
+	JLabel lblNewLabel_7, lblNewLabel_8, iconLabel1, iconLabel2, iconLabel3, iconLabel4;
+	JButton north_east, searchButton, selectBtn;
+	
+	EEnter enterType = EEnter.MOBILE;
+	
+	ArrayList<RoomObj> group = new ArrayList<RoomObj>();// 단체석
+	ArrayList<RoomObj> solo = new ArrayList<RoomObj>();// 개인석
+	ArrayList<RoomObj> all = new ArrayList<RoomObj>();// 전체
+	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
+	JComboBox dateCBox, monthCBox, yearCBox, timeStartCBox, timeEndCbox;
+	
 	class RoomObj {
 
 		JButton btn;
@@ -100,40 +120,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			iconLabel = label;
 		}
 	}
-
-	static JLabel north_west;
-
-	JLayeredPane panel_center;
-	JPanel panel_center_east;
-
-	int starttime = 0;
-	int endtime = 1;
-	JPanel timeSelectPane;
-	JLabel lblNewLabel_7;
-	JLabel lblNewLabel_8;
-	JButton north_east;
-	EEnter enterType = EEnter.MOBILE;
-	JComboBox dateCBox;
-	JComboBox monthCBox;
-	JComboBox yearCBox;
-	JComboBox timeStartCBox;
-	JComboBox timeEndCbox;
-	ReserInfoPane reserInfoPane;
-	int setMonth;
-	int nowMonth;
-	int setYear;
-	int nowYear;
-	int setDate;
-	int nowDate;
-	int nowMaxDate;
-	int nowHour;
-	ArrayList<RoomObj> group = new ArrayList<RoomObj>();// 단체석
-	ArrayList<RoomObj> solo = new ArrayList<RoomObj>();// 개인석
-	ArrayList<RoomObj> all = new ArrayList<RoomObj>();// 전체
-	ArrayList<JComboBox> comboList = new ArrayList<JComboBox>();
-	JButton searchButton;
-	JButton selectBtn;
-	JLabel iconLabel1, iconLabel2, iconLabel3, iconLabel4;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -507,8 +493,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				btn_state(EState.INIT);
 			}
 		});
-		
-	
+
 		// 시작 시간 선택
 		timeStartCBox = new JComboBox();
 		timeStartCBox.setBounds(313, 28, 50, 33);
@@ -562,7 +547,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		JLabel dateL = new JLabel("일");
 		dateL.setBounds(272, 28, 29, 33);
 		timeSelectPane.add(dateL);
-		
+
 		JLabel timeLB1 = new JLabel("시");
 		timeLB1.setBounds(373, 28, 29, 33);
 		timeSelectPane.add(timeLB1);
@@ -570,7 +555,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		JLabel timeSelecL = new JLabel("~");
 		timeSelecL.setBounds(400, 28, 29, 33);
 		timeSelectPane.add(timeSelecL);
-		
+
 		JLabel timeLB2 = new JLabel("시");
 		timeLB2.setBounds(488, 28, 29, 33);
 		timeSelectPane.add(timeLB2);
@@ -694,10 +679,10 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		ScMoveSeatAck ack = (ScMoveSeatAck) packet;
 		if (ack.eResult == EResult.SUCCESS) {
 //			if (BaseFrame.getInstance().getSeatingArrUI().enterType == EEnter.SEATCHANGE) {
-				System.out.println("111111>>>>>");
-				BaseFrame.getInstance().updateData(ack.reserListAll, ack.myReserList, ack.myExitList, null);
-				roomState();
-				checkDate();
+			System.out.println("111111>>>>>");
+			BaseFrame.getInstance().updateData(ack.reserListAll, ack.myReserList, ack.myExitList, null);
+			roomState();
+			checkDate();
 //			}
 		} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
 			AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 좌석입니다.");
