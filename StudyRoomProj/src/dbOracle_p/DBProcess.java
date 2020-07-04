@@ -38,6 +38,12 @@ public class DBProcess {
 		where(value);
 	}
 
+	void updateQuery2(ETable table, String... value) {
+		query = "UPDATE " + table.name() + " SET " + value[0];
+
+		where(value);
+	}
+
 	void findQuery(ETable table, String... value) {
 
 		query = "select " + value[0] + " from " + table.name();
@@ -93,6 +99,19 @@ public class DBProcess {
 		for (int i = 0; i < calumArr.length; i++) {
 
 			cQuery += calumArr[i];
+			if (i < calumArr.length - 1) {
+				cQuery += ",";
+			}
+		}
+		return cQuery;
+	}
+
+	public String getUpdateColum(String... calumArr) {
+		String cQuery = "";
+
+		for (int i = 0; i < calumArr.length; i++) {
+
+			cQuery += calumArr[i] + " = ?";
 			if (i < calumArr.length - 1) {
 				cQuery += ",";
 			}
