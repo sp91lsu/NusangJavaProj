@@ -8,15 +8,15 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class SignUpPop extends JFrame {
+public class AlreadyUsePop extends JFrame {
 
-	public SignUpPop() {
+	public AlreadyUsePop(String msg) {
 		
 		JDialog jdd = new JDialog();
 		jdd.setBounds(830, 405, 300, 200);
 		jdd.setLayout(new GridLayout(2, 1));
 		
-		JLabel jll = new JLabel("정확한 정보를  입력하세요");
+		JLabel jll = new JLabel(msg);
 		jll.setOpaque(true);
 		jll.setBackground(MyColor.black);
 		jll.setForeground(MyColor.white);

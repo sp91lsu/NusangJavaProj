@@ -29,7 +29,7 @@ public class ClientNet extends Thread {
 	}
 
 	public Socket socket;
-	PacketProcess packetProcess;
+	PacketProccess packetProccess;
 
 	@Override
 	public void run() {
@@ -39,8 +39,9 @@ public class ClientNet extends Thread {
 		try {
 //			socket = new Socket("127.0.0.1", 7777);///자기ip
 			socket = new Socket("192.168.0.68", 7777); // 승환이
-			packetProcess = new PacketProcess(socket);
-			packetProcess.start();
+			packetProccess = new PacketProccess(socket);
+			packetProccess.start();
+
 
 			System.out.println("서버접속 성공");
 			System.out.println("listener Thread Start");
@@ -53,11 +54,11 @@ public class ClientNet extends Thread {
 	}
 
 	public void sendPacket(PacketBase packet) {
-		packetProcess.sendPacket(packet);
+		packetProccess.sendPacket(packet);
 	}
 }
 
-class PacketProcess extends Thread {
+class PacketProccess extends Thread {
 
 	UUID uuid;
 
@@ -68,7 +69,7 @@ class PacketProcess extends Thread {
 	InputStream is;
 	ObjectInputStream ois;
 
-	PacketProcess(Socket socket) {
+	PacketProccess(Socket socket) {
 		try {
 			this.socket = socket;
 			os = socket.getOutputStream();

@@ -700,7 +700,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				checkDate();
 //			}
 		} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
-			BaseFrame.getInstance().already_use("좌석");
+			AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 좌석입니다.");
 		}
 	}
 
