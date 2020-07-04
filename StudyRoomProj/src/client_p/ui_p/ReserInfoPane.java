@@ -115,6 +115,7 @@ public class ReserInfoPane extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			BaseFrame.getInstance().getSeatingArrUI().btn_click=false;
 			System.out.println(cal.getTime());
 			BaseFrame.getInstance().getSeatingArrUI().setMyTimeShow(cal, cal.get(Calendar.HOUR_OF_DAY));
 		}

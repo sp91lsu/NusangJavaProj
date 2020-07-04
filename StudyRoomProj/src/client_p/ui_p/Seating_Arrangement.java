@@ -51,6 +51,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	int setMonth, nowMonth, setYear, nowYear, setDate, nowDate, nowMaxDate, nowHour;
 	int starttime = 0, endtime = 1;
+	boolean btn_click=true;
 	
 	JPanel timeSelectPane, panel_center_east;
 	JLabel lblNewLabel_7, lblNewLabel_8, iconLabel1, iconLabel2, iconLabel3, iconLabel4;
@@ -747,16 +748,31 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 	class SearchBtnAct implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			if (btn_click) {
+				if (yearCBox.getSelectedItem() != null)
+					setYear = (int) yearCBox.getSelectedItem();
+				if (monthCBox.getSelectedItem() != null)
+					setMonth = (int) monthCBox.getSelectedItem();
+				if (dateCBox.getSelectedItem() != null)
+					setDate = (int) dateCBox.getSelectedItem();
+			}
 			roomState();
 			checkDate();
 			if (BaseFrame.getInstance().checkMyReserRoom(getSetCalendar(), Calendar.DATE) != null) {
 				btn_state(EState.DISABLE);
-				System.out.println("그날 내가 예약했음");
 			}
+			btn_click = true;
 		}
 	}
 
+	public void search_Btn()
+	{
+		roomState();
+		checkDate();
+		if (BaseFrame.getInstance().checkMyReserRoom(getSetCalendar(), Calendar.DATE) != null) {
+			btn_state(EState.DISABLE);
+		}
+	}
 	public void checkDate() {
 
 		Calendar start = getSetCalendar();
