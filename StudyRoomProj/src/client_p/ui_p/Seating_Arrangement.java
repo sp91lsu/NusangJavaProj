@@ -772,7 +772,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		}
 	}
 
-	void checkDate() {
+	public void checkDate() {
 
 		Calendar start = getSetCalendar();
 		// 시간이 맞물리면 빨간색 처리
@@ -808,7 +808,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		return start;
 	}
 
-	void roomState() {
+	public void roomState() {
 
 		switch (enterType) {
 		case GROUPROOM:

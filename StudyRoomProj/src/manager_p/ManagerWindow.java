@@ -78,8 +78,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 	private JScrollPane scrollPane_3_2;
 	private JComboBox comboBox;
 	private ArrayList<UserData> searchedUDs;
-	
-	
 
 	ArrayList<ArrayList<String>> tableSPArr = new ArrayList<ArrayList<String>>();
 
@@ -371,9 +369,8 @@ public class ManagerWindow extends JFrame implements Receivable {
 //      seating_Arrangement.setPreferredSize(size);// 사이즈 정보를 가지고 있는
 //      scrollPane_7.setViewportView(seating_Arrangement);
 
-		
 		tabbedPane.addTab("예약 관리", pnl_ResvInquiry);
-		
+
 		tabbedPane.addTab("요금 관리", pnl_SetPrice);
 
 		tabbedPane.addTab("매출 조회", pnl_SalesInquiry);
@@ -500,8 +497,6 @@ public class ManagerWindow extends JFrame implements Receivable {
 			scrollPane_3_2.setViewportView(table_6);
 		}
 
-		
-
 		if (packet.getClass() == ScGetRoomDataAck.class) {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
 			DataManager.getInstance().roomMap = ack.roomMap;
@@ -509,6 +504,16 @@ public class ManagerWindow extends JFrame implements Receivable {
 			pnl_SeatArrange = new Seating_Arrangement();
 			pnl_SeatArrange.openPage(EEnter.MOBILE);
 			tabbedPane.add("좌석/룸 조회", pnl_SeatArrange);
+		}
+
+		if (packet.getClass() == ScRoomInfoBroadCast.class) {
+			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
+			BaseFrame.getInstance().roomInfoList = roomInfoCast.roomListAll;
+
+			if (pnl_SeatArrange.isVisible()) {
+				pnl_SeatArrange.roomState();
+				pnl_SeatArrange.checkDate();
+			}
 		}
 	}
 }
