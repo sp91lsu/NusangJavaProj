@@ -26,10 +26,11 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 	JDialog timeEmpty;
 	int startTime, endTime, timeChoice = 0;
 	int addPri = 0;
+	int basePrice = 0;
 	Calendar last;
 
 	public AddTimeDialog() {
-		addPri = (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().getUsingRoom().id).price;
+		basePrice = (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().getUsingRoom().id).price;
 		int extension = timeChoice();
 		if (extension > 0) {
 
@@ -185,7 +186,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 		}
 
 		roomProduct.calendarList = myCalList;
-		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid, addPri);
+		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid, basePrice);
 		ClientNet.getInstance().sendPacket(packet);
 	}
 
