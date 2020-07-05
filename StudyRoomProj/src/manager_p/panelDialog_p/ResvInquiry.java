@@ -39,6 +39,8 @@ import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmResvRoomAck;
 import server_p.packet_p.ack_p.SmSalesInquiryAck;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class ResvInquiry extends JPanel implements Receivable {
 	JFrame tfram;
@@ -46,7 +48,7 @@ public class ResvInquiry extends JPanel implements Receivable {
 	
 	private ArrayList<SalesRecord> salesRecordList;
 	private DefaultTableModel dTable5;
-	private String headerResvs[];
+	private String headerResvs[] = new String[] { "이용석", "예약자", "예약시간" };
 	private String contentsResvs[][];
 	private JTable table;
 	private JScrollPane scrollPane_12;
@@ -61,11 +63,13 @@ public class ResvInquiry extends JPanel implements Receivable {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.DARK_GRAY);
 		add(panel_3);
 		
 		panel_3.setLayout(null);
 
 		CalendarTest cal = new CalendarTest(mw);
+		cal.setBackground(Color.WHITE);
 		cal.setBounds(224, 25, 502, 362);
 		panel_3.add(cal);
 
@@ -75,14 +79,15 @@ public class ResvInquiry extends JPanel implements Receivable {
 
 		scrollPane_12 = new JScrollPane();
 		scrollPane_12.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_12.setBounds(79, 389, 842, 311);
+		scrollPane_12.setBounds(73, 407, 842, 311);
 		panel_3.add(scrollPane_12);
 
-		headerResvs = new String[] { "이용석", "예약자", "예약시간" };
 		contentsResvs = new String[1][headerResvs.length];
 		dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
 		table = new JTable(dTable5);
-		table.getColumn("이용석").setPreferredWidth(100);
+		table.setForeground(Color.DARK_GRAY);
+		table.setBackground(Color.WHITE);
+		table.getColumn("이용석").setPreferredWidth(60);
 		table.getColumn("예약자").setPreferredWidth(100);
 		table.getColumn("예약시간").setPreferredWidth(400);
 		table.setRowHeight(27);
@@ -108,11 +113,16 @@ public class ResvInquiry extends JPanel implements Receivable {
 				for (String t : time) {
 					ttt += t + "시 ";
 				}
-				contentsResvs[i][3] = ttt;
+				contentsResvs[i][2] = ttt;
 			}
 
 			dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
 			table = new JTable(dTable5);
+			table.setForeground(Color.DARK_GRAY);
+			table.setBackground(Color.WHITE);
+			table.getColumn("이용석").setPreferredWidth(60);
+			table.getColumn("예약자").setPreferredWidth(100);
+			table.getColumn("예약시간").setPreferredWidth(400);
 			table.setRowHeight(27);
 			table.setFont(new Font("새굴림", Font.PLAIN, 25));
 			table.setFillsViewportHeight(true);

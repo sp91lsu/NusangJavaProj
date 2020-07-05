@@ -29,12 +29,15 @@ import javax.swing.table.TableColumnModel;
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
+import client_p.ui_p.MyColor;
 import data_p.sales_p.SalesBySeat;
 import data_p.sales_p.SalesRecord;
 import data_p.sales_p.SalesTot;
 import manager_p.syn_p.MsSalesInquirySyn;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmSalesInquiryAck;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class SalesInquiry extends JPanel implements Receivable {
 	JFrame tfram;
@@ -196,6 +199,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 	}
 			
 	public SalesInquiry() {
+		setBackground(Color.DARK_GRAY);
 		PacketMap.getInstance().map.put(SmSalesInquiryAck.class, this);
 		setDateList();
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -213,10 +217,17 @@ public class SalesInquiry extends JPanel implements Receivable {
 				{ "dfeb", "5", "234767" }, { "»þ¿ö½Ç", "2", "30000" }, { "ÀÏ¹Ý1", "3", "34003" }, { "¤·¤©¤§¤§", "4", "34534" },
 				{ "dfeb", "5", "234767" }, };
 		comBox_Year = new JComboBox<String>(yearList);
+		comBox_Year.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		comBox_Year.setBackground(MyColor.w_white);
 		comBox_Month = new JComboBox<String>(monthList);
+		comBox_Month.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		comBox_Month.setBackground(MyColor.w_white);
 		comBox_Day = new JComboBox<String>(dayList);
+		comBox_Day.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		comBox_Day.setBackground(MyColor.w_white);
 		
 		JPanel panel_9 = new JPanel();
+		panel_9.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_9 = new GridBagConstraints();
 		gbc_panel_9.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_9.fill = GridBagConstraints.BOTH;
@@ -245,6 +256,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_2.setLayout(gbl_panel_2);
 		
 		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
 		gbc_panel_5.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_5.fill = GridBagConstraints.BOTH;
@@ -253,6 +265,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_2.add(panel_5, gbc_panel_5);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
 		gbc_panel_3.fill = GridBagConstraints.BOTH;
 		gbc_panel_3.gridx = 1;
@@ -266,6 +279,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_3.setLayout(gbl_panel_3);
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.DARK_GRAY);
 		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		flowLayout.setHgap(20);
@@ -277,48 +291,62 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_3.add(panel_4, gbc_panel_4);
 		
 		JPanel panel_7_3 = new JPanel();
+		panel_7_3.setBackground(Color.DARK_GRAY);
+		panel_7_3.setForeground(Color.DARK_GRAY);
 		panel_4.add(panel_7_3);
 		
 		sortList.add("ÀÏ");
 		sortList.add("¿ù");
 		sortList.add("¿¬");
 		comBox_Sort = new JComboBox<String>(sortList);
+		comBox_Sort.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		comBox_Sort.setBackground(MyColor.w_white);
 		comBox_Sort.addActionListener(new ActionLister_SalesInq("comBox_Sort"));
 		panel_7_3.add(comBox_Sort);
 		
 		JLabel lb_Year_1 = new JLabel("\uB9E4\uCD9C");
+		lb_Year_1.setForeground(Color.WHITE);
+		lb_Year_1.setBackground(Color.DARK_GRAY);
 		lb_Year_1.setFont(new Font("±¼¸²", Font.PLAIN, 20));
 		panel_7_3.add(lb_Year_1);
 		
 		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(Color.DARK_GRAY);
+		panel_7.setForeground(Color.DARK_GRAY);
 		panel_4.add(panel_7);
 		comBox_Year.addActionListener(new ActionLister_SalesInq("comBox_Year"));
 		panel_7.add(comBox_Year);
 		
 		JLabel lb_Year= new JLabel("³â");
+		lb_Year.setForeground(Color.WHITE);
 		lb_Year.setFont(new Font("±¼¸²", Font.PLAIN, 20));
 		panel_7.add(lb_Year);
 		
 		JPanel panel_7_1 = new JPanel();
+		panel_7_1.setBackground(Color.DARK_GRAY);
 		panel_4.add(panel_7_1);
 		comBox_Month.addActionListener(new ActionLister_SalesInq("comBox_Month"));
 		panel_7_1.add(comBox_Month);
 		
 		JLabel lb_Month = new JLabel("¿ù");
+		lb_Month.setForeground(Color.WHITE);
 		lb_Month.setFont(new Font("±¼¸²", Font.PLAIN, 20));
 		panel_7_1.add(lb_Month);
 		
 		JPanel panel_7_2 = new JPanel();
+		panel_7_2.setBackground(Color.DARK_GRAY);
 		panel_4.add(panel_7_2);
 		
 		comBox_Day.addActionListener(new ActionLister_SalesInq("comBox_Day"));
 		panel_7_2.add(comBox_Day);
 		
 		JLabel lb_Day = new JLabel("ÀÏ");
+		lb_Day.setForeground(Color.WHITE);
 		lb_Day.setFont(new Font("±¼¸²", Font.PLAIN, 20));
 		panel_7_2.add(lb_Day);
 		
 		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(Color.DARK_GRAY);
 		FlowLayout flowLayout_1 = (FlowLayout) panel_6.getLayout();
 		flowLayout_1.setHgap(20);
 		flowLayout_1.setAlignment(FlowLayout.RIGHT);
@@ -329,9 +357,11 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_3.add(panel_6, gbc_panel_6);
 		
 		JButton btn_Inquiry = new JButton("Á¶È¸");
+		btn_Inquiry.setBackground(MyColor.w_white);
 		btn_Inquiry.addActionListener(new ActionLister_SalesInq("Á¶È¸"));
 		
 		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(Color.DARK_GRAY);
 		panel_6.add(panel_8);
 		GridBagLayout gbl_panel_8 = new GridBagLayout();
 		gbl_panel_8.columnWidths = new int[]{178, 0};
@@ -341,7 +371,8 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_8.setLayout(gbl_panel_8);
 		
 		lb_date = new JLabel("");
-		lb_date.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		lb_date.setForeground(SystemColor.info);
+		lb_date.setFont(new Font("±¼¸²", Font.BOLD, 25));
 		GridBagConstraints gbc_lb_date = new GridBagConstraints();
 		gbc_lb_date.fill = GridBagConstraints.VERTICAL;
 		gbc_lb_date.anchor = GridBagConstraints.WEST;
@@ -352,6 +383,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_6.add(btn_Inquiry);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -366,6 +398,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel.setLayout(gbl_panel);
 		
 		JPanel panel_10 = new JPanel();
+		panel_10.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_10 = new GridBagConstraints();
 		gbc_panel_10.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_10.fill = GridBagConstraints.BOTH;
@@ -380,6 +413,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_10.setLayout(gbl_panel_10);
 		
 		JLabel lblNewLabel_1 = new JLabel("ÀÏº° ÆÇ¸Å ±â·Ï");
+		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("ÈÞ¸Õ¸ðÀ½T", Font.PLAIN, 30));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
@@ -395,6 +429,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_10.add(scrPane_SalesRecord, gbc_scrollPane_6);
 		
 		JPanel panel_10_1 = new JPanel();
+		panel_10_1.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_10_1 = new GridBagConstraints();
 		gbc_panel_10_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_10_1.gridx = 0;
@@ -408,6 +443,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_10_1.setLayout(gbl_panel_10_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("ÀÌ¿ë¼®º° ±â·Ï");
+		lblNewLabel_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1.setFont(new Font("ÈÞ¸Õ¸ðÀ½T", Font.PLAIN, 30));
 		GridBagConstraints gbc_lblNewLabel_1_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1_1.insets = new Insets(0, 0, 5, 5);
@@ -416,7 +452,8 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_10_1.add(lblNewLabel_1_1, gbc_lblNewLabel_1_1);
 		
 		JLabel lb_Inquiry = new JLabel("Á¶È¸ ±â°£ ÇÕ»êÁý°è");
-		lb_Inquiry.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
+		lb_Inquiry.setForeground(Color.WHITE);
+		lb_Inquiry.setFont(new Font("ÈÞ¸Õ¸ðÀ½T", Font.PLAIN, 30));
 		GridBagConstraints gbc_lb_WhatSales_1 = new GridBagConstraints();
 		gbc_lb_WhatSales_1.insets = new Insets(0, 0, 5, 0);
 		gbc_lb_WhatSales_1.gridx = 1;
@@ -440,6 +477,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_12.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel panel_13 = new JPanel();
+		panel_13.setBackground(Color.DARK_GRAY);
 		panel_12.add(panel_13);
 		GridBagLayout gbl_panel_13 = new GridBagLayout();
 		gbl_panel_13.columnWidths = new int[]{210, 45, 0};
@@ -449,6 +487,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_13.setLayout(gbl_panel_13);
 		
 		JLabel lb_T = new JLabel("\uCD1D \uC774\uC6A9\uAC1D \uC218  ");
+		lb_T.setForeground(Color.WHITE);
 		lb_T.setHorizontalAlignment(SwingConstants.RIGHT);
 		lb_T.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		GridBagConstraints gbc_lb_T = new GridBagConstraints();
@@ -460,6 +499,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_13.add(lb_T, gbc_lb_T);
 		
 		lb_TotUsers = new JLabel("0");
+		lb_TotUsers.setForeground(Color.WHITE);
 		lb_TotUsers.setHorizontalAlignment(SwingConstants.RIGHT);
 		lb_TotUsers.setFont(new Font("ÈÞ¸Õ¸ÅÁ÷Ã¼", Font.BOLD, 30));
 		GridBagConstraints gbc_lb_TotUsers = new GridBagConstraints();
@@ -470,6 +510,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_13.add(lb_TotUsers, gbc_lb_TotUsers);
 		
 		JPanel panel_14 = new JPanel();
+		panel_14.setBackground(Color.DARK_GRAY);
 		panel_12.add(panel_14);
 		GridBagLayout gbl_panel_14 = new GridBagLayout();
 		gbl_panel_14.columnWidths = new int[]{210, 70, 0};
@@ -479,6 +520,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_14.setLayout(gbl_panel_14);
 		
 		lb_WhatSales = new JLabel("¸ÅÃâ");
+		lb_WhatSales.setForeground(Color.WHITE);
 		lb_WhatSales.setFont(new Font("ÈÞ¸Õ¿¢½ºÆ÷", Font.BOLD, 25));
 		GridBagConstraints gbc_lb_WhatSales = new GridBagConstraints();
 		gbc_lb_WhatSales.insets = new Insets(0, 0, 0, 5);
@@ -487,6 +529,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_14.add(lb_WhatSales, gbc_lb_WhatSales);
 		
 		lb_TotSales = new JLabel("0");
+		lb_TotSales.setForeground(Color.WHITE);
 		lb_TotSales.setHorizontalAlignment(SwingConstants.RIGHT);
 		lb_TotSales.setFont(new Font("ÈÞ¸Õ¸ÅÁ÷Ã¼", Font.BOLD, 30));
 		GridBagConstraints gbc_lb_TotSales = new GridBagConstraints();
@@ -527,6 +570,8 @@ public class SalesInquiry extends JPanel implements Receivable {
 			table_Record.setRowHeight(27);
 			table_Record.setFillsViewportHeight(true);
 			table_Record.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
+//			table_Record.setBackground(Color.DARK_GRAY);
+//			table_Record.setForeground(Color.WHITE);
 			scrPane_SalesRecord.setViewportView(table_Record);
 		
 		//scrPane_SalesBySeat
@@ -544,6 +589,8 @@ public class SalesInquiry extends JPanel implements Receivable {
 			table_Seat.setRowHeight(27);
 			table_Seat.setFillsViewportHeight(true);
 			table_Seat.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
+//			table_Seat.setBackground(Color.DARK_GRAY);
+//			table_Seat.setForeground(Color.WHITE);
 			scrPane_SalesBySeat.setViewportView(table_Seat);
 			
 		//SalesTot

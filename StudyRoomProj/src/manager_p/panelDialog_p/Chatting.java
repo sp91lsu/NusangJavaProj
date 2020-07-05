@@ -21,12 +21,14 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.ui_p.MyColor;
 import manager_p.ManagerWindow;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 import server_p.packet_p.syn_p.SMChatConnectSyn;
 import java.awt.Font;
+import java.awt.Color;
 
 public class Chatting extends JPanel implements Receivable {
 	ManagerWindow mw;
@@ -108,6 +110,7 @@ public class Chatting extends JPanel implements Receivable {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(Color.DARK_GRAY);
 		add(panel_8);
 		
 		GridBagLayout gbl_panel_8 = new GridBagLayout();
@@ -118,6 +121,7 @@ public class Chatting extends JPanel implements Receivable {
 		panel_8.setLayout(gbl_panel_8);
 
 		JPanel panel_17 = new JPanel();
+		panel_17.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_17 = new GridBagConstraints();
 		gbc_panel_17.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_17.fill = GridBagConstraints.BOTH;
@@ -132,6 +136,7 @@ public class Chatting extends JPanel implements Receivable {
 		panel_17.setLayout(gbl_panel_17);
 
 		JLabel lblNewLabel_9 = new JLabel("1:1 \uCC44\uD305 \uBB38\uC758");
+		lblNewLabel_9.setForeground(Color.WHITE);
 		lblNewLabel_9.setFont(new Font("»õ±¼¸²", Font.BOLD, 30));
 		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
 		gbc_lblNewLabel_9.insets = new Insets(0, 0, 5, 0);
@@ -140,6 +145,7 @@ public class Chatting extends JPanel implements Receivable {
 		panel_17.add(lblNewLabel_9, gbc_lblNewLabel_9);
 
 		lb_Chat_name = new JLabel("");
+		lb_Chat_name.setForeground(Color.WHITE);
 		lb_Chat_name.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		GridBagConstraints gbc_lb_Chat_name = new GridBagConstraints();
 		gbc_lb_Chat_name.insets = new Insets(0, 0, 5, 0);
@@ -148,6 +154,7 @@ public class Chatting extends JPanel implements Receivable {
 		panel_17.add(lb_Chat_name, gbc_lb_Chat_name);
 
 		lb_Chat_end = new JLabel("");
+		lb_Chat_end.setForeground(Color.WHITE);
 		lb_Chat_end.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 20));
 		GridBagConstraints gbc_lb_Chat_end = new GridBagConstraints();
 		gbc_lb_Chat_end.insets = new Insets(0, 0, 5, 0);
@@ -208,6 +215,7 @@ public class Chatting extends JPanel implements Receivable {
 		
 		JButton btnNewButton_4 = new JButton("Àü¼Û");
 		btnNewButton_4.addActionListener(new ActionLister_Chatting("Àü¼Û"));
+		btnNewButton_4.setBackground(MyColor.w_white);
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_4.fill = GridBagConstraints.VERTICAL;
@@ -217,6 +225,7 @@ public class Chatting extends JPanel implements Receivable {
 		
 		btnTerminate = new JButton("Á¾·á");
 		btnTerminate.addActionListener(new ActionLister_Chatting("Á¾·á"));
+		btnTerminate.setBackground(MyColor.w_white);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.gridx = 2;

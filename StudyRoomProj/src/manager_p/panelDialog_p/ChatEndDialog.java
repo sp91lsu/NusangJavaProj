@@ -11,12 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import client_p.ClientNet;
+import client_p.ui_p.MyColor;
 import manager_p.ManagerWindow;
 
 import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+import java.awt.Color;
 
 public class ChatEndDialog extends JDialog {
 
@@ -43,6 +45,7 @@ public class ChatEndDialog extends JDialog {
 		this.mw = mw;
 		setBounds(100, 100, 400, 250);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(Color.DARK_GRAY);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
@@ -53,6 +56,7 @@ public class ChatEndDialog extends JDialog {
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lb_Chat_EndChk = new JLabel("채팅을 종료하시겠습니까?");
+			lb_Chat_EndChk.setForeground(Color.WHITE);
 			lb_Chat_EndChk.setFont(new Font("굴림", Font.PLAIN, 20));
 			GridBagConstraints gbc_lb_Chat_EndChk = new GridBagConstraints();
 			gbc_lb_Chat_EndChk.gridx = 0;
@@ -61,10 +65,12 @@ public class ChatEndDialog extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(Color.DARK_GRAY);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setBackground(MyColor.w_white);
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(new ActionListener() {
 					@Override
@@ -82,6 +88,7 @@ public class ChatEndDialog extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(MyColor.w_white);
 				cancelButton.setActionCommand("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					@Override

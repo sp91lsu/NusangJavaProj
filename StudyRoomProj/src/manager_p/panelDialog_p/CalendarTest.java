@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import org.apache.poi.hssf.util.HSSFColor.BLUE;
 
 import client_p.ClientNet;
+import client_p.ui_p.MyColor;
 import manager_p.ManagerWindow;
 import manager_p.syn_p.MsResvRoomSyn;
 
@@ -80,36 +81,47 @@ private JButton bf;
       setForeground(Color.CYAN);
       setBorder(new EmptyBorder(5, 5, 5, 5));
       setLayout(null);
-      mapPane.setBounds(12, 10, 800, 400);
+      mapPane.setBackground(Color.WHITE);
+      mapPane.setBounds(0, 10, 800, 400);
       add(mapPane);
       mapPane.setLayout(null);
 
       yearInfoL = new JLabel(setYear + "³â");
-      yearInfoL.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+      yearInfoL.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
       yearInfoL.setHorizontalAlignment(SwingConstants.CENTER);
-      yearInfoL.setBounds(175, 0, 90, 30);
+      yearInfoL.setBounds(186, 10, 90, 30);
       mapPane.add(yearInfoL);
 
       JPanel calendarPane = new JPanel();
-      calendarPane.setBounds(12, 20, 440, 340);
+      calendarPane.setBackground(Color.WHITE);
+      calendarPane.setBounds(12, 39, 440, 340);
       mapPane.add(calendarPane);
       calendarPane.setLayout(null);
       calendarPane.setLayout(null);
 
       JPanel monthChoicePane = new JPanel();
+      monthChoicePane.setBackground(Color.WHITE);
       monthChoicePane.setBounds(0, 1, 432, 46);
       calendarPane.add(monthChoicePane);
       monthChoicePane.setLayout(  new GridLayout(1, 3));
 
       JButton preMonthBtn = new JButton("ÀÌÀü´Þ");
+      preMonthBtn.setFont(new Font("±¼¸²", Font.BOLD, 15));
+      preMonthBtn.setForeground(Color.WHITE);
+      preMonthBtn.setBackground(Color.DARK_GRAY);
       monthChoicePane.add(preMonthBtn);
       preMonthBtn.addActionListener(new PreMonthAct());
 
       nowMonthL = new JLabel(setMonth + "");
+      nowMonthL.setFont(new Font("±¼¸²", Font.BOLD, 15));
+      nowMonthL.setBackground(Color.WHITE);
       nowMonthL.setHorizontalAlignment(SwingConstants.CENTER);
       monthChoicePane.add(nowMonthL);
 
       JButton nextMonthBtn = new JButton("´ÙÀ½´Þ");
+      nextMonthBtn.setFont(new Font("±¼¸²", Font.BOLD, 15));
+      nextMonthBtn.setForeground(Color.WHITE);
+      nextMonthBtn.setBackground(Color.DARK_GRAY);
       monthChoicePane.add(nextMonthBtn);
       nextMonthBtn.addActionListener(new NextMonthAct());
 
@@ -190,9 +202,13 @@ private JButton bf;
          MyJButton datebtn = new MyJButton(new JButton(dateN));
          dateList.add(datebtn);
          calPaneMain.add(datebtn.dateBtn);
+         
          for (MyJButton myBtn : dateList) { // ¾ø´Â dateÀÇ ¹öÆ° ºñÈ°¼ºÈ­
             if (myBtn.dateBtn.getText() == "") {
                myBtn.dateBtn.setEnabled(false);
+            }else {
+            	myBtn.dateBtn.setBackground(MyColor.black);
+            	myBtn.dateBtn.setForeground(MyColor.white);
             }
 
          }
@@ -202,7 +218,7 @@ private JButton bf;
             public void actionPerformed(ActionEvent e) {
             	
             	String date = datebtn.dateBtn.getText();
-            	bf.setBackground(null);
+            	bf.setBackground(MyColor.black);
             	datebtn.dateBtn.setBackground(Color.blue);
             	MsResvRoomSyn packet = new MsResvRoomSyn(setYear, setMonth, date);
             	ClientNet.getInstance().sendPacket(packet);

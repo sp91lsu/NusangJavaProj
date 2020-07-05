@@ -23,11 +23,13 @@ import javax.swing.table.DefaultTableModel;
 import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
+import client_p.ui_p.MyColor;
 import data_p.ExcelRead_PriceExcel;
 import data_p.ExcelWriter_UpdateColumn;
 import manager_p.ack_p.MsUptRoomPrSyn;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmUptRoomPrAck;
+import java.awt.Color;
 
 public class SetPrice extends JPanel implements Receivable {
 	JFrame tfram;
@@ -53,6 +55,8 @@ public class SetPrice extends JPanel implements Receivable {
 			table.setRowHeight(27);
 			table.setFillsViewportHeight(true);
 			table.setFont(new Font("새굴림", Font.PLAIN, 25));
+//			table.setBackground(Color.DARK_GRAY);
+//			table.setForeground(Color.WHITE);
 			scrollPane_6_2.setViewportView(table);
 			
 		}
@@ -134,6 +138,7 @@ public class SetPrice extends JPanel implements Receivable {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.DARK_GRAY);
 		add(panel_4);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[] { 270, 489, 230, 0 };
@@ -143,6 +148,8 @@ public class SetPrice extends JPanel implements Receivable {
 		panel_4.setLayout(gbl_panel_4);
 		
 		JButton btn_Reset = new JButton("복원(백업파일)");
+		btn_Reset.setForeground(Color.BLACK);
+		btn_Reset.setBackground(MyColor.w_white);
 		btn_Reset.addActionListener(new ActionLister_SetPr("복원"));
 		btn_Reset.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		GridBagConstraints gbc_btn_SetPrice_1 = new GridBagConstraints();
@@ -153,6 +160,7 @@ public class SetPrice extends JPanel implements Receivable {
 		panel_4.add(btn_Reset, gbc_btn_SetPrice_1);
 
 		JPanel panel_10_2 = new JPanel();
+		panel_10_2.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_10_2 = new GridBagConstraints();
 		gbc_panel_10_2.anchor = GridBagConstraints.SOUTH;
 		gbc_panel_10_2.insets = new Insets(0, 0, 5, 5);
@@ -168,6 +176,8 @@ public class SetPrice extends JPanel implements Receivable {
 		panel_10_2.setLayout(gbl_panel_10_2);
 
 		JLabel lblNewLabel_1_2 = new JLabel("요금 설정");
+		lblNewLabel_1_2.setForeground(Color.WHITE);
+		lblNewLabel_1_2.setBackground(Color.DARK_GRAY);
 		lblNewLabel_1_2.setFont(new Font("휴먼모음T", Font.BOLD, 40));
 		GridBagConstraints gbc_lblNewLabel_1_2 = new GridBagConstraints();
 		gbc_lblNewLabel_1_2.fill = GridBagConstraints.VERTICAL;
@@ -188,6 +198,7 @@ public class SetPrice extends JPanel implements Receivable {
 		read("DataTable/RoomData.xlsx");
 		
 		JPanel panel_18 = new JPanel();
+		panel_18.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_18 = new GridBagConstraints();
 		gbc_panel_18.anchor = GridBagConstraints.SOUTH;
 		gbc_panel_18.insets = new Insets(0, 0, 5, 0);
@@ -202,6 +213,8 @@ public class SetPrice extends JPanel implements Receivable {
 		panel_18.setLayout(gbl_panel_18);
 		
 		JButton btnNewButton = new JButton("새로고침");
+		btnNewButton.setForeground(Color.BLACK);
+		btnNewButton.setBackground(MyColor.w_white);
 		btnNewButton.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		btnNewButton.addActionListener(new ActionLister_SetPr("새로고침"));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -212,6 +225,8 @@ public class SetPrice extends JPanel implements Receivable {
 		
 		//입력된 0열 1열을 엑셀 1열 2열에 덮어쓰기 <WRITE>
 		JButton btn_Restore = new JButton("적용");
+		btn_Restore.setForeground(Color.BLACK);
+		btn_Restore.setBackground(MyColor.w_white);
 		btn_Restore.addActionListener(new ActionLister_SetPr("적용"));
 		btn_Restore.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		GridBagConstraints gbc_btn_SetPrice = new GridBagConstraints();
