@@ -10,10 +10,10 @@ public class CsBuyRoomSyn extends PacketBase {
 	public RoomProduct RoomProduct;
 	public String uuid;
 
-	public CsBuyRoomSyn(RoomProduct product, String uuid) {
+	public CsBuyRoomSyn(RoomProduct product, String uuid, long price) {
 		super();
 
-		product.price = DataManager.getInstance().roomMap.get(product.id).price;
+		product.price = price;
 		this.RoomProduct = product;
 		this.uuid = uuid;
 	}

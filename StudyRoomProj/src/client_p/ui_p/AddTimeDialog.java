@@ -81,7 +81,6 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 			contentPane.add(payButton);
 			payButton.setBackground(MyColor.w_white);
 			payButton.addActionListener(this);
-
 			JButton cancelButton = new JButton("취소");
 			cancelButton.setBounds(246, 262, 110, 43);
 			cancelButton.setBackground(MyColor.w_white);
@@ -108,8 +107,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 					if (timeSelectCom.getSelectedItem() != null) {
 						timeChoice = (int) timeSelectCom.getSelectedItem();
 					}
-					addPri = (int) timeSelectCom.getSelectedItem() * 
-							(int) BaseFrame.getInstance().getUsingRoom().price;
+					addPri = (int) timeSelectCom.getSelectedItem() * (int) BaseFrame.getInstance().getUsingRoom().price;
 					priceInfoL.setText(addPri + "원");
 				}
 			});
@@ -117,7 +115,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 			setVisible(true);
 		} else {
 			AlreadyUsePop pop = new AlreadyUsePop("연장 할 수 있는 시간이 없습니다.");
-			BaseFrame.getInstance().getMainLayout().is_addTime=false;
+			BaseFrame.getInstance().getMainLayout().is_addTime = false;
 		}
 	}
 
@@ -193,7 +191,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 		}
 
 		roomProduct.calendarList = myCalList;
-		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid);
+		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid, addPri);
 		ClientNet.getInstance().sendPacket(packet);
 		AlreadyUsePop pop = new AlreadyUsePop("시간이 연장되었습니다.");
 	}

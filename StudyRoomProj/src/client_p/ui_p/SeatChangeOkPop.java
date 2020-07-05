@@ -19,9 +19,11 @@ import data_p.product_p.room_p.RoomProduct;
 public class SeatChangeOkPop extends JDialog {
 
 	private JPanel contentPane;
+	long setPrice;
 
 	public SeatChangeOkPop(int moveSeatID, long priceGab) {
 
+		setPrice = DataManager.getInstance().roomMap.get(moveSeatID).price;
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -53,8 +55,7 @@ public class SeatChangeOkPop extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
-						BaseFrame.getInstance().getUsingRoom(), moveSeatID,
-						DataManager.getInstance().roomMap.get(moveSeatID).price);
+						BaseFrame.getInstance().getUsingRoom(), moveSeatID, setPrice);
 				ClientNet.getInstance().sendPacket(packet);
 			}
 		});

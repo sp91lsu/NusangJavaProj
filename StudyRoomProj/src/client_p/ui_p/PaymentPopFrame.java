@@ -36,13 +36,13 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 		okBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CsBuyRoomSyn packet = new CsBuyRoomSyn(room, BaseFrame.getInstance().userData.uuid);
+				CsBuyRoomSyn packet = new CsBuyRoomSyn(room, BaseFrame.getInstance().userData.uuid, room.price);
 				ClientNet.getInstance().sendPacket(packet);
 				dispose();
 			}
 		});
 		getContentPane().add(okBtn);
-		
+
 		JButton cancelBtn = new JButton("취소");
 		cancelBtn.setBounds(143, 55, 96, 36);
 		getContentPane().add(cancelBtn);
@@ -51,7 +51,7 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				
+
 			}
 		});
 
@@ -80,11 +80,9 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 				BaseFrame.getInstance().view("LoginMain");
 			}
-		} 
-		else if(ack.eResult==EResult.ALEADY_EXIST_DATA){
+		} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
 			AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 좌석입니다.");
-	      }
-		else
+		} else
 			jl.setText("결제실패");
 
 		jb.addActionListener(new ActionListener() {
