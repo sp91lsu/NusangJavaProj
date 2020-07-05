@@ -15,9 +15,10 @@ public class RoomProduct extends ProductData {
 	public boolean isExit;
 	public Integer personNum;
 	public String userUUID;
-	public String pUid; //상품 연장까지 모여있는 값 
+	public String pUid; // 상품 연장까지 모여있는 값
 	public ArrayList<Calendar> calendarList = new ArrayList<Calendar>();
 	public HashMap<Calendar, Bool> exitMap = new HashMap<Calendar, Bool>();
+	public long totPrice = 0;
 
 	public RoomProduct(int id, String name, long price, int personNum) {
 		super(id, name, price);
