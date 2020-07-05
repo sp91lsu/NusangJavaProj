@@ -31,6 +31,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 
 	public AddTimeDialog() {
 		basePrice = (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().getUsingRoom().id).price;
+		addPri = basePrice;
 		int extension = timeChoice();
 		if (extension > 0) {
 
