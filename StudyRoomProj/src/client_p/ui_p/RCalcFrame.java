@@ -50,7 +50,6 @@ public class RCalcFrame extends JDialog {
 		okButton.setBackground(MyColor.jinBeige2);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				room.price = DataManager.getInstance().roomMap.get(room.id).price;
 				BaseFrame.getInstance().paymentPop.openPage(room);
 				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();
