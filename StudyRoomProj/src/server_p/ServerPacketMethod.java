@@ -136,6 +136,8 @@ class MethChatConnectSyn implements ServerPacketMethod {
 
 		ArrayList<String> managerIpList = new AccountDao().findManagersIp();
 		SocketClient mc = null;
+
+		boolean isEmpty = true;
 		for (String ip : managerIpList) {
 
 			mc = MyServer.getInstance().findClient(ip);
@@ -147,12 +149,14 @@ class MethChatConnectSyn implements ServerPacketMethod {
 
 				// 관리자에게 채팅 요청
 				mc.sendPacket(toMchatSyn);
-				return;
+				isEmpty = false;
 			}
 		}
 
-		ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
-		client.sendPacket(scConnectAck);
+		if (isEmpty) {
+			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
+			client.sendPacket(scConnectAck);
+		}
 	}
 }
 
@@ -177,8 +181,11 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 				client.chatClient = null;
 			}
 		} else {
-			scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
-			client.chatClient.sendPacket(scConnectAck);
+
+			if (MyServer.getInstance().cntChatClient(client.chatClient) < 2) {
+				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
+				client.chatClient.sendPacket(scConnectAck);
+			}
 			client.chatClient = null;
 		}
 	}

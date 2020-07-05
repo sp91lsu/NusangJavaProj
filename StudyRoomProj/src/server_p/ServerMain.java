@@ -77,6 +77,17 @@ class MyServer {
 		}
 	}
 
+	synchronized int cntChatClient(SocketClient chatC) {
+
+		int reqCnt = 0;
+		for (SocketClient socketClient : clientList) {
+			if (socketClient.chatClient == chatC) {
+				reqCnt++;
+			}
+		}
+		return reqCnt;
+	}
+
 	public synchronized SocketClient findClient(String address) {
 		for (SocketClient packetClient : clientList) {
 
