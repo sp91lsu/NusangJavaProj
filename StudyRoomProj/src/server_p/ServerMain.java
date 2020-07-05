@@ -166,6 +166,7 @@ class SocketClient extends Thread {
 				dos.reset();
 			} else {
 				System.out.println("sendPacket : socket closed");
+				close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
