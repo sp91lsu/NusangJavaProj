@@ -150,9 +150,6 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 			button_9.setEnabled(false);
 			button_6.setEnabled(false);// 좌석 연장 버튼 비활성화
 		}
-		System.out.println("오늘 남은 시간" + todayRemainTime);
-
-		System.out.println("남은시간");
 		if (todayRemainTime > 0)// 예약했으면
 		{
 			button_1.setEnabled(false);// 개인룸 이용 버튼 비활성화
