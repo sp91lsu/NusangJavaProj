@@ -122,12 +122,11 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScBuyLockerAck.class) {
 			ScBuyLockerAck packetAck = (ScBuyLockerAck) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-
 				userData.locker = packetAck.myLocker;
 				BaseFrame.getInstance().openMainLayout(null, null, null, packetAck.lockerList);
-
+				AlreadyUsePop pop = new AlreadyUsePop("구매완료되었습니다.");
 			} else if (packetAck.eResult == EResult.ALEADY_EXIST_DATA) {
-				AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 라커입니다.");
+				AlreadyUsePop pop = new AlreadyUsePop("이미 사용 중인 라커입니다.");
 			} else {
 				System.out.println("사물함 결제 실패");
 			}
@@ -154,7 +153,7 @@ public class BaseFrame extends JFrame implements Receivable {
 				}
 				AlreadyUsePop pop = new AlreadyUsePop("구매완료되었습니다.");
 			} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
-				AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 좌석입니다.");
+				AlreadyUsePop pop = new AlreadyUsePop("이미 사용 중인 좌석입니다.");
 			} else {
 				AlreadyUsePop pop = new AlreadyUsePop("<html>결제에 실패하였습니다.<br>관리자에게 문의해주세요<html>");
 			}
@@ -259,8 +258,6 @@ public class BaseFrame extends JFrame implements Receivable {
 				for (int i = 0; i < product.calendarList.size(); i++) {
 					Calendar cal = product.calendarList.get(i);
 					if (CalCal.isSameTime(field, cal, compCal)) {
-						System.out.println("cal" + cal.getTime());
-						System.out.println("compCal" + compCal.getTime());
 						if (clone == null) {
 							clone = product.getClone();
 						}
@@ -281,7 +278,6 @@ public class BaseFrame extends JFrame implements Receivable {
 
 		RoomProduct room = userData.getTodayRoom();
 
-		System.out.println("유저 오늘 방 정보 " + room);
 		if (room != null) {// 오늘 총 예약한 리스트
 			for (Calendar cal : room.calendarList) {
 				if (CalCal.isSameTime(Calendar.DATE, cal, current)) {
