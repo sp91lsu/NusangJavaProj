@@ -141,21 +141,18 @@ class MethChatConnectSyn implements ServerPacketMethod {
 			mc = MyServer.getInstance().findClient(ip);
 
 			if (mc != null && mc.chatClient == null) {
-				mc.chatClient = client;
-				break;
+				mc.chatClient = client; // 관리자 연결 시도
+
+				SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
+
+				// 관리자에게 채팅 요청
+				mc.sendPacket(toMchatSyn);
+				return;
 			}
 		}
 
-		SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
-
-		if (mc != null) {
-			mc.sendPacket(toMchatSyn);
-
-		} else {
-			ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
-			client.sendPacket(scConnectAck);
-			client.chatClient = null;
-		}
+		ScChatConnectAck scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
+		client.sendPacket(scConnectAck);
 	}
 }
 
@@ -166,24 +163,23 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 	public void receive(SocketClient client, PacketBase packet) {
 		MsChatConnectAck resPacket = (MsChatConnectAck) packet;
 
-		// SocketClient sc = client.chatClient;//
-		// MyServer.getInstance().findClient(resPacket.cIp);
-
 		ScChatConnectAck scConnectAck = null;
 
-		if (client.chatClient != null) {
-			if (resPacket.isConnect) {
-				// client.chatClient = sc;
+		if (resPacket.isConnect) {
+
+			if (client.chatClient.chatClient == null) {
 				scConnectAck = new ScChatConnectAck(EResult.SUCCESS);
 				client.chatClient.chatClient = client;
 				client.chatClient.sendPacket(scConnectAck);
 			} else {
-				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
-				client.chatClient.sendPacket(scConnectAck);
+				SMChatConnectSyn syn = new SMChatConnectSyn(EResult.ALREADY_OTHER_MANAGER_CONNECT, null);
+				client.sendPacket(syn);
 				client.chatClient = null;
 			}
 		} else {
-			System.out.println("client ip is null");
+			scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
+			client.chatClient.sendPacket(scConnectAck);
+			client.chatClient = null;
 		}
 	}
 }
