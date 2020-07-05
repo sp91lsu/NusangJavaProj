@@ -21,6 +21,7 @@ import client_p.ClientNet;
 import client_p.PacketMap;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import client_p.ui_p.BaseFrame;
 import client_p.ui_p.MyColor;
 import manager_p.ManagerWindow;
 import packetBase_p.EResult;
@@ -242,15 +243,17 @@ public class Chatting extends JPanel implements Receivable {
 		//채팅연결
 		if(packet.getClass() == SMChatConnectSyn.class) {
 			SMChatConnectSyn sccAck = (SMChatConnectSyn) packet;
-			if (sccAck.eResult == EResult.SUCCESS) {
-				System.out.println("채팅 연결 성공 하앍");
+			if(BaseFrame.getInstance().userData.cType.equals("1")) {
+				if (sccAck.eResult == EResult.SUCCESS) {
+					System.out.println("채팅 연결 성공 하앍");
 //						System.out.println(BaseFrame.getInstance().userData.name);
-				ChatReqDialog dialog = new ChatReqDialog(mw,sccAck);
-				userName = sccAck.userdata.name;
-
-				dialog.lbClientName.setText(sccAck.userdata.name);
-				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				dialog.setVisible(true);
+					ChatReqDialog dialog = new ChatReqDialog(mw,sccAck);
+					userName = sccAck.userdata.name;
+					
+					dialog.lbClientName.setText(sccAck.userdata.name);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				}
 			}
 		}
 		

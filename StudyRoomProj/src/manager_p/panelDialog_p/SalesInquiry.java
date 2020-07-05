@@ -243,6 +243,7 @@ public class SalesInquiry extends JPanel implements Receivable {
 		panel_9.setLayout(gbl_panel_9);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
