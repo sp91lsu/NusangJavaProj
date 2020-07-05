@@ -41,6 +41,7 @@ public class Chatting extends JPanel implements Receivable {
 	public String chatEnd="님과 채팅이 종료되었습니다.";
 	public String chatStart="님과 채팅 중입니다.";
 	public boolean isChatting = false;
+	public boolean amIstopChat = false;
 	public JTextArea textArea;
 	public JTextField textField;
 	private JScrollPane scrollPane_Chat;
@@ -256,7 +257,7 @@ public class Chatting extends JPanel implements Receivable {
 		//채팅
 		if(packet.getClass() == ScChatBroadCast.class) {
 			ScChatBroadCast scChat = (ScChatBroadCast)packet;
-			if(scChat.isEnd) {
+			if(scChat.isEnd && !amIstopChat) {
 				btnTerminate.setEnabled(false);
 				textArea.setText(textArea.getText()+"\n"+"["+userName+"]"+"님이 채팅을 종료하였습니다.");
 				ChkDialog endMsg = new ChkDialog("["+userName+"]"+"님이 채팅을 종료하였습니다.");

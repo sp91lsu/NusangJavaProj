@@ -8,7 +8,7 @@ import packetBase_p.ResultPacketBase;
 
 public class ScChatBroadCast extends ResultPacketBase {
 
-	String text;
+	String text="";
 	public boolean isEnd;
 
 	public ScChatBroadCast(EResult eResult, String text, boolean isEnd) {

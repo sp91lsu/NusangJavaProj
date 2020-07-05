@@ -89,12 +89,12 @@ private JButton bf;
       yearInfoL = new JLabel(setYear + "³â");
       yearInfoL.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
       yearInfoL.setHorizontalAlignment(SwingConstants.CENTER);
-      yearInfoL.setBounds(186, 10, 90, 30);
+      yearInfoL.setBounds(212, 10, 90, 30);
       mapPane.add(yearInfoL);
 
       JPanel calendarPane = new JPanel();
       calendarPane.setBackground(Color.WHITE);
-      calendarPane.setBounds(12, 39, 440, 340);
+      calendarPane.setBounds(35, 38, 440, 340);
       mapPane.add(calendarPane);
       calendarPane.setLayout(null);
       calendarPane.setLayout(null);

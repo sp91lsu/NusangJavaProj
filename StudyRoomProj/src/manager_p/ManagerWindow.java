@@ -93,11 +93,11 @@ public class ManagerWindow extends JFrame implements Receivable {
 			}
 		});
 
-		tabbedPane.addTab("회원관리", pnl_Member);
+		tabbedPane.addTab("회원조회", pnl_Member);
 		
 		tabbedPane.addTab("1:1 문의 채팅", pnl_Chatting);
 		
-		tabbedPane.addTab("예약 관리", pnl_ResvInquiry);
+		tabbedPane.addTab("예약 조회", pnl_ResvInquiry);
 
 		tabbedPane.addTab("요금 관리", pnl_SetPrice);
 

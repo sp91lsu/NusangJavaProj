@@ -72,6 +72,7 @@ public class ChatReqDialog extends JDialog {
 						MsChatConnectAck packet = new MsChatConnectAck(true);
 						CsChatSyn csc = new CsChatSyn();
 						mw.pnl_Chatting.btnTerminate.setEnabled(true);
+						mw.pnl_Chatting.amIstopChat = false;
 						mw.pnl_Chatting.chatSyn = csc;
 						ClientNet.getInstance().sendPacket(packet);
 						mw.pnl_Chatting.textArea.setText("");

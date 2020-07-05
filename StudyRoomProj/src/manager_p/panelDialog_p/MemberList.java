@@ -224,6 +224,7 @@ public class MemberList extends JPanel implements Receivable {
 		panel_7.add(btnNewButton_2, gbc_btnNewButton_2);
 
 		JPanel panel_21 = new JPanel();
+		panel_21.setBackground(Color.DARK_GRAY);
 		GridBagConstraints gbc_panel_21 = new GridBagConstraints();
 		gbc_panel_21.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_21.fill = GridBagConstraints.BOTH;
@@ -233,6 +234,8 @@ public class MemberList extends JPanel implements Receivable {
 		panel_21.setLayout(new GridLayout(0, 1, 0, 0));
 
 		lbSearch = new JLabel("");
+		lbSearch.setBackground(Color.DARK_GRAY);
+		lbSearch.setForeground(Color.WHITE);
 		panel_21.add(lbSearch);
 
 		panel_6 = new JPanel();

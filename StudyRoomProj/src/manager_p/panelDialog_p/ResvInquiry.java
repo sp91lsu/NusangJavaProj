@@ -25,6 +25,7 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -82,7 +83,7 @@ public class ResvInquiry extends JPanel implements Receivable {
 		scrollPane_12.setBounds(73, 407, 842, 311);
 		panel_3.add(scrollPane_12);
 
-		contentsResvs = new String[1][headerResvs.length];
+		contentsResvs = new String[0][headerResvs.length];
 		dTable5 = new DefaultTableModel(contentsResvs, headerResvs);
 		table = new JTable(dTable5);
 		table.setForeground(Color.DARK_GRAY);
@@ -92,6 +93,9 @@ public class ResvInquiry extends JPanel implements Receivable {
 		table.getColumn("¿¹¾à½Ã°£").setPreferredWidth(400);
 		table.setRowHeight(27);
 		table.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
+		JTableHeader tableHeader2 = table.getTableHeader();
+	      Font headerFont2 = new Font("¸¼Àº °íµñ", Font.BOLD, 17);
+	      tableHeader2.setFont(headerFont2);
 		table.setFillsViewportHeight(true);
 		scrollPane_12.setViewportView(table);
 		
@@ -125,6 +129,9 @@ public class ResvInquiry extends JPanel implements Receivable {
 			table.getColumn("¿¹¾à½Ã°£").setPreferredWidth(400);
 			table.setRowHeight(27);
 			table.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
+			JTableHeader tableHeader2 = table.getTableHeader();
+		      Font headerFont2 = new Font("¸¼Àº °íµñ", Font.BOLD, 17);
+		      tableHeader2.setFont(headerFont2);
 			table.setFillsViewportHeight(true);
 			scrollPane_12.setViewportView(table);
 

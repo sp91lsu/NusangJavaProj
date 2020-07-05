@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import client_p.ClientNet;
 import client_p.PacketMap;
@@ -50,13 +51,21 @@ public class SetPrice extends JPanel implements Receivable {
 			contents[i][2] = "¿ø";
 			
 			//¿ä±Ý Å×ÀÌºí
-			tableModel = new DefaultTableModel(contents, header);
+			tableModel = new DefaultTableModel(contents, header) {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					if(column == 0 || column == 2)
+						return false;
+					return super.isCellEditable(row, column);
+				}
+			};
 			table = new JTable(tableModel);
 			table.setRowHeight(27);
 			table.setFillsViewportHeight(true);
 			table.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
-//			table.setBackground(Color.DARK_GRAY);
-//			table.setForeground(Color.WHITE);
+			JTableHeader tableHeader2 = table.getTableHeader();
+		      Font headerFont2 = new Font("¸¼Àº °íµñ", Font.BOLD, 17);
+		      tableHeader2.setFont(headerFont2);
 			scrollPane_6_2.setViewportView(table);
 			
 		}

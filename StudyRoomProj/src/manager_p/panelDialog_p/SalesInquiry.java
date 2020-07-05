@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -570,8 +571,9 @@ public class SalesInquiry extends JPanel implements Receivable {
 			table_Record.setRowHeight(27);
 			table_Record.setFillsViewportHeight(true);
 			table_Record.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
-//			table_Record.setBackground(Color.DARK_GRAY);
-//			table_Record.setForeground(Color.WHITE);
+			JTableHeader tableHeader2 = table_Record.getTableHeader();
+		      Font headerFont2 = new Font("¸¼Àº °íµñ", Font.BOLD, 17);
+		      tableHeader2.setFont(headerFont2);
 			scrPane_SalesRecord.setViewportView(table_Record);
 		
 		//scrPane_SalesBySeat
@@ -589,8 +591,9 @@ public class SalesInquiry extends JPanel implements Receivable {
 			table_Seat.setRowHeight(27);
 			table_Seat.setFillsViewportHeight(true);
 			table_Seat.setFont(new Font("»õ±¼¸²", Font.PLAIN, 25));
-//			table_Seat.setBackground(Color.DARK_GRAY);
-//			table_Seat.setForeground(Color.WHITE);
+			JTableHeader tableHeader = table_Seat.getTableHeader();
+		      Font headerFont = new Font("¸¼Àº °íµñ", Font.BOLD, 17);
+		      tableHeader.setFont(headerFont);
 			scrPane_SalesBySeat.setViewportView(table_Seat);
 			
 		//SalesTot
