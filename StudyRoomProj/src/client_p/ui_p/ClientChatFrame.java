@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsChatSyn;
+import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
 
@@ -136,6 +137,10 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 		if (scChat.isEnd == true) {
 			textArea.setText("관리자가 채팅을 종료했습니다. 메인화면으로 3초뒤 이동합니다.");
+			new ChatClose().start();
+		}
+		if(scChat.eResult==EResult.DISCONNECT_CHAT) {
+			AlreadyUsePop pop = new AlreadyUsePop("<html>관리자와 연결이 끊어졌습니다.<br> 잠시 후 다시 시도해주세요.<html>");
 			new ChatClose().start();
 		}
 	}

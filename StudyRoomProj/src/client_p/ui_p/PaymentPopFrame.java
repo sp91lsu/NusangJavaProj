@@ -1,6 +1,5 @@
 package client_p.ui_p;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,15 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
-import client_p.Receivable;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
 import data_p.product_p.room_p.RoomProduct;
-import packetBase_p.ELoginType;
-import packetBase_p.EResult;
-import packetBase_p.PacketBase;
-import server_p.packet_p.ack_p.ScBuyRoomAck;
 
-public class PaymentPopFrame extends JDialog implements Receivable {
+public class PaymentPopFrame extends JDialog implements ActionListener {
 	RoomProduct room;
 
 	public PaymentPopFrame() {
@@ -33,28 +27,14 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 		JButton okBtn = new JButton("확인");
 		okBtn.setBounds(26, 55, 96, 36);
 		okBtn.setBackground(MyColor.jinBeige2);
-		okBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CsBuyRoomSyn packet = new CsBuyRoomSyn(room, BaseFrame.getInstance().userData.uuid, room.price);
-				ClientNet.getInstance().sendPacket(packet);
-				dispose();
-			}
-		});
+		okBtn.addActionListener(this);
 		getContentPane().add(okBtn);
 
 		JButton cancelBtn = new JButton("취소");
 		cancelBtn.setBounds(143, 55, 96, 36);
 		getContentPane().add(cancelBtn);
 		cancelBtn.setBackground(MyColor.jinBeige2);
-		cancelBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-
-			}
-		});
-
+		cancelBtn.addActionListener(this);
 		setVisible(false);
 		setUndecorated(true);
 	}
@@ -66,32 +46,14 @@ public class PaymentPopFrame extends JDialog implements Receivable {
 	}
 
 	@Override
-	public void receive(PacketBase packet) {
-		ScBuyRoomAck ack = (ScBuyRoomAck) packet;
-		JDialog jd = new JDialog();
-		jd.getContentPane().setLayout(new GridLayout(2, 1));
-		jd.setBounds(50, 50, 150, 150);
-		JLabel jl = new JLabel("");
-		JButton jb = new JButton("확인");
-
-		if (ack.eResult == EResult.SUCCESS) {
-			jl.setText("결제완료");
-			BaseFrame.getInstance().openMainLayout(ack.roomList, ack.myReserList, ack.exitList, null);
-			if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
-				BaseFrame.getInstance().view("LoginMain");
-			}
-		} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
-			AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 좌석입니다.");
-		} else
-			jl.setText("결제실패");
-
-		jb.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		jd.getContentPane().add(jl);
-		jd.getContentPane().add(jb);
+	public void actionPerformed(ActionEvent e) {
+		JButton btn = (JButton) e.getSource();
+		if (btn.getText().equals("확인")) {
+			CsBuyRoomSyn packet = new CsBuyRoomSyn(room, BaseFrame.getInstance().userData.uuid, room.price);
+			ClientNet.getInstance().sendPacket(packet);
+			dispose();
+		} else if (btn.getText().equals("취소")) {
+			dispose();
+		}
 	}
 }

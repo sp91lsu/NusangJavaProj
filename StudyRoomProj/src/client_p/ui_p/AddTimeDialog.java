@@ -194,7 +194,6 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 		roomProduct.calendarList = myCalList;
 		CsBuyRoomSyn packet = new CsBuyRoomSyn(roomProduct, BaseFrame.getInstance().userData.uuid, addPri);
 		ClientNet.getInstance().sendPacket(packet);
-		AlreadyUsePop pop = new AlreadyUsePop("시간이 연장되었습니다.");
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import server_p.packet_p.ack_p.ScExitAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.ack_p.ScUnVerifiedAck;
 import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.broadCast.ScBuyLockerCast;
 import server_p.packet_p.broadCast.ScChatBroadCast;
@@ -39,7 +40,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public ArrayList<JPanel> jPanelArrl = new ArrayList<JPanel>();
 	public ArrayList<RoomProduct> roomInfoList = new ArrayList<RoomProduct>();
 	public ArrayList<LockerData> lockerlist = new ArrayList<LockerData>();
-	public ELoginType loginType = ELoginType.MOBILE;
+	public ELoginType loginType = ELoginType.KIOSK;
 	private static BaseFrame instance;
 
 	public static BaseFrame getInstance() {
@@ -71,17 +72,17 @@ public class BaseFrame extends JFrame implements Receivable {
 		view("LoginMain");
 		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) jPanelArrl.get(0)); // 로그인
 		PacketMap.getInstance().map.put(ScSignUpAck.class, signUpFrame); // 회원가입
-		PacketMap.getInstance().map.put(ScBuyRoomAck.class, paymentPop);// 결제
+		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, signUpFrame);
 		PacketMap.getInstance().map.put(ScChatConnectAck.class, (Receivable) jPanelArrl.get(1));
 		PacketMap.getInstance().map.put(ScChatBroadCast.class, (Receivable) jPanelArrl.get(4));
-		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScMoveSeatAck.class, (Receivable) jPanelArrl.get(2));
 		PacketMap.getInstance().map.put(ScExitAck.class, (Receivable) jPanelArrl.get(1));
+		PacketMap.getInstance().map.put(ScRoomInfoBroadCast.class, this);
 		PacketMap.getInstance().map.put(ScBuyLockerCast.class, this);
-		PacketMap.getInstance().map.put(ScDuplicateIDAck.class, signUpFrame);
 		PacketMap.getInstance().map.put(ScBuyLockerAck.class, this);
 		PacketMap.getInstance().map.put(ScUpdateRoomInfoAck.class, this);
-
+		PacketMap.getInstance().map.put(ScUnVerifiedAck.class, this);
+		PacketMap.getInstance().map.put(ScBuyRoomAck.class, this);// 결제
 	}
 
 	void addToBaseFrame(JPanel jp) {
@@ -133,13 +134,29 @@ public class BaseFrame extends JFrame implements Receivable {
 		} else if (packet.getClass() == ScUpdateRoomInfoAck.class) {
 			ScUpdateRoomInfoAck packetAck = (ScUpdateRoomInfoAck) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
-
 				updateData(packetAck.roomListAll, packetAck.myReserList, packetAck.myExitList, packetAck.lockerList);
 				if (getMainLayout().isVisible()) {
 					openMainLayout(null, null, null, null);
 				}
 			} else {
 				System.out.println("ScUpdateRoomInfoAck에러");
+			}
+		} else if (packet.getClass() == ScUnVerifiedAck.class) {
+			AlreadyUsePop pop = new AlreadyUsePop("<html>가격정보가 변동되었습니다.<br>다시 시도해주세요<html>");
+		} else if (packet.getClass() == ScBuyRoomAck.class) {
+			ScBuyRoomAck ack = (ScBuyRoomAck) packet;
+
+			if (ack.eResult == EResult.SUCCESS) {
+				if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
+					BaseFrame.getInstance().view("LoginMain");
+				} else {
+					BaseFrame.getInstance().openMainLayout(ack.roomList, ack.myReserList, ack.exitList, null);
+				}
+				AlreadyUsePop pop = new AlreadyUsePop("구매완료되었습니다.");
+			} else if (ack.eResult == EResult.ALEADY_EXIST_DATA) {
+				AlreadyUsePop pop = new AlreadyUsePop("이미 사용중인 좌석입니다.");
+			} else {
+				AlreadyUsePop pop = new AlreadyUsePop("<html>결제에 실패하였습니다.<br>관리자에게 문의해주세요<html>");
 			}
 		}
 	}
@@ -254,7 +271,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 		return clone;
 	}
-	
+
 	public long getTodayRemainTime() {
 
 		Calendar current = Calendar.getInstance();
