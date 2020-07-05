@@ -75,7 +75,8 @@ public class RoomNowDao extends DBProcess {
 			rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				pass = rs.getInt("ROOM_PRICE") == price;
+				int dbPrice = rs.getInt("ROOM_PRICE");
+				pass = dbPrice == price;
 			}
 
 		} catch (SQLException e) {

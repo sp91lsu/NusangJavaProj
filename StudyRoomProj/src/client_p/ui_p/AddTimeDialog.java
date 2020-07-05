@@ -30,6 +30,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 	Calendar last;
 
 	public AddTimeDialog() {
+
 		basePrice = (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().getUsingRoom().id).price;
 		addPri = basePrice;
 		int extension = timeChoice();
@@ -110,7 +111,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 					if (timeSelectCom.getSelectedItem() != null) {
 						timeChoice = (int) timeSelectCom.getSelectedItem();
 					}
-					addPri = (int) timeSelectCom.getSelectedItem() * (int) BaseFrame.getInstance().getUsingRoom().price;
+					addPri = (int) timeSelectCom.getSelectedItem() * basePrice;
 					priceInfoL.setText(addPri + "¿ø");
 				}
 			});
