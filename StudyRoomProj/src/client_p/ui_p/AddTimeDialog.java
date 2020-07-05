@@ -18,17 +18,18 @@ import javax.swing.SwingConstants;
 import client_p.CalCal;
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsBuyRoomSyn;
+import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 
 public class AddTimeDialog extends JDialog implements ActionListener {
 
 	JDialog timeEmpty;
 	int startTime, endTime, timeChoice = 0;
-	int addPri = (int) BaseFrame.getInstance().getUsingRoom().price;
+	int addPri = 0;
 	Calendar last;
 
 	public AddTimeDialog() {
-
+		addPri = (int) DataManager.getInstance().roomMap.get(BaseFrame.getInstance().getUsingRoom().id).price;
 		int extension = timeChoice();
 		if (extension > 0) {
 
