@@ -113,7 +113,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openMainLayout(null, null, null, null);
 				if (chatSyn != null) {
-					chatSyn.setText("[" + BaseFrame.getInstance().userData.name + "] 님이 채팅을 종료 했습니다.");
 					chatSyn.end();
 					ClientNet.getInstance().sendPacket(chatSyn);
 				}
