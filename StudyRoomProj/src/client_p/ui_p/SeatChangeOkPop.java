@@ -3,6 +3,7 @@ package client_p.ui_p;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -12,21 +13,36 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
+import data_p.product_p.room_p.RoomProduct;
 
 public class SeatChangeOkPop extends JDialog {
 
 	private JPanel contentPane;
 
-	public SeatChangeOkPop(int moveSeatID) {
-		setBounds(760, 440, 280, 200);
+	public SeatChangeOkPop(int moveSeatID, long priceGab) {
+
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		getContentPane().setBackground(MyColor.jinBeige);
 
-		JLabel lblNewLabel = new JLabel("이동하시겠습니까?");
+		JLabel lblNewLabel = new JLabel();
+
+		if (priceGab > 0) {
+			RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
+			lblNewLabel
+					.setText("<html>이동하시겠습니까? <br>추가 결제금액 : " + (priceGab * room.calendarList.size()) + "원<br><html>");
+			lblNewLabel.setBounds(0, 0, 280, 80);
+			setBounds(760, 440, 400, 200);
+		} else {
+			lblNewLabel.setText("이동하시겠습니까?");
+			lblNewLabel.setBounds(0, 0, 280, 80);
+			setBounds(760, 440, 280, 200);
+
+		}
+
 		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 25));
-		lblNewLabel.setBounds(0, 0, 280, 80);
+
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel);
 

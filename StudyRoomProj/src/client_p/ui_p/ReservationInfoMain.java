@@ -1,17 +1,15 @@
 package client_p.ui_p;
 
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-
-import client_p.EEnter;
-
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JTextArea;
 
-import java.awt.Color;
+import client_p.EEnter;
 
 public class ReservationInfoMain extends JDialog {
 

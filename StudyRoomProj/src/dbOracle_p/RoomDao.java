@@ -59,15 +59,25 @@ public class RoomDao extends DBProcess {
 	}
 
 	// 자리이동
-	public boolean moveSeat(String userUUID, RoomProduct originRoom, int moveID) {
+	public boolean moveSeat(String userUUID, RoomProduct room, int moveID) {
 
 		new RoomDao().updateExitRoom();
+		long price = room.price;
+
+		if (DataManager.getInstance().roomMap.get(moveID).price > price) {
+			price = DataManager.getInstance().roomMap.get(moveID).price;
+		}
+
 		try {
-			updateQuery(ETable.INVENTORY, "ID", "?",
+
+			String calum = getUpdateColum("ID", "PRICE");
+
+			updateQuery2(ETable.INVENTORY, calum,
 					"uuid = ? and startdate  < to_char(sysdate + 1,'yyyymmdd') and startdate >= to_char(sysdate,'yyyymmddhh24')");
 
 			stmt.setInt(1, moveID);
-			stmt.setString(2, userUUID);
+			stmt.setInt(2, (int) price);
+			stmt.setString(3, userUUID);
 			stmt.executeUpdate();
 
 		} catch (
@@ -286,9 +296,9 @@ public class RoomDao extends DBProcess {
 
 	// 예약한 룸정보 불러오기
 	public ArrayList<RoomProduct> findUserRoom(String uuid, boolean isExit) {
-		
-        new RoomDao().updateExitRoom();
-        
+
+		new RoomDao().updateExitRoom();
+
 		ArrayList<RoomProduct> roomList = new ArrayList<RoomProduct>();
 
 		int isExitNum = isExit ? 1 : 0;
@@ -373,10 +383,9 @@ public class RoomDao extends DBProcess {
 //
 //  GROUP BY substr(startdate,0,8);
 
-
 	public SalesData salesData(String year, String month, String day) {
-		//ex) year,month,day --> 2020/0/0 or 2020/12/0 or 2020/12/07
-		//ex) 
+		// ex) year,month,day --> 2020/0/0 or 2020/12/0 or 2020/12/07
+		// ex)
 		System.out.println("salesData 들어옴");
 		
 		//멤버변수 세팅
@@ -406,6 +415,7 @@ public class RoomDao extends DBProcess {
 			SalesData sd = null;
 		
 		
+
 //		// 공통으로 들어가는 쿼리문
 //			String primequery = "(select I.id, R.room_name, r.room_price, i.startdate, a.name, a.id as ida, CONCAT(R.room_name,a.id) as sort "
 //					+ "from inventory I , now_room_data R, account A " + "where I.id = r.room_id AND substr(i.startdate,0,"
@@ -420,8 +430,9 @@ public class RoomDao extends DBProcess {
 		String countquery = "(select distinct dates, room_id, room_name, room_price, name, id, personnum " + 
 				"from " + primequery + ") ";
 		
+
 		try {
-			
+
 			// 1. ArrayList<SalesRecord>
 				// 쿼리문작성
 				query = "select dates, room_id, room_name, personnum , sum(room_price), name, id ,SUBSTR(" + 
@@ -475,7 +486,6 @@ public class RoomDao extends DBProcess {
 				while (rs.next()) {
 					saleBySeatArrL.get(cnt++).sum = rs.getString(2);
 				}
-
 			// 3. ArrayList<SalesTot>
 				// 총 이용객수 <SalesTot.cntTot> = <SUM(PERSONNUM)> 쿼리문작성
 				query = "select substr(dates,0,"+dateSortN+"), sum(personnum) " + 
@@ -502,19 +512,19 @@ public class RoomDao extends DBProcess {
 					tot.sumTot = rs.getString(2);
 
 			// 4. SalesData ( 1,2,3 종합 )
-				sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
-				System.out.println("salesRecordArrL.size(): "+salesRecordArrL.size());
-				System.out.println("saleBySeatArrL.size(): "+saleBySeatArrL.size());
+			sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
+			System.out.println("salesRecordArrL.size(): " + salesRecordArrL.size());
+			System.out.println("saleBySeatArrL.size(): " + saleBySeatArrL.size());
 				
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-			System.out.println("salesData 맨끝");
-			
+
+		System.out.println("salesData 맨끝");
+
 		// 5. 종료
-			close();
-			return sd;
+		close();
+		return sd;
 	}
 }
