@@ -267,6 +267,9 @@ public class RoomDao extends DBProcess {
 					}
 				}
 				roomMap.get(pUid).totPrice += rs.getInt("PRICE");
+				if (roomMap.get(pUid).price < rs.getInt("PRICE")) {
+					roomMap.get(pUid).price = rs.getInt("PRICE");
+				}
 			}
 			rs.close();
 		} catch (Exception e) {
