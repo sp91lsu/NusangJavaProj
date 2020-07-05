@@ -50,6 +50,7 @@ public class ChatReqDialog extends JDialog {
 		contentPanel.add(lblNewLabel);
 
 		lbClientName = new JLabel(userName);
+		lbClientName.setForeground(Color.WHITE);
 		lbClientName.setBounds(42, 35, 129, 15);
 		contentPanel.add(lbClientName);
 

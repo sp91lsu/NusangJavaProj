@@ -181,14 +181,14 @@ public class ManagerWindow extends JFrame implements Receivable {
 		System.out.println(packet.getClass());
 
 
-		if (packet.getClass() == ScGetRoomDataAck.class) {
-			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
-			DataManager.getInstance().roomMap = ack.roomMap;
-			BaseFrame.getInstance().loginType = ELoginType.MANAGER;
-			pnl_SeatArrange = new Seating_Arrangement();
-			pnl_SeatArrange.openPage(EEnter.MOBILE);
-			tabbedPane.add("ÁÂ¼®/·ë Á¶È¸", pnl_SeatArrange);
-		}
+//		if (packet.getClass() == ScGetRoomDataAck.class) {
+//			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
+//			DataManager.getInstance().roomMap = ack.roomMap;
+//			BaseFrame.getInstance().loginType = ELoginType.MANAGER;
+//			pnl_SeatArrange = new Seating_Arrangement();
+//			pnl_SeatArrange.openPage(EEnter.MOBILE);
+////			tabbedPane.add("ÁÂ¼®/·ë Á¶È¸", pnl_SeatArrange);
+//		}
 
 		if (packet.getClass() == ScRoomInfoBroadCast.class) {
 			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;

@@ -76,23 +76,23 @@ public class SalesInquiry extends JPanel implements Receivable {
 				if(comBox_Sort.getSelectedItem().toString().equals("연")){
 					comBox_Month.setEnabled(false);
 					comBox_Day.setEnabled(false);
-					year = today.get(Calendar.YEAR)+"";
-					month = "0";
-					day = "0";
+//					year = today.get(Calendar.YEAR)+"";
+//					month = "0";
+//					day = "0";
 				}
 				if(comBox_Sort.getSelectedItem().toString().equals("월")){
 					comBox_Month.setEnabled(true);
 					comBox_Day.setEnabled(false);
-					year = today.get(Calendar.YEAR)+"";
-					month = comBox_Month.getSelectedItem().toString();
-					day = "0";
+//					year = today.get(Calendar.YEAR)+"";
+//					month = comBox_Month.getSelectedItem().toString();
+//					day = "0";
 				}
 				if(comBox_Sort.getSelectedItem().toString().equals("일")){
 					comBox_Month.setEnabled(true);
 					comBox_Day.setEnabled(true);
-					year = today.get(Calendar.YEAR)+"";
-					month = comBox_Month.getSelectedItem().toString();
-					day = comBox_Day.getSelectedItem().toString();
+//					year = today.get(Calendar.YEAR)+"";
+//					month = comBox_Month.getSelectedItem().toString();
+//					day = comBox_Day.getSelectedItem().toString();
 				}
 				break;
 					
@@ -151,6 +151,23 @@ public class SalesInquiry extends JPanel implements Receivable {
 				break;
 				
 			case "조회":
+				if(comBox_Sort.getSelectedItem().toString().equals("연")){
+					year = comBox_Year.getSelectedItem().toString();
+					month = "0";
+					day = "0";
+				}
+				if(comBox_Sort.getSelectedItem().toString().equals("월")){
+					year = comBox_Year.getSelectedItem().toString();
+					month = comBox_Month.getSelectedItem().toString();
+					day = "0";
+				}
+				if(comBox_Sort.getSelectedItem().toString().equals("일")){
+					year = comBox_Year.getSelectedItem().toString();
+					month = comBox_Month.getSelectedItem().toString();
+					day = comBox_Day.getSelectedItem().toString();
+				}
+				
+				
 				System.out.println(year+"/"+month+"/"+day);
 				MsSalesInquirySyn packet = new MsSalesInquirySyn(year, month, day);
 				ClientNet.getInstance().sendPacket(packet);

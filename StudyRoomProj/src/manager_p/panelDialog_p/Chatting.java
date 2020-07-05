@@ -253,7 +253,7 @@ public class Chatting extends JPanel implements Receivable {
 					dialog.lbClientName.setText(sccAck.userdata.name);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				}else if(sccAck.eResult == EResult.ALEADY_EXIST_DATA) {
+				}else if(sccAck.eResult == EResult.ALREADY_OTHER_MANAGER_CONNECT) {
 					new ChkDialog("이미 다른 관리자가 채팅 중입니다.");
 				}
 			}

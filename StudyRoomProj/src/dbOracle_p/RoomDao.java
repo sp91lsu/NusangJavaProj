@@ -476,12 +476,12 @@ public class RoomDao extends DBProcess {
 			System.out.println("이용석별 매출 쿼리문: " + query);
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
-
 			// ResultSet -> ArrL에 담기
 			int cnt = 0;
 			while (rs.next()) {
 				saleBySeatArrL.get(cnt++).sum = rs.getString(2);
 			}
+			System.out.println("saleBySeatArrL.size(): " + saleBySeatArrL.size());
 			// 3. ArrayList<SalesTot>
 			// 총 이용객수 <SalesTot.cntTot> = <SUM(PERSONNUM)> 쿼리문작성
 			query = "select substr(dates,0," + dateSortN + "), sum(personnum) " + "from " + countquery
@@ -502,11 +502,11 @@ public class RoomDao extends DBProcess {
 
 			if (rs.next())
 				tot.sumTot = rs.getString(2);
+			System.out.println("SalesTot: " + tot);
 
 			// 4. SalesData ( 1,2,3 종합 )
 			sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
-			System.out.println("salesRecordArrL.size(): " + salesRecordArrL.size());
-			System.out.println("saleBySeatArrL.size(): " + saleBySeatArrL.size());
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
