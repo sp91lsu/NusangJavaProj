@@ -252,7 +252,6 @@ public class RoomDao extends DBProcess {
 
 				if (roomMap.get(pUid).calendarList.size() == 0) {
 					roomMap.get(pUid).calendarList.add(cal);
-					roomMap.get(pUid).totPrice += rs.getInt("PRICE");
 				} else {
 					ArrayList<Calendar> calList = roomMap.get(pUid).calendarList;
 					boolean middleSet = false;
@@ -267,6 +266,7 @@ public class RoomDao extends DBProcess {
 						calList.add(cal);
 					}
 				}
+				roomMap.get(pUid).totPrice += rs.getInt("PRICE");
 			}
 			rs.close();
 		} catch (Exception e) {
