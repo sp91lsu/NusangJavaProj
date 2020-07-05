@@ -29,7 +29,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	private final static String newline = "\n";
 	String text = "";
 	JFrame window;
-	CsChatSyn chatSyn = null;
+	CsChatSyn chatSyn = new CsChatSyn();
 	private TextField keyChat;
 	JTextArea textArea;
 	private JScrollPane scrollPane;
@@ -125,10 +125,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		setVisible(true);
 	}
 
-	public void setChatPacket(CsChatSyn chatSyn) {
-		this.chatSyn = chatSyn;
-	}
-
 	@Override
 	public void receive(PacketBase packet) {
 		ScChatBroadCast scChat = (ScChatBroadCast) packet;
@@ -138,7 +134,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			textArea.setText("관리자가 채팅을 종료했습니다. 메인화면으로 3초뒤 이동합니다.");
 			new ChatClose().start();
 		}
-		if(scChat.eResult==EResult.DISCONNECT_CHAT) {
+		if (scChat.eResult == EResult.DISCONNECT_CHAT) {
 			AlreadyUsePop pop = new AlreadyUsePop("<html>관리자와 연결이 끊어졌습니다.<br> 잠시 후 다시 시도해주세요.<html>");
 			new ChatClose().start();
 		}
