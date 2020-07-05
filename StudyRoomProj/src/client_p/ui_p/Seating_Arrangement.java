@@ -444,7 +444,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				selectMonth.set(Calendar.YEAR, setYear);
 				selectMonth.set(Calendar.MONTH, setMonth - 1);
 				selectMonth.set(Calendar.DATE, 1);
-				System.out.println(">>>셋몬쓰 뭐야??>>>" + setMonth);
 				int last = selectMonth.getActualMaximum(Calendar.DATE);
 				if (BaseFrame.getInstance().loginType != ELoginType.KIOSK) {
 					if (nowYear == setYear && nowMonth == setMonth) {
@@ -747,8 +746,6 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 		ArrayList<RoomProduct> roomList = BaseFrame.getInstance().roomInfoList;
 		for (RoomProduct roomInfo : roomList) {
 			for (Calendar cal : roomInfo.calendarList) {
-				System.out.println("cal" + cal.getTime());
-				System.out.println("start" + start.getTime());
 				// 시간비교 => 년/월/일 비교
 				if (CalCal.isSameTime(Calendar.YEAR, cal, start) && CalCal.isSameTime(Calendar.MONTH, cal, start)
 						&& CalCal.isSameTime(Calendar.DATE, cal, start)) {

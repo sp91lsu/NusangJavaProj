@@ -137,10 +137,7 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 				last = cal;
 			}
 		}
-		System.out.println("내 마지막 시간 ");
 		int lastIdx = last.get(Calendar.HOUR_OF_DAY);
-		System.out.println(lastIdx);
-		System.out.println("바로 다음에 올 가장 짧은 시간 ");
 		int extension = 0;
 		Calendar next = null;
 
@@ -148,8 +145,6 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 			if (rp.id.equals(room.id)) {
 				for (Calendar calMe : rp.calendarList) {
 					int reserIdx = calMe.get(Calendar.HOUR_OF_DAY);
-
-					System.out.println("다음예약" + reserIdx);
 					if (CalCal.isSameTime(Calendar.DATE, last, calMe)) {
 
 						if (lastIdx < reserIdx) {
@@ -172,8 +167,6 @@ public class AddTimeDialog extends JDialog implements ActionListener {
 		} else {
 			extension = 23 - last.get(Calendar.HOUR_OF_DAY);
 		}
-		System.out.println("연장할 수 있는 시간 " + extension);
-
 		return extension;
 	}
 

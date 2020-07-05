@@ -296,7 +296,6 @@ public class BaseFrame extends JFrame implements Receivable {
 		}
 
 		if (start != null) {
-			System.out.println("마지막 끝나는 시간" + last.getTime());
 			// 오늘 예약한 남은시간
 			if (start.getTimeInMillis() < current.getTimeInMillis()) {
 				return (last.getTimeInMillis() + TimeUnit.HOURS.toMillis(1)) - current.getTimeInMillis();
