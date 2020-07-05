@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
 import client_p.packet_p.syn_p.CsMoveSeatSyn;
+import data_p.product_p.DataManager;
 import data_p.product_p.room_p.RoomProduct;
 
 public class SeatChangeOkPop extends JDialog {
@@ -52,7 +53,8 @@ public class SeatChangeOkPop extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				CsMoveSeatSyn packet = new CsMoveSeatSyn(BaseFrame.getInstance().userData.uuid,
-						BaseFrame.getInstance().getUsingRoom(), moveSeatID);
+						BaseFrame.getInstance().getUsingRoom(), moveSeatID,
+						DataManager.getInstance().roomMap.get(moveSeatID).price);
 				ClientNet.getInstance().sendPacket(packet);
 			}
 		});

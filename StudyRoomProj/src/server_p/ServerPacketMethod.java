@@ -46,6 +46,7 @@ import server_p.packet_p.ack_p.ScLogOutAck;
 import server_p.packet_p.ack_p.ScLoginAck;
 import server_p.packet_p.ack_p.ScMoveSeatAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
+import server_p.packet_p.ack_p.ScUnVerifiedAck;
 import server_p.packet_p.ack_p.ScUpdateRoomInfoAck;
 import server_p.packet_p.ack_p.SmAllMemListAck;
 import server_p.packet_p.ack_p.SmCurrMemListAck;
@@ -226,23 +227,30 @@ class MethBuyRoomSyn implements ServerPacketMethod {
 
 		// 타임별로 룸 구매
 		try {
-			if (new RoomDao().availableBuyRoom(recPacket.RoomProduct)) {
 
-				new RoomDao().insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
-				// roomDao.reset();
-				ArrayList<RoomProduct> roomList = new RoomDao().getReservationListAll();
-				// roomDao.reset();
+			if (new RoomNowDao().verifyRoom(recPacket.RoomProduct.id, recPacket.RoomProduct.price)) {
+				if (new RoomDao().availableBuyRoom(recPacket.RoomProduct)) {
 
-				ack = new ScBuyRoomAck(EResult.SUCCESS, roomList, new RoomDao().findUserRoom(recPacket.uuid, false),
-						new RoomDao().findUserRoom(recPacket.uuid, true));
-				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomList);
+					new RoomDao().insertRoomInfo(recPacket.uuid, recPacket.RoomProduct);
+					// roomDao.reset();
+					ArrayList<RoomProduct> roomList = new RoomDao().getReservationListAll();
+					// roomDao.reset();
 
-				MyServer.getInstance().broadCast(client, roomCast);
+					ack = new ScBuyRoomAck(EResult.SUCCESS, roomList, new RoomDao().findUserRoom(recPacket.uuid, false),
+							new RoomDao().findUserRoom(recPacket.uuid, true));
+					ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, roomList);
 
+					MyServer.getInstance().broadCast(client, roomCast);
+
+				} else {
+					ack = new ScBuyRoomAck(EResult.ALEADY_EXIST_DATA, null, null, null);
+				}
+
+				client.sendPacket(ack);
 			} else {
-				ack = new ScBuyRoomAck(EResult.ALEADY_EXIST_DATA, null, null, null);
+				client.sendPacket(new ScUnVerifiedAck(EResult.SUCCESS));
 			}
-			client.sendPacket(ack);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -260,27 +268,29 @@ class MethMoveSeatSyn implements ServerPacketMethod {
 
 		System.out.println("자리이동 ");
 		ScMoveSeatAck ack = null;
+		if (new RoomNowDao().verifyRoom(recPacket.moveSeatID, recPacket.movePrice)) {
+			// 타임별로 룸 구매
+			if (new RoomDao().availableMove(recPacket.moveSeatID)) {
 
-		// 타임별로 룸 구매
-		// RoomDao roomDao = new RoomDao();
-		if (new RoomDao().availableMove(recPacket.moveSeatID)) {
+				new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
 
-			new RoomDao().moveSeat(recPacket.userUUID, recPacket.originRoom, recPacket.moveSeatID);
+				// roomDao.reset();
+				ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
+				// roomDao.reset();
+				ArrayList<RoomProduct> myReserList = new RoomDao().findUserRoom(recPacket.userUUID, false);
+				ArrayList<RoomProduct> myExitList = new RoomDao().findUserRoom(recPacket.userUUID, true);
+				ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList, myExitList);
 
-			// roomDao.reset();
-			ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
-			// roomDao.reset();
-			ArrayList<RoomProduct> myReserList = new RoomDao().findUserRoom(recPacket.userUUID, false);
-			ArrayList<RoomProduct> myExitList = new RoomDao().findUserRoom(recPacket.userUUID, true);
-			ack = new ScMoveSeatAck(EResult.SUCCESS, reserListAll, myReserList, myExitList);
+				ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
 
-			ScRoomInfoBroadCast roomCast = new ScRoomInfoBroadCast(EResult.SUCCESS, reserListAll);
-
-			MyServer.getInstance().broadCast(client, roomCast);
+				MyServer.getInstance().broadCast(client, roomCast);
+			} else {
+				ack = new ScMoveSeatAck(EResult.ALEADY_EXIST_DATA, null, null, null);
+			}
+			client.sendPacket(ack);
 		} else {
-			ack = new ScMoveSeatAck(EResult.ALEADY_EXIST_DATA, null, null, null);
+			client.sendPacket(new ScUnVerifiedAck(EResult.SUCCESS));
 		}
-		client.sendPacket(ack);
 
 		// roomDao.close();
 	}

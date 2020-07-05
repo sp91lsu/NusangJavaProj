@@ -80,10 +80,8 @@ class MyServer {
 	public synchronized SocketClient findClient(String address) {
 		for (SocketClient packetClient : clientList) {
 
-			System.out.println("관리자 아이피 찾기");
-			System.out.println(packetClient.socket.getInetAddress().toString());
-			if (packetClient.socket.getInetAddress().toString().equals(address)) {
-				System.out.println("찾앗다!");
+			if (packetClient.socket.isConnected() && !packetClient.socket.isClosed()
+					&& packetClient.socket.getInetAddress().toString().equals(address)) {
 
 				return packetClient;
 			}
