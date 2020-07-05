@@ -710,6 +710,8 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 			JButton select = (JButton) e.getSource();
 			select.setBackground(new Color(135, 206, 250));
 
+			roomObj.room.price = DataManager.getInstance().roomMap.get(roomObj.room.id).price;
+		
 			if (enterType == EEnter.SEATCHANGE)// 좌석이동중이 아닐때
 			{
 				long priceGab = roomObj.room.price - BaseFrame.getInstance().getUsingRoom().price;
@@ -720,7 +722,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 				// 업데이트 된 가격 새로 복사
 				// 페이지 여는 순간 현재 상품 복사
 				roomObj.room.setInfo(BaseFrame.getInstance().userData.uuid, createBuyData());
-				roomObj.room.price = DataManager.getInstance().roomMap.get(roomObj.room.id).price;
+
 				BaseFrame.getInstance().rCalcFrame.openPage(roomObj.room);
 				// BaseFrame.getInstance().payment.resPossibleChk();
 			}
