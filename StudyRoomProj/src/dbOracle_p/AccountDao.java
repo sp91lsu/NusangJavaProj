@@ -182,26 +182,15 @@ public class AccountDao extends DBProcess {
 	}
 
 	public ArrayList<UserData> getCurrentUserList() throws Exception {
-		ArrayList<String> uuidList = new ArrayList<String>();
 		ArrayList<UserData> userList = new ArrayList<UserData>();
-		findQuery(ETable.INVENTORY, "UUID",
-				"startdate = to_char(sysdate,'yyyymmddhh24') and isexit = 0");
+		
+		query = "select name,a.id,phone,r.room_name from inventory I, account A,now_room_data R where startdate = to_char(sysdate,'yyyymmddhh24') and isexit = 0 and i.uuid = a.uuid and I.id = r.room_id  order by name";
+		stmt = con.prepareStatement(query);
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
-			uuidList.add(rs.getString("uuid"));
-		}
-
-		for (String str : uuidList) {
-			String s = "UUID = " + "'" + str + "'";
-			findQuery(ETable.ACCOUNT, "*", s);
-			stmt = con.prepareStatement(query);
-			rs = stmt.executeQuery();
-			if(rs.next()) {
-				UserData userdata = rsToUser(rs);
+				UserData userdata = new UserData(rs.getString("name"), rs.getString("id"), rs.getString("phone"), rs.getString("room_name"));
 				userList.add(userdata);
-			}
-			
 		}
 
 		close();

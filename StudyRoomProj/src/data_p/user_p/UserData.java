@@ -19,6 +19,7 @@ public class UserData extends PacketData {
 	public String phone; // 폰
 	public String birth; // 생일
 	public String cType; // 로그인 타입 (일반,관리자(데이터베이스에 있는 키값을 보내야 함))
+	public String nowRoomName;
 
 	public ArrayList<RoomProduct> exitList = new ArrayList<RoomProduct>();
 	public ArrayList<RoomProduct> myReservationList = new ArrayList<RoomProduct>();
@@ -44,6 +45,13 @@ public class UserData extends PacketData {
 		this.phone = phone;
 		this.birth = birth;
 		this.cType = cType;
+	}
+	
+	public UserData(String name, String id, String phone, String nowRoomName) {
+		this.name = name;
+		this.id = id;
+		this.phone = phone;
+		this.nowRoomName = nowRoomName;
 	}
 
 	public void setReserRoom(ArrayList<RoomProduct> myReservationList) {

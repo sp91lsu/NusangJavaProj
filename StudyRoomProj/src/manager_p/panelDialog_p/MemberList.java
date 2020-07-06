@@ -54,7 +54,8 @@ public class MemberList extends JPanel implements Receivable {
 	private String idxNameMemS;
 	private String contentsMemS;
 	private String searchList[] = new String[] { "이름", "ID", "휴대폰 번호" };
-	private String[] headerMem = new String[] { "이름", "ID", "휴대폰번호", "생년월일" };
+	private String[] headerMemCurr = new String[] { "이름", "ID", "휴대폰번호", "이용석" };
+	private String[] headerMem = new String[] { "이름", "ID", "휴대폰번호"};
 	private String contentsAllMem[][];
 	private String[][] contentsMemSearch = new String[1][headerMem.length];
 	private JTable table_1;
@@ -254,7 +255,7 @@ public class MemberList extends JPanel implements Receivable {
 		panel_6.add("scrollPane_3", scrollPane_3);
 
 		contentsCurrMem = new String[][] {};
-		dTable = new DefaultTableModel(contentsCurrMem, headerMem);
+		dTable = new DefaultTableModel(contentsCurrMem, headerMemCurr);
 		table_1 = new JTable(dTable);
 		table_1.setRowHeight(27);
 		table_1.setFillsViewportHeight(true);
@@ -308,14 +309,14 @@ public class MemberList extends JPanel implements Receivable {
 		// 현재 이용중 고객
 		if (packet.getClass() == SmCurrMemListAck.class) {
 			SmCurrMemListAck currAck = (SmCurrMemListAck) packet;
-			contentsCurrMem = new String[currAck.userList.size()][headerMem.length];
+			contentsCurrMem = new String[currAck.userList.size()][headerMemCurr.length];
 			for (int i = 0; i < currAck.userList.size(); i++) {
 				contentsCurrMem[i][0] = currAck.userList.get(i).name;
 				contentsCurrMem[i][1] = currAck.userList.get(i).id;
 				contentsCurrMem[i][2] = currAck.userList.get(i).phone;
-				contentsCurrMem[i][3] = currAck.userList.get(i).birth;
+				contentsCurrMem[i][3] = currAck.userList.get(i).nowRoomName;
 			}
-			dTable = new DefaultTableModel(contentsCurrMem, headerMem);
+			dTable = new DefaultTableModel(contentsCurrMem, headerMemCurr);
 			table_1 = new JTable(dTable);
 			table_1.setRowHeight(27);
 			table_1.setFillsViewportHeight(true);
@@ -337,7 +338,6 @@ public class MemberList extends JPanel implements Receivable {
 				contentsAllMem[i][0] = ack.userList.get(i).name;
 				contentsAllMem[i][1] = ack.userList.get(i).id;
 				contentsAllMem[i][2] = ack.userList.get(i).phone;
-				contentsAllMem[i][3] = ack.userList.get(i).birth;
 			}
 			dTable2 = new DefaultTableModel(contentsAllMem, headerMem);
 			table_5 = new JTable(dTable2);
@@ -409,7 +409,6 @@ public class MemberList extends JPanel implements Receivable {
 				contentsMemSearch[i][0] = searchedUD_ArrL.get(i).name;
 				contentsMemSearch[i][1] = searchedUD_ArrL.get(i).id;
 				contentsMemSearch[i][2] = searchedUD_ArrL.get(i).phone;
-				contentsMemSearch[i][3] = searchedUD_ArrL.get(i).birth;
 			}
 
 			dTable3 = new DefaultTableModel(contentsMemSearch, headerMem);
