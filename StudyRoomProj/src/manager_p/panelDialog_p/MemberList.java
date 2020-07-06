@@ -210,6 +210,23 @@ public class MemberList extends JPanel implements Receivable {
 
 		// 관리 - 검색 입력 텍스트필드
 		textField_1 = new JTextField();
+		textField_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (textField_1.getText().equals("")) {
+					lbSearch.setText("내용을 입력해주세요.");
+				} else {
+					lbSearch.setText("");
+					idxNameMemS = comboBox.getSelectedItem().toString();
+					contentsMemS = textField_1.getText();
+					textField_1.setText("");
+					MsMemSearchSyn packet = new MsMemSearchSyn();
+					ClientNet.getInstance().sendPacket(packet);
+					cl_panel_6.show(panel_6, "scrollPane_3_2");
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;

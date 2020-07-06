@@ -71,7 +71,7 @@ public class ResvInquiry extends JPanel implements Receivable {
 
 		CalendarTest cal = new CalendarTest(mw);
 		cal.setBackground(Color.WHITE);
-		cal.setBounds(197, 24, 502, 362);
+		cal.setBounds(222, 24, 502, 362);
 		panel_3.add(cal);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -80,7 +80,7 @@ public class ResvInquiry extends JPanel implements Receivable {
 
 		scrollPane_12 = new JScrollPane();
 		scrollPane_12.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_12.setBounds(44, 408, 842, 311);
+		scrollPane_12.setBounds(59, 409, 842, 311);
 		panel_3.add(scrollPane_12);
 
 		contentsResvs = new String[0][headerResvs.length];
