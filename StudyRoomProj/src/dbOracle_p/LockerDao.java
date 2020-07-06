@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import client_p.CalCal;
+import client_p.ui_p.BaseFrame;
 import data_p.product_p.DataManager;
 import data_p.product_p.LockerData;
 import data_p.product_p.room_p.RoomProduct;
@@ -125,5 +127,39 @@ public class LockerDao extends DBProcess {
 			close();
 		}
 		return true;
+	}
+
+	public void updateLocker() {
+		try {
+			findQuery(ETable.LOCKER, "*", "ISEXIT = 0");
+
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				String uuid = rs.getString("uuid");
+				boolean usingLocker = false;
+				ArrayList<RoomProduct> roomList = new RoomDao().findUserRoom(uuid, false);
+
+				for (RoomProduct room : roomList) {
+					for (Calendar cal : room.calendarList) {
+						if (CalCal.isSameTime(Calendar.HOUR_OF_DAY, Calendar.getInstance(), cal)) {
+							usingLocker = true;
+							break;
+						}
+					}
+					if (usingLocker) {
+						break;
+					}
+				}
+				if (!usingLocker) {
+					new LockerDao().exitLocker(uuid);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
 	}
 }

@@ -74,11 +74,11 @@ class MethLoginSyn implements ServerPacketMethod {
 
 		UserData userData = null;
 		ScLoginAck ack = null;
+
 		try {
 			userData = new AccountDao().loginUser(idOrPhone, recPacket.id, recPacket.pw);
-
+			new LockerDao().updateLocker();
 			if (userData != null) {
-
 				new AccountDao().ipCheck(userData.uuid, client.socket.getInetAddress().toString());
 				userData.setReserRoom(new RoomDao().findUserRoom(userData.uuid, false));
 				userData.setExitRoom(new RoomDao().findUserRoom(userData.uuid, true));
@@ -353,10 +353,12 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
 		CsUpdateRoomSyn resPacket = (CsUpdateRoomSyn) packet;
-
+	
 		ArrayList<RoomProduct> myReserList = new RoomDao().findUserRoom(resPacket.uuid, false);
 		ArrayList<RoomProduct> exitList = new RoomDao().findUserRoom(resPacket.uuid, true);
 		ArrayList<RoomProduct> reserAll = new RoomDao().getReservationListAll();
+		
+		new LockerDao().updateLocker();
 		ArrayList<LockerData> lockerList = new LockerDao().getLockerIDList();
 		try {
 			ScUpdateRoomInfoAck roomAck = new ScUpdateRoomInfoAck(EResult.SUCCESS, reserAll, myReserList, exitList,
