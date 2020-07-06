@@ -76,7 +76,7 @@ class MethLoginSyn implements ServerPacketMethod {
 		ScLoginAck ack = null;
 
 		try {
-			userData = new AccountDao().loginUser(idOrPhone, recPacket.id, recPacket.pw);
+			userData = new AccountDao().loginUser(idOrPhone, recPacket.id, recPacket.pw, recPacket.cType);
 			new LockerDao().updateLocker();
 			if (userData != null) {
 				new AccountDao().ipCheck(userData.uuid, client.socket.getInetAddress().toString());
@@ -88,7 +88,6 @@ class MethLoginSyn implements ServerPacketMethod {
 
 			} else {
 				ack = new ScLoginAck(EResult.NOT_FOUND_DATA, null, null, null);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +143,8 @@ class MethChatConnectSyn implements ServerPacketMethod {
 
 			if (mc != null && mc.chatClient == null) {
 				mc.chatClient = client; // 관리자 연결 시도
-
+				System.out.println("관리자 : " + mc.socket.getInetAddress());
+				System.out.println("클라 : " + client.socket.getInetAddress());
 				SMChatConnectSyn toMchatSyn = new SMChatConnectSyn(EResult.SUCCESS, resPacket.userData);
 
 				// 관리자에게 채팅 요청
@@ -171,8 +171,12 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 
 		if (resPacket.isConnect) {
 
+			System.out.println("클라 : " + client.socket.getInetAddress());
+			// 관리자와 매칭되는 크랄이언트의 관리자가 null이면
 			if (client.chatClient.chatClient == null) {
+
 				scConnectAck = new ScChatConnectAck(EResult.SUCCESS);
+				// 매칭되는 관리자할당
 				client.chatClient.chatClient = client;
 				client.chatClient.sendPacket(scConnectAck);
 			} else {
@@ -182,6 +186,7 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 			}
 		} else {
 
+			System.out.println("클라 : " + client.socket.getInetAddress());
 			if (MyServer.getInstance().cntChatClient(client.chatClient) < 2) {
 				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
 				client.chatClient.sendPacket(scConnectAck);
@@ -353,11 +358,11 @@ class MethUpdateRoomSyn implements ServerPacketMethod {
 
 	public void receive(SocketClient client, PacketBase packet) {
 		CsUpdateRoomSyn resPacket = (CsUpdateRoomSyn) packet;
-	
+
 		ArrayList<RoomProduct> myReserList = new RoomDao().findUserRoom(resPacket.uuid, false);
 		ArrayList<RoomProduct> exitList = new RoomDao().findUserRoom(resPacket.uuid, true);
 		ArrayList<RoomProduct> reserAll = new RoomDao().getReservationListAll();
-		
+
 		new LockerDao().updateLocker();
 		ArrayList<LockerData> lockerList = new LockerDao().getLockerIDList();
 		try {

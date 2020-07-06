@@ -7,11 +7,13 @@ public class CsLoginSyn extends PacketBase {
 	public String id;
 	public String pw;
 	public boolean isID;
+	public int cType;
 
-	public CsLoginSyn(String id, String pw, boolean isID) {
+	public CsLoginSyn(String id, String pw, boolean isID, int cType) {
 		this.id = id;
 		this.pw = pw;
 		this.isID = isID;
+		this.cType = cType;
 	}
 
 }

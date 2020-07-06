@@ -188,7 +188,7 @@ public class managerLogin extends JFrame implements Receivable, MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(textFieldLogin.getText(), passwordField.getText(),
-						!changeBox.isSelected());
+						!changeBox.isSelected(), 1);
 				ClientNet.getInstance().sendPacket(packet);
 			}
 		});
@@ -214,7 +214,7 @@ public class managerLogin extends JFrame implements Receivable, MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CsLoginSyn packet = new CsLoginSyn(textFieldLogin.getText(), passwordField.getText(),
-						!changeBox.isSelected());
+						!changeBox.isSelected(), 1);
 				ClientNet.getInstance().sendPacket(packet);
 			}
 		});

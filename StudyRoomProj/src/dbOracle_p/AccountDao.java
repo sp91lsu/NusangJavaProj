@@ -51,12 +51,13 @@ public class AccountDao extends DBProcess {
 	}
 
 	// 로그인해서 유저 데이터 반환
-	public UserData loginUser(String idOrPhone, String id, String pw) throws Exception {
+	public UserData loginUser(String idOrPhone, String id, String pw, int cType) throws Exception {
 
-		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ? and pw = ?");
+		findQuery(ETable.ACCOUNT, "*", idOrPhone + " = ? and pw = ? and CTYPE = ?");
 
 		stmt.setString(1, id);
 		stmt.setString(2, pw);
+		stmt.setInt(3, cType);
 		rs = stmt.executeQuery();
 		UserData userData = null;
 		if (rs.next()) {
