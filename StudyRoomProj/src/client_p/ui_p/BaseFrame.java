@@ -58,8 +58,9 @@ public class BaseFrame extends JFrame implements Receivable {
 	public BaseFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
-	public void startFrame() {
+ 
+	public void startFrame(ELoginType type) {
+		this.loginType = type;
 		addToBaseFrame(new LoginMain());
 		addToBaseFrame(new MainLayout());
 		addToBaseFrame(new Seating_Arrangement());

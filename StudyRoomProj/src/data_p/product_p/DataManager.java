@@ -16,7 +16,8 @@ import server_p.packet_p.broadCast.ScGetRoomDataCast;
 public class DataManager implements Receivable {
 
 	private static DataManager instance;
-
+	public ELoginType loginType = ELoginType.KIOSK;
+	
 	public static DataManager getInstance() {
 		if (instance == null) {
 			instance = new DataManager();
@@ -34,6 +35,7 @@ public class DataManager implements Receivable {
 	private ArrayList<String> nameList = new ArrayList<String>();
 
 	DataManager() {
+		
 		// RoomSetting();
 		keySetting();
 		TimeDataSetting();
@@ -72,6 +74,10 @@ public class DataManager implements Receivable {
 //		}
 //	}
 
+	public void setLoginType(ELoginType type) {
+		loginType = type;
+	}
+	
 	void TimeDataSetting() {
 		ExcelReader reader = new ExcelReader();
 		reader.read("TimeTable.xlsx");
@@ -136,7 +142,7 @@ public class DataManager implements Receivable {
 			ScGetRoomDataAck ack = (ScGetRoomDataAck) packet;
 
 			roomMap = ack.roomMap;
-			BaseFrame.getInstance().startFrame();
+			BaseFrame.getInstance().startFrame(loginType);
 		} else if (packet.getClass() == ScGetRoomDataCast.class) {
 			ScGetRoomDataCast ack = (ScGetRoomDataCast) packet;
 
