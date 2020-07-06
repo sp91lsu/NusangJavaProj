@@ -197,11 +197,11 @@ public class AccountDao extends DBProcess {
 			findQuery(ETable.ACCOUNT, "*", s);
 			stmt = con.prepareStatement(query);
 			rs = stmt.executeQuery();
-		}
-
-		while (rs.next()) {
-			UserData userdata = rsToUser(rs);
-			userList.add(userdata);
+			if(rs.next()) {
+				UserData userdata = rsToUser(rs);
+				userList.add(userdata);
+			}
+			
 		}
 
 		close();
