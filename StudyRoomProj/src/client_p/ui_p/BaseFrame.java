@@ -69,6 +69,7 @@ public class BaseFrame extends JFrame implements Receivable {
 		setBackground(Color.GRAY);
 		setBounds(510, 140, 900, 800);
 		setVisible(true);
+		setResizable(false);
 		view("LoginMain");
 		PacketMap.getInstance().map.put(ScLoginAck.class, (Receivable) jPanelArrl.get(0)); // 로그인
 		PacketMap.getInstance().map.put(ScSignUpAck.class, signUpFrame); // 회원가입
