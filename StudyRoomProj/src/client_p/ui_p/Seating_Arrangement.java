@@ -607,9 +607,7 @@ public class Seating_Arrangement extends JPanel implements Receivable {
 
 	public void openPage(EEnter enterType) {
 
-		System.out.println("openPage " + enterType);
 		timeSetting();
-		System.out.println("입장 타입" + enterType);
 		this.enterType = enterType;
 
 		boolean isVisibleCheckBox = BaseFrame.getInstance().loginType != ELoginType.KIOSK;

@@ -201,7 +201,6 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 		JButton btn = (JButton) e.getSource();
 
 		if (btn.getText().equals("개인석 이용")) {
-			System.out.println("개인석이용");
 			BaseFrame.getInstance().openSeatingArrUI(EEnter.PRIVROOM);
 			BaseFrame.getInstance().getSeatingArrUI().startTime_state();
 		} else if (btn.getText().equals("단체룸 이용")) {
