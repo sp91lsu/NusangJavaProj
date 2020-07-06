@@ -185,7 +185,7 @@ public class AccountDao extends DBProcess {
 		ArrayList<String> uuidList = new ArrayList<String>();
 		ArrayList<UserData> userList = new ArrayList<UserData>();
 		findQuery(ETable.INVENTORY, "UUID",
-				"startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24')");
+				"startdate <= sysdate + 1/24 and startdate >= to_char(sysdate,'yyyymmddhh24') and isexit = 0");
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {

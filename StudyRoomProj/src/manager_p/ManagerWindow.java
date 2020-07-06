@@ -190,14 +190,14 @@ public class ManagerWindow extends JFrame implements Receivable {
 ////			tabbedPane.add("ÁÂ¼®/·ë Á¶È¸", pnl_SeatArrange);
 //		}
 
-		if (packet.getClass() == ScRoomInfoBroadCast.class) {
-			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
-			BaseFrame.getInstance().roomInfoList = roomInfoCast.roomListAll;
-
-			if (pnl_SeatArrange.isVisible()) {
-				pnl_SeatArrange.roomState();
-				pnl_SeatArrange.checkDate();
-			}
-		}
+//		if (packet.getClass() == ScRoomInfoBroadCast.class) {
+//			ScRoomInfoBroadCast roomInfoCast = (ScRoomInfoBroadCast) packet;
+//			BaseFrame.getInstance().roomInfoList = roomInfoCast.roomListAll;
+//
+//			if (pnl_SeatArrange.isVisible()) {
+//				pnl_SeatArrange.roomState();
+//				pnl_SeatArrange.checkDate();
+//			}
+//		}
 	}
 }

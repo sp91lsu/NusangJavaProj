@@ -116,7 +116,7 @@ public class Chatting extends JPanel implements Receivable {
 		add(panel_8);
 		
 		GridBagLayout gbl_panel_8 = new GridBagLayout();
-		gbl_panel_8.columnWidths = new int[] { 0, 388, 79, 678, 131, 0 };
+		gbl_panel_8.columnWidths = new int[] { 0, 348, 79, 678, 131, 0 };
 		gbl_panel_8.rowHeights = new int[] { 59, 603, 71, 0 };
 		gbl_panel_8.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_panel_8.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
