@@ -42,7 +42,7 @@ public class AccountDao extends DBProcess {
 		UserData userData = null;
 		try {
 			userData = new UserData(rs.getString("uuid"), rs.getString("name"), rs.getString("id"),
-					rs.getString("phone"), rs.getString("birth"), rs.getString("cType"));
+					rs.getString("phone"), rs.getString("birth"), rs.getInt("cType"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,14 +183,15 @@ public class AccountDao extends DBProcess {
 
 	public ArrayList<UserData> getCurrentUserList() throws Exception {
 		ArrayList<UserData> userList = new ArrayList<UserData>();
-		
+
 		query = "select name,a.id,phone,r.room_name from inventory I, account A,now_room_data R where startdate = to_char(sysdate,'yyyymmddhh24') and isexit = 0 and i.uuid = a.uuid and I.id = r.room_id  order by name";
 		stmt = con.prepareStatement(query);
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
-				UserData userdata = new UserData(rs.getString("name"), rs.getString("id"), rs.getString("phone"), rs.getString("room_name"));
-				userList.add(userdata);
+			UserData userdata = new UserData(rs.getString("name"), rs.getString("id"), rs.getString("phone"),
+					rs.getString("room_name"));
+			userList.add(userdata);
 		}
 
 		close();

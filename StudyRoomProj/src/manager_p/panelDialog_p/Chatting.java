@@ -33,14 +33,14 @@ import java.awt.Color;
 
 public class Chatting extends JPanel implements Receivable {
 	ManagerWindow mw;
-	
+
 	private JTable table_3;
 	private JTable table_4;
 	public JLabel lb_Chat_name;
-	public String userName="";
+	public String userName = "";
 	public JLabel lb_Chat_end;
-	public String chatEnd="님과 채팅이 종료되었습니다.";
-	public String chatStart="님과 채팅 중입니다.";
+	public String chatEnd = "님과 채팅이 종료되었습니다.";
+	public String chatStart = "님과 채팅 중입니다.";
 	public boolean isChatting = false;
 	public boolean amIstopChat = false;
 	public JTextArea textArea;
@@ -53,29 +53,27 @@ public class Chatting extends JPanel implements Receivable {
 
 	public JButton btnTerminate;
 
-	
-	
-	class ActionLister_Chatting implements ActionListener{
+	class ActionLister_Chatting implements ActionListener {
 		String sort;
-		
+
 		public ActionLister_Chatting(String sort) {
 			this.sort = sort;
 		}
-		
+
 		void send(boolean isChatting) {
-				text = "[관리자]: "+textField.getText() + "\n";
-				
-				if(isChatting) {
-					chatSyn.setText(text);
-					ClientNet.getInstance().sendPacket(chatSyn);
-				}else {
-					textArea.setText(textArea.getText()+"\n"+text);
-				}
-				
-				textField.setText("");
-				
-				textField.selectAll();
-				scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
+			text = "[관리자]: " + textField.getText() + "\n";
+
+			if (isChatting) {
+				chatSyn.setText(text);
+				ClientNet.getInstance().sendPacket(chatSyn);
+			} else {
+				textArea.setText(textArea.getText() + "\n" + text);
+			}
+
+			textField.setText("");
+
+			textField.selectAll();
+			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 		}
 
 		@Override
@@ -89,32 +87,30 @@ public class Chatting extends JPanel implements Receivable {
 			case "엔터":
 				send(isChatting);
 				break;
-				
+
 			case "종료":
 				new ChatEndDialog(mw);
-				
+
 				break;
 
 			default:
 				break;
 			}
 		}
-		
+
 	}
-			
-	
-	
+
 	public Chatting(ManagerWindow mw) {
 		this.mw = mw;
 		PacketMap.getInstance().map.put(SMChatConnectSyn.class, this); // 채팅 연결 요청에 대한 응답
-		PacketMap.getInstance().map.put(ScChatBroadCast.class, this);		
-		
+		PacketMap.getInstance().map.put(ScChatBroadCast.class, this);
+
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(Color.DARK_GRAY);
 		add(panel_8);
-		
+
 		GridBagLayout gbl_panel_8 = new GridBagLayout();
 		gbl_panel_8.columnWidths = new int[] { 0, 348, 79, 678, 131, 0 };
 		gbl_panel_8.rowHeights = new int[] { 59, 603, 71, 0 };
@@ -178,8 +174,7 @@ public class Chatting extends JPanel implements Receivable {
 		gbl_panel_19.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		panel_19.setLayout(gbl_panel_19);
 
-		
-		//채팅 에어리어
+		// 채팅 에어리어
 		textArea = new JTextArea();
 		scrollPane_Chat = new JScrollPane(textArea);
 		scrollPane_Chat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -203,9 +198,9 @@ public class Chatting extends JPanel implements Receivable {
 		gbl_panel_20.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel_20.setLayout(gbl_panel_20);
 
-		//채팅
+		// 채팅
 		textField = new JTextField();
-		//텍스트 입력 액션
+		// 텍스트 입력 액션
 		textField.addActionListener(new ActionLister_Chatting("엔터"));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
@@ -214,7 +209,7 @@ public class Chatting extends JPanel implements Receivable {
 		gbc_textField.gridy = 0;
 		panel_20.add(textField, gbc_textField);
 		textField.setColumns(10);
-		
+
 		JButton btnNewButton_4 = new JButton("전송");
 		btnNewButton_4.addActionListener(new ActionLister_Chatting("전송"));
 		btnNewButton_4.setBackground(MyColor.w_white);
@@ -224,7 +219,7 @@ public class Chatting extends JPanel implements Receivable {
 		gbc_btnNewButton_4.gridx = 1;
 		gbc_btnNewButton_4.gridy = 0;
 		panel_20.add(btnNewButton_4, gbc_btnNewButton_4);
-		
+
 		btnTerminate = new JButton("종료");
 		btnTerminate.addActionListener(new ActionLister_Chatting("종료"));
 		btnTerminate.setBackground(MyColor.w_white);
@@ -236,44 +231,42 @@ public class Chatting extends JPanel implements Receivable {
 
 	}
 
-
-
 	@Override
 	public void receive(PacketBase packet) {
-		//채팅연결
-		if(packet.getClass() == SMChatConnectSyn.class) {
+		// 채팅연결
+		if (packet.getClass() == SMChatConnectSyn.class) {
 			SMChatConnectSyn sccAck = (SMChatConnectSyn) packet;
-			if(BaseFrame.getInstance().userData.cType.equals("1")) {
+			if (BaseFrame.getInstance().userData.cType == 1) {
 				if (sccAck.eResult == EResult.SUCCESS) {
 					System.out.println("채팅 연결 성공 하앍");
 //						System.out.println(BaseFrame.getInstance().userData.name);
-					ChatReqDialog dialog = new ChatReqDialog(mw,sccAck);
+					ChatReqDialog dialog = new ChatReqDialog(mw, sccAck);
 					userName = sccAck.userdata.name;
-					
+
 					dialog.lbClientName.setText(sccAck.userdata.name);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-				}else if(sccAck.eResult == EResult.ALREADY_OTHER_MANAGER_CONNECT) {
+				} else if (sccAck.eResult == EResult.ALREADY_OTHER_MANAGER_CONNECT) {
 					new ChkDialog("이미 다른 관리자가 채팅 중입니다.");
 				}
 			}
 		}
-		
-		//채팅
-		if(packet.getClass() == ScChatBroadCast.class) {
-			ScChatBroadCast scChat = (ScChatBroadCast)packet;
-			if(scChat.isEnd && !amIstopChat) {
+
+		// 채팅
+		if (packet.getClass() == ScChatBroadCast.class) {
+			ScChatBroadCast scChat = (ScChatBroadCast) packet;
+			if (scChat.isEnd && !amIstopChat) {
 				btnTerminate.setEnabled(false);
-				textArea.setText(textArea.getText()+"\n"+"["+userName+"]"+"님이 채팅을 종료하였습니다.");
-				ChkDialog endMsg = new ChkDialog("["+userName+"]"+"님이 채팅을 종료하였습니다.");
+				textArea.setText(textArea.getText() + "\n" + "[" + userName + "]" + "님이 채팅을 종료하였습니다.");
+				ChkDialog endMsg = new ChkDialog("[" + userName + "]" + "님이 채팅을 종료하였습니다.");
 				isChatting = false;
 				lb_Chat_end.setText("님과 채팅이 종료되었습니다.");
-				
+
 			}
-			textArea.setText(textArea.getText()+"\n"+scChat.getText());
+			textArea.setText(textArea.getText() + "\n" + scChat.getText());
 			scrollPane_Chat.getVerticalScrollBar().setValue(scrollPane_Chat.getVerticalScrollBar().getMaximum());
 		}
-		
+
 	}
 
 }

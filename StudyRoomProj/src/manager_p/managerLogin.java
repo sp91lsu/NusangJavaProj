@@ -308,19 +308,19 @@ public class managerLogin extends JFrame implements Receivable, MouseListener {
 		ScLoginAck ack = (ScLoginAck) packet;
 //		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {// 로그인 성공시
-			if(ack.userdata.cType.equals("1")) {
+			if (ack.userdata.cType == 1) {
 				BaseFrame.getInstance().roomInfoList = ack.roomList;
 				BaseFrame.getInstance().userData = ack.userdata;
 				BaseFrame.getInstance().lockerlist = ack.lockerList;
 				mw.setVisible(true);
 				this.setVisible(false);
-			}else {
+			} else {
 				new ChkDialog("관리자 아이디가 아닙니다");
 			}
 		} else if (ack.eResult == EResult.NOT_FOUND_DATA) {// 로그인 실패시
 			// 로그인시 ID 또는 비밀번호 미입력 했을 때 띄워주는 창
 			logTextChk();
-			
+
 			cnt++;
 			if (cnt == 3) {
 				logLabel.setText("<html>미입력 로그인 3회 진행으로 30초 뒤에 " + "<br>다시 실행 해주시기 바랍니다.<html>");

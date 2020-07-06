@@ -42,20 +42,20 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 	JDialog jd, jd2, chkJd, chkSignUp;
 
 	String text = "";
-	
+
 	String korean = "[°¡-ÆR]*";
 	String eng = ".*[a-zA-Z].*";
 	String num = ".*[0-9].*";
 	String passChk = "[a-zA-Z0-9].{7}";
 	String phoneChk = "010.[0-9].{6,7}";
-	
+
 	String name, id, pass, phoneNum, pass2 = null;
 
-	boolean idchk,hpchk;
+	boolean idchk, hpchk;
 
 	public SignUpMain() {
 		setBounds(510, 140, 900, 800);
-		
+
 		JPanel mainPane = new JPanel();
 		setContentPane(mainPane);
 		mainPane.setLayout(null);
@@ -193,7 +193,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		chkJd.setBounds(860, 440, 250, 200);
 		chkJd.getContentPane().setLayout(new GridLayout(2, 1));
 		chkJd.setUndecorated(true);
-		
+
 		JLabel chkLb = new JLabel("Á¤È®ÇÑ Çü½ÄÀ¸·Î ÀÔ·ÂÇÏ¼¼¿ä");
 		setLabelForm(chkLb);
 		chkJd.getContentPane().add(chkLb);
@@ -207,7 +207,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		});
 		chkJd.setVisible(false);
 
-		jd2 = new JDialog();//Áßº¹È®ÀÎÃ¢
+		jd2 = new JDialog();// Áßº¹È®ÀÎÃ¢
 		jd2.setBounds(830, 435, 200, 150);
 		jd2.getContentPane().setLayout(new GridLayout(2, 1));
 		jd2.setUndecorated(true);
@@ -218,7 +218,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		jb2.setBackground(MyColor.w_white);
 		jd2.getContentPane().add(jb2);
 
-		chkSignUp = new JDialog();//È¸¿ø°¡ÀÔ Å¬¸¯½Ã À¯È¿°Ë»ç Ã¢
+		chkSignUp = new JDialog();// È¸¿ø°¡ÀÔ Å¬¸¯½Ã À¯È¿°Ë»ç Ã¢
 		chkSignUp.setBounds(810, 440, 300, 200);
 		chkSignUp.getContentPane().setLayout(new GridLayout(2, 1));
 		chkSignUp.setUndecorated(true);
@@ -229,8 +229,8 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		jbt.setBackground(MyColor.w_white);
 		chkSignUp.getContentPane().add(jbt);
 		chkSignUp.setVisible(false);
-		
-		jd = new JDialog();//È¸¿ø°¡ÀÔ ¿Ï·áÃ¢
+
+		jd = new JDialog();// È¸¿ø°¡ÀÔ ¿Ï·áÃ¢
 		jd.setBounds(860, 465, 200, 150);
 		jd.getContentPane().setLayout(new GridLayout(2, 1));
 		jd.setUndecorated(true);
@@ -241,7 +241,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		jb.setBackground(MyColor.w_white);
 		jd.getContentPane().add(jb);
 		jd.setVisible(false);
-		
+
 		setModal(true);
 	}
 
@@ -263,12 +263,10 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 				});
 				jd.setModal(true);
 				jd.setVisible(true);
-			}
-			else {
+			} else {
 				System.out.println("È¸¿ø°¡ÀÔ ½ÇÆÐ");
 			}
-		} 
-		else if (packet.getClass() == ScDuplicateIDAck.class) {// Áßº¹È®ÀÎÃ¼Å©
+		} else if (packet.getClass() == ScDuplicateIDAck.class) {// Áßº¹È®ÀÎÃ¼Å©
 			ScDuplicateIDAck ack = (ScDuplicateIDAck) packet;
 			if ((ack.eResult == EResult.SUCCESS) && !ack.is_hp) {// id¼º°ø
 				idchk = true;
@@ -285,8 +283,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 				jl2.setText("Áßº¹µÈ ÇÚµåÆù ÀÔ´Ï´Ù.");
 				loginChk();
 			}
-		} 
-		else {
+		} else {
 			System.out.println("SignUpMain ¿¹¿Ü");
 		}
 	}
@@ -332,7 +329,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 
 			if (idchk && hpchk) {
 				CsSignUpSyn packet = new CsSignUpSyn(nameTextField.getText(), idTextField.getText(),
-						passwordField.getText(), phoneNumTextField.getText(), "", "");
+						passwordField.getText(), phoneNumTextField.getText(), "", 0);
 				ClientNet.getInstance().sendPacket(packet);
 				idchk = false;
 				hpchk = false;
@@ -355,8 +352,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 
 	void idChk() {
 		id = idTextField.getText();
-		if (id.matches(eng) && id.matches(num) && id.length() < 9 && !chkJd.isVisible())
-		{
+		if (id.matches(eng) && id.matches(num) && id.length() < 9 && !chkJd.isVisible()) {
 			CsDuplicateIDSyn packet = new CsDuplicateIDSyn(idTextField.getText(), false);
 			ClientNet.getInstance().sendPacket(packet);
 		} else {
@@ -377,7 +373,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 	}
 
 	void loginChk() {
-		
+
 		jb2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jd2.setVisible(false);
@@ -402,7 +398,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		label_4.setText("ÀÔ·ÂÇÑ ºñ¹Ð¹øÈ£¿Í °°°Ô ÀÔ·ÂÇÏ¼¼¿ä");
 		label_5.setText("'-'´Â Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä");
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		JTextField jtf = (JTextField) e.getSource();
@@ -411,11 +407,18 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 			jtf.setText("");
 		}
 	}
-	
-	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
+
+	public void mousePressed(MouseEvent e) {
+	}
+
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -423,27 +426,23 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		if (btn.getText().equals("ID Áßº¹Ã¼Å©")) {
 			if (!chkJd.isVisible())
 				idChk();
-		} 
-		else if (btn.getText().equals("ÈÞ´ëÆù Áßº¹Ã¼Å©")) {
+		} else if (btn.getText().equals("ÈÞ´ëÆù Áßº¹Ã¼Å©")) {
 			if (!chkJd.isVisible())
 				phChk();
-		} 
-		else if (btn.getText().equals("Ãë¼Ò")) {
+		} else if (btn.getText().equals("Ãë¼Ò")) {
 			dispose();
-		}
-		else if (btn.getText().equals("È¸¿ø°¡ÀÔ")) {
+		} else if (btn.getText().equals("È¸¿ø°¡ÀÔ")) {
 			if (!idchk || !hpchk) {
 				infoChk();
 			} else {
 				check();
 			}
-		}
-		else {
+		} else {
 			System.out.println("¹öÆ° ÀÔ·Â ¿¡·¯");
 		}
 	}
-	
-	//¶óº§ »ö»ó ¹Ù²Ù´Â ¸Å¼Òµå
+
+	// ¶óº§ »ö»ó ¹Ù²Ù´Â ¸Å¼Òµå
 	JLabel setLabelForm(JLabel label) {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setOpaque(true);
@@ -451,5 +450,5 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		label.setForeground(MyColor.white);
 		return label;
 	}
-	
+
 }

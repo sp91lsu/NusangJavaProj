@@ -18,7 +18,7 @@ public class UserData extends PacketData {
 	public String pw; // 비번
 	public String phone; // 폰
 	public String birth; // 생일
-	public String cType; // 로그인 타입 (일반,관리자(데이터베이스에 있는 키값을 보내야 함))
+	public int cType; // 로그인 타입 (일반,관리자(데이터베이스에 있는 키값을 보내야 함))
 	public String nowRoomName;
 
 	public ArrayList<RoomProduct> exitList = new ArrayList<RoomProduct>();
@@ -26,7 +26,7 @@ public class UserData extends PacketData {
 	public LockerData locker;
 
 	//
-	public UserData(String uuid, String name, String id, String pw, String phone, String birth, String cType) {
+	public UserData(String uuid, String name, String id, String pw, String phone, String birth, int cType) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
@@ -37,7 +37,7 @@ public class UserData extends PacketData {
 		this.cType = cType;
 	}
 
-	public UserData(String uuid, String name, String id, String phone, String birth, String cType) {
+	public UserData(String uuid, String name, String id, String phone, String birth, int cType) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
@@ -46,7 +46,7 @@ public class UserData extends PacketData {
 		this.birth = birth;
 		this.cType = cType;
 	}
-	
+
 	public UserData(String name, String id, String phone, String nowRoomName) {
 		this.name = name;
 		this.id = id;
