@@ -29,7 +29,6 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	private final static String newline = "\n";
 	String text = "";
 	JFrame window;
-	CsChatSyn chatSyn = new CsChatSyn();
 	private TextField keyChat;
 	JTextArea textArea;
 	private JScrollPane scrollPane;
@@ -72,6 +71,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text = "[" + BaseFrame.getInstance().userData.name + "]: " + keyChat.getText() + "\n";
+				CsChatSyn chatSyn = new CsChatSyn();
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
 				keyChat.setText("");
@@ -100,6 +100,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				text = "[" + BaseFrame.getInstance().userData.name + "]: " + keyChat.getText() + "\n";
+				CsChatSyn chatSyn = new CsChatSyn();
 				chatSyn.setText(text);
 				ClientNet.getInstance().sendPacket(chatSyn);
 				keyChat.setText("");
@@ -113,10 +114,10 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BaseFrame.getInstance().openMainLayout(null, null, null, null);
-				if (chatSyn != null) {
-					chatSyn.end();
-					ClientNet.getInstance().sendPacket(chatSyn);
-				}
+				CsChatSyn chatSyn = new CsChatSyn();
+				chatSyn.end();
+				ClientNet.getInstance().sendPacket(chatSyn);
+
 				keyChat.setText("");
 				keyChat.selectAll();
 			}
