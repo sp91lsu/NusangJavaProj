@@ -5,8 +5,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -17,6 +21,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+
 import client_p.ClientNet;
 import client_p.Receivable;
 import client_p.packet_p.syn_p.CsDuplicateIDSyn;
@@ -26,7 +32,7 @@ import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScDuplicateIDAck;
 import server_p.packet_p.ack_p.ScSignUpAck;
 
-public class SignUpMain extends JDialog implements Receivable, MouseListener, ActionListener {
+public class SignUpMain extends JDialog implements Receivable, MouseListener, ActionListener, KeyListener {
 
 	ArrayList<JTextField> textList = new ArrayList<JTextField>();
 	ArrayList<JPasswordField> pTextList = new ArrayList<JPasswordField>();
@@ -48,6 +54,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 	String num = ".*[0-9].*";
 	String passChk = "[a-zA-Z0-9].{7}";
 	String phoneChk = "010.[0-9].{6,7}";
+	String error = "[a-zA-Z0-9]*";
 
 	String name, id, pass, phoneNum, pass2 = null;
 
@@ -106,6 +113,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		nameTextField.setBounds(181, 169, 329, 57);
 		mainPane.add(nameTextField);
 		nameTextField.setColumns(10);
+		nameTextField.addKeyListener(this);
 		nameTextField.addMouseListener(this);
 		textList.add(nameTextField);
 
@@ -299,30 +307,35 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 			if (name.matches(korean)) {
 				label_1.setText("입력 확인");
 			} else {
+				label_1.setText("한글이 아닙니다.");
 				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (id.matches(eng) && id.matches(num)) {
-				label_5.setText("입력 확인");
+				label_2.setText("입력 확인");
 			} else {
+				label_2.setText("ID 형식 오류");
 				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (pass.matches(passChk)) {
-				label_2.setText("입력 확인");
+				label_3.setText("입력 확인");
 			} else {
+				label_3.setText("비밀번호 형식 오류");
 				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (phoneNum.matches(phoneChk)) {
-				label_4.setText("입력 확인");
+				label_5.setText("입력 확인");
 			} else {
+				label_5.setText("휴대폰 번호 형식 오류");
 				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
 			if (pass.matches(pass2)) {
-				label_3.setText("입력 확인");
+				label_4.setText("입력 확인");
 			} else {
+				label_4.setText("비밀번호 불일치");
 				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
@@ -450,5 +463,30 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 		label.setForeground(MyColor.white);
 		return label;
 	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+		String text = e.getKeyChar() + "";
+		if (text.matches(error)) {
+			label_1.setText("한글이 아닙니다.");
+		} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			label_1.setText("한글로 입력하세요");
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
