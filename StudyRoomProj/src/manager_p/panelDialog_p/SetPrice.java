@@ -30,6 +30,8 @@ import data_p.ExcelWriter_UpdateColumn;
 import manager_p.ack_p.MsUptRoomPrSyn;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.SmUptRoomPrAck;
+import server_p.packet_p.broadCast.ScBuyLockerCast;
+
 import java.awt.Color;
 
 public class SetPrice extends JPanel implements Receivable {
@@ -123,6 +125,7 @@ public class SetPrice extends JPanel implements Receivable {
 				read(backUpPath);
 				restore(nowPath); 
 				uptDB_RoomData(true);
+				ChkDialog cd1 = new ChkDialog("복원이 완료되었습니다.");
 				break;
 			case "새로고침":
 				read(nowPath);
@@ -130,6 +133,7 @@ public class SetPrice extends JPanel implements Receivable {
 			case "적용":
 				restore(nowPath);
 				uptDB_RoomData(false);
+				ChkDialog cd2 = new ChkDialog("적용이 완료되었습니다.");
 				break;
 
 			default:
@@ -246,11 +250,6 @@ public class SetPrice extends JPanel implements Receivable {
 
 	@Override
 	public void receive(PacketBase packet) {
-		JDialog jd = new JDialog();
-		
-		
-		jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		jd.setVisible(true);
 		
 	}
 
