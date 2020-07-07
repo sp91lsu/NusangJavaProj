@@ -333,8 +333,11 @@ class MethExitSyn implements ServerPacketMethod {
 
 		CsExitSyn respacket = (CsExitSyn) packet;
 
-		new RoomDao().exitRoom(respacket.room);
-
+		if (respacket.isCancel) {
+			new RoomDao().cancelRoom(respacket.room);
+		} else {
+			new RoomDao().exitRoom(respacket.room);
+		}
 		// roomDao.reset();
 		ArrayList<RoomProduct> reserListAll = new RoomDao().getReservationListAll();
 		// roomDao.reset();

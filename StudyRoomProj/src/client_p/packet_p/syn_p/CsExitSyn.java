@@ -6,8 +6,10 @@ import packetBase_p.PacketBase;
 public class CsExitSyn extends PacketBase {
 
 	public RoomProduct room;
+	public boolean isCancel;
 
-	public CsExitSyn(RoomProduct room) {
+	public CsExitSyn(RoomProduct room, boolean isCancel) {
 		this.room = room;
+		this.isCancel = isCancel;
 	}
 }

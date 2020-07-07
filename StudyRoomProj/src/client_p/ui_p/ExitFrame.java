@@ -19,7 +19,7 @@ public class ExitFrame extends JDialog {
 
 	String title = "";
 
-	public ExitFrame(String title) {
+	public ExitFrame(String title, boolean isCancel) {
 		setModal(true);
 		this.title = title;
 		setBounds(735, 340, 450, 400);
@@ -41,7 +41,7 @@ public class ExitFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				RoomProduct room = BaseFrame.getInstance().checkMyReserRoom(null, Calendar.DATE);
 				room.isExit = true;
-				CsExitSyn packet = new CsExitSyn(room);
+				CsExitSyn packet = new CsExitSyn(room, isCancel);
 				ClientNet.getInstance().sendPacket(packet);
 				BaseFrame.getInstance().getLoginMain().logSet();
 				dispose();

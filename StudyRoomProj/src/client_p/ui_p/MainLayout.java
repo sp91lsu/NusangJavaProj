@@ -235,10 +235,15 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 				is_Info = true;
 				InfoFrame info = new InfoFrame();
 			}
-		} else if (btn.getText().equals("퇴실") || btn.getText().equals("예약 취소")) {
+		} else if (btn.getText().equals("퇴실")) {
 			if (!is_Exit) {
 				is_Exit = true;
-				ExitFrame exitframe = new ExitFrame(button_9.getText());
+				ExitFrame exitframe = new ExitFrame(button_9.getText(), false);
+			}
+		} else if (btn.getText().equals("예약 취소")) {
+			if (!is_Exit) {
+				is_Exit = true;
+				ExitFrame exitframe = new ExitFrame(button_9.getText(), true);
 			}
 		} else if (btn.getText().equals("로그아웃")) {
 			if (!is_LogOut) {

@@ -132,6 +132,27 @@ public class RoomDao extends DBProcess {
 		}
 	}
 
+	public void cancelRoom(RoomProduct room) {
+
+		new RoomDao().updateExitRoom();
+
+		try {
+
+			deleteQuery(ETable.INVENTORY,
+					"uuid = ? and startdate < to_char(sysdate + 1,'yyyymmdd') and startdate >= to_char(sysdate,'yyyymmddhh24')");
+
+			stmt.setString(1, room.userUUID);
+			stmt.executeQuery();
+
+		} catch (
+
+		SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+
 	// select id,uuid,substr(to_char(startdate),10,2) from inventory where
 	// TRUNC(startdate) = TO_DATE('2020-06-01', 'YYYY-MM-DD');
 	// 관리자 예약현황에 쓸 RoomTimeDataList
@@ -506,7 +527,6 @@ public class RoomDao extends DBProcess {
 
 			// 4. SalesData ( 1,2,3 종합 )
 			sd = new SalesData(salesRecordArrL, saleBySeatArrL, tot);
-			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
