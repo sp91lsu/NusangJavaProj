@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import client_p.ClientNet;
@@ -29,7 +30,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 	private final static String newline = "\n";
 	String text = "";
 	JFrame window;
-	private TextField keyChat;
+	JTextField keyChat;
 	JTextArea textArea;
 	private JScrollPane scrollPane;
 	JDialog chatDialog;
@@ -66,7 +67,7 @@ public class ClientChatFrame extends JPanel implements Receivable {
 		gbl_panel.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		keyChat = new TextField();
+		keyChat = new JTextField();
 		keyChat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
