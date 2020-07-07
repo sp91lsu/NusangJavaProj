@@ -53,7 +53,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 	String eng = ".*[a-zA-Z].*";
 	String num = ".*[0-9].*";
 	String passChk = "[a-zA-Z0-9].{7}";
-	String phoneChk = "010.[0-9].{6,7}";
+	String phoneChk = "010.[0-9].{5,6}";
 	String error = "[a-zA-Z0-9]*";
 
 	String name, id, pass, phoneNum, pass2 = null;
