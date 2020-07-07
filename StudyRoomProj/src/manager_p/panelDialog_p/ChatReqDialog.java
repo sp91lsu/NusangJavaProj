@@ -57,7 +57,7 @@ public class ChatReqDialog extends JDialog {
 		JLabel lblNewLabel_2 = new JLabel(
 				"\uB2D8 \uC73C\uB85C\uBD80\uD130 \uCC44\uD305 \uBB38\uC758 \uC694\uCCAD\uC774 \uC654\uC2B5\uB2C8\uB2E4.");
 		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBounds(42, 60, 221, 15);
+		lblNewLabel_2.setBounds(42, 60, 265, 15);
 		contentPanel.add(lblNewLabel_2);
 		{
 			JPanel buttonPane = new JPanel();
