@@ -249,6 +249,8 @@ public class Chatting extends JPanel implements Receivable {
 					dialog.setVisible(true);
 				} else if (sccAck.eResult == EResult.ALREADY_OTHER_MANAGER_CONNECT) {
 					new ChkDialog("이미 다른 관리자가 채팅 중입니다.");
+					mw.pnl_Chatting.lb_Chat_name.setText("");
+					mw.pnl_Chatting.lb_Chat_end.setText("");
 				}
 			} else {
 				MsChatConnectAck ack = new MsChatConnectAck(false);
