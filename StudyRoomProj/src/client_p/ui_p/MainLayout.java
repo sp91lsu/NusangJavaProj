@@ -22,6 +22,7 @@ import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.ack_p.ScChatConnectAck;
 import server_p.packet_p.ack_p.ScExitAck;
+import server_p.packet_p.syn_p.ScChatSyn;
 
 public class MainLayout extends JPanel implements Receivable, ActionListener {
 
@@ -179,8 +180,10 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 				
 				BaseFrame.getInstance().getClientChatFrame();
 				BaseFrame.getInstance().openClientChatFrame();
-				CsChatSyn csP = new CsChatSyn();
-				csP.setText("1:1 고객 문의가 연결 되었습니다.");
+				CsChatSyn chatSyn = new CsChatSyn();
+				chatSyn.setText("1:1 고객 문의가 연결 되었습니다.");
+				ClientNet.getInstance().sendPacket(chatSyn);
+			
 				
 			} else if (ack.eResult == EResult.NEGATIVE_CHAT) {
 				BaseFrame.getInstance().openClientChatFrame().chatNegative();
