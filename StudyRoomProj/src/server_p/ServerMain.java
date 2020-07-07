@@ -54,6 +54,8 @@ class MyServer {
 
 					System.out.println("클라이언트 접속 대기");
 					Socket client = server.accept(); // 클라이언트 접속
+
+					duplicateClientChk(client);
 					System.out.println("현재 클라이언트 list 갯수" + MyServer.getInstance().clientList.size());
 					// duplicateClientChk(client);
 					System.out.println(client.getInetAddress() + "접속");
@@ -70,11 +72,13 @@ class MyServer {
 	}
 
 	synchronized void duplicateClientChk(Socket client) {
-		for (SocketClient socketClient : clientList) {
-			if (socketClient.socket.getInetAddress().toString().equals(client.getInetAddress().toString())) {
-				socketClient.close();
+
+		for (int i = 0; i < clientList.size(); i++) {
+			if (clientList.get(i).socket.getInetAddress().toString().equals(client.getInetAddress().toString())) {
+				clientList.get(i).close();
 			}
 		}
+
 	}
 
 	synchronized int cntChatClient(SocketClient chatC) {
@@ -157,7 +161,7 @@ class SocketClient extends Thread {
 				}
 				sleep(10);
 			} catch (Exception e) {
-				System.out.println("클라이언트에서 패킷 받는 도중 오류");
+				System.out.println(socket.getInetAddress().toString() + "클라이언트에서 패킷 받는 도중 오류");
 				close();
 				e.printStackTrace();
 				return;

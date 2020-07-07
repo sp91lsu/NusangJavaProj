@@ -109,6 +109,9 @@ class MethSignUpSyn implements ServerPacketMethod {
 
 			if (new AccountDao().duplicateIDChk("id", recPacket.id)) {
 				ack = new ScSignUpAck(EResult.DUPLICATEED_ID, "");
+
+			} else if (new AccountDao().duplicateIDChk("phone", recPacket.phone)) {
+				ack = new ScSignUpAck(EResult.DUPLICATEED_PHONE, "");
 			} else {
 
 				UserData userData = new UserData(UUID.randomUUID().toString(), recPacket.name, recPacket.id,
@@ -118,7 +121,9 @@ class MethSignUpSyn implements ServerPacketMethod {
 
 				ack = new ScSignUpAck(EResult.SUCCESS, userData.name);
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			ack = new ScSignUpAck(EResult.NOT_FOUND_DATA, "회원가입에 실패하였습니다.");
 			e.printStackTrace();
 		}
@@ -190,6 +195,7 @@ class MethMSChatConnectAck implements ServerPacketMethod {
 			if (MyServer.getInstance().cntChatClient(client.chatClient) < 2) {
 				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
 				client.chatClient.sendPacket(scConnectAck);
+				client.chatClient.chatClient = null;
 			}
 			client.chatClient = null;
 		}
@@ -207,10 +213,10 @@ class MethCsChatSyn implements ServerPacketMethod {
 
 		ScChatBroadCast chatBroadCast = new ScChatBroadCast(EResult.SUCCESS, csChatSyn.text, csChatSyn.isEnd);
 
-		SocketClient chatClient = client.chatClient;
+		SocketClient chatClient = client.chatClient; // p1
 		SocketClient chatClient2 = null;
 		if (chatClient != null) {
-			chatClient2 = chatClient.chatClient;
+			chatClient2 = chatClient.chatClient; // p2
 		}
 		if (csChatSyn.isEnd) {
 			if (chatClient != null) {
