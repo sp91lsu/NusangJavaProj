@@ -58,7 +58,7 @@ public class BaseFrame extends JFrame implements Receivable {
 	public BaseFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
- 
+
 	public void startFrame(ELoginType type) {
 		this.loginType = type;
 		addToBaseFrame(new LoginMain());
@@ -136,8 +136,10 @@ public class BaseFrame extends JFrame implements Receivable {
 			ScUpdateRoomInfoAck packetAck = (ScUpdateRoomInfoAck) packet;
 			if (packetAck.eResult == EResult.SUCCESS) {
 				updateData(packetAck.roomListAll, packetAck.myReserList, packetAck.myExitList, packetAck.lockerList);
-				if (getMainLayout().isVisible()) {
+				if (getMainLayout().isVisible() && loginType == ELoginType.KIOSK) {
 					openMainLayout(null, null, null, null);
+				} else if (loginType == ELoginType.MOBILE) {
+					BaseFrame.getInstance().openSeatingArrUI(EEnter.MOBILE);
 				}
 			} else {
 				System.out.println("ScUpdateRoomInfoAck¿¡·¯");
