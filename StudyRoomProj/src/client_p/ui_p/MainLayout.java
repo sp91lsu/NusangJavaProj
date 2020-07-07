@@ -176,10 +176,12 @@ public class MainLayout extends JPanel implements Receivable, ActionListener {
 		if (packet.getClass() == ScChatConnectAck.class) {
 			ScChatConnectAck ack = (ScChatConnectAck) packet;
 			if (ack.eResult == EResult.SUCCESS) {
-
+				
 				BaseFrame.getInstance().getClientChatFrame();
 				BaseFrame.getInstance().openClientChatFrame();
-
+				CsChatSyn csP = new CsChatSyn();
+				csP.setText("1:1 고객 문의가 연결 되었습니다.");
+				
 			} else if (ack.eResult == EResult.NEGATIVE_CHAT) {
 				BaseFrame.getInstance().openClientChatFrame().chatNegative();
 			}
