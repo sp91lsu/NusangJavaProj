@@ -318,7 +318,7 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 				AlreadyUsePop pop = new AlreadyUsePop("정확한 정보를  입력하세요");
 				return;
 			}
-			if (pass.matches(passChk)) {
+			if (pass.matches(eng) && pass.matches(num)) {
 				label_3.setText("입력 확인");
 			} else {
 				label_3.setText("비밀번호 형식 오류");
