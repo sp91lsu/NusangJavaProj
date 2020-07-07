@@ -37,7 +37,7 @@ public class ClientNet extends Thread {
 
 		try {
 //			socket = new Socket("127.0.0.1", 7777);///ÀÚ±âip
-			socket = new Socket("192.168.0.68", 7777); // ½ÂÈ¯ÀÌ
+			socket = new Socket("192.168.0.2", 7777); // ½ÂÈ¯ÀÌ
 			packetProcess = new PacketProcess(socket);
 			packetProcess.start();
 
