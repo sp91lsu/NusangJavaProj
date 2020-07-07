@@ -142,16 +142,15 @@ public class LoginMain extends JPanel implements Receivable, MouseListener, Acti
 		ScLoginAck ack = (ScLoginAck) packet;
 		BaseFrame.getInstance().userData = ack.userdata;
 		if (ack.eResult == EResult.SUCCESS) {// 로그인 성공시
+			
+			chkroominfo = new CheckRoomInfo();
+			chkroominfo.start();
+			
 			if (BaseFrame.getInstance().loginType == ELoginType.KIOSK) {
-
 				BaseFrame.getInstance().openMainLayout(ack.roomList, null, null, ack.lockerList);
-
-				chkroominfo = new CheckRoomInfo();
-				chkroominfo.start();
 
 			} else if (BaseFrame.getInstance().loginType == ELoginType.MOBILE) {
 				BaseFrame.getInstance().updateData(ack.roomList, null, null, ack.lockerList);
-
 				ReservationInfoMain rif = new ReservationInfoMain();
 
 			}

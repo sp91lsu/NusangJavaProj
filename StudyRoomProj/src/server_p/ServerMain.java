@@ -92,6 +92,14 @@ class MyServer {
 		return reqCnt;
 	}
 
+	synchronized void alreadyChatOtherManagerSetNull(SocketClient manager) {
+		for (SocketClient client : MyServer.getInstance().clientList) {
+			if (manager != client && client.chatClient == manager.chatClient) {
+				client.chatClient = null;
+			}
+		}
+	}
+
 	public synchronized SocketClient findClient(String address) {
 		for (SocketClient packetClient : clientList) {
 

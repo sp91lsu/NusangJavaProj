@@ -169,35 +169,44 @@ class MethChatConnectSyn implements ServerPacketMethod {
 class MethMSChatConnectAck implements ServerPacketMethod {
 
 	@Override
-	public void receive(SocketClient client, PacketBase packet) {
+	public void receive(SocketClient manager, PacketBase packet) {
 		MsChatConnectAck resPacket = (MsChatConnectAck) packet;
 
 		ScChatConnectAck scConnectAck = null;
 
-		if (resPacket.isConnect) {
+		if (manager.chatClient != null) {
+			if (resPacket.isConnect) {
 
-			System.out.println("클라 : " + client.socket.getInetAddress());
-			// 관리자와 매칭되는 크랄이언트의 관리자가 null이면
-			if (client.chatClient.chatClient == null) {
+				System.out.println("클라 : " + manager.socket.getInetAddress());
+				// 관리자와 매칭되는 크랄이언트의 관리자가 null이면
+				if (manager.chatClient.chatClient == null) {
 
-				scConnectAck = new ScChatConnectAck(EResult.SUCCESS);
-				// 매칭되는 관리자할당
-				client.chatClient.chatClient = client;
-				client.chatClient.sendPacket(scConnectAck);
+					scConnectAck = new ScChatConnectAck(EResult.SUCCESS);
+					// 매칭되는 관리자할당
+					manager.chatClient.chatClient = manager;
+
+					manager.chatClient.sendPacket(scConnectAck);
+
+					MyServer.getInstance().alreadyChatOtherManagerSetNull(manager);
+				} else {
+					SMChatConnectSyn syn = new SMChatConnectSyn(EResult.ALREADY_OTHER_MANAGER_CONNECT, null);
+					manager.sendPacket(syn);
+					manager.chatClient = null;
+				}
 			} else {
-				SMChatConnectSyn syn = new SMChatConnectSyn(EResult.ALREADY_OTHER_MANAGER_CONNECT, null);
-				client.sendPacket(syn);
-				client.chatClient = null;
+
+				System.out.println("클라 : " + manager.socket.getInetAddress());
+
+				if (MyServer.getInstance().cntChatClient(manager.chatClient) < 2) {
+					scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
+					manager.chatClient.sendPacket(scConnectAck);
+					manager.chatClient.chatClient = null;
+				}
+				manager.chatClient = null;
 			}
 		} else {
-
-			System.out.println("클라 : " + client.socket.getInetAddress());
-			if (MyServer.getInstance().cntChatClient(client.chatClient) < 2) {
-				scConnectAck = new ScChatConnectAck(EResult.NEGATIVE_CHAT);
-				client.chatClient.sendPacket(scConnectAck);
-				client.chatClient.chatClient = null;
-			}
-			client.chatClient = null;
+			SMChatConnectSyn syn = new SMChatConnectSyn(EResult.ALREADY_OTHER_MANAGER_CONNECT, null);
+			manager.sendPacket(syn);
 		}
 	}
 }
