@@ -51,8 +51,15 @@ public class DBProcess {
 
 	}
 
-	void deleteQuery(ETable table, String... value) {
+	void deleteQuery(ETable table, String value) {
 		query = "DELETE " + "from " + table.name() + " where " + value;
+		
+		try {
+			stmt = con.prepareStatement(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	void where(String... data) {

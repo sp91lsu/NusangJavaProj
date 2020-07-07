@@ -139,7 +139,7 @@ public class RoomDao extends DBProcess {
 		try {
 
 			deleteQuery(ETable.INVENTORY,
-					"uuid = ? and startdate < to_char(sysdate + 1,'yyyymmdd') and startdate >= to_char(sysdate,'yyyymmddhh24')");
+					"uuid = ? and startdate < to_char(sysdate + 1,'yyyymmdd') and startdate > to_char(sysdate,'yyyymmddhh24') and ISEXIT = 0");
 
 			stmt.setString(1, room.userUUID);
 			stmt.executeQuery();
