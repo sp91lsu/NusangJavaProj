@@ -271,6 +271,10 @@ public class SignUpMain extends JDialog implements Receivable, MouseListener, Ac
 				});
 				jd.setModal(true);
 				jd.setVisible(true);
+			} else if (ack.eResult == EResult.DUPLICATEED_ID) {
+				AlreadyUsePop pop = new AlreadyUsePop("중복된 ID입니다");
+			} else if (ack.eResult == EResult.DUPLICATEED_PHONE) {
+				AlreadyUsePop pop = new AlreadyUsePop("중복된 휴대폰번호 입니다");
 			} else {
 				System.out.println("회원가입 실패");
 			}
