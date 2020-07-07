@@ -24,6 +24,7 @@ import client_p.packet_p.syn_p.CsChatSyn;
 import client_p.ui_p.BaseFrame;
 import client_p.ui_p.MyColor;
 import manager_p.ManagerWindow;
+import manager_p.ack_p.MsChatConnectAck;
 import packetBase_p.EResult;
 import packetBase_p.PacketBase;
 import server_p.packet_p.broadCast.ScChatBroadCast;
@@ -249,6 +250,9 @@ public class Chatting extends JPanel implements Receivable {
 				} else if (sccAck.eResult == EResult.ALREADY_OTHER_MANAGER_CONNECT) {
 					new ChkDialog("이미 다른 관리자가 채팅 중입니다.");
 				}
+			} else {
+				MsChatConnectAck ack = new MsChatConnectAck(false);
+				ClientNet.getInstance().sendPacket(ack);
 			}
 		}
 

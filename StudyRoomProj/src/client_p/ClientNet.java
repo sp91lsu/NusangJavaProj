@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import client_p.packet_p.syn_p.CsCloseSyn;
 import client_p.packet_p.syn_p.CsGetRoomDataSyn;
-import client_p.packet_p.syn_p.CsLoginSyn;
 import client_p.ui_p.BaseFrame;
 import data_p.user_p.UserData;
 import packetBase_p.PacketBase;
